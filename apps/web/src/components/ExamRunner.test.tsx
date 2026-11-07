@@ -36,10 +36,11 @@ const bundle: ContentBundle = {
 
 const examAttempts: ExamAttempt[] = [];
 const drafts: Record<string, unknown> = {};
+const recordExamAttempt = vi.fn(async (a: ExamAttempt) => { examAttempts.push(a); });
 const adapter: Partial<StorageAdapter> = {
   getSession: () => Promise.resolve(null),
   getExamAttempts: () => Promise.resolve(examAttempts),
-  recordExamAttempt: async (a) => { examAttempts.push(a); },
+  recordExamAttempt,
   getExamDraft: (id) => Promise.resolve((drafts[id] as never) ?? null),
   putExamDraft: async (d) => { drafts[d.examId] = d; },
   clearExamDraft: async (id) => { delete drafts[id]; },
@@ -52,15 +53,17 @@ const adapter: Partial<StorageAdapter> = {
 beforeEach(() => {
   vi.useFakeTimers({ toFake: ['setInterval', 'clearInterval'] });
   examAttempts.length = 0;
+  recordExamAttempt.mockClear();
+  recordExamAttempt.mockImplementation(async (a: ExamAttempt) => { examAttempts.push(a); });
   for (const key of Object.keys(drafts)) delete drafts[key];
 });
 afterEach(() => vi.useRealTimers());
 
-function mount() {
+function mount(b: ContentBundle = bundle, a: Partial<StorageAdapter> = adapter) {
   return render(
     <MemoryRouter initialEntries={['/exam/e1']}>
-      <SessionProvider adapter={adapter as StorageAdapter}>
-        <ContentProvider seed={bundle}>
+      <SessionProvider adapter={a as StorageAdapter}>
+        <ContentProvider seed={b}>
           <Routes>
             <Route path="/exam/:examId" element={<ExamRunner />} />
             <Route path="/exam/:examId/report/:attemptId" element={<p>REPORT</p>} />
@@ -177,5 +180,57 @@ describe('ExamRunner', () => {
     expect(ids[1]! in attempt.responses).toBe(true);
     expect(attempt.score).toBe(2);
     await waitFor(() => expect(drafts['e1']).toBeUndefined());
+  });
+
+  it('surfaces a submit failure, keeps the draft, and allows a retry', async () => {
+    recordExamAttempt.mockRejectedValueOnce(new Error('request failed: 500'));
+    mount();
+    await screen.findAllByText(/stem-/);
+    // Get a draft on disk first (autosave), so the test can assert it survives.
+    await userEvent.click(screen.getAllByRole('button', { name: 'a' })[0]!);
+    await vi.advanceTimersByTimeAsync(15_500);
+    await waitFor(() => expect(drafts['e1']).toBeTruthy());
+
+    await userEvent.click(screen.getByRole('button', { name: /submit exam/i }));
+
+    const banner = await screen.findByRole('alert');
+    expect(banner.textContent).toMatch(/submit failed/i);
+    expect(banner.textContent).toMatch(/answers are preserved/i);
+    expect(screen.queryByText('REPORT')).toBeNull(); // did NOT navigate
+    expect(drafts['e1']).toBeTruthy();               // draft NOT cleared
+
+    // The learner can retry: the second submit succeeds and navigates.
+    await userEvent.click(screen.getByRole('button', { name: /submit exam/i }));
+    await waitFor(() => expect(screen.getByText('REPORT')).toBeTruthy());
+    expect(examAttempts).toHaveLength(1);
+  });
+
+  it('auto-submits exactly once even when the submit keeps failing (no error loop)', async () => {
+    recordExamAttempt.mockRejectedValue(new Error('request failed: 500'));
+    drafts['e1'] = {
+      examId: 'e1', responses: {}, flags: [],
+      startedAt: '2026-01-01T00:00:00.000Z', remainingSec: 0,
+    };
+    mount();
+    await waitFor(() => expect(recordExamAttempt).toHaveBeenCalledTimes(1));
+    expect(screen.getByRole('alert').textContent).toMatch(/submit failed/i);
+    // Passing time must not re-fire the failed auto-submit in a loop — the
+    // learner retries manually via the submit button.
+    await vi.advanceTimersByTimeAsync(5_000);
+    expect(recordExamAttempt).toHaveBeenCalledTimes(1);
+  });
+
+  it('renders an assembly error card instead of crashing on an unsatisfiable exam', async () => {
+    // ch1 has 4 bank questions; demanding 5 makes assembly impossible even
+    // though the exam definition itself is present.
+    const unsatisfiable: ContentBundle = {
+      ...bundle,
+      exams: [{ ...bundle.exams[0]!, total: 6, groups: [{ tag: 'ch1', count: 5 }, { tag: 'ch2', count: 1 }] }],
+    };
+    mount(unsatisfiable);
+    const card = await screen.findByRole('alert');
+    expect(card.textContent).toContain('could not be assembled from the current question bank');
+    expect(card.textContent).toContain('pnpm --filter tet-content build');
+    expect(screen.queryByText(/flag for review/i)).toBeNull(); // no exam UI rendered
   });
 });

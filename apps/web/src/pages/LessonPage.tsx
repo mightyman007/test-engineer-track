@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router';
+import { stripMarkdownForTts } from 'tet-core';
 import { useContent } from '../lib/content-context.js';
 import { useSession } from '../state/session.js';
 import { renderMarkdown } from '../lib/markdown.js';
@@ -41,7 +42,7 @@ export function LessonPage() {
     <article>
       <p className="muted"><Link to={`/module/${mod.id}`}>{mod.title}</Link> · lesson {idx + 1} of {mod.lessonIds.length} · ~{lesson.minutes} min</p>
       <h1>{lesson.title}</h1>
-      <TtsPlayer text={lesson.body.replace(/!\[[^\]]*\]\([^)]*\)/g, ' ').replace(/[#*_>`]/g, ' ')} />
+      <TtsPlayer text={stripMarkdownForTts(lesson.body)} />
       {lesson.objectives.length > 0 && (
         <p className="muted">Objectives: {lesson.objectives.join(', ')}</p>
       )}

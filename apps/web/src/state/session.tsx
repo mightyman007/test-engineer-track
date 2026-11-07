@@ -28,6 +28,8 @@ export function SessionProvider({ children, adapter: injected }: {
   const [authExpired, setAuthExpired] = useState(false);
   /** Mirrors `adapter` so callbacks (disconnect) always act on the current one. */
   const adapterRef = useRef(adapter);
+  /** Base URL of the server the current adapter was connected to (null = solo). */
+  const cohortServerRef = useRef<string | null>(null);
 
   useEffect(() => {
     adapterRef.current = adapter;
@@ -54,12 +56,46 @@ export function SessionProvider({ children, adapter: injected }: {
     clearAuthExpired: () => setAuthExpired(false),
     refresh: async () => setSession(await adapter.getSession()),
     connectCohort: async (serverUrl: string) => {
+      const base = serverUrl.replace(/\/$/, '');
+      const current = adapterRef.current;
+      // Probe the live adapter first: a cohort session for THIS server means
+      // the adapter must be REUSED — its replay buffer holds writes (exam
+      // submits, progress) recorded during an expired window, and replacing
+      // the adapter would orphan them, never to be replayed.
+      const probe = await current.getSession().catch(() => null);
+      if (probe?.mode === 'cohort' && probe.serverUrl === base) {
+        cohortServerRef.current = base;
+        setSession(probe);
+        setAuthExpired(false);
+        return;
+      }
+      if (cohortServerRef.current === base) {
+        // Same server, but the probe read failed (expired session or network):
+        // still reuse the adapter so its buffer survives; the re-probe runs
+        // the 401 re-auth hook and fails below if sign-in does not stick.
+        const s = await current.getSession();
+        if (!s) throw new Error('Could not reach server or sign in');
+        setSession(s);
+        setAuthExpired(false);
+        return;
+      }
+      if (probe?.mode === 'cohort' && current.pendingWrites?.()) {
+        // Cross-server switch: the old buffer belongs to the OLD server's
+        // cohort — replaying it against the new server would write one
+        // cohort's data into another, so it is dropped (loudly) instead of
+        // transferred.
+        console.warn(
+          `[tet] discarding ${current.pendingWrites?.()} buffered write(s) for ${probe.serverUrl}`,
+          `— switching server to ${base}`,
+        );
+      }
       const next = createServerAdapter({
         serverUrl,
         onUnauthorized: () => { setAuthExpired(true); return Promise.resolve(); },
       });
       const s = await next.getSession();
       if (!s) throw new Error('Could not reach server or sign in');
+      cohortServerRef.current = base;
       swapAdapter(next);
       setSession(s);
       setAuthExpired(false);
@@ -78,11 +114,14 @@ export function SessionProvider({ children, adapter: injected }: {
       await ctx.connectCohort(serverUrl);
     },
     disconnect: async () => {
-      // Log out through the CURRENT adapter first (cohort: POST /api/auth/logout
-      // so the server cookie dies; ServerAdapter.getSession also drains any
-      // buffered writes), then swap to a fresh LocalAdapter and refresh — the
-      // solo session may be null until the first visit. Best-effort: a network
-      // failure during logout must not trap the user in cohort mode.
+      // Flush any buffered writes FIRST, while the session cookie is still
+      // valid (an explicit drain instead of relying on the implicit one inside
+      // getSession), then log out through the CURRENT adapter (cohort: POST
+      // /api/auth/logout so the server cookie dies), then swap to a fresh
+      // LocalAdapter and refresh — the solo session may be null until the
+      // first visit. Best-effort: a network failure during logout must not
+      // trap the user in cohort mode.
+      await adapterRef.current.drainPending?.().catch(() => { /* drain is retried implicitly later */ });
       try {
         const current = await adapterRef.current.getSession();
         if (current?.mode === 'cohort' && current.serverUrl) {
@@ -92,6 +131,7 @@ export function SessionProvider({ children, adapter: injected }: {
         // Proceed to solo mode regardless.
       }
       swapAdapter(createLocalAdapter());
+      cohortServerRef.current = null;
       setSession(await adapterRef.current.getSession());
       setAuthExpired(false);
     },

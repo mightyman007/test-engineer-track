@@ -122,6 +122,10 @@ export function createKokoroProvider(): TtsProvider {
     async speak(text, opts) {
       const myRun = ++runId;
       stopped = false; // reset belongs to THIS run
+      // A prior pause() suspended the shared AudioContext; sources started on a
+      // suspended context are silent, so every run resumes it first (no-op when
+      // running). fire-and-forget: a rejected resume must not kill playback.
+      void audioCtx?.resume().catch(() => {});
       if (!(await warm())) return;
       const rate = opts?.rate ?? 1;
       for (const chunk of chunkText(text)) {

@@ -5,6 +5,18 @@ const RATES = [0.75, 1, 1.25, 1.5];
 
 export function TtsPlayer({ text }: { text: string }) {
   const [provider, setProvider] = useState<TtsProvider | null>(null);
+  // Pick is LAZY: choosing a provider may warm Kokoro (a ~24 MB model fetch),
+  // so it must not run just because a lesson mounted — only on the learner's
+  // first Play click. Until then the player shows an idle "ready" button, and
+  // "warming voice…" while the pick is in flight. "unavailable" is reserved
+  // for a pick that RESOLVED to null.
+  const [picking, setPicking] = useState(false);
+  const [unavailable, setUnavailable] = useState(false);
+  const pickingRef = useRef(false);
+  // Alive flag: a pick resolving after unmount must not touch state (the
+  // component is gone; provider.stop() already ran via the unmount effect).
+  const aliveRef = useRef(true);
+  useEffect(() => () => { aliveRef.current = false; }, []);
   const [playing, setPlaying] = useState(false);
   const [rate, setRate] = useState(1);
   const rateRef = useRef(rate);
@@ -15,16 +27,40 @@ export function TtsPlayer({ text }: { text: string }) {
   const playingRef = useRef(false);
   const playToken = useRef(0);
 
-  useEffect(() => {
-    let alive = true;
-    void pickProvider().then((p) => { if (alive) setProvider(p); });
-    return () => { alive = false; };
-  }, []);
-
   useEffect(() => () => provider?.stop(), [provider]);
 
-  if (!provider) {
+  /** First Play click: resolve the provider once and cache it. */
+  async function ensureProvider(): Promise<TtsProvider | null> {
+    if (provider || pickingRef.current) return provider;
+    pickingRef.current = true;
+    setPicking(true);
+    try {
+      const p = await pickProvider();
+      if (!aliveRef.current) return p; // unmounted mid-pick: drop silently
+      setProvider(p);
+      if (!p) setUnavailable(true);
+      return p;
+    } finally {
+      pickingRef.current = false;
+      if (aliveRef.current) setPicking(false);
+    }
+  }
+
+  if (unavailable) {
     return <p className="muted" style={{ fontSize: '0.9rem' }}>🔊 voice not available in this browser</p>;
+  }
+
+  if (!provider) {
+    return (
+      <button
+        className="btn secondary muted"
+        style={{ fontSize: '0.9rem', opacity: 0.75 }}
+        disabled={picking}
+        onClick={() => void ensureProvider()}
+      >
+        {picking ? '⏳ warming voice…' : '🔊 text-to-speech ready'}
+      </button>
+    );
   }
 
   async function play() {

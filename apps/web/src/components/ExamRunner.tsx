@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
-import { assembleExam, scoreAttempt } from 'tet-core';
+import { assembleExam, AssemblyError, scoreAttempt } from 'tet-core';
 import type { Question } from 'tet-core';
 import { useContent } from '../lib/content-context.js';
 import { useSession } from '../state/session.js';
@@ -24,10 +24,19 @@ export function ExamRunner() {
   // draws a fresh time seed.
   const [resumeSeed, setResumeSeed] = useState<number | null>(null);
 
-  const assembled = useMemo(() => {
-    if (!def || !examId) return null;
-    return assembleExam(def, bundle.questions, resumeSeed ?? (Date.now() % 2 ** 31));
+  // Assembly can fail at runtime (AssemblyError) when the shipped question
+  // bank does not satisfy the exam definition — catch it and show a clear
+  // error card instead of white-screening the whole page.
+  const assembly = useMemo<{ ok: ReturnType<typeof assembleExam> | null; error: string | null }>(() => {
+    if (!def || !examId) return { ok: null, error: null };
+    try {
+      return { ok: assembleExam(def, bundle.questions, resumeSeed ?? (Date.now() % 2 ** 31)), error: null };
+    } catch (err) {
+      if (!(err instanceof AssemblyError)) throw err;
+      return { ok: null, error: err.message };
+    }
   }, [def, bundle.questions, examId, resumeSeed]);
+  const assembled = assembly.ok;
 
   const [responses, setResponses] = useState<Record<string, number[]>>({});
   const [flags, setFlags] = useState<Set<string>>(new Set());
@@ -38,6 +47,12 @@ export function ExamRunner() {
   const [startedAt] = useState(() => new Date().toISOString());
   const [submitted, setSubmitted] = useState(false);
   const [draftLoaded, setDraftLoaded] = useState(false);
+  /** Set when the submit's server writes fail — banner + retry, draft intact. */
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  // The expiry auto-submit fires once per exam view even if it FAILS: a
+  // failing submit at zero must not re-trigger itself in a tight loop (the
+  // learner retries manually via the submit button).
+  const autoSubmitFiredRef = useRef(false);
 
   const responsesRef = useRef(responses);
   responsesRef.current = responses;
@@ -119,6 +134,7 @@ export function ExamRunner() {
     if (submittedRef.current || !examId || !def || !assembled) return;
     submittedRef.current = true;
     setSubmitted(true);
+    setSubmitError(null);
     const qs = assembled.questions;
     // Project responses onto the assembled exam (answered ones only): the
     // attempt stays self-consistent even if a restored draft's ids drifted
@@ -139,25 +155,54 @@ export function ExamRunner() {
     }
     const scorePct = (100 * scored.score) / Math.max(1, scored.max);
     const attemptId = crypto.randomUUID();
-    await adapter.recordExamAttempt({
-      attemptId, examId, score: scored.score, max: scored.max,
-      passed: scored.score >= Math.ceil((def.passPct / 100) * scored.max),
-      scorePct, perTag, responses: projected,
-      createdAt: new Date().toISOString(),
-      durationSec: def.timeLimitMin * 60 - remainingRef.current,
-    });
-    await adapter.clearExamDraft(examId);
+    try {
+      await adapter.recordExamAttempt({
+        attemptId, examId, score: scored.score, max: scored.max,
+        passed: scored.score >= Math.ceil((def.passPct / 100) * scored.max),
+        scorePct, perTag, responses: projected,
+        createdAt: new Date().toISOString(),
+        durationSec: def.timeLimitMin * 60 - remainingRef.current,
+      });
+      await adapter.clearExamDraft(examId);
+    } catch (err) {
+      // Submit failed server-side: keep the draft (answers survive), unblock
+      // the submit button, and surface the failure — never a silent loss.
+      submittedRef.current = false;
+      setSubmitted(false);
+      setSubmitError(err instanceof Error ? err.message : String(err));
+      return;
+    }
     void auto;
     navigate(`/exam/${examId}/report/${attemptId}`);
   }
 
-  // Auto-submit at zero — only after the draft resume has completed.
+  // Auto-submit at zero — only after the draft resume has completed, and only
+  // once even if that submit fails (the guard keeps a failing write from
+  // looping; the learner retries manually).
   useEffect(() => {
-    if (remainingSec === 0 && draftLoaded && !submitted) void submit(true);
+    if (remainingSec === 0 && draftLoaded && !submitted && !autoSubmitFiredRef.current) {
+      autoSubmitFiredRef.current = true;
+      void submit(true);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [remainingSec, submitted, draftLoaded]);
 
-  if (!def || !assembled) return <p className="muted">Exam not found.</p>;
+  if (!def) return <p className="muted">Exam not found.</p>;
+
+  if (assembly.error) {
+    return (
+      <div className="card" role="alert" style={{ padding: '1rem 1.25rem' }}>
+        <h2>Exam cannot be shown</h2>
+        <p>
+          This exam could not be assembled from the current question bank — run{' '}
+          <code>pnpm --filter tet-content build</code> and check the exam definition.
+        </p>
+        <p className="muted" style={{ fontSize: '0.85rem' }}>{assembly.error}</p>
+      </div>
+    );
+  }
+
+  if (!assembled) return <p className="muted">Exam not found.</p>;
 
   const qs: Question[] = assembled.questions;
 
@@ -252,6 +297,11 @@ export function ExamRunner() {
         );
       })}
 
+      {submitError && (
+        <p role="alert" className="flag" style={{ borderColor: '#b91c1c', color: '#b91c1c', margin: '1rem 0' }}>
+          submit failed — your answers are preserved; try again ({submitError})
+        </p>
+      )}
       <button className="btn" onClick={() => void submit(false)}>Submit exam</button>
     </div>
   );
