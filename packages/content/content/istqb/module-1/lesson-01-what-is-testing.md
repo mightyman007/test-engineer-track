@@ -19,7 +19,7 @@ When people hear the phrase, they usually picture someone clicking through an ap
 
 The thing being examined is called the **[test object](https://istqb-glossary.page/test-object/)**. It might be a program, but it might also be a requirements document, a design sketch, or a contract. That matters, because problems are cheapest to fix long before any code exists.
 
-Testing also comes in two flavours. **[Static testing](https://istqb-glossary.page/static-testing/)** examines a work product *without* running it — reading a document, reviewing a design, checking code by eye. **[Dynamic testing](https://istqb-glossary.page/dynamic-testing/)** runs the software and watches what it does. Both count as testing. A tester who spots a contradiction in a requirements document is doing exactly as much "real testing" as one who clicks through a login screen.
+Testing also comes in two flavours. **[Static testing](https://istqb-glossary.page/static-testing/)** examines a [work product](https://en.wikipedia.org/wiki/Software_artifact) *without* running it — reading a document, reviewing a design, checking code by eye. **[Dynamic testing](https://istqb-glossary.page/dynamic-testing/)** runs the software and watches what it does. Both count as testing. A tester who spots a contradiction in a requirements document is doing exactly as much "real testing" as one who clicks through a login screen.
 
 ## What testing is for (FL-1.1.1)
 
@@ -28,7 +28,7 @@ The syllabus lists **typical objectives of testing**. The most important ones:
 - **Find [defects](https://istqb-glossary.page/defect/) and [failures](https://istqb-glossary.page/failure/)** in the test object, so they can be dealt with before users meet them.
 - **Give stakeholders objective information** — about quality, about risk — so they can make sound decisions, including the decision to release.
 - **Prevent defects** in the first place, for example by reviewing requirements and designs before code is written.
-- **Verify** that the specified requirements have been fulfilled, and **[validate](https://istqb-glossary.page/validation/)** that the product does what users and other stakeholders actually need.
+- **[Verify](https://istqb-glossary.page/verification/)** that the specified requirements have been fulfilled, and **[validate](https://istqb-glossary.page/validation/)** that the product does what users and other stakeholders actually need.
 - **Build confidence** in the quality level of the test object.
 - **Reduce the risk** of inadequate software quality, and **check compliance** with contracts, laws and regulations.
 

@@ -28,6 +28,6 @@
   <text x="690" y="272" text-anchor="middle" font-size="13" font-style="italic" fill="#1a1a2e">a slow response</text>
   <rect x="45" y="330" width="750" height="90" rx="12" fill="#eef1f8" stroke="#1a1a2e" stroke-width="1.5"/>
   <text x="420" y="362" text-anchor="middle" font-size="14" font-weight="700" fill="#1a1a2e">Three things to remember</text>
-  <text x="420" y="384" text-anchor="middle" font-size="13.5" fill="#1a1a2e">&#8226; Not every defect causes a failure &#8212; some flawed code never runs. &#8226; Failures can also come from the environment</text>
-  <text x="420" y="404" text-anchor="middle" font-size="13.5" fill="#1a1a2e">(radiation, electromagnetic fields), not only from defects. &#8226; Testing finds failures; debugging removes their causes.</text>
+  <text x="420" y="384" text-anchor="middle" font-size="13.5" fill="#1a1a2e">&#8226; Not every defect causes a failure &#8212; some flawed code never runs. &#8226; Failures can also come from the environment:</text>
+  <text x="420" y="404" text-anchor="middle" font-size="13.5" fill="#1a1a2e">radiation or electromagnetic fields can cause defects in firmware. &#8226; Testing finds failures; debugging removes their causes.</text>
 </svg>

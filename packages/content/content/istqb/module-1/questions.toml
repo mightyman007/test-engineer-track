@@ -1,7 +1,9 @@
 # ISTQB CTFL Module 1 — Fundamentals of Testing
-# 30 original questions. The first three (istqb-q-0001..0003) are the brief's worked style anchors.
-# Coverage: every FL-1.x.y.z learning objective >= 2 questions.
-# K mix: 12 K1 (recall) + 18 K2 (understand); Ch1 has no K3 in the official blueprint.
+# 32 original questions. The first three (istqb-q-0001..0003) are the brief's worked style anchors
+# (q-0003's 5th option corrected per review — see fix report).
+# Coverage: retagged to OFFICIAL CTFL v4.0.1 LO codes by content; every official ch1 LO covered
+# (FL-1.2.1, FL-1.4.3, FL-1.4.4, FL-1.4.5 carry exactly 1 question each after the official split).
+# K mix: 13 K1 (recall) + 19 K2 (understand); Ch1 has no K3 in the official blueprint.
 # 2 multi-select questions (istqb-q-0003, istqb-q-0026): 5 options, exactly 2 correct.
 # All stems/options/explanations are original — no ISTQB official sample questions copied.
 
@@ -33,7 +35,7 @@ options = [
 ]
 answers = [1]
 explanation = "A human error produces a defect (the wrong code). When that code executes under the right conditions, the observable problem — the crash — is a failure."
-lo = "FL-1.2.1"
+lo = "FL-1.2.3"
 klevel = "K2"
 tags = ["ch1"]
 
@@ -46,10 +48,10 @@ options = [
   "Exhaustive testing is possible for small systems",
   "Defects cluster together",
   "Testing should start after development is fully complete",
-  "Absence-of-defects fallacy: a fully tested system can still fail to meet user needs",
+  "Testing proves the absence of defects when all tests pass",
 ]
 answers = [0, 2]
-explanation = "The seven principles include: testing shows presence not absence, defect clustering, and the absence-of-defects fallacy. Exhaustive testing is impossible, and testing starts early — the other two options contradict the principles."
+explanation = "The genuine principles here are: testing shows the presence, not the absence of defects, and defect clustering. Exhaustive testing is impossible (not 'possible for small systems'), testing starts early rather than after development, and passing every test never proves the absence of defects."
 lo = "FL-1.3.1"
 klevel = "K2"
 tags = ["ch1"]
@@ -114,7 +116,7 @@ options = [
 ]
 answers = [2]
 explanation = "A human error produces a defect in a work product; when the defective code executes, it may cause a failure. Each link is conditional, but the order of the chain never changes."
-lo = "FL-1.2.1"
+lo = "FL-1.2.3"
 klevel = "K1"
 tags = ["ch1"]
 
@@ -123,14 +125,14 @@ id = "istqb-q-0008"
 type = "single"
 stem = "A tester runs a system in a lab beside heavy industrial machinery and sees it crash. Careful analysis shows the code involved contains no defect. What does this illustrate?"
 options = [
-  "Failures can be caused by environmental conditions such as radiation or electromagnetic fields, even without a defect in the code",
+  "Environmental conditions, such as radiation or electromagnetic fields, can cause defects in firmware — so a failure is not always caused by a defect in the application code",
   "Every failure proves that a code defect exists somewhere",
   "The crash must have been caused by a tester's error",
   "The requirements were necessarily wrong",
 ]
 answers = [0]
-explanation = "The syllabus notes that failures are not always caused by defects: environmental conditions such as radiation or electromagnetic fields can make software behave incorrectly on its own."
-lo = "FL-1.2.1"
+explanation = "Officially, errors and defects are not the only cause of failures: environmental conditions such as radiation or electromagnetic fields can cause defects in firmware, and those defects produce failures even though the application code was correct."
+lo = "FL-1.2.3"
 klevel = "K2"
 tags = ["ch1"]
 
@@ -146,7 +148,7 @@ options = [
 ]
 answers = [1]
 explanation = "The needed level of rigour depends on context, above all on risk: potential harm to patients and regulatory obligations justify far more thorough testing than an entertainment product would need."
-lo = "FL-1.2.2"
+lo = "FL-1.4.2"
 klevel = "K2"
 tags = ["ch1"]
 
@@ -162,7 +164,7 @@ options = [
 ]
 answers = [1]
 explanation = "The syllabus is explicit that rigour varies by circumstance: risk, constraints, deadlines, domain and regulation all shape how much testing is appropriate. Context, not habit or preference, decides."
-lo = "FL-1.2.2"
+lo = "FL-1.4.2"
 klevel = "K1"
 tags = ["ch1"]
 
@@ -173,12 +175,12 @@ stem = "A developer is convinced their new module is correct and writes only tes
 options = [
   "Root cause analysis",
   "Confirmation bias — seeking evidence that supports what we already believe",
-  "The pesticide paradox",
+  "Tests wear out (the pesticide paradox)",
   "Defect clustering",
 ]
 answers = [1]
 explanation = "Confirmation bias is the tendency to favour information that confirms existing beliefs. Testers counter it by deliberately looking for evidence that the software does NOT work."
-lo = "FL-1.2.3"
+lo = "FL-1.5.1"
 klevel = "K2"
 tags = ["ch1"]
 
@@ -194,7 +196,7 @@ options = [
 ]
 answers = [2]
 explanation = "Heuristics are experience-based rules of thumb — like 'start testing as early as possible'. They guide decisions usefully but are not guarantees, and they can occasionally mislead."
-lo = "FL-1.2.3"
+lo = "FL-1.5.1"
 klevel = "K1"
 tags = ["ch1"]
 
@@ -210,7 +212,7 @@ options = [
 ]
 answers = [1]
 explanation = "Testing's other benefits include informing decisions, preventing defects (e.g. by reviewing requirements), supporting smooth continuous work flow, and standing in for the user's point of view."
-lo = "FL-1.2.4"
+lo = "FL-1.2.1"
 klevel = "K2"
 tags = ["ch1"]
 
@@ -226,7 +228,7 @@ options = [
 ]
 answers = [0]
 explanation = "QA works on processes to prevent defects from occurring; testing evaluates the product to detect failures. Testing is one of the activities QA draws on — they are related but distinct."
-lo = "FL-1.2.4"
+lo = "FL-1.2.2"
 klevel = "K1"
 tags = ["ch1"]
 
@@ -252,7 +254,7 @@ type = "single"
 stem = "A regression suite has run unchanged for a year. Lately it finds almost no new defects, yet customers keep reporting problems in areas the suite supposedly covers. Which principle explains this, and what should the team do?"
 options = [
   "Defect clustering — test only the modules changed most recently",
-  "The pesticide paradox — repeated tests wear out; review, update and add test cases and test data",
+  "Tests wear out (the pesticide paradox) — repeated tests stop finding new defects; review, update and add test cases and test data",
   "Absence-of-defects fallacy — stop testing and release immediately",
   "Early testing — move the same suite earlier in the lifecycle",
 ]
@@ -274,7 +276,7 @@ options = [
 ]
 answers = [1]
 explanation = "There is no universal test process. Context — lifecycle, product, domain, risk, organization — determines how the activities are combined and weighted, so each project must tailor the process."
-lo = "FL-1.4.1"
+lo = "FL-1.4.2"
 klevel = "K2"
 tags = ["ch1"]
 
@@ -284,12 +286,12 @@ type = "single"
 stem = "A project has finished its last execution cycle. Which task belongs to the test completion activity?"
 options = [
   "Designing new test cases from the requirements",
-  "Consolidating metrics, archiving testware, and producing a test summary report for future projects",
+  "Consolidating metrics, archiving testware, and producing a test completion report for future projects",
   "Writing user stories with the product owner",
   "Fixing the defects found during execution",
 ]
 answers = [1]
-explanation = "Test completion collects data from finished activities, consolidates metrics, produces the test summary report, archives testware and hands over the test environment. Designing cases and fixing code belong to other activities."
+explanation = "Test completion collects data from finished activities, consolidates metrics, produces the test completion report, archives testware and hands over the test environment. Designing cases and fixing code belong to other activities."
 lo = "FL-1.4.1"
 klevel = "K2"
 tags = ["ch1"]
@@ -306,7 +308,7 @@ options = [
 ]
 answers = [0]
 explanation = "Analysis answers 'what to test' by identifying test conditions from the test basis; design answers 'how to test' by deriving test cases (with expected results) from those conditions."
-lo = "FL-1.4.2"
+lo = "FL-1.4.1"
 klevel = "K1"
 tags = ["ch1"]
 
@@ -322,7 +324,7 @@ options = [
 ]
 answers = [0]
 explanation = "Execution means running tests, comparing actual with expected results, logging them, and reporting deviations as defect reports. Changing expectations to hide a difference or editing code is not the tester's execution task."
-lo = "FL-1.4.2"
+lo = "FL-1.4.1"
 klevel = "K2"
 tags = ["ch1"]
 
@@ -354,7 +356,7 @@ options = [
 ]
 answers = [0]
 explanation = "Traceability links each requirement to the conditions, cases and results derived from it. That supports coverage evaluation, change-impact analysis, and auditability — the three values the syllabus names."
-lo = "FL-1.4.3"
+lo = "FL-1.4.4"
 klevel = "K2"
 tags = ["ch1"]
 
@@ -363,14 +365,14 @@ id = "istqb-q-0023"
 type = "single"
 stem = "Which list orders the levels of test independence from LOWEST to HIGHEST?"
 options = [
-  "The author tests their own code → another developer in the team tests it → an independent test team in the organization tests it → testers from outside the organization test it",
+  "The author tests their own code (no independence) → the author's peers from the same team test it (some independence) → testers outside the author's team but within the organization test it (high independence) → testers from outside the organization test it (very high independence)",
   "Testers from outside the organization → an independent test team → another developer → the author",
   "An independent test team → the author → testers from outside → another developer",
   "The author → testers from outside → another developer → an independent test team",
 ]
 answers = [0]
-explanation = "Independence rises from no independence (the author testing their own code) through independent colleagues, an independent team within the organization, up to testers from outside the organization."
-lo = "FL-1.4.4"
+explanation = "Independence rises from no independence (the author testing their own work) through some independence (the author's peers from the same team), high independence (testers outside the author's team but within the organization), up to very high independence (testers from outside the organization)."
+lo = "FL-1.5.3"
 klevel = "K1"
 tags = ["ch1"]
 
@@ -386,7 +388,7 @@ options = [
 ]
 answers = [1]
 explanation = "The syllabus names isolation as a real risk of high independence: testers miss information and context, communication slows, and developers may treat quality as someone else's job. The other options state things that are simply false."
-lo = "FL-1.4.4"
+lo = "FL-1.5.3"
 klevel = "K2"
 tags = ["ch1"]
 
@@ -395,13 +397,13 @@ id = "istqb-q-0025"
 type = "single"
 stem = "Which list contains ONLY generic skills required for testing, as given in the syllabus?"
 options = [
-  "Technical knowledge, test analysis, test design, communication, critical thinking",
-  "Technical knowledge, test analysis, test design, communication, sales forecasting",
-  "Test analysis, test design, communication, critical thinking, salary negotiation",
-  "Technical knowledge, test analysis, test design, critical thinking, code compilation",
+  "Testing knowledge; thoroughness, curiosity and attention to detail; communication skills and active listening; analytical and critical thinking; technical and domain knowledge",
+  "Testing knowledge; test analysis; test design; test planning; sales forecasting",
+  "Technical knowledge; domain knowledge; code compilation; sprint estimation; salary negotiation",
+  "Critical thinking; creativity; compiler design; performance tuning; project budgeting",
 ]
 answers = [0]
-explanation = "The syllabus names technical knowledge, test analysis, test design, communication, and critical thinking. Each wrong option smuggles in exactly one item that is not a testing skill."
+explanation = "The syllabus's generic skills are: testing knowledge; thoroughness, carefulness, curiosity, attention to detail and being methodical; good communication skills, active listening and being a team player; analytical thinking, critical thinking and creativity; technical knowledge; and domain knowledge. The distractors smuggle in test activities (analysis, design, planning) — things testers do, not skills they bring."
 lo = "FL-1.5.1"
 klevel = "K1"
 tags = ["ch1"]
@@ -485,4 +487,36 @@ answers = [1]
 explanation = "The syllabus treats independence as a trade-off: fresh eyes versus isolation and lost context. Choosing the level is a context-dependent decision, not a rule that 'more independence is always better'."
 lo = "FL-1.5.3"
 klevel = "K2"
+tags = ["ch1"]
+
+[[question]]
+id = "istqb-q-0031"
+type = "single"
+stem = "In the syllabus, which pairing of the two principal testing roles to their main activities is correct?"
+options = [
+  "The test management role focuses on test planning, monitoring, control and completion; the testing role focuses on test analysis, design, implementation and execution",
+  "The test management role writes the test cases; the testing role manages the test team and its budget",
+  "The testing role is responsible for quality; the test management role is responsible for deadlines",
+  "The syllabus defines a single testing role that covers every test activity",
+]
+answers = [0]
+explanation = "Roles are defined by activities, not job titles: the test management role takes overall responsibility for the test process and leads planning, monitoring, control and completion, while the testing role owns the technical work — analysis, design, implementation and execution. One person can hold both roles at the same time."
+lo = "FL-1.4.5"
+klevel = "K2"
+tags = ["ch1"]
+
+[[question]]
+id = "istqb-q-0032"
+type = "single"
+stem = "How does testing relate to quality assurance (QA) and quality control (QC)?"
+options = [
+  "Testing is a major form of quality control — a product-oriented, corrective approach — while quality assurance is a process-oriented, preventive approach",
+  "Quality assurance runs the tests; testing improves the development processes",
+  "Testing and QA are unrelated disciplines performed by separate companies",
+  "Quality control is process-oriented and preventive; quality assurance is product-oriented and corrective",
+]
+answers = [0]
+explanation = "Officially, testing is a product-oriented, corrective approach and a major form of quality control — alongside formal methods, simulation and prototyping. QA is process-oriented and preventive: a good process, followed correctly, should produce a good product."
+lo = "FL-1.2.2"
+klevel = "K1"
 tags = ["ch1"]

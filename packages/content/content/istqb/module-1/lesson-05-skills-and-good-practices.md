@@ -15,37 +15,50 @@ diagrams = [
 
 ## The skills good testers bring (FL-1.5.1)
 
-A **skill** is the ability to do something well, built from knowledge, practice and aptitude. The syllabus names the generic skills that make testers effective — and this is a classic exam recall item, so learn the list as a list:
+A **skill** is the ability to do something well, built from knowledge, practice and aptitude. The syllabus names the generic skills that make testers effective — classic exam material, so learn them as a list:
 
+- **Testing knowledge** — knowing how to test well, for example by applying [test techniques](https://istqb-glossary.page/test-technique/) to increase the effectiveness of testing.
+- **Thoroughness, carefulness, curiosity, attention to detail, and being methodical** — the disciplined habits that identify defects, especially the ones that are difficult to find.
+- **Good communication skills, [active listening](https://en.wikipedia.org/wiki/Active_listening), and being a team player** — testers write and speak constantly: [defect reports](https://istqb-glossary.page/defect-report/), test summaries, conversations with developers and stakeholders. A defect report a developer can act on immediately is worth ten vague ones; listening closely is how misunderstandings are caught early.
+- **[Analytical thinking](https://en.wikipedia.org/wiki/Analytical_skill), [critical thinking](https://en.wikipedia.org/wiki/Critical_thinking), and [creativity](https://en.wikipedia.org/wiki/Creativity)** — questioning assumptions, weighing evidence, and inventing scenarios nobody documented.
 - **Technical knowledge** — understanding the system, its [architecture](https://en.wikipedia.org/wiki/Software_architecture) and its tools well enough to test it meaningfully (you do not need to be a full-time programmer, but you need to speak the language).
-- **[Test analysis](https://istqb-glossary.page/test-analysis/)** — the ability to examine a [test basis](https://istqb-glossary.page/test-basis/) and decide *what* deserves testing (Lesson 4's analysis activity).
-- **[Test design](https://istqb-glossary.page/test-design/)** — the ability to turn "what" into concrete, effective [test cases](https://istqb-glossary.page/test-case/) (techniques for this fill a later module).
-- **Communication** — testers write and speak constantly: [defect reports](https://istqb-glossary.page/defect-report/), test summaries, conversations with developers and stakeholders. A defect report that a developer can act on immediately is worth ten vague ones; clear communication also keeps testing respected instead of resented.
-- **[Critical thinking](https://en.wikipedia.org/wiki/Critical_thinking)** — the discipline of questioning assumptions, checking evidence, and reasoning about what the results really show. Testers are paid, in large part, to notice what everyone else took for granted.
+- **[Domain knowledge](https://en.wikipedia.org/wiki/Domain_knowledge)** — understanding the business the software serves, so you can understand and communicate with end users and business representatives about what matters.
 
-Beyond the syllabus list, good testers tend to bring curiosity, attention to detail, and domain knowledge. And one more skill from the syllabus matters more than it first appears: being a **good team player** — which is exactly where the [whole-team approach](https://www.techtarget.com/searchsoftwarequality/definition/Whole-team-approach) comes in.
+## The human factor: [bias](https://en.wikipedia.org/wiki/Cognitive_bias) (FL-1.5.1)
+
+Testing is done by people, and people have predictable blind spots — the syllabus itself makes this point in its discussion of skills and psychology.
+
+- **[Cognitive biases](https://en.wikipedia.org/wiki/Cognitive_bias)** are systematic errors in how we judge things. Testers are often the bearers of bad news, and **[confirmation bias](https://en.wikipedia.org/wiki/Confirmation_bias)** — the tendency to seek information that supports what we already believe — can make it hard for authors to accept findings that contradict their expectations. A developer convinced their code is correct writes only tests that confirm it works, and never probes the edges where it breaks. Good testers deliberately hunt for disconfirming evidence, and they deliver bad news in a constructive way, so findings get acted on instead of resented.
+- **[Heuristics](https://en.wikipedia.org/wiki/Heuristic)** are practical rules of thumb that guide decisions without guaranteeing the best answer — "start testing as early as possible" or "focus on high-risk areas first". Usually right, occasionally wrong, always worth having.
+
+Biases and heuristics explain why two competent testers find different defects, and why fresh, independent eyes (below) add value.
 
 ## The [whole-team approach](https://www.techtarget.com/searchsoftwarequality/definition/Whole-team-approach) (FL-1.5.2)
 
-The **[whole-team approach](https://www.techtarget.com/searchsoftwarequality/definition/Whole-team-approach)** says simply: *everyone on the team shares responsibility for quality*. It comes from [Extreme Programming](https://en.wikipedia.org/wiki/Extreme_programming) and is at home in agile development. Instead of "developers build, then testers police", the team — developers, testers, business analysts, product owner — works together with a common quality goal: testers sit in on planning and requirements conversations, developers help with test design and automation, and quality stops being a department.
+The **whole-team approach** says simply: *everyone on the team shares responsibility for quality*. One of the important skills for a tester is working effectively in a team context, and this practice — which comes from [Extreme Programming](https://en.wikipedia.org/wiki/Extreme_programming) — builds on exactly that skill. Instead of "developers build, then testers police", any team member with the necessary knowledge and skills can perform a task, everyone is responsible for quality, and the team shares a workspace (physical or virtual) because co-location feeds communication.
 
 The advantages the syllabus expects you to recall:
 
-- **Better communication** — quality issues surface early, in conversation, rather than late, in defect reports.
-- **A broader mix of skills** applied to the product — everyone contributes their specialty (analysis, coding, domain, UX) to building and checking quality.
-- **Quality as a shared goal** rather than a baton passed over a wall — which removes the adversarial "us vs them" dynamic and the "quality gate at the end" delay.
+- **Improved team dynamics, communication and collaboration** — quality issues surface early, in conversation, rather than late, in defect reports.
+- **Synergy from diverse skills** — testers collaborate with business representatives on acceptance tests and with developers on test strategy and automation, transferring testing knowledge into the whole team.
+- **A shared quality goal** rather than a baton passed over a wall — which removes the adversarial "us vs them" dynamic.
 
-Testers still matter enormously in this model — but as specialists who *enable* the team's testing, not as the only people who do it.
+One honest caveat the syllabus adds: the whole-team approach may not always be appropriate — in safety-critical situations, for example, a high level of [test independence](https://istqb-glossary.page/independence-of-testing/) may be needed instead.
 
-## [Independence](https://istqb-glossary.page/independence-of-testing/) of testing within the team (FL-1.5.3)
+## [Independence](https://istqb-glossary.page/independence-of-testing/) of testing (FL-1.5.3)
 
-Lesson 4 introduced the four levels of **[independence of testing](https://istqb-glossary.page/independence-of-testing/)**. Here is how to *think* about choosing among them — the syllabus wants you to weigh benefits against drawbacks, not memorize a "best" level.
+A certain degree of independence makes a tester more effective at finding defects, because the author's biases and the tester's biases differ — an author rarely spots their own misunderstanding. Independence is not, however, a replacement for familiarity: developers efficiently find many defects in their own code. The syllabus recognizes four levels of test independence, from lowest to highest:
 
-**Benefits of independence:** an independent tester sees the product without the author's blind spots — authors rarely spot their own misunderstandings; independent testers may question assumptions the team has stopped noticing, and they bring testing-specific knowledge and techniques.
+1. **No independence** — the [work product](https://en.wikipedia.org/wiki/Software_artifact) is tested by its author.
+2. **Some independence** — the author's peers from the same team test it.
+3. **High independence** — testers from outside the author's team but within the organization test it.
+4. **Very high independence** — testers from outside the organization, such as contractors or an [outsourcing](https://en.wikipedia.org/wiki/Outsourcing) vendor.
 
-**Drawbacks of independence:** high independence can **isolate** testers from the development team — they miss context, learn about changes late, and communicate through slow formal channels; developers may lower their guard ("the test team will catch it"), and misunderstanding of the product can lead to wasted effort on unimportant tests.
+**The main benefit:** independent testers are likely to recognize different kinds of failures and defects than developers do — different backgrounds, different technical perspectives, different biases — and they can verify, challenge, or disprove assumptions made by stakeholders.
 
-The practical reading: within one team you get most of independence's value (fresh eyes) while keeping collaboration (whole-team). Complete separation suits high-risk, contract-heavy work; author-only testing is quick but blindest. **Match the level of independence to the context, and manage communication deliberately** — that balanced statement is what exam answers look like.
+**The drawbacks:** independent testers may be isolated from the development team, leading to a lack of collaboration, communication problems, or even an adversarial relationship; developers may lose their sense of responsibility for quality; and independent testers can be seen as a bottleneck or blamed for release delays.
+
+The practical reading: for most projects it is best to use *multiple* levels of independence at once — developers testing their own components, an independent team running system testing, business representatives doing acceptance testing. Match the mix to the context, and manage communication deliberately.
 
 ## Where your skills apply: levels and types
 
@@ -58,11 +71,11 @@ Everything above — process, skills, independence, whole-team habits — plays 
 Three habits summarize Chapter 1 as a whole:
 
 1. **Follow the [test process](https://istqb-glossary.page/test-process/) — tailored.** Use the activities from Lesson 4 in some form on every project, weighted by context (principle 6).
-2. **Collaborate, don't gate-keep.** Practise the whole-team approach; use your communication skill to make quality everyone's business.
-3. **Keep testing fresh and honest.** Fight the [pesticide paradox](https://katalon.com/resources-center/blog/pesticide-paradox-in-software-testing) by renewing tests; state results truthfully — testing shows the presence of defects, never their absence.
+2. **Collaborate, don't gate-keep.** Practise the whole-team approach; use your communication skills to make quality everyone's business.
+3. **Keep testing fresh and honest.** Fight tests wearing out — the [pesticide paradox](https://katalon.com/resources-center/blog/pesticide-paradox-in-software-testing) — by renewing tests and [test data](https://istqb-glossary.page/test-data/); state results truthfully, because testing shows the presence of defects, never their absence.
 
 ## Check yourself
 
-1. Name the five generic skills for testing. Which one makes a defect report useful?
+1. Name the generic skills required for testing. Which one makes a defect report useful?
 2. Your team argues "with a whole-team approach we don't need independent testers." What is the strongest counter-argument — and what truth is in their claim?
 3. Why can high independence hurt communication, and what practice fixes it?

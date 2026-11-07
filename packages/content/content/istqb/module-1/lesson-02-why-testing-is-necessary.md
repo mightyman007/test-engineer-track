@@ -3,7 +3,7 @@ id = "istqb-m1-why-testing"
 module = "istqb-m1-fundamentals"
 title = "Why Testing Is Necessary"
 minutes = 12
-objectives = ["FL-1.2.1", "FL-1.2.2", "FL-1.2.3", "FL-1.2.4"]
+objectives = ["FL-1.2.1", "FL-1.2.2", "FL-1.2.3"]
 videos = [
   { title = "ISTQB Foundation 4.0 — Tutorial 3: 1.2 Why Testing is Necessary (TM Square)", url = "https://www.youtube.com/watch?v=ZKibwfwgEl8" },
   { title = "Failure, Fault, and Error — Software Development Process (Georgia Tech / Udacity)", url = "https://www.youtube.com/watch?v=k3WYCi9IlsI" },
@@ -13,60 +13,43 @@ diagrams = [
 ]
 +++
 
-## The chain: [error](https://istqb-glossary.page/error/), [defect](https://istqb-glossary.page/defect/), [failure](https://istqb-glossary.page/failure/) (FL-1.2.1)
+## Testing's contributions to success (FL-1.2.1)
 
-Software fails for human reasons. The syllabus describes a chain of three linked events, and the exam expects you to tell them apart:
+Why is testing necessary? The syllabus answers with a list of concrete contributions that testing makes to any project:
 
-- An **error** is a human mistake — a person does something incorrect. A developer types the wrong condition, an analyst writes an ambiguous requirement. Errors happen under time pressure, fatigue, inexperience, distraction, or simply because the problem itself is complicated.
-- A **defect** is the flaw that the error leaves behind in a work product — usually code, but also documents and other artefacts. "Bug" and "fault" mean the same thing. The defect sits there quietly until the flawed part is used.
-- A **failure** is what an end user or tester *sees*: the system deviates from its expected delivery, service or result. A crash, a wrong total, a page that never loads.
+- **Cost-effective [defect](https://istqb-glossary.page/defect/) detection.** Testing finds defects inexpensively, and [debugging](https://en.wikipedia.org/wiki/Debugging) — which is *not* a testing activity — removes them. Testing therefore indirectly raises the quality of everything built afterwards.
+- **Evidence for decisions.** Measuring the quality of the [test object](https://istqb-glossary.page/test-object/) at each phase of the [software development lifecycle](https://istqb-glossary.page/software-development-lifecycle/) gives project managers objective input for decisions — including the biggest one, whether to release.
+- **Indirect representation of users.** Testers stand in for the users whose needs the product must serve; involving a representative set of real users throughout development is usually too costly and impractical.
+- **Compliance.** Testing may be required to meet contractual or legal requirements, or to comply with regulatory standards.
+- **Prevention, not just detection.** Reviewing requirements and designs stops defects before they exist, and test results double as feedback on how well the team's processes are working.
 
-The chain runs **error → defect → failure**, and each link is conditional. Not every error produces a defect (a typo might be caught before saving), and not every defect produces a failure — some flawed code paths are never executed, or the mistake is masked by other code. That is why "we tested it and it worked" never means "it is defect-free".
+## Testing and [quality assurance](https://istqb-glossary.page/quality-assurance/) (FL-1.2.2)
 
-Two wrinkles matter for the exam:
+People often use "testing" and "quality assurance (QA)" interchangeably. The syllabus draws a firm line between them:
 
-- **Failures without defects.** The environment can cause failures on its own: [radiation](https://en.wikipedia.org/wiki/Radiation_hardening), electromagnetic fields, pollution, overheating hardware. A system can crash with a perfectly correct program inside it.
-- **Imperfect testing.** A test that finds no defect even though one exists is a **[false negative](https://istqb-glossary.page/false-negative-result/)** — the most dangerous kind, because it hides the problem. A test that reports a failure when the software actually meets its specification is a **[false positive](https://istqb-glossary.page/false-positive-result/)** — annoying and expensive, but the honest work is to re-check the test before blaming the code.
+- **Testing** is a **product-oriented, corrective** approach: it examines the thing being built and finds problems in it. Testing is a major form of **[quality control](https://istqb-glossary.page/quality-control/)** — other forms include formal methods (model checking, proof of correctness), simulation, and prototyping.
+- **QA** is a **process-oriented, preventive** approach: it works on how the work is done, trusting that a good process, followed correctly, produces a good product. QA covers both the development and the testing processes, and it is the responsibility of everyone on the project.
+
+The two meet in the results: test results are used in testing to fix defects, and in QA as feedback on how well the development and test processes are performing.
+
+## The chain: [error](https://istqb-glossary.page/error/), [defect](https://istqb-glossary.page/defect/), [failure](https://istqb-glossary.page/failure/), [root cause](https://istqb-glossary.page/root-cause/) (FL-1.2.3)
+
+Software fails for human reasons. The syllabus describes a chain of linked events, and the exam expects you to tell them apart:
+
+- An **error** is a human mistake — a person does something incorrect. Errors happen for many reasons: time pressure, complexity of the [work products](https://en.wikipedia.org/wiki/Software_artifact), processes, infrastructure or interactions, or simply because someone is tired or lacks training.
+- A **defect** is the flaw that the error leaves behind in a work product — in documentation such as a requirements specification or a test script, in source code, or in supporting artefacts. "Fault" and "bug" mean the same thing. Defects created early in the lifecycle, if undetected, tend to produce further defects later on.
+- A **failure** is what an end user or tester *sees*: the system deviates from its expected delivery, service or result. A crash, a wrong total, a page that never loads. Not every defect causes a failure — some flawed code never runs; some defects only fail in specific circumstances.
+
+Three wrinkles matter for the exam:
+
+- **Failures without code defects.** Errors and defects are not the only causes of failures. Failures can also be caused by environmental conditions — such as when [radiation or electromagnetic fields cause defects in firmware](https://en.wikipedia.org/wiki/Single_event_upset). A radiation-induced bit flip can make even correctly written application code fail in the field.
+- **Imperfect testing.** A test that finds no defect even though one exists is a **[false negative](https://istqb-glossary.page/false-negative-result/)** — the most dangerous kind, because it hides the problem. A test that reports a failure when the software actually meets its specification is a **[false positive](https://istqb-glossary.page/false-positive-result/)** — annoying and expensive, but the honest response is to re-check the test before blaming the code.
+- **Root causes.** A **root cause** is the fundamental reason a problem occurred — the situation that led to the error in the first place. **[Root cause analysis](https://istqb-glossary.page/root-cause-analysis/)**, typically performed when a failure or defect is found, aims to prevent whole families of future failures by addressing that fundamental reason.
 
 ![Error, defect, failure: the chain](diagrams/error-defect-failure.svg)
 
-**[Root cause](https://istqb-glossary.page/root-cause/)** analysis asks the final question: what process or condition produced the error in the first place? Removing the root cause — better training, clearer requirements, review checklists — prevents whole families of future defects, not just this one.
-
-## How much testing is enough? (FL-1.2.2)
-
-There is no fixed answer, because **testing is context dependent**. The level of rigour — how much testing, how formal, how documented — depends on the circumstances of the project:
-
-- **Risk.** A failure in a heart monitor or a flight-control system can hurt people; a failure in a puzzle game annoys someone. Safety and money raise the bar.
-- **Project and product constraints** — deadlines, budget, team experience, the maturity of the requirements.
-- **Domain and regulation.** Medical, aviation, banking and similar domains carry legal obligations that force specific, documented levels of testing.
-
-So a two-person startup testing a marketing site and a bank testing a payment engine should test *differently* — not because one team is lazy, but because the consequences of failure differ. Rigour is a decision, and it should be a deliberate one.
-
-## The human mind: [bias](https://en.wikipedia.org/wiki/Cognitive_bias) and [heuristics](https://en.wikipedia.org/wiki/Heuristic) (FL-1.2.3)
-
-Testing is done by people, and people have predictable blind spots. The syllabus highlights two ideas:
-
-- **Cognitive biases** — systematic errors in how we judge things. The classic in testing is **[confirmation bias](https://en.wikipedia.org/wiki/Confirmation_bias)**: we look for evidence that supports what we already believe. A developer convinced their code is correct writes tests that confirm it works — and never probes the edges where it breaks. Good testers deliberately hunt for disconfirming evidence.
-- **Heuristics** — practical rules of thumb that guide decisions without guaranteeing the best answer. "Start testing as early as possible" and "focus on high-risk areas first" are heuristics: usually right, occasionally wrong, always worth having.
-
-Biases and heuristics explain why two competent testers find different defects, and why independent eyes (Lesson 5) add value.
-
-## Other ways testing helps (FL-1.2.4)
-
-Finding failures is only the headline. Testing also contributes in quieter ways:
-
-- **It feeds decisions.** Test results give managers objective evidence for go/no-go decisions and for judging risk of inadequate quality.
-- **It prevents defects.** Testers reviewing requirements and designs catch problems before they become expensive code.
-- **It smooths the flow of work.** When testing happens continuously alongside development (as in agile teams), problems surface while they are still small, and rework shrinks.
-- **It represents the user.** Testers act as a stand-in for users' needs and expectations, asking "would a real person succeed with this?"
-- **It confirms compliance** with contractual, legal and regulatory requirements.
-
-And to place testing inside the bigger quality picture: **[quality assurance](https://istqb-glossary.page/quality-assurance/)** aims to *prevent* defects by improving processes, while **[quality control](https://istqb-glossary.page/quality-control/)** — which includes testing — aims to *detect* problems in the product itself. Testing is a product-oriented activity that QA relies on; QA is the broader, process-oriented discipline.
-
 ## In plain terms
 
-- Errors are human mistakes; defects are the flaws they leave; failures are what users see.
-- Not every defect fails, and some failures have no defect behind them (environment).
-- Rigour follows context: risk, constraints, domain and regulation decide how much testing is enough.
-- Confirmation bias lurks in every team; heuristics are the practical rules that keep testing sensible.
-- Testing also prevents defects, informs decisions, represents users, and supports compliance.
+- Testing pays for itself: it detects defects cost-effectively, informs release decisions, represents users, and satisfies contracts and regulations.
+- Testing is product-oriented and corrective — a major form of quality control. QA is process-oriented and preventive, and everyone owns it.
+- Errors are human mistakes; defects are the flaws they leave; failures are what users see; root causes are why the errors happened at all.

@@ -22,15 +22,15 @@
   <text x="376" y="256" text-anchor="middle" font-size="12.5" fill="#1a1a2e">HOW to test: test</text>
   <text x="376" y="274" text-anchor="middle" font-size="12.5" fill="#1a1a2e">cases + test data</text>
   <rect x="456" y="200" width="115" height="120" rx="10" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
-  <text x="513" y="228" text-anchor="middle" font-size="15.5" font-weight="700" fill="#1a1a2e">Implement.</text>
+  <text x="513" y="228" text-anchor="middle" font-size="15.5" font-weight="700" fill="#1a1a2e">Implement</text>
   <text x="513" y="256" text-anchor="middle" font-size="12.5" fill="#1a1a2e">Procedures,</text>
   <text x="513" y="274" text-anchor="middle" font-size="12.5" fill="#1a1a2e">environment,</text><text x="513" y="292" text-anchor="middle" font-size="12.5" fill="#1a1a2e">test suites</text>
   <rect x="593" y="200" width="115" height="120" rx="10" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
   <text x="650" y="228" text-anchor="middle" font-size="15.5" font-weight="700" fill="#1a1a2e">Execution</text>
   <text x="650" y="256" text-anchor="middle" font-size="12.5" fill="#1a1a2e">Run, compare,</text>
   <text x="650" y="274" text-anchor="middle" font-size="12.5" fill="#1a1a2e">log, report</text><text x="650" y="292" text-anchor="middle" font-size="12.5" fill="#1a1a2e">defects</text>
-  <rect x="730" y="200" width="65" height="120" rx="10" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
-  <text x="762" y="228" text-anchor="middle" font-size="15.5" font-weight="700" fill="#1a1a2e">Compl.</text>
+  <rect x="728" y="200" width="67" height="120" rx="10" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="761" y="228" text-anchor="middle" font-size="13.5" font-weight="700" fill="#1a1a2e">Complete</text>
   <text x="762" y="256" text-anchor="middle" font-size="12.5" fill="#1a1a2e">Summary</text>
   <text x="762" y="274" text-anchor="middle" font-size="12.5" fill="#1a1a2e">report;</text>
   <text x="762" y="292" text-anchor="middle" font-size="12.5" fill="#1a1a2e">archive</text>
