@@ -19,10 +19,15 @@ export function ExamRunner() {
 
   const def = bundle.exams.find((e) => e.id === examId);
 
+  // `resumeSeed` is set from a restored draft so the SAME question set comes
+  // back after a reload; without it (fresh exam or legacy draft) the assembly
+  // draws a fresh time seed.
+  const [resumeSeed, setResumeSeed] = useState<number | null>(null);
+
   const assembled = useMemo(() => {
     if (!def || !examId) return null;
-    return assembleExam(def, bundle.questions, Date.now() % 2 ** 31);
-  }, [def, bundle.questions, examId]);
+    return assembleExam(def, bundle.questions, resumeSeed ?? (Date.now() % 2 ** 31));
+  }, [def, bundle.questions, examId, resumeSeed]);
 
   const [responses, setResponses] = useState<Record<string, number[]>>({});
   const [flags, setFlags] = useState<Set<string>>(new Set());
@@ -46,6 +51,11 @@ export function ExamRunner() {
   submittedRef.current = submitted;
   const draftLoadedRef = useRef(draftLoaded);
   draftLoadedRef.current = draftLoaded;
+  // The effective assembly seed (AssembledExam.seed records the rng seed the
+  // successful assembly actually ran with, including any retry stride), so a
+  // resumed session reproduces the exact question set.
+  const seedRef = useRef<number | null>(null);
+  seedRef.current = assembled?.seed ?? null;
 
   // Draft resume: restore responses/flags/remaining time if a draft exists,
   // else start the full clock. `draftLoaded` flips true in BOTH cases — it
@@ -59,6 +69,9 @@ export function ExamRunner() {
         const draft = await adapter.getExamDraft(examId);
         if (!alive) return;
         if (draft) {
+          // Re-assemble from the draft's seed FIRST (same flush), so the
+          // restored responses map onto the resumed question set.
+          if (draft.seed !== undefined) setResumeSeed(draft.seed);
           setResponses(draft.responses);
           setFlags(new Set(draft.flags));
           setRemainingSec(draft.remainingSec);
@@ -90,6 +103,7 @@ export function ExamRunner() {
       void adapter.putExamDraft({
         examId, responses: responsesRef.current, flags: [...flagsRef.current],
         startedAt, remainingSec: remainingRef.current,
+        seed: seedRef.current ?? undefined,
       });
     };
     const save = setInterval(saveDraft, 15_000);
@@ -106,7 +120,15 @@ export function ExamRunner() {
     submittedRef.current = true;
     setSubmitted(true);
     const qs = assembled.questions;
-    const scored = scoreAttempt(qs, responsesRef.current);
+    // Project responses onto the assembled exam (answered ones only): the
+    // attempt stays self-consistent even if a restored draft's ids drifted
+    // from the re-assembled set, so reports can't render phantom rows.
+    const projected: Record<string, number[]> = {};
+    for (const question of qs) {
+      const r = responsesRef.current[question.id] ?? [];
+      if (r.length > 0) projected[question.id] = r;
+    }
+    const scored = scoreAttempt(qs, projected);
     const perTag: Record<string, { correct: number; total: number }> = {};
     for (const question of qs) {
       for (const tag of question.tags) {
@@ -120,7 +142,7 @@ export function ExamRunner() {
     await adapter.recordExamAttempt({
       attemptId, examId, score: scored.score, max: scored.max,
       passed: scored.score >= Math.ceil((def.passPct / 100) * scored.max),
-      scorePct, perTag, responses: responsesRef.current,
+      scorePct, perTag, responses: projected,
       createdAt: new Date().toISOString(),
       durationSec: def.timeLimitMin * 60 - remainingRef.current,
     });

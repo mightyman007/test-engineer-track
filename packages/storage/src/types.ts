@@ -59,6 +59,14 @@ export interface ExamDraft {
   flags: string[];
   startedAt: string;
   remainingSec: number;
+  /**
+   * Effective assembly rng seed (AssembledExam.seed) the exam was generated
+   * with. Persisted so a resumed exam re-assembles the SAME question set and
+   * restored responses map onto it. Optional: legacy drafts without it fall
+   * back to a fresh draw (responses keyed by id still apply where questions
+   * coincide).
+   */
+  seed?: number;
 }
 
 export interface StorageAdapter {

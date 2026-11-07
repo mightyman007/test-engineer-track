@@ -5,6 +5,7 @@ import { MemoryRouter, Route, Routes } from 'react-router';
 import { ExamRunner } from './ExamRunner.js';
 import { ContentProvider } from '../lib/content-context.js';
 import { SessionProvider } from '../state/session.js';
+import { assembleExam } from 'tet-core';
 import type { ContentBundle, Question } from 'tet-core';
 import type { ExamAttempt, StorageAdapter } from 'tet-storage';
 
@@ -47,7 +48,12 @@ const adapter: Partial<StorageAdapter> = {
 // Fake only the intervals the runner schedules (countdown + autosave).
 // Fully faked timers hang this stack: user-event and RTL's async wrapper
 // both await a REAL setTimeout(0), which fake timers would never release.
-beforeEach(() => vi.useFakeTimers({ toFake: ['setInterval', 'clearInterval'] }));
+// Also reset the shared fixtures so every test starts hermetic.
+beforeEach(() => {
+  vi.useFakeTimers({ toFake: ['setInterval', 'clearInterval'] });
+  examAttempts.length = 0;
+  for (const key of Object.keys(drafts)) delete drafts[key];
+});
 afterEach(() => vi.useRealTimers());
 
 function mount() {
@@ -100,6 +106,76 @@ describe('ExamRunner', () => {
     expect(attempt.perTag.ch1!.total).toBe(2);
     expect(attempt.perTag.ch2!.total).toBe(2);
     expect(Object.values(attempt.perTag).reduce((n, v) => n + v.correct, 0)).toBe(attempt.score);
+    await waitFor(() => expect(drafts['e1']).toBeUndefined());
+  });
+
+  it('restores responses, flags, and remaining time from a saved draft', async () => {
+    // Key the draft to the questions seed 42 assembles, so the assertions are
+    // deterministic rather than draw luck.
+    const assembled42 = assembleExam(bundle.exams[0]!, questions, 42);
+    const ids = assembled42.questions.map((x) => x.id);
+    drafts['e1'] = {
+      examId: 'e1',
+      responses: { [ids[0]!]: [0], [ids[1]!]: [0] },
+      flags: [ids[2]!],
+      startedAt: '2026-01-01T00:00:00.000Z',
+      remainingSec: 1200,
+      seed: 42,
+    };
+    mount();
+    await screen.findAllByText(/stem-/);
+    // Restored single-choice answers render as pressed option buttons.
+    expect(screen.getAllByRole('button', { name: 'a', pressed: true })).toHaveLength(2);
+    // The flagged question shows its star (exactly one was flagged).
+    expect(screen.getAllByText('★ flagged')).toHaveLength(1);
+    // Restored clock: 1200s = 20:00.
+    expect(screen.getByText('20:00')).toBeTruthy();
+    // A live clock must not auto-submit.
+    expect(examAttempts).toHaveLength(0);
+  });
+
+  it('auto-submits exactly once when the restored draft is already expired', async () => {
+    drafts['e1'] = {
+      examId: 'e1', responses: {}, flags: [],
+      startedAt: '2026-01-01T00:00:00.000Z', remainingSec: 0,
+    };
+    mount();
+    await waitFor(() => expect(drafts['e1']).toBeUndefined());
+    // Auto-submit fired on load — exactly once.
+    expect(examAttempts).toHaveLength(1);
+    // The once-guard holds: passing time must not submit again.
+    await vi.advanceTimersByTimeAsync(5_000);
+    expect(examAttempts).toHaveLength(1);
+  });
+
+  it('resumes the seeded assembly deterministically and records a self-consistent attempt', async () => {
+    const assembled42 = assembleExam(bundle.exams[0]!, questions, 42);
+    const ids = assembled42.questions.map((x) => x.id);
+    drafts['e1'] = {
+      examId: 'e1',
+      responses: { [ids[0]!]: [0], [ids[1]!]: [0] },
+      flags: [],
+      startedAt: '2026-01-01T00:00:00.000Z',
+      remainingSec: 1200,
+      seed: 42,
+    };
+    mount();
+    await screen.findAllByText(/stem-/);
+    // No auto-submit on a live clock.
+    expect(examAttempts).toHaveLength(0);
+    // The rendered exam IS the seed-42 assembly, in assembly order.
+    expect(screen.getAllByText(/stem-/).map((el) => el.textContent))
+      .toEqual(assembled42.questions.map((x) => x.stem));
+    await userEvent.click(screen.getByRole('button', { name: /submit exam/i }));
+    await waitFor(() => expect(examAttempts).toHaveLength(1));
+    const attempt = examAttempts[0]!;
+    // Recorded responses are projected onto the assembled set: every key is
+    // an assembled question id, and every restored response survived.
+    const attemptIds = Object.keys(attempt.responses);
+    expect(attemptIds.every((id) => ids.includes(id))).toBe(true);
+    expect(ids[0]! in attempt.responses).toBe(true);
+    expect(ids[1]! in attempt.responses).toBe(true);
+    expect(attempt.score).toBe(2);
     await waitFor(() => expect(drafts['e1']).toBeUndefined());
   });
 });
