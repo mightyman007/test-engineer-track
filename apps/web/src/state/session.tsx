@@ -27,7 +27,14 @@ export function SessionProvider({ children, adapter: injected }: {
 
   useEffect(() => {
     adapterRef.current = adapter;
-    void adapter.getSession().then(setSession);
+    // alive-guard: a still-pending OLD adapter's getSession() must never
+    // clobber the session after an adapter swap (e.g. connectCohort already
+    // set the cohort session).
+    let alive = true;
+    void adapter.getSession()
+      .then((s) => { if (alive) setSession(s); })
+      .catch(() => { /* leave signed-out gracefully */ });
+    return () => { alive = false; };
   }, [adapter]);
 
   /** Swaps the live adapter and its mirror ref in one step. */
