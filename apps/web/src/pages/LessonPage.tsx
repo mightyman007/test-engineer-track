@@ -4,6 +4,7 @@ import { useContent } from '../lib/content-context.js';
 import { useSession } from '../state/session.js';
 import { renderMarkdown } from '../lib/markdown.js';
 import { VideoEmbed } from '../components/VideoEmbed.js';
+import { TtsPlayer } from '../components/TtsPlayer.js';
 
 export function LessonPage() {
   const { lessonId } = useParams();
@@ -40,6 +41,7 @@ export function LessonPage() {
     <article>
       <p className="muted"><Link to={`/module/${mod.id}`}>{mod.title}</Link> · lesson {idx + 1} of {mod.lessonIds.length} · ~{lesson.minutes} min</p>
       <h1>{lesson.title}</h1>
+      <TtsPlayer text={lesson.body.replace(/!\[[^\]]*\]\([^)]*\)/g, ' ').replace(/[#*_>`]/g, ' ')} />
       {lesson.objectives.length > 0 && (
         <p className="muted">Objectives: {lesson.objectives.join(', ')}</p>
       )}

@@ -7,6 +7,7 @@ import {
 } from './auth.js';
 import { dataRoutes } from './routes/data.js';
 import { adminRoutes } from './routes/admin.js';
+import { ttsRoutes } from './routes/tts.js';
 
 const USERNAME_RE = /^[a-z0-9_-]{3,32}$/;
 
@@ -100,6 +101,7 @@ export function createApp(db: DB): Hono<AppEnv> {
 
   app.route('/api', dataRoutes());
   app.route('/api/admin', adminRoutes());
+  app.route('/api/tts', ttsRoutes());
 
   return app;
 }
