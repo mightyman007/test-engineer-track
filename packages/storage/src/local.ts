@@ -1,12 +1,14 @@
 import { openDB, type IDBPDatabase } from 'idb';
 import type { CardState, Grade } from 'tet-core';
 import type {
-  CardReview, ExamAttempt, MigratableData, ProgressEntry, ProgressMap,
+  CardReview, ExamAttempt, ExamDraft, MigratableData, ProgressEntry, ProgressMap,
   QuizAttempt, SessionInfo, StorageAdapter,
 } from './types.js';
 
 const DB_NAME = 'tet';
-const VERSION = 1;
+// v2 adds examDrafts (exam autosave). Bumped so existing solo browsers run the
+// upgrade cleanly instead of failing to find the new store.
+const DB_VERSION = 2;
 
 interface Stores {
   kv: { key: string; value: unknown };
@@ -15,6 +17,7 @@ interface Stores {
   examAttempts: { key: string; value: ExamAttempt };
   cardStates: { key: string; value: { cardId: string; state: CardState; updatedAt: string } };
   cardReviews: { key: number; value: CardReview };
+  examDrafts: { key: string; value: ExamDraft };
 }
 
 function pkey(e: Omit<ProgressEntry, 'key'>): string {
@@ -24,14 +27,19 @@ function pkey(e: Omit<ProgressEntry, 'key'>): string {
 export function createLocalAdapter(): StorageAdapter {
   let dbPromise: Promise<IDBPDatabase<Stores>> | null = null;
   function db(): Promise<IDBPDatabase<Stores>> {
-    dbPromise ??= openDB<Stores>(DB_NAME, VERSION, {
-      upgrade(d) {
-        d.createObjectStore('kv');
-        d.createObjectStore('progress', { keyPath: 'key' });
-        d.createObjectStore('quizAttempts', { keyPath: 'attemptId' });
-        d.createObjectStore('examAttempts', { keyPath: 'attemptId' });
-        d.createObjectStore('cardStates', { keyPath: 'cardId' });
-        d.createObjectStore('cardReviews', { autoIncrement: true });
+    dbPromise ??= openDB<Stores>(DB_NAME, DB_VERSION, {
+      upgrade(d, oldVersion) {
+        if (oldVersion < 1) {
+          d.createObjectStore('kv');
+          d.createObjectStore('progress', { keyPath: 'key' });
+          d.createObjectStore('quizAttempts', { keyPath: 'attemptId' });
+          d.createObjectStore('examAttempts', { keyPath: 'attemptId' });
+          d.createObjectStore('cardStates', { keyPath: 'cardId' });
+          d.createObjectStore('cardReviews', { autoIncrement: true });
+        }
+        if (oldVersion < 2) {
+          d.createObjectStore('examDrafts', { keyPath: 'examId' });
+        }
       },
     });
     return dbPromise;
@@ -101,6 +109,18 @@ export function createLocalAdapter(): StorageAdapter {
       const out: Record<string, CardState> = {};
       for (const r of rows) out[r.cardId] = r.state;
       return out;
+    },
+    async putExamDraft(draft: ExamDraft) {
+      const d = await db();
+      await d.put('examDrafts', draft);
+    },
+    async getExamDraft(examId: string): Promise<ExamDraft | null> {
+      const d = await db();
+      return (await d.get('examDrafts', examId)) ?? null;
+    },
+    async clearExamDraft(examId: string) {
+      const d = await db();
+      await d.delete('examDrafts', examId);
     },
     async exportAll(): Promise<MigratableData> {
       const d = await db();

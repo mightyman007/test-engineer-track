@@ -53,6 +53,14 @@ export interface MigratableData {
   cardStates: Record<string, CardState>;
 }
 
+export interface ExamDraft {
+  examId: string;
+  responses: Record<string, number[]>;
+  flags: string[];
+  startedAt: string;
+  remainingSec: number;
+}
+
 export interface StorageAdapter {
   getSession(): Promise<SessionInfo | null>;
   putSession(info: SessionInfo): Promise<void>;
@@ -64,6 +72,9 @@ export interface StorageAdapter {
   getExamAttempts(examId?: string): Promise<ExamAttempt[]>;
   recordCardReview(r: CardReview): Promise<void>;
   getReviewState(): Promise<Record<string, CardState>>;
+  putExamDraft(d: ExamDraft): Promise<void>;
+  getExamDraft(examId: string): Promise<ExamDraft | null>;
+  clearExamDraft(examId: string): Promise<void>;
   exportAll(): Promise<MigratableData>;
   importAll(data: MigratableData): Promise<void>;
 }

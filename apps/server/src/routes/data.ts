@@ -110,6 +110,29 @@ export function dataRoutes(): Hono<AppEnv> {
     return c.json(out);
   });
 
+  r.put('/exam-draft/:examId', async (c) => {
+    const draft = await c.req.json<Record<string, unknown>>().catch(() => null);
+    if (!draft) return c.json({ error: 'invalid JSON body' }, 400);
+    c.get('db').prepare(`INSERT INTO exam_drafts (user_id, exam_id, draft, updated_at)
+      VALUES (?, ?, ?, ?)
+      ON CONFLICT (user_id, exam_id) DO UPDATE SET draft = excluded.draft, updated_at = excluded.updated_at`)
+      .run(c.get('user')!.id, c.req.param('examId'), JSON.stringify(draft), new Date().toISOString());
+    return c.body(null, 204);
+  });
+
+  r.get('/exam-draft/:examId', (c) => {
+    const row = c.get('db').prepare('SELECT draft FROM exam_drafts WHERE user_id = ? AND exam_id = ?')
+      .get(c.get('user')!.id, c.req.param('examId')) as { draft: string } | undefined;
+    if (!row) return c.body(null, 204);
+    return c.body(row.draft, 200, { 'content-type': 'application/json' });
+  });
+
+  r.delete('/exam-draft/:examId', (c) => {
+    c.get('db').prepare('DELETE FROM exam_drafts WHERE user_id = ? AND exam_id = ?')
+      .run(c.get('user')!.id, c.req.param('examId'));
+    return c.body(null, 204);
+  });
+
   r.post('/import', async (c) => {
     const data = await c.req.json<{ progress: Record<string, { track: string; module: string; itemId: string; status: string; updatedAt: string }>; quizAttempts: Array<{ attemptId: string; module: string; score: number; max: number; perQuestion: Record<string, boolean>; createdAt: string }>; examAttempts: Array<{ attemptId: string; examId: string; score: number; max: number; passed: boolean; scorePct: number; perTag: Record<string, { correct: number; total: number }>; responses: Record<string, number[]>; createdAt: string; durationSec: number }>; cardStates: Record<string, { ease: number; intervalDays: number; dueAt: string; reps: number; lapses: number }> }>().catch(() => null);
     if (!data) return c.json({ error: 'invalid JSON body' }, 400);

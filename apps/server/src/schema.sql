@@ -73,3 +73,10 @@ CREATE TABLE IF NOT EXISTS card_reviews (
   due_at TEXT NOT NULL,
   created_at TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS exam_drafts (
+  user_id INTEGER NOT NULL REFERENCES users(id),
+  exam_id TEXT NOT NULL,
+  draft TEXT NOT NULL,
+  updated_at TEXT NOT NULL,
+  PRIMARY KEY (user_id, exam_id)
+);
