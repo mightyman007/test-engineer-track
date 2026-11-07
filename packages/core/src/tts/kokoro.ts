@@ -51,6 +51,7 @@ export function createKokoroProvider(): TtsProvider {
   let audioCtx: AudioContextLike | null = null;
   let current: AudioBufferSourceLike | null = null;
   let stopped = false;
+  let runId = 0; // per-speak generation token: only a NEW speak() supersedes an in-flight one
 
   async function warm(): Promise<boolean> {
     if (synthFn) return true;
@@ -70,10 +71,13 @@ export function createKokoroProvider(): TtsProvider {
     return warming;
   }
 
-  async function speakChunk(text: string, rate: number): Promise<void> {
+  async function speakChunk(text: string, rate: number, myRun: number): Promise<void> {
     if (!synthFn || !AudioContextCtor) return;
     const raw = await synthFn(text);
-    if (stopped) return;
+    // Superseded by a newer speak() (which reset `stopped`) or stopped outright:
+    // without this token check a stale run's freshly generated audio would play
+    // on top of the newer run's.
+    if (myRun !== runId || stopped) return;
     audioCtx ??= new AudioContextCtor();
     // kokoro returns raw PCM; wrap it in a real AudioBuffer for playback.
     const buffer = audioCtx.createBuffer(1, raw.audio.length, raw.sampling_rate);
@@ -116,12 +120,13 @@ export function createKokoroProvider(): TtsProvider {
     id: 'kokoro',
     isReady: warm,
     async speak(text, opts) {
-      stopped = false;
+      const myRun = ++runId;
+      stopped = false; // reset belongs to THIS run
       if (!(await warm())) return;
       const rate = opts?.rate ?? 1;
       for (const chunk of chunkText(text)) {
-        if (stopped) return;
-        await speakChunk(chunk, rate);
+        if (myRun !== runId || stopped) return; // superseded or stopped
+        await speakChunk(chunk, rate, myRun);
       }
     },
     pause() { void audioCtx?.suspend(); },

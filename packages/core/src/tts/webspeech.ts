@@ -78,18 +78,22 @@ function chunkText(text: string): string[] {
 export function createWebSpeechProvider(): TtsProvider {
   const synth = (globalThis as { speechSynthesis?: SpeechSynthesisLike }).speechSynthesis;
   let stopped = false;
+  let runId = 0; // per-speak generation token: only a NEW speak() supersedes an in-flight one
 
   return {
     id: 'webspeech',
     async isReady() { return synth !== undefined; },
     async speak(text, opts) {
       if (!synth) return;
-      stopped = false;
+      const myRun = ++runId;
+      stopped = false; // reset belongs to THIS run
       synth.cancel();
       const voice = bestVoice(synth.getVoices());
       const rate = opts?.rate ?? 1;
       for (const chunk of chunkText(text)) {
-        if (stopped) return;
+        // Superseded by a newer speak() (which reset `stopped`) or stopped
+        // outright — never queue further utterances from a stale run.
+        if (myRun !== runId || stopped) return;
         await new Promise<void>((resolve) => {
           const u = makeUtterance(chunk);
           u.voice = voice;

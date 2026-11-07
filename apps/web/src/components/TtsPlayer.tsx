@@ -9,6 +9,11 @@ export function TtsPlayer({ text }: { text: string }) {
   const [rate, setRate] = useState(1);
   const rateRef = useRef(rate);
   rateRef.current = rate;
+  // Mirror + token for playback control: the toggle reads the ref (never a
+  // stale render closure), and a superseded speak()'s completion must not
+  // clobber a newer run's playing state.
+  const playingRef = useRef(false);
+  const playToken = useRef(0);
 
   useEffect(() => {
     let alive = true;
@@ -23,16 +28,25 @@ export function TtsPlayer({ text }: { text: string }) {
   }
 
   async function play() {
-    if (playing) { provider!.pause(); setPlaying(false); return; }
+    if (playingRef.current) {
+      provider!.pause();
+      playingRef.current = false;
+      setPlaying(false);
+      return;
+    }
+    const myRun = ++playToken.current;
+    playingRef.current = true;
     setPlaying(true);
     await provider!.speak(text, { rate: rateRef.current });
+    if (playToken.current !== myRun) return; // superseded by a newer run
+    playingRef.current = false;
     setPlaying(false);
   }
 
   return (
     <div className="card" style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', padding: '0.6rem 1rem' }}>
       <button className="btn secondary" onClick={() => void play()}>{playing ? '⏸ Pause' : '▶ Listen'}</button>
-      <button className="btn secondary" onClick={() => { provider!.stop(); setPlaying(false); }}>⏹ Stop</button>
+      <button className="btn secondary" onClick={() => { provider!.stop(); playingRef.current = false; setPlaying(false); }}>⏹ Stop</button>
       <label className="muted" style={{ fontSize: '0.9rem' }}>
         speed{' '}
         <select value={rate} onChange={(e) => setRate(Number(e.target.value))}>
