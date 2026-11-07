@@ -57,10 +57,12 @@ describe('auth', () => {
   it('an exhausted invite is rejected', async () => {
     await app.request('/api/auth/register', { method: 'POST', headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ username: 'admin', displayName: 'A', password: 'longenough1' }) });
+    // 'xxx' (not the 1-char placeholder 'x') so no test data contradicts the product regex;
+    // the exhausted-invite gate still 403s before username validation would matter.
     db.prepare(`INSERT INTO invites (code, created_by, uses_left) VALUES ('USED', 1, 0)`).run();
     const res = await app.request('/api/auth/register', { method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ inviteCode: 'USED', username: 'x', displayName: 'X', password: 'longenough1' }) });
+      body: JSON.stringify({ inviteCode: 'USED', username: 'xxx', displayName: 'X', password: 'longenough1' }) });
     expect(res.status).toBe(403);
   });
 

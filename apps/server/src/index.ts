@@ -2,9 +2,11 @@ import { Hono } from 'hono';
 import { setCookie, deleteCookie } from 'hono/cookie';
 import type { DB } from './db.js';
 import {
-  AppEnv, AuthedUser, COOKIE, clearCookie, createSession, hashPassword,
-  requireAuth, sessionCookie, userFromCookie, verifyPassword,
+  AppEnv, COOKIE, createSession, hashPassword,
+  userFromCookie, verifyPassword,
 } from './auth.js';
+import { dataRoutes } from './routes/data.js';
+import { adminRoutes } from './routes/admin.js';
 
 const USERNAME_RE = /^[a-z0-9_-]{3,32}$/;
 
@@ -96,9 +98,8 @@ export function createApp(db: DB): Hono<AppEnv> {
     return c.json({ user }, 200);
   });
 
-  // --- data + admin mounts are added in Tasks 8 (data.ts, admin.ts) ---
-  // app.route('/api', dataRoutes());
-  // app.route('/api/admin', adminRoutes());
+  app.route('/api', dataRoutes());
+  app.route('/api/admin', adminRoutes());
 
   return app;
 }
