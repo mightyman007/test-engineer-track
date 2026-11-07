@@ -67,6 +67,10 @@ export function assembleExam(
       lastReason = `klevel quotas unmet: ${JSON.stringify(kLeft)}`;
       continue;
     }
+    if (multiUsed > def.multiSelectMax) {
+      lastReason = `multi-select cap exceeded: ${multiUsed} > ${def.multiSelectMax}`;
+      continue;
+    }
     return {
       examId: def.id,
       questions: shuffled(picked, rng),

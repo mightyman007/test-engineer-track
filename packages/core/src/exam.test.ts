@@ -88,6 +88,14 @@ describe('assembleExam', () => {
     expect(() => assembleExam(BLUEPRINT, tiny, 1)).toThrow(AssemblyError);
   });
 
+  it('never returns an exam exceeding the multi-select cap (across many seeds)', () => {
+    for (let s = 1; s <= 50; s++) {
+      const exam = assembleExam(BLUEPRINT, RICH_BANK, s);
+      const multi = exam.questions.filter((q) => q.type === 'multi').length;
+      expect(multi).toBeLessThanOrEqual(BLUEPRINT.multiSelectMax);
+    }
+  });
+
   it('mulberry32 is deterministic', () => {
     const a = mulberry32(42);
     const b = mulberry32(42);
