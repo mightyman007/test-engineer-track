@@ -85,9 +85,13 @@ sitting in the `-wal` journal:
 ```bash
 docker compose -f docker/docker-compose.yml --env-file .env exec -T \
   -w /app/apps/server tet-server \
-  node -e "const db=require('better-sqlite3')('/data/tet.sqlite3');db.exec(\"VACUUM INTO '/data/backup.sqlite3'\");db.close()"
+  node -e "require('fs').rmSync('/data/backup.sqlite3',{force:true});const db=require('better-sqlite3')('/data/tet.sqlite3');db.exec(\"VACUUM INTO '/data/backup.sqlite3'\");db.close()"
 docker compose -f docker/docker-compose.yml --env-file .env cp tet-server:/data/backup.sqlite3 ./tet.sqlite3.backup
 ```
+
+The `rmSync` step makes the command safely re-runnable: `VACUUM INTO` fails
+when the target file already exists, so a second backup run without removing
+the old snapshot errors out.
 
 A raw `docker compose cp` (or bind-mounted `tar`) of `tet.sqlite3` alone is
 **not** a safe backup here: the database runs in WAL mode, so recent writes sit
@@ -118,24 +122,67 @@ All curriculum lives in `packages/content/content/`:
 
 ```
 content/
-├── tracks.toml          # track + module manifest (ids, titles, order,
-│                        #   readiness thresholds, lessonIds, exam weights)
-├── istqb/module-1/      # one directory per module
-│   ├── lessons/*.md     # markdown with YAML frontmatter (id, title, track,
-│   │                    #   module, minutes, objectives; links and diagrams)
-│   ├── questions/*.toml # single/multi choice: stem, options, answer,
-│   │                    #   explanation, learning objective
-│   ├── flashcards.toml  # SM-2 deck: front/back per card
-│   └── exams.toml       # mock exam blueprints
-└── diagrams/            # SVG figures referenced from lessons
+├── tracks.toml             # track + module manifest (ids, titles, order,
+│                           #   readiness thresholds, lessonIds, exam weights)
+├── exams/                  # mock exam blueprints, one [exam] table per file
+│                           #   (empty in M1 — mock exams arrive in M3)
+├── istqb/module-1/         # one directory per module
+│   ├── lesson-01-….md      # flat lesson files: TOML frontmatter (id, module,
+│   │                       #   title, minutes, objectives, videos, diagrams)
+│   │                       #   + markdown body
+│   ├── questions.toml      # ONE file: one [[question]] table per question
+│   └── flashcards.toml     # SM-2 deck: one [[card]] table per card
+└── diagrams/               # SVG figures referenced from lessons
+```
+
+Lesson frontmatter is TOML between `+++` markers (not YAML):
+
+```toml
++++
+id = "istqb-m1-what-is-testing"
+module = "istqb-m1-fundamentals"
+title = "What Is Testing?"
+minutes = 12
+objectives = ["FL-1.1.1", "FL-1.1.2"]
+videos = [{ title = "…", url = "https://www.youtube.com/watch?v=…" }]
+diagrams = [{ title = "Testing vs debugging", file = "diagrams/testing-vs-debugging.svg" }]
++++
+```
+
+Questions live in the module's single `questions.toml` (`type` is `single` or
+`multi`; `answers` lists option indexes; `lo` is the learning objective):
+
+```toml
+[[question]]
+id = "istqb-q-0001"
+type = "single"
+stem = "What is the main purpose of testing?"
+options = ["To prove that the software works correctly", "…"]
+answers = [1]
+explanation = "Testing finds defects and gives stakeholders objective information…"
+lo = "FL-1.1.1"
+klevel = "K2"
+tags = ["ch1"]
+```
+
+Flashcards live in the module's `flashcards.toml`:
+
+```toml
+[[card]]
+id = "istqb-fc-0001"
+front = "What is an error?"
+back = "A human action or mistake that produces an incorrect result…"
+tags = ["ch1"]
 ```
 
 The build is the validator: `pnpm --filter tet-content build` re-derives
 `content.json` and fails on schema violations (bad ids, missing references,
-invalid question types, unreachable lessons). Link checking:
-`pnpm --filter tet-content check-links` verifies every external link and video
-embed. Extension story: **add a module = add a directory + one `[[track.module]]`
-entry in `tracks.toml`**.
+invalid question types, unreachable lessons) and on exam blueprints that
+cannot actually be assembled from the question bank (constraint interplay,
+e.g. a group whose questions are all multi-select while the exam forbids
+multi-selects). Link checking: `pnpm --filter tet-content check-links`
+verifies every external link and video embed. Extension story: **add a
+module = add a directory + one `[[track.module]]` entry in `tracks.toml`**.
 
 ## Architecture
 
