@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from 'react';
 import { createLocalAdapter, createServerAdapter, type SessionInfo, type StorageAdapter } from 'tet-storage';
 
-interface SessionCtx {
+export interface SessionCtx {
   session: SessionInfo | null;
   adapter: StorageAdapter;
   /** Set by ServerAdapter's 401 hook; Layout shows a "session expired" banner until cleared. */
@@ -9,6 +9,10 @@ interface SessionCtx {
   clearAuthExpired: () => void;
   refresh: () => Promise<void>;
   connectCohort: (serverUrl: string) => Promise<void>;
+  /** POST /api/auth/register (credentials include), then connectCohort(url). */
+  registerCohort: (serverUrl: string, payload: {
+    inviteCode: string; username: string; displayName: string; password: string;
+  }) => Promise<void>;
   disconnect: () => Promise<void>;
 }
 
@@ -59,6 +63,19 @@ export function SessionProvider({ children, adapter: injected }: {
       swapAdapter(next);
       setSession(s);
       setAuthExpired(false);
+    },
+    registerCohort: async (serverUrl: string, payload) => {
+      // The register POST sets the auth cookie; connectCohort's /api/me then
+      // reads it. Solo→cohort data migration is NOT part of this — it is a
+      // separate one-time offer rendered by MigrationPrompt after connecting.
+      const res = await fetch(`${serverUrl.replace(/\/$/, '')}/api/auth/register`, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error(await res.text());
+      await ctx.connectCohort(serverUrl);
     },
     disconnect: async () => {
       // Log out through the CURRENT adapter first (cohort: POST /api/auth/logout
