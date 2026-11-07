@@ -47,7 +47,11 @@ export function ReviewSession({ cardIds, cards }: { cardIds: string[]; cards: Fl
     setStates((s) => ({ ...(s ?? {}), [currentId]: next }));
     setQueue((qu) => qu.slice(1));
     setFlipped(false);
-    await adapter.recordCardReview({ cardId: currentId, grade: g, state: next, createdAt });
+    // Optimistic UI already advanced; a failed review write is logged — the
+    // card's state on the server stays at its previous schedule (retryable by
+    // re-reviewing when it comes due).
+    await adapter.recordCardReview({ cardId: currentId, grade: g, state: next, createdAt })
+      .catch((err) => console.error('[tet] card review not recorded:', err));
   }
 
   return (

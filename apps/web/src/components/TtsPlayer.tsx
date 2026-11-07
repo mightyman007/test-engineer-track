@@ -15,8 +15,14 @@ export function TtsPlayer({ text }: { text: string }) {
   const pickingRef = useRef(false);
   // Alive flag: a pick resolving after unmount must not touch state (the
   // component is gone; provider.stop() already ran via the unmount effect).
+  // Re-armed on mount because React StrictMode's dev double-mount (mount →
+  // cleanup → re-mount) keeps refs across the simulated remount — without the
+  // re-arm the flag stays false forever and the lazy pick can never land.
   const aliveRef = useRef(true);
-  useEffect(() => () => { aliveRef.current = false; }, []);
+  useEffect(() => {
+    aliveRef.current = true;
+    return () => { aliveRef.current = false; };
+  }, []);
   const [playing, setPlaying] = useState(false);
   const [rate, setRate] = useState(1);
   const rateRef = useRef(rate);

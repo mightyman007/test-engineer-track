@@ -1,3 +1,4 @@
+import { StrictMode } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
@@ -77,5 +78,22 @@ describe('TtsPlayer', () => {
     await userEvent.click(screen.getByRole('button', { name: /text-to-speech ready/i }));
     unmount();
     expect(() => resolvePick(providerStub())).not.toThrow();
+  });
+
+  it('works under React StrictMode (dev double-mount must not wedge the lazy pick)', async () => {
+    // StrictMode dev simulates mount → cleanup → re-mount; refs survive the
+    // simulated remount, so an alive-flag that is only cleared in cleanup (and
+    // never re-armed on mount) stays false forever and the pick can never land.
+    // RED under the wedge: the player is stuck on "warming voice…" forever.
+    vi.mocked(pickProvider).mockResolvedValue(providerStub());
+    render(
+      <StrictMode>
+        <TtsPlayer text="hello lesson" />
+      </StrictMode>,
+    );
+    await userEvent.click(screen.getByRole('button', { name: /text-to-speech ready/i }));
+    const listen = await screen.findByRole('button', { name: /listen/i }, { timeout: 2000 });
+    expect(screen.queryByText(/warming voice/i)).toBeNull();
+    expect(listen).toBeTruthy();
   });
 });

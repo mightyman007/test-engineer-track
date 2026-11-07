@@ -115,11 +115,13 @@ export function ExamRunner() {
     }, 1000);
     const saveDraft = () => {
       if (submittedRef.current || !draftLoadedRef.current) return;
-      void adapter.putExamDraft({
+      // Autosave is fire-and-forget: a server failure must not unmount-crash
+      // the timer — log it; the draft's next 15s tick retries.
+      adapter.putExamDraft({
         examId, responses: responsesRef.current, flags: [...flagsRef.current],
         startedAt, remainingSec: remainingRef.current,
         seed: seedRef.current ?? undefined,
-      });
+      }).catch((err) => console.error('[tet] exam autosave failed:', err));
     };
     const save = setInterval(saveDraft, 15_000);
     window.addEventListener('pagehide', saveDraft);

@@ -65,7 +65,7 @@ export function QuizRunner({ moduleId, size = 12 }: { moduleId: string; size?: n
           attemptId: crypto.randomUUID(),
           module: moduleId, score: scored.score, max: scored.max,
           perQuestion: scored.perQuestion, createdAt: new Date().toISOString(),
-        });
+        }).catch((err) => console.error('[tet] quiz attempt not recorded:', err));
       }
     }
   }

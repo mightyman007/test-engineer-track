@@ -34,7 +34,8 @@ export function LessonPage() {
 
   async function markComplete() {
     if (!lesson) return;
-    await adapter.putProgress([{ track: track.id, module: mod.id, itemId: lesson.id, status: 'done', updatedAt: new Date().toISOString() }]);
+    await adapter.putProgress([{ track: track.id, module: mod.id, itemId: lesson.id, status: 'done', updatedAt: new Date().toISOString() }])
+      .catch((err) => console.error('[tet] lesson progress not saved:', err));
     setDone(true);
   }
 
