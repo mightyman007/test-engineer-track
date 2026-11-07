@@ -3,7 +3,8 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router';
 import { AdminPage } from './AdminPage.js';
-import type { SessionCtx } from '../state/session.js';
+import { SessionProvider, type SessionCtx } from '../state/session.js';
+import type { SessionInfo, StorageAdapter } from 'tet-storage';
 
 const roster = {
   users: [
@@ -50,5 +51,27 @@ describe('AdminPage', () => {
     );
     await userEvent.click(await screen.findByRole('button', { name: /new invite/i }));
     expect(await screen.findByText('ABCD2345')).toBeTruthy();
+  });
+
+  // Regression: the roster effect used to run once with `[]` deps, guard on
+  // `isAdmin`, and never re-run — so a hard load of /admin (session resolves
+  // AFTER mount, via the provider's boot effect) rendered an empty tbody
+  // forever. This test mounts through the REAL provider with a stub adapter
+  // whose getSession() resolves a tick later, exactly the cold-visit shape.
+  it('loads the roster on a cold visit once the admin session arrives', async () => {
+    const adminSession: SessionInfo = {
+      mode: 'cohort', userId: '1', displayName: 'admin', role: 'admin', serverUrl: 'http://x',
+    };
+    const stubAdapter = {
+      getSession: () => new Promise<SessionInfo | null>((r) => setTimeout(() => r(adminSession), 10)),
+    } as unknown as StorageAdapter;
+    render(
+      <MemoryRouter>
+        <SessionProvider adapter={stubAdapter}>
+          <AdminPage rosterLoader={async () => roster} inviteCreator={async () => ({ code: 'ABCD2345' })} />
+        </SessionProvider>
+      </MemoryRouter>,
+    );
+    await waitFor(() => expect(screen.getByText('learner1')).toBeTruthy(), { timeout: 3000 });
   });
 });

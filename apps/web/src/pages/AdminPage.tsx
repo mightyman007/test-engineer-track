@@ -32,6 +32,7 @@ export function AdminPage({ ctx: injected, rosterLoader, inviteCreator }: {
   const { session } = real;
   const [roster, setRoster] = useState<{ users: RosterRow[] } | null>(null);
   const [newCode, setNewCode] = useState('');
+  const [copied, setCopied] = useState(false);
   const [error, setError] = useState('');
   const isAdmin = session?.role === 'admin';
   const serverUrl = (session?.serverUrl ?? '').replace(/\/$/, '');
@@ -42,7 +43,10 @@ export function AdminPage({ ctx: injected, rosterLoader, inviteCreator }: {
       jsonFetch<{ users: RosterRow[] }>(`${serverUrl}/api/admin/roster`, { method: 'GET' })))()
       .then(setRoster).catch((e) => setError(String(e)));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    // Deps [isAdmin, serverUrl]: the session arrives AFTER mount on a hard
+    // load of /admin (provider boot effect), so the first run exits early —
+    // the effect must re-run once the admin session (and its serverUrl) land.
+  }, [isAdmin, serverUrl]);
 
   if (!isAdmin) return <p className="muted">Admins only.</p>;
 
@@ -64,7 +68,18 @@ export function AdminPage({ ctx: injected, rosterLoader, inviteCreator }: {
         <a className="btn secondary" href={`${serverUrl}/api/admin/export.csv`} target="_blank" rel="noopener noreferrer">Export CSV</a>
         {' '}
         <button className="btn" onClick={() => void makeInvite()}>New invite</button>
-        {newCode && <span style={{ marginLeft: '0.75rem' }}>code: <code>{newCode}</code></span>}
+        {newCode && (
+          <span style={{ marginLeft: '0.75rem' }}>
+            code: <code>{newCode}</code>{' '}
+            <button className="btn secondary" onClick={async () => {
+              try {
+                await navigator.clipboard.writeText(newCode);
+                setCopied(true);
+                setTimeout(() => setCopied(false), 1500);
+              } catch { /* clipboard unavailable (permissions) — code stays visible for manual copy */ }
+            }}>{copied ? 'Copied!' : 'Copy'}</button>
+          </span>
+        )}
       </p>
       <table style={{ width: '100%', borderCollapse: 'collapse' }} className="card">
         <thead>
