@@ -1,0 +1,12 @@
+# Keep the Docker build context small; the image installs and builds its own.
+node_modules
+**/node_modules
+.git
+.gitignore
+data
+dist
+**/dist
+docs
+.superpowers
+test-results
+playwright-report

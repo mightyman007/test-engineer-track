@@ -14,6 +14,9 @@ export function Layout({ children }: { children: ReactNode }) {
           <span className="muted" style={{ marginLeft: 'auto' }}>
             {session ? (session.mode === 'cohort' ? `cohort · ${session.displayName}` : 'solo mode') : 'solo mode'}
           </span>
+          {/* Cohort sign-in lives at /login; solo users must be able to reach it
+              from the nav — on static hosting deep links may not be entry points. */}
+          {(!session || session.mode !== 'cohort') && <Link to="/login">Sign in</Link>}
         </nav>
       </header>
       {authExpired && (

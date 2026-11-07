@@ -1,0 +1,17 @@
+services:
+  tet-server:
+    build:
+      context: ..
+      dockerfile: docker/server.Dockerfile
+    ports:
+      - "8787:8787"
+    environment:
+      PORT: 8787
+      DB_PATH: /data/tet.sqlite3
+      SESSION_SECRET: ${SESSION_SECRET:?set SESSION_SECRET in .env}
+      TTS_PROVIDER: ${TTS_PROVIDER:-}
+      TTS_API_KEY: ${TTS_API_KEY:-}
+    volumes:
+      - tet-data:/data
+volumes:
+  tet-data:

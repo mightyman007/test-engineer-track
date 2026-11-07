@@ -2,17 +2,24 @@
   "name": "test-engineer-track",
   "private": true,
   "type": "module",
-  "engines": { "node": ">=22" },
+  "engines": {
+    "node": ">=22"
+  },
+  "packageManager": "pnpm@10.17.0",
   "scripts": {
     "test": "pnpm -r test",
     "build": "pnpm -r build",
     "content:build": "pnpm --filter tet-content build",
+    "smoke": "pnpm --filter tet-content build && pnpm --filter tet-web build && pnpm exec playwright test --config apps/web/playwright.config.ts",
     "dev": "pnpm --filter tet-web dev & pnpm --filter tet-server dev & wait"
   },
   "devDependencies": {
+    "@playwright/test": "^1.65.0",
     "typescript": "^5.7.0"
   },
   "pnpm": {
-    "onlyBuiltDependencies": ["better-sqlite3"]
+    "onlyBuiltDependencies": [
+      "better-sqlite3"
+    ]
   }
 }

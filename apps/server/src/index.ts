@@ -1,4 +1,5 @@
 import { Hono } from 'hono';
+import type { Context, Next } from 'hono';
 import { setCookie, deleteCookie } from 'hono/cookie';
 import type { DB } from './db.js';
 import {
@@ -11,9 +12,34 @@ import { ttsRoutes } from './routes/tts.js';
 
 const USERNAME_RE = /^[a-z0-9_-]{3,32}$/;
 
+/**
+ * Minimal CORS: the SPA is a static build hosted on a different origin than
+ * the API (Ondana static hosting + a server placed anywhere), so browser
+ * cohort logins are cross-origin by design. Echo the request Origin — `*`
+ * is invalid together with credentials — and answer preflights.
+ */
+export function cors(): (c: Context<AppEnv>, next: Next) => Promise<Response | void> {
+  return async (c, next) => {
+    const origin = c.req.header('origin');
+    if (origin) {
+      c.header('Access-Control-Allow-Origin', origin);
+      c.header('Access-Control-Allow-Credentials', 'true');
+      c.header('Vary', 'Origin');
+      if (c.req.method === 'OPTIONS') {
+        c.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+        c.header('Access-Control-Allow-Headers', 'content-type');
+        c.header('Access-Control-Max-Age', '86400');
+        return c.body(null, 204);
+      }
+    }
+    await next();
+  };
+}
+
 export function createApp(db: DB): Hono<AppEnv> {
   const app = new Hono<AppEnv>();
 
+  app.use('*', cors());
   app.use('*', async (c, next) => {
     c.set('db', db);
     await next();
