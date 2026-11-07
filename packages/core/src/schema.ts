@@ -122,7 +122,18 @@ function rows(raw: TomlTable, key: string): unknown[] {
 }
 
 export function parseQuestionsToml(text: string): Question[] {
-  return rows(parseToml(text) as TomlTable, 'question').map((q) => QuestionSchema.parse(q));
+  return rows(parseToml(text) as TomlTable, 'question').map((q, i) => {
+    try {
+      return QuestionSchema.parse(q);
+    } catch (err) {
+      // Surface the failing row's author-facing id (e.g. "question q1: …");
+      // a bare ZodError does not echo the id, which makes a broken bank hard
+      // to locate from the build log alone.
+      const id = (q as TomlTable)['id'];
+      const label = typeof id === 'string' && id.length > 0 ? `question ${id}` : `question #${i}`;
+      throw new Error(`${label}: ${err instanceof Error ? err.message : String(err)}`, { cause: err });
+    }
+  });
 }
 
 export function parseFlashcardsToml(text: string): Flashcard[] {
@@ -144,7 +155,25 @@ export function parseExamToml(text: string): ExamDefinition {
 
 export function parseTrackToml(text: string): Track[] {
   const raw = parseToml(text) as TomlTable;
-  return rows(raw, 'track').map((t) => TrackSchema.parse(t));
+  return rows(raw, 'track').map((t) => {
+    // Exam-style bridge: the authoring key is `[[track.module]]` (TOML key
+    // `module`); the schema field is `modules`. Normalize before validation.
+    const tr = t as TomlTable;
+    if (tr.modules === undefined && tr.module !== undefined) tr.modules = tr.module;
+    // Track files author readiness as flattened keys (`readiness_passPct`, …)
+    // because `[[track.module]]` arrays and nested `[track.readiness]` tables
+    // conflict in TOML array-of-tables syntax. Fold flattened keys into the
+    // nested `readiness` object before validation (flattened wins).
+    const readiness: Record<string, unknown> = {};
+    for (const key of Object.keys(tr)) {
+      if (key.startsWith('readiness_')) {
+        readiness[key.slice('readiness_'.length)] = tr[key];
+        delete tr[key];
+      }
+    }
+    if (Object.keys(readiness).length > 0) tr.readiness = readiness;
+    return TrackSchema.parse(tr);
+  });
 }
 
 export function parseLessonMarkdown(text: string): LessonMeta {
