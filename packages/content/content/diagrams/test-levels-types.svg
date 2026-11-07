@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <rect width="800" height="450" fill="#f7f8fb"/>
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1a1a2e"/></marker></defs>
+  <text x="400" y="46" text-anchor="middle" font-size="24" font-weight="700" fill="#1a1a2e">Test Levels &amp; Test Types</text>
+  <text x="400" y="74" text-anchor="middle" font-size="15" fill="#1a1a2e">Two ways to organize test activities (detailed in the next module)</text>
+  <text x="230" y="108" text-anchor="middle" font-size="16" font-weight="700" fill="#1a1a2e">TEST LEVELS &#8212; where in the build-up</text>
+  <rect x="70" y="122" width="320" height="44" rx="8" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="230" y="150" text-anchor="middle" font-size="14.5" fill="#1a1a2e">Component testing &#8212; one piece on its own</text>
+  <line x1="230" y1="166" x2="230" y2="180" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="70" y="184" width="320" height="44" rx="8" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="230" y="212" text-anchor="middle" font-size="14.5" fill="#1a1a2e">Component integration &#8212; pieces talking to each other</text>
+  <line x1="230" y1="228" x2="230" y2="242" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="70" y="246" width="320" height="44" rx="8" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="230" y="274" text-anchor="middle" font-size="14.5" fill="#1a1a2e">System testing &#8212; the whole system, end to end</text>
+  <line x1="230" y1="290" x2="230" y2="304" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="70" y="308" width="320" height="44" rx="8" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="230" y="336" text-anchor="middle" font-size="14.5" fill="#1a1a2e">System integration &#8212; the system with other systems</text>
+  <line x1="230" y1="352" x2="230" y2="366" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="70" y="370" width="320" height="44" rx="8" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="230" y="398" text-anchor="middle" font-size="14.5" fill="#1a1a2e">Acceptance testing &#8212; is it right for the users?</text>
+  <text x="600" y="108" text-anchor="middle" font-size="16" font-weight="700" fill="#1a1a2e">TEST TYPES &#8212; what we look for</text>
+  <rect x="450" y="122" width="300" height="52" rx="8" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="600" y="144" text-anchor="middle" font-size="14.5" font-weight="700" fill="#1a1a2e">Functional testing</text>
+  <text x="600" y="164" text-anchor="middle" font-size="12.5" fill="#1a1a2e">what the system does</text>
+  <rect x="450" y="184" width="300" height="52" rx="8" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="600" y="206" text-anchor="middle" font-size="14.5" font-weight="700" fill="#1a1a2e">Non-functional testing</text>
+  <text x="600" y="226" text-anchor="middle" font-size="12.5" fill="#1a1a2e">how well it does it (speed, usability...)</text>
+  <rect x="450" y="246" width="300" height="52" rx="8" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="600" y="268" text-anchor="middle" font-size="14.5" font-weight="700" fill="#1a1a2e">Black-box testing</text>
+  <text x="600" y="288" text-anchor="middle" font-size="12.5" fill="#1a1a2e">from the outside, without seeing code</text>
+  <rect x="450" y="308" width="300" height="52" rx="8" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="600" y="330" text-anchor="middle" font-size="14.5" font-weight="700" fill="#1a1a2e">White-box testing</text>
+  <text x="600" y="350" text-anchor="middle" font-size="12.5" fill="#1a1a2e">using knowledge of the code inside</text>
+  <rect x="450" y="370" width="300" height="62" rx="8" fill="#eef1f8" stroke="#1a1a2e" stroke-width="1.5"/>
+  <text x="600" y="394" text-anchor="middle" font-size="13.5" font-weight="700" fill="#1a1a2e">Change-related testing</text>
+  <text x="600" y="414" text-anchor="middle" font-size="12.5" fill="#1a1a2e">confirmation + regression testing, at any level</text>
+</svg>

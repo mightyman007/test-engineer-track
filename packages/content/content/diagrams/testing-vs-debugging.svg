@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <rect width="800" height="450" fill="#f7f8fb"/>
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1a1a2e"/></marker></defs>
+  <text x="400" y="46" text-anchor="middle" font-size="24" font-weight="700" fill="#1a1a2e">Testing vs Debugging</text>
+  <text x="400" y="74" text-anchor="middle" font-size="15" fill="#1a1a2e">Two different jobs, usually done by two different people</text>
+  <rect x="45" y="100" width="345" height="290" rx="12" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <rect x="565" y="100" width="190" height="290" rx="12" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="217" y="132" text-anchor="middle" font-size="19" font-weight="700" fill="#1a1a2e">TESTING</text>
+  <text x="217" y="154" text-anchor="middle" font-size="13" font-style="italic" fill="#1a1a2e">usually done by testers</text>
+  <text x="65" y="186" font-size="14" fill="#1a1a2e">&#8226; Runs the software and compares</text>
+  <text x="65" y="206" font-size="14" fill="#1a1a2e">  actual results with expected results</text>
+  <text x="65" y="238" font-size="14" fill="#1a1a2e">&#8226; Identifies failures and writes</text>
+  <text x="65" y="258" font-size="14" fill="#1a1a2e">  defect reports for the team</text>
+  <text x="65" y="290" font-size="14" fill="#1a1a2e">&#8226; Can happen with or without</text>
+  <text x="65" y="310" font-size="14" fill="#1a1a2e">  any known failure (reviews, checks)</text>
+  <text x="65" y="342" font-size="14" fill="#1a1a2e">&#8226; After a fix: re-tests to confirm</text>
+  <text x="65" y="362" font-size="14" fill="#1a1a2e">  the failure is really gone</text>
+  <line x1="400" y1="245" x2="558" y2="245" stroke="#1a1a2e" stroke-width="2.5" marker-end="url(#arr)"/>
+  <line x1="558" y1="275" x2="400" y2="275" stroke="#1a1a2e" stroke-width="2.5" marker-end="url(#arr)"/>
+  <text x="480" y="238" text-anchor="middle" font-size="13" font-weight="700" fill="#1a1a2e">failure report</text>
+  <text x="480" y="296" text-anchor="middle" font-size="13" font-weight="700" fill="#1a1a2e">fixed code</text>
+  <text x="660" y="132" text-anchor="middle" font-size="19" font-weight="700" fill="#1a1a2e">DEBUGGING</text>
+  <text x="660" y="154" text-anchor="middle" font-size="13" font-style="italic" fill="#1a1a2e">a development activity</text>
+  <text x="580" y="186" font-size="14" fill="#1a1a2e">&#8226; Triggered by an</text>
+  <text x="580" y="206" font-size="14" fill="#1a1a2e">  observed failure</text>
+  <text x="580" y="238" font-size="14" fill="#1a1a2e">&#8226; Locates, analyses and</text>
+  <text x="580" y="258" font-size="14" fill="#1a1a2e">  removes the cause</text>
+  <text x="580" y="290" font-size="14" fill="#1a1a2e">&#8226; Changes the code</text>
+  <text x="580" y="310" font-size="14" fill="#1a1a2e">  (or the work product)</text>
+  <text x="580" y="342" font-size="14" fill="#1a1a2e">&#8226; Then hands back to</text>
+  <text x="580" y="362" font-size="14" fill="#1a1a2e">  testing for re-checking</text>
+  <rect x="45" y="410" width="750" height="30" rx="8" fill="#eef1f8" stroke="none"/>
+  <text x="420" y="431" text-anchor="middle" font-size="14" font-weight="700" fill="#1a1a2e">Testing identifies failures. Debugging removes their causes. Testing then confirms the fix.</text>
+</svg>

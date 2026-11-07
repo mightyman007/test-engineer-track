@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <rect width="800" height="450" fill="#f7f8fb"/>
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1a1a2e"/></marker></defs>
+  <text x="400" y="44" text-anchor="middle" font-size="24" font-weight="700" fill="#1a1a2e">The Test Process: Activities in Flow</text>
+  <text x="400" y="72" text-anchor="middle" font-size="15" fill="#1a1a2e">Monitoring and control watches the whole flow and adjusts the plan as results come in</text>
+  <rect x="45" y="92" width="750" height="46" rx="10" fill="#eef1f8" stroke="#1a1a2e" stroke-width="1.5"/>
+  <text x="420" y="121" text-anchor="middle" font-size="16" font-weight="700" fill="#1a1a2e">Test Monitoring &amp; Test Control &#8212; compare progress with the plan, take corrective action</text>
+  <line x1="155" y1="138" x2="155" y2="196" stroke="#1a1a2e" stroke-width="1.5" stroke-dasharray="5,4" marker-end="url(#arr)"/><line x1="420" y1="138" x2="420" y2="196" stroke="#1a1a2e" stroke-width="1.5" stroke-dasharray="5,4" marker-end="url(#arr)"/><line x1="685" y1="138" x2="685" y2="196" stroke="#1a1a2e" stroke-width="1.5" stroke-dasharray="5,4" marker-end="url(#arr)"/>
+  <rect x="45" y="200" width="115" height="120" rx="10" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="102" y="228" text-anchor="middle" font-size="15.5" font-weight="700" fill="#1a1a2e">Planning</text>
+  <text x="102" y="256" text-anchor="middle" font-size="12.5" fill="#1a1a2e">Objectives, approach,</text>
+  <text x="102" y="274" text-anchor="middle" font-size="12.5" fill="#1a1a2e">schedule; test plan</text>
+  <line x1="162" y1="260" x2="178" y2="260" stroke="#1a1a2e" stroke-width="2.5" marker-end="url(#arr)"/><line x1="299" y1="260" x2="315" y2="260" stroke="#1a1a2e" stroke-width="2.5" marker-end="url(#arr)"/><line x1="436" y1="260" x2="452" y2="260" stroke="#1a1a2e" stroke-width="2.5" marker-end="url(#arr)"/>
+  <rect x="182" y="200" width="115" height="120" rx="10" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="239" y="228" text-anchor="middle" font-size="15.5" font-weight="700" fill="#1a1a2e">Analysis</text>
+  <text x="239" y="256" text-anchor="middle" font-size="12.5" fill="#1a1a2e">WHAT to test: test</text>
+  <text x="239" y="274" text-anchor="middle" font-size="12.5" fill="#1a1a2e">conditions from the</text>
+  <text x="239" y="292" text-anchor="middle" font-size="12.5" fill="#1a1a2e">test basis</text>
+  <line x1="573" y1="260" x2="589" y2="260" stroke="#1a1a2e" stroke-width="2.5" marker-end="url(#arr)"/><line x1="710" y1="260" x2="726" y2="260" stroke="#1a1a2e" stroke-width="2.5" marker-end="url(#arr)"/>
+  <rect x="319" y="200" width="115" height="120" rx="10" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="376" y="228" text-anchor="middle" font-size="15.5" font-weight="700" fill="#1a1a2e">Design</text>
+  <text x="376" y="256" text-anchor="middle" font-size="12.5" fill="#1a1a2e">HOW to test: test</text>
+  <text x="376" y="274" text-anchor="middle" font-size="12.5" fill="#1a1a2e">cases + test data</text>
+  <rect x="456" y="200" width="115" height="120" rx="10" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="513" y="228" text-anchor="middle" font-size="15.5" font-weight="700" fill="#1a1a2e">Implement.</text>
+  <text x="513" y="256" text-anchor="middle" font-size="12.5" fill="#1a1a2e">Procedures,</text>
+  <text x="513" y="274" text-anchor="middle" font-size="12.5" fill="#1a1a2e">environment,</text><text x="513" y="292" text-anchor="middle" font-size="12.5" fill="#1a1a2e">test suites</text>
+  <rect x="593" y="200" width="115" height="120" rx="10" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="650" y="228" text-anchor="middle" font-size="15.5" font-weight="700" fill="#1a1a2e">Execution</text>
+  <text x="650" y="256" text-anchor="middle" font-size="12.5" fill="#1a1a2e">Run, compare,</text>
+  <text x="650" y="274" text-anchor="middle" font-size="12.5" fill="#1a1a2e">log, report</text><text x="650" y="292" text-anchor="middle" font-size="12.5" fill="#1a1a2e">defects</text>
+  <rect x="730" y="200" width="65" height="120" rx="10" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="762" y="228" text-anchor="middle" font-size="15.5" font-weight="700" fill="#1a1a2e">Compl.</text>
+  <text x="762" y="256" text-anchor="middle" font-size="12.5" fill="#1a1a2e">Summary</text>
+  <text x="762" y="274" text-anchor="middle" font-size="12.5" fill="#1a1a2e">report;</text>
+  <text x="762" y="292" text-anchor="middle" font-size="12.5" fill="#1a1a2e">archive</text>
+  <rect x="45" y="356" width="750" height="70" rx="10" fill="#eef1f8" stroke="#1a1a2e" stroke-width="1.5"/>
+  <text x="420" y="384" text-anchor="middle" font-size="14" font-weight="700" fill="#1a1a2e">The order is typical, not mandatory: activities can overlap or repeat, and each project tailors the process to its context.</text>
+  <text x="420" y="408" text-anchor="middle" font-size="13.5" fill="#1a1a2e">Every activity produces work products (testware) that feed the next one &#8212; see the traceability chain in the lesson.</text>
+</svg>

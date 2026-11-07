@@ -1,0 +1,24 @@
+# Track manifest — Test Engineer Track content root.
+# M1 ships module 1 only; modules 2–8 join in M2/M3.
+# `readiness_examIds = []` is valid: mock exams arrive in M3, and readiness
+# renders "no exams yet" until then.
+
+[[track]]
+id = "istqb-ctfl"
+title = "ISTQB Foundation (CTFL v4.0)"
+description = "Prepare for the official ISTQB Certified Tester Foundation Level v4.0 exam: 40 questions, 60 minutes, pass at 65%."
+order = 1
+readiness_passPct = 65
+readiness_readyPct = 80
+readiness_examIds = []
+
+[[track.module]]
+id = "istqb-m1-fundamentals"
+track = "istqb-ctfl"
+title = "Fundamentals of Testing"
+order = 1
+source = "istqb/module-1"
+quizPool = "istqb/module-1"
+deck = "istqb/module-1"
+lessonIds = ["istqb-m1-what-is-testing", "istqb-m1-why-testing", "istqb-m1-seven-principles", "istqb-m1-test-process", "istqb-m1-skills-practices"]
+examWeight = 8

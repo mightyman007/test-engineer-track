@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <rect width="800" height="450" fill="#f7f8fb"/>
+  <text x="400" y="46" text-anchor="middle" font-size="24" font-weight="700" fill="#1a1a2e">The Seven Testing Principles</text>
+  <text x="400" y="74" text-anchor="middle" font-size="15" fill="#1a1a2e">General truths about testing that apply in every project</text>
+  <rect x="40" y="100" width="178" height="140" rx="10" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="129" y="128" text-anchor="middle" font-size="17" font-weight="700" fill="#1a1a2e">1 &#183; Presence, not absence</text>
+  <text x="129" y="154" text-anchor="middle" font-size="13" fill="#1a1a2e">Testing shows defects exist;</text>
+  <text x="129" y="172" text-anchor="middle" font-size="13" fill="#1a1a2e">it never proves none remain</text>
+  <rect x="228" y="100" width="178" height="140" rx="10" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="317" y="128" text-anchor="middle" font-size="17" font-weight="700" fill="#1a1a2e">2 &#183; Exhaustive testing</text>
+  <text x="317" y="149" text-anchor="middle" font-size="17" font-weight="700" fill="#1a1a2e">is impossible</text>
+  <text x="317" y="175" text-anchor="middle" font-size="13" fill="#1a1a2e">You cannot test everything &#8212;</text>
+  <text x="317" y="193" text-anchor="middle" font-size="13" fill="#1a1a2e">prioritize by risk</text>
+  <rect x="416" y="100" width="178" height="140" rx="10" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="505" y="128" text-anchor="middle" font-size="17" font-weight="700" fill="#1a1a2e">3 &#183; Early testing</text>
+  <text x="505" y="149" text-anchor="middle" font-size="17" font-weight="700" fill="#1a1a2e">saves time and money</text>
+  <text x="505" y="175" text-anchor="middle" font-size="13" fill="#1a1a2e">Defects are cheapest to fix</text>
+  <text x="505" y="193" text-anchor="middle" font-size="13" fill="#1a1a2e">when found early</text>
+  <rect x="604" y="100" width="156" height="140" rx="10" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="682" y="128" text-anchor="middle" font-size="17" font-weight="700" fill="#1a1a2e">4 &#183; Defects</text>
+  <text x="682" y="149" text-anchor="middle" font-size="17" font-weight="700" fill="#1a1a2e">cluster together</text>
+  <text x="682" y="175" text-anchor="middle" font-size="13" fill="#1a1a2e">A few modules hold most</text>
+  <text x="682" y="193" text-anchor="middle" font-size="13" fill="#1a1a2e">of the defects</text>
+  <rect x="105" y="260" width="178" height="140" rx="10" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="194" y="288" text-anchor="middle" font-size="17" font-weight="700" fill="#1a1a2e">5 &#183; Pesticide paradox</text>
+  <text x="194" y="314" text-anchor="middle" font-size="13" fill="#1a1a2e">Tests wear out &#8212; keep reviewing</text>
+  <text x="194" y="332" text-anchor="middle" font-size="13" fill="#1a1a2e">and refreshing test cases</text>
+  <rect x="311" y="260" width="178" height="140" rx="10" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="400" y="288" text-anchor="middle" font-size="17" font-weight="700" fill="#1a1a2e">6 &#183; Context dependent</text>
+  <text x="400" y="314" text-anchor="middle" font-size="13" fill="#1a1a2e">A heart monitor and a puzzle</text>
+  <text x="400" y="332" text-anchor="middle" font-size="13" fill="#1a1a2e">game are tested differently</text>
+  <rect x="517" y="260" width="178" height="140" rx="10" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="606" y="288" text-anchor="middle" font-size="17" font-weight="700" fill="#1a1a2e">7 &#183; Absence-of-defects</text>
+  <text x="606" y="309" text-anchor="middle" font-size="17" font-weight="700" fill="#1a1a2e">is a fallacy</text>
+  <text x="606" y="335" text-anchor="middle" font-size="13" fill="#1a1a2e">A defect-free system can still</text>
+  <text x="606" y="353" text-anchor="middle" font-size="13" fill="#1a1a2e">fail to meet user needs</text>
+  <text x="400" y="432" text-anchor="middle" font-size="14" font-style="italic" fill="#1a1a2e">Exam tip: learn the exact wording of each principle &#8212; questions often test the name, not the story.</text>
+</svg>

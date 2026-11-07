@@ -1,0 +1,122 @@
+# ISTQB CTFL Module 1 — Fundamentals of Testing
+# 20 atomic flashcards. One card per testing principle (7), plus the module's key terms.
+
+[[card]]
+id = "istqb-fc-0001"
+front = "What is an error?"
+back = "A human action or mistake that produces an incorrect result — e.g., a developer typing the wrong condition into code."
+tags = ["ch1"]
+
+[[card]]
+id = "istqb-fc-0002"
+front = "What is a defect?"
+back = "A flaw in a work product (usually code, but also documents) created by an error; also called a fault or bug. It may cause a failure when the flawed code runs."
+tags = ["ch1"]
+
+[[card]]
+id = "istqb-fc-0003"
+front = "What is a failure?"
+back = "A deviation of the running component or system from its expected delivery, service or result — the observable symptom: a crash, a wrong total, a hang."
+tags = ["ch1"]
+
+[[card]]
+id = "istqb-fc-0004"
+front = "Testing vs debugging — what is the difference?"
+back = "Testing (a tester's activity) identifies failures and reports them; debugging (a development activity) locates, analyses and removes the defect that caused the failure. Testing then re-checks the fix."
+tags = ["ch1"]
+
+[[card]]
+id = "istqb-fc-0005"
+front = "Principle 1: Testing shows the presence of defects, not their absence — meaning?"
+back = "Testing can prove defects exist, never that none remain. After clean tests, the honest claim is 'no defects found', not 'defect-free'."
+tags = ["ch1"]
+
+[[card]]
+id = "istqb-fc-0006"
+front = "Principle 2: Exhaustive testing is impossible — meaning?"
+back = "You cannot test every input, combination and path. Because coverage must be incomplete, effort is prioritized by risk and importance."
+tags = ["ch1"]
+
+[[card]]
+id = "istqb-fc-0007"
+front = "Principle 3: Early testing saves time and money — meaning?"
+back = "Defects are cheapest to fix when found early (requirements reviews count as testing). This is the 'shift left' idea."
+tags = ["ch1"]
+
+[[card]]
+id = "istqb-fc-0008"
+front = "Principle 4: Defects cluster together — meaning?"
+back = "A small number of modules usually contains most defects (a Pareto/80-20 pattern). Predicted and observed clusters direct test effort."
+tags = ["ch1"]
+
+[[card]]
+id = "istqb-fc-0009"
+front = "Principle 5: Beware the pesticide paradox — meaning?"
+back = "Repeated identical tests stop finding NEW defects — tests wear out. Keep reviewing, updating and adding test cases and test data."
+tags = ["ch1"]
+
+[[card]]
+id = "istqb-fc-0010"
+front = "Principle 6: Testing is context dependent — meaning?"
+back = "There is no one right way to test: rigour, techniques and documentation differ by domain, risk and project circumstances."
+tags = ["ch1"]
+
+[[card]]
+id = "istqb-fc-0011"
+front = "Principle 7: Absence-of-defects is a fallacy — meaning?"
+back = "A system with no defects against its specification can still fail users if it does not meet their needs and expectations. Usefulness, not just correctness, defines quality."
+tags = ["ch1"]
+
+[[card]]
+id = "istqb-fc-0012"
+front = "Name the five test levels."
+back = "Component, component integration, system, system integration, acceptance — organized by where they sit in the build-up of the system."
+tags = ["ch1"]
+
+[[card]]
+id = "istqb-fc-0013"
+front = "Name the main test types."
+back = "Functional (what it does), non-functional (how well it does it), black-box (from outside), white-box (using code knowledge) — plus change-related testing: confirmation and regression."
+tags = ["ch1"]
+
+[[card]]
+id = "istqb-fc-0014"
+front = "What is testware?"
+back = "All material produced by testing that must be maintained — test plans, test cases, procedures, scripts, test data, environment setups, logs and reports."
+tags = ["ch1"]
+
+[[card]]
+id = "istqb-fc-0015"
+front = "Which work product does each test activity produce?"
+back = "Planning → test plan; monitoring/control → progress reports and dashboards; analysis → test conditions; design → test cases (and charters); implementation → test procedures, data, environment; execution → test logs and defect reports; completion → test summary report."
+tags = ["ch1"]
+
+[[card]]
+id = "istqb-fc-0016"
+front = "List the four levels of test independence, lowest to highest."
+back = "1) The author tests their own code (no independence); 2) independent testers within the development team; 3) an independent test team within the organization; 4) testers from outside the organization."
+tags = ["ch1"]
+
+[[card]]
+id = "istqb-fc-0017"
+front = "What is the whole-team approach?"
+back = "Everyone on the team — developers, testers, business analysts, product owner — shares responsibility for quality; testers collaborate closely with other roles rather than policing at the end."
+tags = ["ch1"]
+
+[[card]]
+id = "istqb-fc-0018"
+front = "Name the generic skills required for testing."
+back = "Technical knowledge, test analysis, test design, communication, and critical thinking — plus being an effective team player."
+tags = ["ch1"]
+
+[[card]]
+id = "istqb-fc-0019"
+front = "What determines how rigorous testing must be?"
+back = "Context: the level of risk (safety, money, reputation), project and product constraints, deadlines and budget, and domain or regulatory requirements."
+tags = ["ch1"]
+
+[[card]]
+id = "istqb-fc-0020"
+front = "What is the absence-of-defects fallacy?"
+back = "The mistaken belief that a defect-free system automatically succeeds. Without meeting user needs and expectations, even a defect-free system can still fail in use."
+tags = ["ch1"]

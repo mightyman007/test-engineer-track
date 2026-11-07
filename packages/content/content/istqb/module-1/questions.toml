@@ -1,0 +1,488 @@
+# ISTQB CTFL Module 1 — Fundamentals of Testing
+# 30 original questions. The first three (istqb-q-0001..0003) are the brief's worked style anchors.
+# Coverage: every FL-1.x.y.z learning objective >= 2 questions.
+# K mix: 12 K1 (recall) + 18 K2 (understand); Ch1 has no K3 in the official blueprint.
+# 2 multi-select questions (istqb-q-0003, istqb-q-0026): 5 options, exactly 2 correct.
+# All stems/options/explanations are original — no ISTQB official sample questions copied.
+
+[[question]]
+id = "istqb-q-0001"
+type = "single"
+stem = "What is the main purpose of testing?"
+options = [
+  "To prove that the software works correctly",
+  "To find defects and provide information that lets stakeholders make quality-related decisions",
+  "To fix every defect found before release",
+  "To replace the need for debugging",
+]
+answers = [1]
+explanation = "Testing finds defects and gives stakeholders objective information for decisions. It cannot prove the absence of defects, and fixing defects is the developer's job."
+lo = "FL-1.1.1"
+klevel = "K2"
+tags = ["ch1"]
+
+[[question]]
+id = "istqb-q-0002"
+type = "single"
+stem = "A user reports that the app crashes when uploading a photo larger than 20 MB. The photo-size check in the code was written incorrectly. In ISTQB terms, the incorrect code is the ___ and the crash the user sees is the ___."
+options = [
+  "failure / defect",
+  "defect / failure",
+  "error / mistake",
+  "failure / error",
+]
+answers = [1]
+explanation = "A human error produces a defect (the wrong code). When that code executes under the right conditions, the observable problem — the crash — is a failure."
+lo = "FL-1.2.1"
+klevel = "K2"
+tags = ["ch1"]
+
+[[question]]
+id = "istqb-q-0003"
+type = "multi"
+stem = "Which TWO statements are testing principles?"
+options = [
+  "Testing shows the presence, not the absence of defects",
+  "Exhaustive testing is possible for small systems",
+  "Defects cluster together",
+  "Testing should start after development is fully complete",
+  "Absence-of-defects fallacy: a fully tested system can still fail to meet user needs",
+]
+answers = [0, 2]
+explanation = "The seven principles include: testing shows presence not absence, defect clustering, and the absence-of-defects fallacy. Exhaustive testing is impossible, and testing starts early — the other two options contradict the principles."
+lo = "FL-1.3.1"
+klevel = "K2"
+tags = ["ch1"]
+
+[[question]]
+id = "istqb-q-0004"
+type = "single"
+stem = "Which list contains ONLY typical objectives of testing?"
+options = [
+  "Finding defects, building confidence in quality, and providing information for stakeholder decisions",
+  "Writing the production code, deploying releases, and monitoring server costs",
+  "Proving the software is defect-free, replacing debugging, and fixing all defects",
+  "Setting project budgets, hiring developers, and negotiating contracts",
+]
+answers = [0]
+explanation = "Typical test objectives include evaluating work products, finding failures and defects, building confidence, providing decision information, and preventing defects. The other options mix in activities that belong to development or management."
+lo = "FL-1.1.1"
+klevel = "K1"
+tags = ["ch1"]
+
+[[question]]
+id = "istqb-q-0005"
+type = "single"
+stem = "Which statement correctly distinguishes testing from debugging?"
+options = [
+  "Debugging locates, analyses and removes the causes of failures, while testing identifies failures and provides information about them",
+  "Testing and debugging are two names for the same activity",
+  "Debugging is performed by testers before testing begins",
+  "Testing removes the defects that debugging discovers",
+]
+answers = [0]
+explanation = "Testing is the activity that finds failures and reports them; debugging is the development activity that finds and removes their causes. They are different jobs, usually done by different people."
+lo = "FL-1.1.2"
+klevel = "K1"
+tags = ["ch1"]
+
+[[question]]
+id = "istqb-q-0006"
+type = "single"
+stem = "A tester observes wrong interest calculations in a new build and files a defect report. A developer finds and corrects a misplaced decimal point in the code, and the tester then re-runs the test on the fixed build. Which pair of activities correctly labels what happened?"
+options = [
+  "The tester performed testing; the developer performed debugging",
+  "The tester performed debugging; the developer performed testing",
+  "Both activities were debugging, because code was changed",
+  "Both activities were testing, because no one wrote new features",
+]
+answers = [0]
+explanation = "Finding the failure and re-checking the fix are testing; locating and removing the cause in the code is debugging. The two jobs form a loop: failure → fix → confirmation."
+lo = "FL-1.1.2"
+klevel = "K2"
+tags = ["ch1"]
+
+[[question]]
+id = "istqb-q-0007"
+type = "single"
+stem = "Which sequence shows the correct chain described in the syllabus?"
+options = [
+  "defect → error → failure",
+  "failure → defect → error",
+  "error → defect → failure",
+  "error → failure → defect",
+]
+answers = [2]
+explanation = "A human error produces a defect in a work product; when the defective code executes, it may cause a failure. Each link is conditional, but the order of the chain never changes."
+lo = "FL-1.2.1"
+klevel = "K1"
+tags = ["ch1"]
+
+[[question]]
+id = "istqb-q-0008"
+type = "single"
+stem = "A tester runs a system in a lab beside heavy industrial machinery and sees it crash. Careful analysis shows the code involved contains no defect. What does this illustrate?"
+options = [
+  "Failures can be caused by environmental conditions such as radiation or electromagnetic fields, even without a defect in the code",
+  "Every failure proves that a code defect exists somewhere",
+  "The crash must have been caused by a tester's error",
+  "The requirements were necessarily wrong",
+]
+answers = [0]
+explanation = "The syllabus notes that failures are not always caused by defects: environmental conditions such as radiation or electromagnetic fields can make software behave incorrectly on its own."
+lo = "FL-1.2.1"
+klevel = "K2"
+tags = ["ch1"]
+
+[[question]]
+id = "istqb-q-0009"
+type = "single"
+stem = "One company develops a hospital heart-rate monitor and, separately, a casual puzzle game. Which statement reflects good testing judgement?"
+options = [
+  "Both products need equally exhaustive testing to save time on planning",
+  "The heart-rate monitor warrants more rigorous testing because failures carry higher risk and stricter regulatory expectations",
+  "The puzzle game needs no testing at all because its failures are harmless",
+  "Testing rigour should be decided by the size of the codebase alone",
+]
+answers = [1]
+explanation = "The needed level of rigour depends on context, above all on risk: potential harm to patients and regulatory obligations justify far more thorough testing than an entertainment product would need."
+lo = "FL-1.2.2"
+klevel = "K2"
+tags = ["ch1"]
+
+[[question]]
+id = "istqb-q-0010"
+type = "single"
+stem = "Which statement about how much testing is enough is correct?"
+options = [
+  "The required level of rigour is identical for every project",
+  "How thorough testing should be depends on the context, including risk, project constraints, and domain or regulatory requirements",
+  "Testing rigour is purely a matter of the tester's personal preference",
+  "More testing is always better, regardless of cost or risk",
+]
+answers = [1]
+explanation = "The syllabus is explicit that rigour varies by circumstance: risk, constraints, deadlines, domain and regulation all shape how much testing is appropriate. Context, not habit or preference, decides."
+lo = "FL-1.2.2"
+klevel = "K1"
+tags = ["ch1"]
+
+[[question]]
+id = "istqb-q-0011"
+type = "single"
+stem = "A developer is convinced their new module is correct and writes only test cases that confirm it behaves as expected, never probing edge cases. Which human tendency does this best illustrate?"
+options = [
+  "Root cause analysis",
+  "Confirmation bias — seeking evidence that supports what we already believe",
+  "The pesticide paradox",
+  "Defect clustering",
+]
+answers = [1]
+explanation = "Confirmation bias is the tendency to favour information that confirms existing beliefs. Testers counter it by deliberately looking for evidence that the software does NOT work."
+lo = "FL-1.2.3"
+klevel = "K2"
+tags = ["ch1"]
+
+[[question]]
+id = "istqb-q-0012"
+type = "single"
+stem = "In testing, what is a heuristic?"
+options = [
+  "A tool that automatically executes test cases",
+  "A formal proof that the software is correct",
+  "A practical rule of thumb that guides decisions without guaranteeing the best result",
+  "A special category of defect found only in documentation",
+]
+answers = [2]
+explanation = "Heuristics are experience-based rules of thumb — like 'start testing as early as possible'. They guide decisions usefully but are not guarantees, and they can occasionally mislead."
+lo = "FL-1.2.3"
+klevel = "K1"
+tags = ["ch1"]
+
+[[question]]
+id = "istqb-q-0013"
+type = "single"
+stem = "Besides finding failures, how does testing help a project succeed?"
+options = [
+  "It guarantees the product will never fail after release",
+  "It provides objective information for decisions, helps prevent defects through reviews, and lets testers represent users' needs",
+  "It removes the need for clear requirements",
+  "It moves responsibility for quality away from the whole team onto testers alone",
+]
+answers = [1]
+explanation = "Testing's other benefits include informing decisions, preventing defects (e.g. by reviewing requirements), supporting smooth continuous work flow, and standing in for the user's point of view."
+lo = "FL-1.2.4"
+klevel = "K2"
+tags = ["ch1"]
+
+[[question]]
+id = "istqb-q-0014"
+type = "single"
+stem = "What is the main difference between quality assurance and testing?"
+options = [
+  "Quality assurance is process-oriented and aims to prevent defects; testing is product-oriented and aims to detect failures",
+  "Quality assurance runs the test cases; testing improves the development process",
+  "The two are unrelated disciplines with no overlap",
+  "Testing prevents defects by managing processes; quality assurance finds failures by running the software",
+]
+answers = [0]
+explanation = "QA works on processes to prevent defects from occurring; testing evaluates the product to detect failures. Testing is one of the activities QA draws on — they are related but distinct."
+lo = "FL-1.2.4"
+klevel = "K1"
+tags = ["ch1"]
+
+[[question]]
+id = "istqb-q-0015"
+type = "single"
+stem = "Which list contains ONLY genuine testing principles?"
+options = [
+  "Early testing saves time and money; defects cluster together; testing is context dependent",
+  "Exhaustive testing is achievable; testing is optional; defects spread evenly",
+  "Testing proves correctness; testing happens only at the end; testing replaces debugging",
+  "Testing is always cheap; testers never make mistakes; all defects are found by automation",
+]
+answers = [0]
+explanation = "The seven principles are: presence-not-absence, exhaustive testing is impossible, early testing, defect clustering, pesticide paradox, context dependence, and absence-of-defects fallacy. Every other option mixes in statements that contradict the syllabus."
+lo = "FL-1.3.1"
+klevel = "K1"
+tags = ["ch1"]
+
+[[question]]
+id = "istqb-q-0016"
+type = "single"
+stem = "A regression suite has run unchanged for a year. Lately it finds almost no new defects, yet customers keep reporting problems in areas the suite supposedly covers. Which principle explains this, and what should the team do?"
+options = [
+  "Defect clustering — test only the modules changed most recently",
+  "The pesticide paradox — repeated tests wear out; review, update and add test cases and test data",
+  "Absence-of-defects fallacy — stop testing and release immediately",
+  "Early testing — move the same suite earlier in the lifecycle",
+]
+answers = [1]
+explanation = "Running the same tests repeatedly stops finding new defects — tests wear out (the pesticide paradox). The remedy is to keep reviewing and refreshing test cases and test data, while keeping regression tests for what they are good at."
+lo = "FL-1.3.1"
+klevel = "K2"
+tags = ["ch1"]
+
+[[question]]
+id = "istqb-q-0017"
+type = "single"
+stem = "Why can't a team simply copy another project's test process unchanged?"
+options = [
+  "Test processes are protected intellectual property",
+  "The test process must be tailored to its context — the lifecycle, product, domain, risks and organization all shape which activities make sense and how they run",
+  "Every project's process is identical anyway, so copying changes nothing",
+  "Test processes only work on sequential waterfall projects",
+]
+answers = [1]
+explanation = "There is no universal test process. Context — lifecycle, product, domain, risk, organization — determines how the activities are combined and weighted, so each project must tailor the process."
+lo = "FL-1.4.1"
+klevel = "K2"
+tags = ["ch1"]
+
+[[question]]
+id = "istqb-q-0018"
+type = "single"
+stem = "A project has finished its last execution cycle. Which task belongs to the test completion activity?"
+options = [
+  "Designing new test cases from the requirements",
+  "Consolidating metrics, archiving testware, and producing a test summary report for future projects",
+  "Writing user stories with the product owner",
+  "Fixing the defects found during execution",
+]
+answers = [1]
+explanation = "Test completion collects data from finished activities, consolidates metrics, produces the test summary report, archives testware and hands over the test environment. Designing cases and fixing code belong to other activities."
+lo = "FL-1.4.1"
+klevel = "K2"
+tags = ["ch1"]
+
+[[question]]
+id = "istqb-q-0019"
+type = "single"
+stem = "Which pairing of test activity to its main task is correct?"
+options = [
+  "Test analysis — deciding what to test by studying the test basis; test design — deciding how to test by creating test cases",
+  "Test analysis — executing the tests; test design — archiving the reports",
+  "Test analysis — fixing the defects; test design — deploying the build",
+  "Test analysis — writing only the test plan; test design — hiring the test team",
+]
+answers = [0]
+explanation = "Analysis answers 'what to test' by identifying test conditions from the test basis; design answers 'how to test' by deriving test cases (with expected results) from those conditions."
+lo = "FL-1.4.2"
+klevel = "K1"
+tags = ["ch1"]
+
+[[question]]
+id = "istqb-q-0020"
+type = "single"
+stem = "During test execution, a tester observes that the actual result of a test differs from the expected result. What is the appropriate action?"
+options = [
+  "Log the outcome and raise a defect report so the development team can investigate",
+  "Silently edit the expected result to match the actual result",
+  "Delete the test case so the failure disappears from the metrics",
+  "Immediately rewrite the affected production code",
+]
+answers = [0]
+explanation = "Execution means running tests, comparing actual with expected results, logging them, and reporting deviations as defect reports. Changing expectations to hide a difference or editing code is not the tester's execution task."
+lo = "FL-1.4.2"
+klevel = "K2"
+tags = ["ch1"]
+
+[[question]]
+id = "istqb-q-0021"
+type = "single"
+stem = "What is testware?"
+options = [
+  "The hardware used to run the production servers",
+  "All the work products produced by test activities — test plans, test cases, scripts, test data, environment setups, logs and reports — which must be maintained and kept consistent",
+  "Only the automated test scripts written by developers",
+  "The commercial licence purchased for a test tool",
+]
+answers = [1]
+explanation = "Testware is the collective output of testing: every plan, case, procedure, script, data set, environment configuration and report. It is an asset that needs maintenance and configuration management, like any other artefact."
+lo = "FL-1.4.3"
+klevel = "K1"
+tags = ["ch1"]
+
+[[question]]
+id = "istqb-q-0022"
+type = "single"
+stem = "Why do teams maintain traceability between the test basis (for example, the requirements) and their test work products?"
+options = [
+  "To evaluate test coverage, assess the impact of requirement changes, and make testing auditable",
+  "To eliminate the need for test execution",
+  "To increase the total number of defects found",
+  "To make reports longer without adding information",
+]
+answers = [0]
+explanation = "Traceability links each requirement to the conditions, cases and results derived from it. That supports coverage evaluation, change-impact analysis, and auditability — the three values the syllabus names."
+lo = "FL-1.4.3"
+klevel = "K2"
+tags = ["ch1"]
+
+[[question]]
+id = "istqb-q-0023"
+type = "single"
+stem = "Which list orders the levels of test independence from LOWEST to HIGHEST?"
+options = [
+  "The author tests their own code → another developer in the team tests it → an independent test team in the organization tests it → testers from outside the organization test it",
+  "Testers from outside the organization → an independent test team → another developer → the author",
+  "An independent test team → the author → testers from outside → another developer",
+  "The author → testers from outside → another developer → an independent test team",
+]
+answers = [0]
+explanation = "Independence rises from no independence (the author testing their own code) through independent colleagues, an independent team within the organization, up to testers from outside the organization."
+lo = "FL-1.4.4"
+klevel = "K1"
+tags = ["ch1"]
+
+[[question]]
+id = "istqb-q-0024"
+type = "single"
+stem = "Which is a recognized DRAWBACK of highly independent testing?"
+options = [
+  "Independent testers always find fewer defects than the code's authors",
+  "High independence can isolate testers from the development team, weakening communication and shared context",
+  "Independence is forbidden in regulated industries",
+  "Independent testers must write the production code themselves",
+]
+answers = [1]
+explanation = "The syllabus names isolation as a real risk of high independence: testers miss information and context, communication slows, and developers may treat quality as someone else's job. The other options state things that are simply false."
+lo = "FL-1.4.4"
+klevel = "K2"
+tags = ["ch1"]
+
+[[question]]
+id = "istqb-q-0025"
+type = "single"
+stem = "Which list contains ONLY generic skills required for testing, as given in the syllabus?"
+options = [
+  "Technical knowledge, test analysis, test design, communication, critical thinking",
+  "Technical knowledge, test analysis, test design, communication, sales forecasting",
+  "Test analysis, test design, communication, critical thinking, salary negotiation",
+  "Technical knowledge, test analysis, test design, critical thinking, code compilation",
+]
+answers = [0]
+explanation = "The syllabus names technical knowledge, test analysis, test design, communication, and critical thinking. Each wrong option smuggles in exactly one item that is not a testing skill."
+lo = "FL-1.5.1"
+klevel = "K1"
+tags = ["ch1"]
+
+[[question]]
+id = "istqb-q-0026"
+type = "multi"
+stem = "Which TWO of the following are generic skills required for testing?"
+options = [
+  "Communicating findings clearly to developers and stakeholders",
+  "Thinking critically about what the test results really show",
+  "Compiling the production code as fast as possible",
+  "Designing the product's marketing website",
+  "Setting the project's annual budget",
+]
+answers = [0, 1]
+explanation = "Communication and critical thinking are two of the syllabus's generic testing skills. Compiling code, designing marketing material and setting budgets are other people's jobs — useful in a project, but not testing skills."
+lo = "FL-1.5.1"
+klevel = "K2"
+tags = ["ch1"]
+
+[[question]]
+id = "istqb-q-0027"
+type = "single"
+stem = "What does the whole-team approach mean?"
+options = [
+  "Every team member shares responsibility for achieving quality, and testers work closely with other roles",
+  "Only the testers are responsible for quality",
+  "The customer takes over all testing duties",
+  "Each developer tests their own code strictly in isolation from everyone else",
+]
+answers = [0]
+explanation = "The whole-team approach — coming from Extreme Programming — makes quality a shared responsibility and puts testers to work alongside developers, business analysts and the product owner."
+lo = "FL-1.5.2"
+klevel = "K1"
+tags = ["ch1"]
+
+[[question]]
+id = "istqb-q-0028"
+type = "single"
+stem = "A tester joins a team that genuinely practises the whole-team approach. Which benefit is MOST likely to follow?"
+options = [
+  "Developers stop writing code so that testers can finally catch up",
+  "Better communication and a broader mix of skills applied to quality, because everyone works toward the same quality goal",
+  "Testers are excluded from planning discussions to protect their neutrality",
+  "Quality becomes the customer's problem alone",
+]
+answers = [1]
+explanation = "The syllabus's advantages of the whole-team approach are better communication, diverse skills applied to the product, and a shared quality goal — with the team, not against it."
+lo = "FL-1.5.2"
+klevel = "K2"
+tags = ["ch1"]
+
+[[question]]
+id = "istqb-q-0029"
+type = "single"
+stem = "A team debates moving from 'authors test their own code' to an independent test team. Which statement weighs this change correctly?"
+options = [
+  "Independence can reveal defects the authors overlook, but it can also isolate testers and slow collaboration if communication is poor",
+  "Independence guarantees faster releases with no trade-offs",
+  "Only authors can ever find defects in their own code",
+  "Independence removes any need for developers to understand the product",
+]
+answers = [0]
+explanation = "Higher independence brings fresh eyes — authors miss their own mistakes — but the syllabus warns it can isolate testers and weaken communication. The right level depends on context, and communication must be managed."
+lo = "FL-1.5.3"
+klevel = "K2"
+tags = ["ch1"]
+
+[[question]]
+id = "istqb-q-0030"
+type = "single"
+stem = "Which statement about the levels of test independence is correct?"
+options = [
+  "The highest possible level of independence is always the right choice",
+  "Each level of independence has benefits and drawbacks, so the appropriate level depends on the context",
+  "Independent testing is always slower and is never worth the cost",
+  "Developers should never write any tests at all",
+]
+answers = [1]
+explanation = "The syllabus treats independence as a trade-off: fresh eyes versus isolation and lost context. Choosing the level is a context-dependent decision, not a rule that 'more independence is always better'."
+lo = "FL-1.5.3"
+klevel = "K2"
+tags = ["ch1"]
