@@ -7,10 +7,11 @@ import { LessonPage } from './pages/LessonPage.js';
 import { QuizPage } from './pages/QuizPage.js';
 import { ExamPage } from './pages/ExamPage.js';
 import { ExamReportPage } from './pages/ExamReportPage.js';
+import { FlashcardsPage } from './pages/FlashcardsPage.js';
 import { ContentProvider } from './lib/content-context.js';
 
-// Remaining Task 13-15 pages are imported here as they land:
-// FlashcardsPage, LoginPage, AdminPage.
+// Remaining Task 14-15 pages are imported here as they land:
+// LoginPage, AdminPage.
 export function AppRoutes() {
   return (
     <ContentProvider>
@@ -23,7 +24,9 @@ export function AppRoutes() {
           <Route path="/quiz/:moduleId" element={<QuizPage />} />
           <Route path="/exam/:examId" element={<ExamPage />} />
           <Route path="/exam/:examId/report/:attemptId" element={<ExamReportPage />} />
-          {/* added in Tasks 13-15 */}
+          <Route path="/flashcards" element={<FlashcardsPage />} />
+          <Route path="/flashcards/:moduleId" element={<FlashcardsPage />} />
+          {/* added in Tasks 14-15 */}
         </Routes>
       </Layout>
     </ContentProvider>
