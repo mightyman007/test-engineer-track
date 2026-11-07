@@ -3,6 +3,7 @@ dist/
 content.generated*
 *.sqlite3
 *.sqlite3-journal
+.env
 .superpowers/
 test-results/
 playwright-report/

@@ -41,8 +41,11 @@ progress in the browser — nothing leaves your machine.
 
 ```bash
 cp .env.example .env            # then set SESSION_SECRET (see .env.example)
-docker compose -f docker/docker-compose.yml up --build
+docker compose -f docker/docker-compose.yml --env-file .env up --build
 ```
+
+`--env-file .env` is needed because compose resolves `.env` relative to the
+compose file's directory, not your shell's.
 
 The API server listens on http://localhost:8787. Then:
 
@@ -66,15 +69,29 @@ server rewrites for deep links (refreshing on a deep route is a known M5 polish
 item).
 
 Cohort logins are configured per user at sign-in (the **Server URL** field), so
-point them at wherever the API server runs — same origin, another port, or a
-different host entirely (the server sends permissive CORS with credentials).
+point them at wherever the API server runs — same origin, another port on the
+same host, or a same-domain subdomain (all "same-site": the session cookie is
+`SameSite=Lax`; the server sends permissive CORS with credentials). Fully
+cross-domain deployments need `SameSite=None; Secure` cookie work (planned M2
+hardening, requires HTTPS).
 
 ## Running the API server anywhere
 
 **Docker (recommended):** the `docker compose` section above. State lives in
-the `tet-data` volume at `/data/tet.sqlite3`; back it up with
-`docker run --rm -v tet_tet-data:/data alpine tar cz - -f backup.tar.gz /data`
-(volume name is prefixed by the compose project name).
+the `tet-data` volume at `/data/tet.sqlite3`. Back it up with a SQLite online
+snapshot — complete even with the server running, and includes writes still
+sitting in the `-wal` journal:
+
+```bash
+docker compose -f docker/docker-compose.yml --env-file .env exec -T \
+  -w /app/apps/server tet-server \
+  node -e "const db=require('better-sqlite3')('/data/tet.sqlite3');db.exec(\"VACUUM INTO '/data/backup.sqlite3'\");db.close()"
+docker compose -f docker/docker-compose.yml --env-file .env cp tet-server:/data/backup.sqlite3 ./tet.sqlite3.backup
+```
+
+A raw `docker compose cp` (or bind-mounted `tar`) of `tet.sqlite3` alone is
+**not** a safe backup here: the database runs in WAL mode, so recent writes sit
+in `tet.sqlite3-wal` and a main-file-only copy silently misses them.
 
 **Bare metal:**
 
@@ -90,9 +107,10 @@ Environment (see `.env.example`): `PORT` (default 8787), `DB_PATH`
 proxy — leave empty to disable; the web app ships with browser voices and
 client-side Kokoro).
 
-SQLite is a single file: back it up with `cp data/tet.sqlite3 backup.sqlite3`
-(stop the server or use `sqlite3 data/tet.sqlite3 ".backup …"` for a consistent
-copy while running).
+SQLite keeps recent writes in a `-wal` journal next to the main file, so don't
+plain-`cp` the database while it's in use. Back it up with the online backup
+API instead: `sqlite3 data/tet.sqlite3 ".backup 'backup.sqlite3'"` — complete,
+consistent, and WAL-inclusive even while the server is running.
 
 ## Authoring content
 

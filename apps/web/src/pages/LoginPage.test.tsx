@@ -27,6 +27,10 @@ vi.mock('../state/session.js', async (orig) => {
 describe('LoginPage', () => {
   it('collects server url + credentials and calls connectCohort on sign-in', async () => {
     const ctx = mockCtx();
+    // signIn() does a real pre-flight fetch to the typed server before calling
+    // connectCohort. Stub it as an unreachable server so the test is hermetic
+    // no matter what listens on localhost:8787 (e.g. `docker compose up`).
+    vi.stubGlobal('fetch', vi.fn(() => Promise.reject(new TypeError('network down'))));
     render(
       <MemoryRouter><LoginPage ctx={ctx} /></MemoryRouter>,
     );
@@ -35,6 +39,7 @@ describe('LoginPage', () => {
     await userEvent.type(screen.getByLabelText(/password/i), 'longenough1');
     await userEvent.click(screen.getByRole('button', { name: /sign in/i }));
     await waitFor(() => expect(ctx.connectCohort).toHaveBeenCalledWith('http://localhost:8787'));
+    vi.unstubAllGlobals();
   });
 
   it('register flow sends the invite code', async () => {
