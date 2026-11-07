@@ -1,0 +1,15 @@
+{
+  "name": "test-engineer-track",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "test": "pnpm -r test",
+    "build": "pnpm -r build",
+    "content:build": "pnpm --filter tet-content build",
+    "dev": "pnpm --filter tet-web dev & pnpm --filter tet-server dev & wait"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0"
+  }
+}

@@ -1,0 +1,9 @@
+node_modules/
+dist/
+content.generated*
+*.sqlite3
+*.sqlite3-journal
+.superpowers/
+test-results/
+playwright-report/
+apps/web/public/content.json
