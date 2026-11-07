@@ -1,0 +1,25 @@
+{
+  "name": "tet-content",
+  "version": "0.1.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./content.json": "./content.json"
+  },
+  "scripts": {
+    "build": "tsx tools/build.ts",
+    "check-links": "tsx tools/check-links.ts",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "tet-core": "workspace:*",
+    "smol-toml": "^1.3.0",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
+  }
+}
