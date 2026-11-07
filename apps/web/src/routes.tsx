@@ -1,18 +1,23 @@
 import { Route, Routes } from 'react-router';
 import { Layout } from './components/Layout.js';
 import { Dashboard } from './pages/Dashboard.js';
+import { TrackPage } from './pages/TrackPage.js';
+import { ModulePage } from './pages/ModulePage.js';
+import { LessonPage } from './pages/LessonPage.js';
 import { ContentProvider } from './lib/content-context.js';
 
-// Pages for Tasks 11-15 are imported here as they land:
-// TrackPage, ModulePage, LessonPage, QuizPage, FlashcardsPage,
-// ExamPage, ExamReportPage, LoginPage, AdminPage.
+// Remaining Task 13-15 pages are imported here as they land:
+// QuizPage, FlashcardsPage, ExamPage, ExamReportPage, LoginPage, AdminPage.
 export function AppRoutes() {
   return (
     <ContentProvider>
       <Layout>
         <Routes>
           <Route path="/" element={<Dashboard />} />
-          {/* added in Tasks 11-15 */}
+          <Route path="/track/:trackId" element={<TrackPage />} />
+          <Route path="/module/:moduleId" element={<ModulePage />} />
+          <Route path="/lesson/:lessonId" element={<LessonPage />} />
+          {/* added in Tasks 13-15 */}
         </Routes>
       </Layout>
     </ContentProvider>
