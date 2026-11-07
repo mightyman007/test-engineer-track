@@ -85,4 +85,16 @@ export interface StorageAdapter {
   clearExamDraft(examId: string): Promise<void>;
   exportAll(): Promise<MigratableData>;
   importAll(data: MigratableData): Promise<void>;
+  /**
+   * ServerAdapter only (optional): replay any buffered writes NOW, before the
+   * next implicit drain — e.g. to flush pending writes while the session is
+   * still valid, before an adapter is swapped or a logout kills the cookie.
+   */
+  drainPending?(): Promise<void>;
+  /**
+   * ServerAdapter only (optional): how many writes are currently buffered
+   * awaiting replay (0 when nothing is pending). Callers decide whether
+   * discarding an adapter would orphan data.
+   */
+  pendingWrites?(): number;
 }

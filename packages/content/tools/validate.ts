@@ -1,3 +1,4 @@
+import { assembleExam, AssemblyError } from 'tet-core';
 import type {
   ExamDefinition, Flashcard, LessonMeta, Question, Track,
 } from 'tet-core';
@@ -98,6 +99,16 @@ export function validateContent(input: ValidationInput): Diagnostic[] {
           d.push({ file, message: `${k} quota ${need} exceeds bank supply ${have}` });
         }
       }
+    }
+    // Supply checks cannot see constraint INTERPLAY (e.g. a group whose bank
+    // is all multi-select while multiSelectMax is 0 passes both checks above
+    // but throws at runtime). Actually assembling the exam here turns any
+    // AssemblyError into a build-time diagnostic.
+    try {
+      assembleExam(exam, input.questions, 1);
+    } catch (err) {
+      const reason = err instanceof AssemblyError ? err.message : String(err);
+      d.push({ file, message: `cannot assemble: ${reason}` });
     }
   }
 

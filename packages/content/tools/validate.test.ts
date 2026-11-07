@@ -94,6 +94,20 @@ describe('validateContent', () => {
     expect(d.some((x) => x.message.includes('K1'))).toBe(true);
   });
 
+  it('flags a bank that passes supply checks but cannot be assembled', () => {
+    // Every ch1 question is multi-select while the exam forbids multi-selects:
+    // per-tag supply (1) and K supply both pass, but assembleExam throws 100%.
+    const multiOnly = { ...baseQuestion(), type: 'multi' as const, answers: [0, 1] };
+    const d = validateContent(input({ questions: [multiOnly] }));
+    const diag = d.find((x) => x.file === 'exam:e1' && x.message.includes('cannot assemble'));
+    expect(diag).toBeTruthy();
+    expect(diag!.message).toContain('group ch1 could not draw 1');
+  });
+
+  it('does not report assembly diagnostics for a satisfiable exam', () => {
+    expect(validateContent(input()).filter((x) => x.message.includes('cannot assemble'))).toEqual([]);
+  });
+
   it('flags a track referencing a missing exam', () => {
     const t = baseTrack();
     t.readiness.examIds = ['missing-exam'];

@@ -196,4 +196,33 @@ describe('ServerAdapter', () => {
       await close();
     }
   });
+
+  // Final-review regression (I4): the exam submits a learner made during an
+  // expired window must reach the server through the SAME re-auth flow the UI
+  // uses — a temp fetch login refreshing the cookie, the adapter instance NOT
+  // replaced (connectCohort reuses it). If the buffer were orphaned by an
+  // adapter swap, getExamAttempts would come back empty and the learner would
+  // see "Report not found".
+  it('drains exam submits buffered during an expired window via the UI re-auth path', async () => {
+    const { url, db, close } = await startServer();
+    try {
+      const { adapter, reAuthCalls, killSessions } = await authHarness(url, db, 'uiuser');
+      killSessions(); // expiry: next write 401s → onUnauthorized logs back in
+      await adapter.recordExamAttempt({
+        attemptId: 'a1', examId: 'e1', score: 2, max: 4, passed: true, scorePct: 50,
+        perTag: { ch1: { correct: 1, total: 2 } }, responses: { q1: [0] },
+        createdAt: '2026-11-07T00:00:00Z', durationSec: 600,
+      }); // buffered, re-auth ran, adapter instance unchanged
+      expect(adapter.pendingWrites?.()).toBe(1); // nothing lost, nothing delivered yet
+
+      const got = await adapter.getExamAttempts('e1'); // next request drains the buffer first
+      expect(reAuthCalls.count).toBeGreaterThanOrEqual(1);
+      expect(got).toHaveLength(1);
+      expect(got[0]!.attemptId).toBe('a1');
+      expect(adapter.pendingWrites?.()).toBe(0);
+    } finally {
+      db.close();
+      await close();
+    }
+  });
 });

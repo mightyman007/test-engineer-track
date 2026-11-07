@@ -62,6 +62,59 @@ describe('roster + csv', () => {
     expect(text.split('\n')[0]).toBe('username,display_name,role,last_seen_at,quiz_attempts,best_quiz_pct,exam_attempts,best_exam_pct,cards_tracked');
     expect(text.trim().split('\n')).toHaveLength(3);
   });
+
+  it('csv export neutralizes spreadsheet formula injection and quotes commas', async () => {
+    // display_name is learner-controlled at registration: a formula payload
+    // must not survive into the admin's Excel as an executable cell value.
+    db.prepare(`INSERT INTO invites (code, created_by, uses_left) VALUES ('EVL', 1, 5)`).run();
+    db.prepare(`INSERT INTO invites (code, created_by, uses_left) VALUES ('CMMA', 1, 5)`).run();
+    const reg = async (invite: string, username: string, displayName: string) => {
+      const res = await app.request('/api/auth/register', { method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ inviteCode: invite, username, displayName, password: 'longenough1' }) });
+      expect(res.status).toBe(201);
+    };
+    await reg('EVL', 'eviluser', `=cmd|' /C calc'!A0`);
+    await reg('CMMA', 'commauser', 'Doe, Jane');
+
+    const text = await (await app.request('/api/admin/export.csv', { headers: { cookie: adminCookie } })).text();
+    const lines = text.trim().split('\n');
+    expect(lines[0]).toBe('username,display_name,role,last_seen_at,quiz_attempts,best_quiz_pct,exam_attempts,best_exam_pct,cards_tracked');
+
+    const evilRow = lines.find((l) => l.startsWith('eviluser,'))!;
+    // Formula is defused with a leading apostrophe (Excel treats it as text).
+    expect(evilRow).toContain(`,'=cmd|' /C calc'!A0,`);
+
+    const commaRow = lines.find((l) => l.startsWith('commauser,'))!;
+    // Comma-bearing field is RFC 4180 quoted, with embedded quotes doubled
+    // (none here) — an RFC-aware parse recovers the original value.
+    expect(commaRow).toContain(`,"Doe, Jane",`);
+
+    // Minimal RFC 4180 line parser: quoted commas stay inside the field.
+    function parseCsvLine(line: string): string[] {
+      const fields: string[] = [];
+      let cur = '';
+      let inQuotes = false;
+      for (let i = 0; i < line.length; i++) {
+        const ch = line[i]!;
+        if (inQuotes) {
+          if (ch === '"') {
+            if (line[i + 1] === '"') { cur += '"'; i++; } else inQuotes = false;
+          } else cur += ch;
+        } else if (ch === '"') inQuotes = true;
+        else if (ch === ',') { fields.push(cur); cur = ''; }
+        else cur += ch;
+      }
+      fields.push(cur);
+      return fields;
+    }
+    expect(parseCsvLine(lines[0]!)).toHaveLength(9);
+    const jane = parseCsvLine(commaRow);
+    expect(jane).toHaveLength(9);
+    expect(jane[1]).toBe('Doe, Jane');
+    const evil = parseCsvLine(evilRow);
+    expect(evil[1]).toBe(`'=cmd|' /C calc'!A0`);
+  });
 });
 
 describe('users', () => {

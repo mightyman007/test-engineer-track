@@ -50,13 +50,25 @@ export function createServerAdapter(opts: {
    * four reads inside exportAll) await the same drain, so a buffered item is
    * sent exactly once, and the head leaves the buffer only after its send
    * succeeded.
+   *
+   * Non-2xx handling during replay: 5xx is retryable — the item stays at the
+   * head for a later drain (server hiccup must not lose data). Any other
+   * non-2xx (4xx; 401 is handled inside `call`) is a permanent rejection —
+   * the item is dropped with a console.error so it cannot block the queue
+   * forever. Success is any 2xx.
    */
   function flush(): Promise<void> {
     inflight ??= (async () => {
       while (buffer.length > 0) {
         const item = buffer[0]!;
         try {
-          await call(item.path, { method: item.method, body: item.body === undefined ? undefined : JSON.stringify(item.body) });
+          const res = await call(item.path, { method: item.method, body: item.body === undefined ? undefined : JSON.stringify(item.body) });
+          if (res.status >= 500) break; // retryable: leave item at head
+          if (res.status < 200 || res.status >= 300) {
+            buffer.shift(); // permanent rejection: drop, never block the queue
+            console.error('[tet] dropped buffered write:', item.path, res.status);
+            continue;
+          }
           buffer.shift();
         } catch (err) {
           if (!(err instanceof Unauthorized)) throw err;
@@ -85,13 +97,18 @@ export function createServerAdapter(opts: {
       return;
     }
     try {
-      await call(path, { method, body: JSON.stringify(body) });
+      const res = await call(path, { method, body: JSON.stringify(body) });
+      if (res.status >= 200 && res.status < 300) return;
+      // Fresh send failed server-side: surface it to the caller (unlike 401,
+      // retrying is the caller's decision — buffering a rejected write would
+      // silently replay something the server refused).
+      throw new Error(`request failed: ${res.status}`);
     } catch (err) {
       if (err instanceof Unauthorized) {
         buffer.push({ method, path, body }); // expired/offline: keep for replay, never throw during autosave
-      } else {
-        throw err;
+        return;
       }
+      throw err;
     }
   }
 
@@ -162,5 +179,7 @@ export function createServerAdapter(opts: {
       return { progress, quizAttempts, examAttempts, cardStates };
     },
     async importAll(data: MigratableData) { await write('POST', '/api/import', data); },
+    drainPending: () => flush(),
+    pendingWrites: () => buffer.length,
   };
 }

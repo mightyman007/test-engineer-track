@@ -5,6 +5,19 @@ import { hashPassword, requireAdmin } from '../auth.js';
 
 const CODE_ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
 
+/**
+ * CSV field encoding per RFC 4180, with a spreadsheet formula-injection guard:
+ * quote fields containing comma, quote, or newline (doubling embedded quotes),
+ * and prefix leading =/+/−/@ with an apostrophe so learner-controlled text
+ * (e.g. display_name) can never execute as a formula in the admin's Excel.
+ */
+function csvField(value: unknown): string {
+  let s = value === null || value === undefined ? '' : String(value);
+  if (/^[=+\-@]/.test(s)) s = `'${s}`;
+  if (/[",\r\n]/.test(s)) s = `"${s.replace(/"/g, '""')}"`;
+  return s;
+}
+
 function inviteCode(): string {
   const bytes = randomBytes(8);
   return Array.from(bytes, (b) => CODE_ALPHABET[b % 32]).join('');
@@ -85,7 +98,7 @@ export function adminRoutes(): Hono<AppEnv> {
     const lines = rows.map((row) => [
       row.username, row.display_name, row.role, row.last_seen_at ?? '', row.quiz_attempts,
       row.best_quiz_pct ?? '', row.exam_attempts, row.best_exam_pct ?? '', row.cards_tracked,
-    ].join(','));
+    ].map(csvField).join(','));
     return c.text([header, ...lines].join('\n'), 200, { 'content-type': 'text/csv' });
   });
 
