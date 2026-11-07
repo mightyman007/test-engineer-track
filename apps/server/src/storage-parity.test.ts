@@ -3,7 +3,6 @@ import { serve } from '@hono/node-server';
 import { openDb, type DB } from './db.js';
 import { createApp } from './index.js';
 import { createServerAdapter, runParitySuite } from 'tet-storage';
-
 async function startServer(): Promise<{ url: string; db: DB; close: () => Promise<void> }> {
   const db = openDb(':memory:');
   const app = createApp(db);
@@ -36,6 +35,42 @@ async function registerVia(fetchLike: typeof fetch, username: string): Promise<v
     body: JSON.stringify({ username, displayName: username, password: 'longenough1' }),
   });
   if (res.status !== 201) throw new Error(`register ${username} failed: ${res.status}`);
+}
+
+/**
+ * Adapter wired like the 401-buffering test below: requests carry the current
+ * session cookie, `killSessions()` wipes the server-side sessions (the next
+ * request 401s), and `onUnauthorized` logs back in and captures the fresh
+ * cookie — so tests drive auth outages deterministically.
+ */
+async function authHarness(url: string, db: DB, username: string): Promise<{
+  adapter: ReturnType<typeof createServerAdapter>;
+  reAuthCalls: { count: number };
+  killSessions: () => void;
+}> {
+  const reg = await fetch(url + '/api/auth/register', { method: 'POST', headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ username, displayName: username, password: 'longenough1' }) });
+  const sessionCookie = (reg.headers.get('set-cookie') ?? '').split(';')[0]!;
+
+  let token = sessionCookie.split('=')[1]!;
+  const fetchLike: typeof fetch = async (input, init = {}) => {
+    const headers = new Headers(init.headers);
+    headers.set('cookie', `tet_session=${token}`);
+    return fetch(new URL(String(input), url), { ...init, headers });
+  };
+
+  const reAuthCalls = { count: 0 };
+  const adapter = createServerAdapter({
+    serverUrl: url,
+    fetchLike,
+    onUnauthorized: async () => {
+      reAuthCalls.count++;
+      const login = await fetch(url + '/api/auth/login', { method: 'POST', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ username, password: 'longenough1' }) });
+      token = (login.headers.get('set-cookie') ?? '').split('=')[1]!.split(';')[0]!;
+    },
+  });
+  return { adapter, reAuthCalls, killSessions: () => { db.prepare('DELETE FROM sessions').run(); } };
 }
 
 describe('ServerAdapter', () => {
@@ -108,6 +143,54 @@ describe('ServerAdapter', () => {
       const got = await adapter.getExamDraft('e1');
       expect(got).not.toBeNull();
       expect(got!.responses).toEqual({ q1: [0] });
+    } finally {
+      db.close();
+      await close();
+    }
+  });
+
+  it('sends a buffered write exactly once when exportAll drains concurrently', async () => {
+    const { url, db, close } = await startServer();
+    try {
+      const { adapter, killSessions } = await authHarness(url, db, 'dupuser');
+      killSessions();
+      await adapter.recordCardReview({
+        cardId: 'c1', grade: 'good',
+        state: { ease: 2.5, intervalDays: 1, dueAt: '2026-11-08T00:00:00Z', reps: 1, lapses: 0 },
+        createdAt: '2026-11-07T04:00:00Z',
+      }); // 401 → buffered, re-auth runs
+
+      await adapter.exportAll(); // four concurrent reads → must share ONE drain
+
+      const states = await adapter.getReviewState();
+      expect(states['c1']).toBeDefined(); // review present
+      expect(states['c1']!.reps).toBe(1); // latest-wins state, not double-counted
+      // The real duplication detector: the review audit log — one POST, one
+      // row. card_states upserts absolute client-computed values, so reps
+      // alone cannot expose duplicated sends.
+      const row = db.prepare('SELECT COUNT(*) AS n FROM card_reviews WHERE card_id = ?').get('c1') as { n: number };
+      expect(row.n).toBe(1);
+    } finally {
+      db.close();
+      await close();
+    }
+  });
+
+  it('replays buffered writes in submission order after re-auth (no stale overwrite)', async () => {
+    const { url, db, close } = await startServer();
+    try {
+      const { adapter, killSessions } = await authHarness(url, db, 'orderuser');
+      killSessions(); // outage cycle 1: v1 hits 401, buffers, re-auth runs
+      await adapter.putExamDraft({ examId: 'e1', responses: { q1: [0] }, flags: [], startedAt: '2026-11-07T00:00:00Z', remainingSec: 1800 });
+
+      killSessions(); // outage cycle 2: the refreshed cookie dies too, so the
+      // drain inside the next write fails — v2 must queue BEHIND v1, never
+      // leapfrog it to the same key.
+      await adapter.putExamDraft({ examId: 'e1', responses: { q1: [1] }, flags: [], startedAt: '2026-11-07T00:00:00Z', remainingSec: 1700 });
+
+      const got = await adapter.getExamDraft('e1'); // drain replays v1 then v2, then reads
+      expect(got).not.toBeNull();
+      expect(got!.responses).toEqual({ q1: [1] }); // NEWEST state wins
     } finally {
       db.close();
       await close();

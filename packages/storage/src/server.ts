@@ -28,6 +28,7 @@ export function createServerAdapter(opts: {
   const base = opts.serverUrl.replace(/\/$/, '');
   const doFetch = opts.fetchLike ?? fetch.bind(globalThis);
   let buffer: BufferedWrite[] = [];
+  let inflight: Promise<void> | null = null;
 
   async function call(path: string, init: RequestInit): Promise<Response> {
     const res = await doFetch(base + path, {
@@ -44,24 +45,45 @@ export function createServerAdapter(opts: {
     return res;
   }
 
-  /** Replays buffered writes FIFO; stops at the first failure and keeps the tail. */
-  async function flush(): Promise<void> {
-    while (buffer.length > 0) {
-      const item = buffer[0]!;
-      try {
-        await call(item.path, { method: item.method, body: JSON.stringify(item.body) });
-        buffer.shift();
-      } catch {
-        // Re-auth (if the failure was a 401) already ran inside call(); the
-        // tail stays buffered and retries before the next request.
-        return;
+  /**
+   * Replays buffered writes FIFO — single-flight: concurrent callers (e.g. the
+   * four reads inside exportAll) await the same drain, so a buffered item is
+   * sent exactly once, and the head leaves the buffer only after its send
+   * succeeded.
+   */
+  function flush(): Promise<void> {
+    inflight ??= (async () => {
+      while (buffer.length > 0) {
+        const item = buffer[0]!;
+        try {
+          await call(item.path, { method: item.method, body: item.body === undefined ? undefined : JSON.stringify(item.body) });
+          buffer.shift();
+        } catch (err) {
+          if (!(err instanceof Unauthorized)) throw err;
+          break; // still unauthorized; leave item at head for the next drain
+        }
       }
-    }
+    })().finally(() => { inflight = null; });
+    return inflight;
   }
 
   /** Runs a write; on 401 it is buffered and replayed before the next request. */
   async function write(method: BufferedWrite['method'], path: string, body: unknown): Promise<void> {
-    if (buffer.length > 0) await flush(); // pending writes land first, then this one
+    if (buffer.length > 0) {
+      try {
+        await flush(); // pending writes land first, then this one
+      } catch {
+        // Non-401 drain failure: the failed item is still buffered; fall
+        // through and queue this write behind it rather than sending it fresh.
+      }
+    }
+    if (buffer.length > 0) {
+      // Drain incomplete (still unauthorized or target failing): queue behind
+      // the pending writes so replay order stays submission order — a new
+      // write must never leapfrog an older one to the same key.
+      buffer.push({ method, path, body });
+      return;
+    }
     try {
       await call(path, { method, body: JSON.stringify(body) });
     } catch (err) {
@@ -74,7 +96,13 @@ export function createServerAdapter(opts: {
   }
 
   async function getJson<T>(path: string, fallback: T): Promise<T> {
-    if (buffer.length > 0) await flush();
+    if (buffer.length > 0) {
+      try {
+        await flush();
+      } catch {
+        // Reads stay available even when replay fails; the tail retries later.
+      }
+    }
     try {
       const res = await call(path, { method: 'GET' });
       return res.status === 204 ? fallback : await res.json() as T;
@@ -86,7 +114,13 @@ export function createServerAdapter(opts: {
 
   return {
     async getSession(): Promise<SessionInfo | null> {
-      if (buffer.length > 0) await flush();
+      if (buffer.length > 0) {
+        try {
+          await flush();
+        } catch {
+          // Reads stay available even when replay fails; the tail retries later.
+        }
+      }
       try {
         const res = await call('/api/me', { method: 'GET' });
         const body = await res.json() as { user: { id: number; username: string; displayName: string; role: 'admin' | 'learner' } };
