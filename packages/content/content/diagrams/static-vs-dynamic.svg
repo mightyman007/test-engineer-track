@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <rect width="800" height="450" fill="#f7f8fb"/>
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1a1a2e"/></marker></defs>
+  <text x="400" y="42" text-anchor="middle" font-size="24" font-weight="700" fill="#1a1a2e">Static vs Dynamic Testing &#8212; Two Routes to Defects</text>
+  <text x="400" y="68" text-anchor="middle" font-size="14" fill="#1a1a2e">One route never runs the code; the other must</text>
+  <rect x="40" y="92" width="720" height="130" rx="10" fill="#eef3fb" stroke="#1a1a2e" stroke-width="1.5"/>
+  <text x="58" y="118" font-size="15" font-weight="700" fill="#1a1a2e">Static testing</text>
+  <text x="180" y="118" font-size="13" fill="#1a1a2e">no execution needed</text>
+  <rect x="58" y="132" width="180" height="70" rx="8" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="148" y="160" text-anchor="middle" font-size="13.5" fill="#1a1a2e">Work products: specs,</text>
+  <text x="148" y="180" text-anchor="middle" font-size="13.5" fill="#1a1a2e">code, contracts, tests</text>
+  <line x1="238" y1="167" x2="278" y2="167" stroke="#1a1a2e" stroke-width="2.5" marker-end="url(#arr)"/>
+  <rect x="288" y="132" width="190" height="70" rx="8" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="383" y="154" text-anchor="middle" font-size="13.5" fill="#1a1a2e">Reviews (manual)</text>
+  <text x="383" y="174" text-anchor="middle" font-size="13.5" fill="#1a1a2e">+ static analysis (tools)</text>
+  <line x1="478" y1="167" x2="518" y2="167" stroke="#1a1a2e" stroke-width="2.5" marker-end="url(#arr)"/>
+  <rect x="528" y="132" width="214" height="70" rx="8" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="635" y="154" text-anchor="middle" font-size="13.5" fill="#1a1a2e">Anomalies found directly</text>
+  <text x="635" y="174" text-anchor="middle" font-size="13.5" fill="#1a1a2e">in the work product</text>
+  <rect x="40" y="242" width="720" height="130" rx="10" fill="#fbf3ee" stroke="#1a1a2e" stroke-width="1.5"/>
+  <text x="58" y="268" font-size="15" font-weight="700" fill="#1a1a2e">Dynamic testing</text>
+  <text x="200" y="268" font-size="13" fill="#1a1a2e">executes the software</text>
+  <rect x="58" y="282" width="180" height="70" rx="8" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="148" y="310" text-anchor="middle" font-size="13.5" fill="#1a1a2e">Executable software</text>
+  <text x="148" y="330" text-anchor="middle" font-size="13.5" fill="#1a1a2e">only</text>
+  <line x1="238" y1="317" x2="278" y2="317" stroke="#1a1a2e" stroke-width="2.5" marker-end="url(#arr)"/>
+  <rect x="288" y="282" width="190" height="70" rx="8" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="383" y="304" text-anchor="middle" font-size="13.5" fill="#1a1a2e">Test cases run</text>
+  <text x="383" y="324" text-anchor="middle" font-size="13.5" fill="#1a1a2e">against the code</text>
+  <line x1="478" y1="317" x2="518" y2="317" stroke="#1a1a2e" stroke-width="2.5" marker-end="url(#arr)"/>
+  <rect x="528" y="282" width="214" height="70" rx="8" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="635" y="304" text-anchor="middle" font-size="13.5" fill="#1a1a2e">Failures occur &#8594; defects</text>
+  <text x="635" y="324" text-anchor="middle" font-size="13.5" fill="#1a1a2e">found by analyzing them</text>
+  <text x="400" y="410" text-anchor="middle" font-size="13.5" font-weight="700" fill="#1a1a2e">Complementary, not competing: some defect types can only be found by one of the two</text>
+  <text x="400" y="432" text-anchor="middle" font-size="12.5" fill="#1a1a2e">Static testing also reaches non-executable work products and rarely-executed code paths</text>
+</svg>

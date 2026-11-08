@@ -12,3 +12,8 @@ minimum = 30
 [[floor]]
 tag = "ch2"
 minimum = 33
+
+# Task 4: module 3 ships 33 questions tagged ch3.
+[[floor]]
+tag = "ch3"
+minimum = 33

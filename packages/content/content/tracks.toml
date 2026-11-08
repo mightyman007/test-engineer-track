@@ -33,3 +33,14 @@ quizPool = "istqb/module-2"
 deck = "istqb/module-2"
 lessonIds = ["istqb-m2-sdlc-context", "istqb-m2-test-levels", "istqb-m2-test-types", "istqb-m2-maintenance"]
 examWeight = 6
+
+[[track.module]]
+id = "istqb-m3-static"
+track = "istqb-ctfl"
+title = "Static Testing"
+order = 3
+source = "istqb/module-3"
+quizPool = "istqb/module-3"
+deck = "istqb/module-3"
+lessonIds = ["istqb-m3-static-basics", "istqb-m3-review-process", "istqb-m3-review-types"]
+examWeight = 4
