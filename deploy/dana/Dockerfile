@@ -25,13 +25,13 @@ COPY --from=prod-deps /app/package.json ./package.json
 COPY --from=prod-deps /app/apps/server/package.json apps/server/package.json
 COPY --from=prod-deps /app/packages/core/package.json packages/core/package.json
 COPY --from=prod-deps /app/packages/content/package.json packages/content/package.json
-COPY --from=prod-deps /app/tsconfig.base.json tsconfig.base.json
-COPY --from=prod-deps /app/apps/server/tsconfig.json apps/server/tsconfig.json
-COPY --from=prod-deps /app/packages/core/tsconfig.json packages/core/tsconfig.json
-COPY --from=prod-deps /app/packages/content/tsconfig.json packages/content/tsconfig.json
-COPY --from=prod-deps /app/apps/server/src apps/server/src
-COPY --from=prod-deps /app/packages/core/src packages/core/src
-COPY --from=prod-deps /app/packages/content/src packages/content/src
+COPY tsconfig.base.json tsconfig.base.json
+COPY apps/server/tsconfig.json apps/server/tsconfig.json
+COPY packages/core/tsconfig.json packages/core/tsconfig.json
+COPY packages/content/tsconfig.json packages/content/tsconfig.json
+COPY apps/server/src apps/server/src
+COPY packages/core/src packages/core/src
+COPY packages/content/src packages/content/src
 # The built SPA (staged by scripts/dana-deploy.sh before the image build).
 COPY deploy/dana/dist/ /app/apps/web/dist/
 COPY deploy/dana/nginx.conf /etc/nginx/http.d/default.conf

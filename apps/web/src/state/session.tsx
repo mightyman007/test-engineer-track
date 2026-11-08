@@ -56,7 +56,7 @@ export function SessionProvider({ children, adapter: injected }: {
         if (!res.ok) return;
         const next = createServerAdapter({
           serverUrl: window.location.origin,
-          onUnauthorized: () => { setAuthExpired(true); },
+          onUnauthorized: () => { setAuthExpired(true); return Promise.resolve(); },
         });
         const s = await next.getSession();
         if (!s || !alive) return;
