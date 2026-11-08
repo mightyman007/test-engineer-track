@@ -132,6 +132,16 @@ export function validateContent(input: ValidationInput): Diagnostic[] {
     for (const eid of track.readiness.examIds) {
       if (!examIds.has(eid)) d.push({ file, message: `readiness references missing exam ${eid}` });
     }
+    // Module order values within a track must be unique: the bundle sorts
+    // modules by `order`, and a tie would fall back to declaration (file)
+    // order — deterministic, but not the authored order.
+    const seenOrders = new Set<number>();
+    for (const mod of track.modules) {
+      if (seenOrders.has(mod.order)) {
+        d.push({ file, message: `duplicate module order ${mod.order} in track ${track.id}` });
+      }
+      seenOrders.add(mod.order);
+    }
   }
 
   return d;
