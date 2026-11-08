@@ -17,7 +17,7 @@
   <text x="149" y="140" text-anchor="middle" font-size="10" fill="#1a1a2e">logged</text>
   <text x="271" y="140" text-anchor="middle" font-size="10" fill="#1a1a2e">decided: fix</text>
   <text x="393" y="140" text-anchor="middle" font-size="10" fill="#1a1a2e">being fixed</text>
-  <text x="515" y="140" text-anchor="middle" font-size="10" fill="#1a1a2e">sent to fixing</text>
+  <text x="515" y="140" text-anchor="middle" font-size="10" fill="#1a1a2e">confirmation testing passes</text>
   <text x="637" y="140" text-anchor="middle" font-size="10" fill="#1a1a2e">confirmed</text>
   <rect x="40" y="300" width="96" height="48" rx="6" fill="#fbf3ee" stroke="#b26a00" stroke-width="2"/><text x="88" y="328" text-anchor="middle" font-size="12.5" font-weight="700" fill="#b26a00">rejected</text>
   <rect x="162" y="300" width="96" height="48" rx="6" fill="#fbf3ee" stroke="#b26a00" stroke-width="2"/><text x="210" y="328" text-anchor="middle" font-size="12.5" font-weight="700" fill="#b26a00">deferred</text>

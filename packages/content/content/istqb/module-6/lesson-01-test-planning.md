@@ -38,7 +38,7 @@ The typical content of a test plan:
 - **Assumptions and constraints** of the test project
 - **Stakeholders** — e.g., roles, responsibilities, relevance to testing, hiring and training needs
 - **Communication** — e.g., forms and frequency of communication, documentation templates
-- **Risk register** — e.g., product risks, project risks (lesson 3 builds this artifact)
+- **[Risk register](https://glossary.istqb.org/en_US/term/risk-register)** — e.g., product risks, project risks (lesson 3 builds this artifact)
 - **[Test approach](https://istqb-glossary.page/test-approach/)** — e.g., test levels, test types, test techniques, test deliverables, [entry criteria](https://istqb-glossary.page/entry-criteria/) and [exit criteria](https://istqb-glossary.page/exit-criteria/), independence of testing, metrics to be collected, test data requirements, test environment requirements, deviations from the test policy and test strategy
 - **Budget and schedule**
 

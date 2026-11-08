@@ -76,6 +76,22 @@
 #       at index 0; every question re-read against its keyed index after the
 #       distribution was fixed.
 #
+# Review-fix notes (same-day fix round, 2026-11-07):
+#   (e) q-0152's two distractor rationales made numerically coherent with their
+#       own labels (average of 4 and 3 = 3.5; impact divided by likelihood =
+#       3/4 = 0.75) — keyed answer (12) and option order unchanged.
+#   (f) LO-keying audit note (reviewer-requested): q-0162 (control directives)
+#       keys FL-5.3.2 as the closest LO — test control has no dedicated LO in
+#       ch5 (the monitoring/control definitions live in the 5.3 chapter intro,
+#       and the nearest classified LO, FL-5.3.1, is K1 metrics-only); the
+#       anchor is the syllabus's own tie: test progress reports exist to
+#       "support the ongoing test control".
+#   (g) ledger-only (no action this round): q-0153's K3-on-K2 placement
+#       (FL-5.2.2) is the brief's own keying; if a later consistency pass
+#       re-homes it, the most faithful LO would be FL-5.2.3 (product risk
+#       analysis influencing thoroughness and test scope — the
+#       exhaustive-vs-smoke allocation rule is exactly that influence).
+#
 # Coverage: FL-5.1.1: 2 (q-0137, q-0138), FL-5.1.2: 2 (q-0139, q-0140),
 # FL-5.1.3: 2 (q-0141, q-0142), FL-5.1.4: 2 (q-0143, q-0144), FL-5.1.5: 2
 # (q-0145, q-0146), FL-5.1.6: 2 (q-0147, q-0148), FL-5.1.7: 2 (q-0149, q-0150),
@@ -336,9 +352,9 @@ type = "single"
 stem = "A risk is assessed at likelihood 4 on a 5-point scale and impact 3 on the same scale. In the quantitative approach, what is its risk level?"
 options = [
   "7 — likelihood and impact added",
-  "0.8 — the two values averaged",
+  "3.5 — the two values averaged",
   "12 — the multiplication of likelihood and impact",
-  "1.33 — impact divided by likelihood",
+  "0.75 — impact divided by likelihood",
 ]
 answers = [2]
 explanation = "In the quantitative approach the risk level is calculated as the multiplication of risk likelihood and risk impact: 4 × 3 = 12. Adding, averaging or dividing the two factors are not the syllabus's operation — and the higher the resulting level, the more important the risk's treatment."
