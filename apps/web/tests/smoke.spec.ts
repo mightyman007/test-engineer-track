@@ -8,7 +8,12 @@ import { test, expect } from '@playwright/test';
 test('solo learner: lesson → quiz → flashcard review', async ({ page }) => {
   await page.goto('/');
   await expect(page.getByRole('heading', { name: /dashboard/i })).toBeVisible();
-  await page.getByRole('link', { name: /continue/i }).click();
+  // Two-track dashboard (M4): the dashboard renders one track card per track.
+  await expect(page.getByRole('heading', { level: 2, name: 'ISTQB Foundation (CTFL v4.0)' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 2, name: 'AI for Test Engineers' })).toBeVisible();
+  // Two cards means two "Continue:" buttons — scope to the ISTQB track's card.
+  const istqbCard = page.locator('section.card').filter({ has: page.getByRole('heading', { name: 'ISTQB Foundation (CTFL v4.0)' }) });
+  await istqbCard.getByRole('link', { name: /continue/i }).click();
   // module page → first lesson
   await page.getByRole('link', { name: /what is testing/i }).first().click();
   const complete = page.getByRole('button', { name: /mark lesson complete/i });
@@ -93,10 +98,11 @@ test('cohort: module 8 readiness → mock exam 1 → report', async ({ browser, 
   await expect(page.getByText(/cohort · smoke/i)).toBeVisible();
 
   // Module 8 hosts no quiz link — its readiness hub lists the mock exams — so
-  // the flow must reach it through real UI clicks: dashboard → module 1 →
-  // track page → "8. Exam Readiness".
+  // the flow must reach it through real UI clicks: dashboard (ISTQB card — two
+  // tracks now render "Continue:" buttons) → module 1 → track page →
+  // "8. Exam Readiness".
   await page.goto('/');
-  await page.getByRole('link', { name: /continue/i }).click();
+  await page.locator('section.card').filter({ has: page.getByRole('heading', { name: 'ISTQB Foundation (CTFL v4.0)' }) }).getByRole('link', { name: /continue/i }).click();
   await page.getByRole('link', { name: 'ISTQB Foundation (CTFL v4.0)' }).click();
   await page.getByRole('link', { name: /exam readiness/i }).click();
   await expect(page.getByRole('heading', { name: /take a mock exam/i })).toBeVisible();

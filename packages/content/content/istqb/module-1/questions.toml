@@ -30,15 +30,42 @@
 #                          differentiating testing from debugging, not mere recall)
 #   istqb-q-0028 K2 -> K1 (FL-1.5.2 is officially K1; the scenario asks the candidate to recognize
 #                          an advantage from the syllabus's own whole-team-approach list)
-#   K1 tags that REMAIN on K2 LOs (q-0007, q-0010, q-0012, q-0015, q-0019, q-0021, q-0023, q-0025)
+#   istqb-q-0012 K1 -> K2 (M4 consistency pass: the M2 K1 tag rode on a keyword-recall stem, which
+#                          the re-stem below replaces with a genuine §1.5.1 skill scenario —
+#                          identifying attention to detail in action — so the tag now follows the
+#                          official FL-1.5.1 classification, K2)
+#   K1 tags that REMAIN on K2 LOs (q-0007, q-0010, q-0015, q-0019, q-0021, q-0023, q-0025)
 #   are keyword/concept-recall questions the syllabus itself authorizes: §0.5 states "all contents
 #   of chapters 1-6 of this syllabus are examinable at a K1 level" — the same rule module-4's
 #   header cites. Re-tagging them K2 would mislabel genuine recall; re-stemming them into K2
 #   scenarios would duplicate the K2 questions already covering those LOs.
 #
+# M4 consistency pass (ledgered from the M2/M3 final reviews; rationale in task-8-report.md):
+#   q-0012 re-stemmed from the "what is a heuristic?" keyword recall to an attention-to-detail
+#   scenario (a genuine §1.5.1 skill; the heuristic definition already lives in lesson-05's prose),
+#   keyed at position 2, klevel K2 per the official FL-1.5.1 classification.
+#   q-0014 re-stemmed to break the q-0014/q-0032 near-duplicate: q-0032 keeps the taxonomy angle
+#   (testing = product-oriented QC, QA = process-oriented prevention); q-0014 now asks WHY the
+#   QA/testing line matters for a tester's day job — the division of labor plus the results-feedback
+#   loop the syllabus states in §1.2.2 ("test results are used ... in QA as feedback on how well
+#   the development and test processes are performing"). The re-stem's keyed content is the
+#   QA/testing RELATION, which is §1.2.2 material, so it stays keyed FL-1.2.2 (K1 recognition,
+#   same precedent as q-0028) — re-keying it to FL-1.2.1 would both mis-key the content and drop
+#   FL-1.2.2 below the every-LO->=2 coverage floor, since q-0032 is the only other FL-1.2.2 here.
+#
+# Answer-position balance (M4 consistency pass, standing rule): the module shipped 18/14/3/1
+# across keyed positions 0-3; now exactly 9/9/9/9 after 14 option reorders (q-0002, q-0004,
+# q-0006, q-0010, q-0015, q-0017, q-0019, q-0021, q-0023, q-0025, q-0027, q-0030, q-0032,
+# q-0191) — the two multi-selects keep their original keys ([0,2] and [0,1]) and q-0012 (2) /
+# q-0014 (0) were authored at their balanced positions. The id-order sequence 1,2,0,2,0,3,2,0,
+# 1,2,1,2,1,0,2,1,2,1,3,0,... is scattered with ZERO adjacent repeats (deliberately not a
+# cycle, per the module-4/5 pattern). Every reordered question's keyed-option
+# TEXT was re-read after the reorder as a statement (the standing Task-5 rule)
+# and matched its pre-reorder keyed text verbatim — no mis-keys introduced.
+#
 # Coverage: retagged to OFFICIAL CTFL v4.0.1 LO codes by content; after the M2 top-ups
 # (istqb-q-0188..0191) every official ch1 LO carries >=2 questions.
-# K mix: 14 K1 (recall) + 22 K2 (understand) = 39% K1 (>= 25% floor); Ch1 has no K3 in the
+# K mix: 13 K1 (recall) + 23 K2 (understand) = 36% K1 (>= 25% floor); Ch1 has no K3 in the
 # official blueprint.
 # 2 multi-select questions (istqb-q-0003, istqb-q-0026): 5 options, exactly 2 correct.
 # All stems/options/explanations are original — no ISTQB official sample questions copied.
@@ -65,11 +92,11 @@ type = "single"
 stem = "A user reports that the app crashes when uploading a photo larger than 20 MB. The photo-size check in the code was written incorrectly. In ISTQB terms, the incorrect code is the ___ and the crash the user sees is the ___."
 options = [
   "failure / defect",
-  "defect / failure",
   "error / mistake",
+  "defect / failure",
   "failure / error",
 ]
-answers = [1]
+answers = [2]
 explanation = "A human error produces a defect (the wrong code). When that code executes under the right conditions, the observable problem — the crash — is a failure."
 lo = "FL-1.2.3"
 klevel = "K2"
@@ -97,12 +124,12 @@ id = "istqb-q-0004"
 type = "single"
 stem = "Which list contains ONLY typical objectives of testing?"
 options = [
-  "Finding defects, building confidence in quality, and providing information for stakeholder decisions",
   "Writing the production code, deploying releases, and monitoring server costs",
   "Proving the software is defect-free, replacing debugging, and fixing all defects",
+  "Finding defects, building confidence in quality, and providing information for stakeholder decisions",
   "Setting project budgets, hiring developers, and negotiating contracts",
 ]
-answers = [0]
+answers = [2]
 explanation = "Typical test objectives include evaluating work products, finding failures and defects, building confidence, providing decision information, and preventing defects. The other options mix in activities that belong to development or management."
 lo = "FL-1.1.1"
 klevel = "K1"
@@ -129,12 +156,12 @@ id = "istqb-q-0006"
 type = "single"
 stem = "A tester observes wrong interest calculations in a new build and files a defect report. A developer finds and corrects a misplaced decimal point in the code, and the tester then re-runs the test on the fixed build. Which pair of activities correctly labels what happened?"
 options = [
-  "The tester performed testing; the developer performed debugging",
   "The tester performed debugging; the developer performed testing",
   "Both activities were debugging, because code was changed",
   "Both activities were testing, because no one wrote new features",
+  "The tester performed testing; the developer performed debugging",
 ]
-answers = [0]
+answers = [3]
 explanation = "Finding the failure and re-checking the fix are testing; locating and removing the cause in the code is debugging. The two jobs form a loop: failure → fix → confirmation."
 lo = "FL-1.1.2"
 klevel = "K2"
@@ -194,11 +221,11 @@ type = "single"
 stem = "Which statement about how much testing is enough is correct?"
 options = [
   "The required level of rigour is identical for every project",
-  "How thorough testing should be depends on the context, including risk, project constraints, and domain or regulatory requirements",
   "Testing rigour is purely a matter of the tester's personal preference",
+  "How thorough testing should be depends on the context, including risk, project constraints, and domain or regulatory requirements",
   "More testing is always better, regardless of cost or risk",
 ]
-answers = [1]
+answers = [2]
 explanation = "The syllabus is explicit that rigour varies by circumstance: risk, constraints, deadlines, domain and regulation all shape how much testing is appropriate. Context, not habit or preference, decides."
 lo = "FL-1.4.2"
 klevel = "K1"
@@ -223,17 +250,17 @@ tags = ["ch1"]
 [[question]]
 id = "istqb-q-0012"
 type = "single"
-stem = "In testing, what is a heuristic?"
+stem = "Reviewing a user story, a tester notices its acceptance criterion promises export to CSV and Excel, while the requirement it traces to says the export shall produce CSV output only — a mismatch the story's author and the product owner had both read past. Which generic skill required for testing does the tester's catch best illustrate?"
 options = [
-  "A tool that automatically executes test cases",
-  "A formal proof that the software is correct",
-  "A practical rule of thumb that guides decisions without guaranteeing the best result",
-  "A special category of defect found only in documentation",
+  "Technical knowledge — the tester knows the export library well enough to have written the feature",
+  "Defect clustering — ambiguous requirements are where defects cluster",
+  "Attention to detail — the thoroughness and carefulness to spot small mismatches others read past",
+  "Test independence — only a tester outside the author's team could ever have caught it",
 ]
 answers = [2]
-explanation = "Heuristics are experience-based rules of thumb — like 'start testing as early as possible'. They guide decisions usefully but are not guarantees, and they can occasionally mislead."
+explanation = "The syllabus's generic skills include thoroughness, carefulness and attention to detail — the disciplined habits that catch defects others overlook. Spotting the small requirement/criterion mismatch is attention to detail in action. Technical knowledge is a genuine skill but not the one this catch drew on; defect clustering is a testing principle, not a skill; and independence brings fresh eyes, but nothing about this catch required an outside team."
 lo = "FL-1.5.1"
-klevel = "K1"
+klevel = "K2"
 tags = ["ch1"]
 
 [[question]]
@@ -255,15 +282,15 @@ tags = ["ch1"]
 [[question]]
 id = "istqb-q-0014"
 type = "single"
-stem = "What is the main difference between quality assurance and testing?"
+stem = "A new tester asks the team lead: 'We already have a QA department that defines standards and audits the process — what does my day of test execution and defect reporting actually add?' Which answer draws the line between QA and testing correctly for the tester's day job?"
 options = [
-  "Quality assurance is process-oriented and aims to prevent defects; testing is product-oriented and aims to detect failures",
-  "Quality assurance runs the test cases; testing improves the development process",
-  "The two are unrelated disciplines with no overlap",
-  "Testing prevents defects by managing processes; quality assurance finds failures by running the software",
+  "QA improves the processes that prevent defects; your testing examines the work products themselves to detect failures, and your results feed back to QA as evidence of how the processes perform",
+  "QA examines the finished product to detect failures; your testing improves the standards and checklists the process runs on",
+  "Testing adds nothing a process audit cannot, because defects live in the process rather than in the product",
+  "QA and testing are the same discipline under different names, so your test execution is simply the QA department's final step",
 ]
 answers = [0]
-explanation = "QA works on processes to prevent defects from occurring; testing evaluates the product to detect failures. Testing is one of the activities QA draws on — they are related but distinct."
+explanation = "QA is process-oriented and preventive — standards and audits are its material, and it covers both the development and the test processes. Testing is product-oriented and corrective: it examines the work products to find failures. The two meet in the results — test results feed QA as feedback on how well the development and test processes perform — which is exactly what the tester's day contributes. The other answers swap the roles, deny the difference, or claim the process alone finds product defects."
 lo = "FL-1.2.2"
 klevel = "K1"
 tags = ["ch1"]
@@ -273,12 +300,12 @@ id = "istqb-q-0015"
 type = "single"
 stem = "Which list contains ONLY genuine testing principles?"
 options = [
-  "Early testing saves time and money; defects cluster together; testing is context dependent",
   "Exhaustive testing is achievable; testing is optional; defects spread evenly",
   "Testing proves correctness; testing happens only at the end; testing replaces debugging",
+  "Early testing saves time and money; defects cluster together; testing is context dependent",
   "Testing is always cheap; testers never make mistakes; all defects are found by automation",
 ]
-answers = [0]
+answers = [2]
 explanation = "The seven principles are: presence-not-absence, exhaustive testing is impossible, early testing, defect clustering, tests wear out (the pesticide paradox), context dependence, and absence-of-defects fallacy. Every other option mixes in statements that contradict the syllabus."
 lo = "FL-1.3.1"
 klevel = "K1"
@@ -306,11 +333,11 @@ type = "single"
 stem = "Why can't a team simply copy another project's test process unchanged?"
 options = [
   "Test processes are protected intellectual property",
-  "The test process must be tailored to its context — the lifecycle, product, domain, risks and organization all shape which activities make sense and how they run",
   "Every project's process is identical anyway, so copying changes nothing",
+  "The test process must be tailored to its context — the lifecycle, product, domain, risks and organization all shape which activities make sense and how they run",
   "Test processes only work on sequential waterfall projects",
 ]
-answers = [1]
+answers = [2]
 explanation = "There is no universal test process. Context — lifecycle, product, domain, risk, organization — determines how the activities are combined and weighted, so each project must tailor the process."
 lo = "FL-1.4.2"
 klevel = "K2"
@@ -337,12 +364,12 @@ id = "istqb-q-0019"
 type = "single"
 stem = "Which pairing of test activity to its main task is correct?"
 options = [
-  "Test analysis — deciding what to test by studying the test basis; test design — deciding how to test by creating test cases",
   "Test analysis — executing the tests; test design — archiving the reports",
   "Test analysis — fixing the defects; test design — deploying the build",
   "Test analysis — writing only the test plan; test design — hiring the test team",
+  "Test analysis — deciding what to test by studying the test basis; test design — deciding how to test by creating test cases",
 ]
-answers = [0]
+answers = [3]
 explanation = "Analysis answers 'what to test' by identifying test conditions from the test basis; design answers 'how to test' by deriving test cases (with expected results) from those conditions."
 lo = "FL-1.4.1"
 klevel = "K1"
@@ -370,11 +397,11 @@ type = "single"
 stem = "What is testware?"
 options = [
   "The hardware used to run the production servers",
-  "All the work products produced by test activities — test plans, test cases, scripts, test data, environment setups, logs and reports — which must be maintained and kept consistent",
   "Only the automated test scripts written by developers",
   "The commercial licence purchased for a test tool",
+  "All the work products produced by test activities — test plans, test cases, scripts, test data, environment setups, logs and reports — which must be maintained and kept consistent",
 ]
-answers = [1]
+answers = [3]
 explanation = "Testware is the collective output of testing: every plan, case, procedure, script, data set, environment configuration and report. It is an asset that needs maintenance and configuration management, like any other artefact."
 lo = "FL-1.4.3"
 klevel = "K1"
@@ -401,12 +428,12 @@ id = "istqb-q-0023"
 type = "single"
 stem = "Which list orders the levels of test independence from LOWEST to HIGHEST?"
 options = [
-  "The author tests their own code (no independence) → the author's peers from the same team test it (some independence) → testers outside the author's team but within the organization test it (high independence) → testers from outside the organization test it (very high independence)",
   "Testers from outside the organization → an independent test team → another developer → the author",
   "An independent test team → the author → testers from outside → another developer",
   "The author → testers from outside → another developer → an independent test team",
+  "The author tests their own code (no independence) → the author's peers from the same team test it (some independence) → testers outside the author's team but within the organization test it (high independence) → testers from outside the organization test it (very high independence)",
 ]
-answers = [0]
+answers = [3]
 explanation = "Independence rises from no independence (the author testing their own work) through some independence (the author's peers from the same team), high independence (testers outside the author's team but within the organization), up to very high independence (testers from outside the organization)."
 lo = "FL-1.5.3"
 klevel = "K1"
@@ -433,12 +460,12 @@ id = "istqb-q-0025"
 type = "single"
 stem = "Which list contains ONLY generic skills required for testing, as given in the syllabus?"
 options = [
-  "Testing knowledge; thoroughness, curiosity and attention to detail; communication skills and active listening; analytical and critical thinking; technical and domain knowledge",
   "Testing knowledge; test analysis; test design; test planning; sales forecasting",
   "Technical knowledge; domain knowledge; code compilation; sprint estimation; salary negotiation",
   "Critical thinking; creativity; compiler design; performance tuning; project budgeting",
+  "Testing knowledge; thoroughness, curiosity and attention to detail; communication skills and active listening; analytical and critical thinking; technical and domain knowledge",
 ]
-answers = [0]
+answers = [3]
 explanation = "The syllabus's generic skills are: testing knowledge; thoroughness, carefulness, curiosity, attention to detail and being methodical; good communication skills, active listening and being a team player; analytical thinking, critical thinking and creativity; technical knowledge; and domain knowledge. The distractors smuggle in test activities (analysis, design, planning) — things testers do, not skills they bring."
 lo = "FL-1.5.1"
 klevel = "K1"
@@ -466,12 +493,12 @@ id = "istqb-q-0027"
 type = "single"
 stem = "What does the whole-team approach mean?"
 options = [
-  "Every team member shares responsibility for achieving quality, and testers work closely with other roles",
   "Only the testers are responsible for quality",
   "The customer takes over all testing duties",
   "Each developer tests their own code strictly in isolation from everyone else",
+  "Every team member shares responsibility for achieving quality, and testers work closely with other roles",
 ]
-answers = [0]
+answers = [3]
 explanation = "The whole-team approach — coming from Extreme Programming — makes quality a shared responsibility and puts testers to work alongside developers, business analysts and the product owner."
 lo = "FL-1.5.2"
 klevel = "K1"
@@ -515,11 +542,11 @@ type = "single"
 stem = "Which statement about the levels of test independence is correct?"
 options = [
   "The highest possible level of independence is always the right choice",
-  "Each level of independence has benefits and drawbacks, so the appropriate level depends on the context",
   "Independent testing is always slower and is never worth the cost",
   "Developers should never write any tests at all",
+  "Each level of independence has benefits and drawbacks, so the appropriate level depends on the context",
 ]
-answers = [1]
+answers = [3]
 explanation = "The syllabus treats independence as a trade-off: fresh eyes versus isolation and lost context. Choosing the level is a context-dependent decision, not a rule that 'more independence is always better'."
 lo = "FL-1.5.3"
 klevel = "K2"
@@ -546,12 +573,12 @@ id = "istqb-q-0032"
 type = "single"
 stem = "How does testing relate to quality assurance (QA) and quality control (QC)?"
 options = [
-  "Testing is a major form of quality control — a product-oriented, corrective approach — while quality assurance is a process-oriented, preventive approach",
   "Quality assurance runs the tests; testing improves the development processes",
   "Testing and QA are unrelated disciplines performed by separate companies",
   "Quality control is process-oriented and preventive; quality assurance is product-oriented and corrective",
+  "Testing is a major form of quality control — a product-oriented, corrective approach — while quality assurance is a process-oriented, preventive approach",
 ]
-answers = [0]
+answers = [3]
 explanation = "Officially, testing is a product-oriented, corrective approach and a major form of quality control — alongside formal methods, simulation and prototyping. QA is process-oriented and preventive: a good process, followed correctly, should produce a good product."
 lo = "FL-1.2.2"
 klevel = "K1"
@@ -610,12 +637,12 @@ id = "istqb-q-0191"
 type = "single"
 stem = "On a five-person team, Anna leads the test planning and reports test progress to the stakeholders, and in the same sprint she also designs test cases and executes them. What does the syllabus conclude about the roles Anna performs?"
 options = [
-  "She performs both the test management role and the testing role — the syllabus explicitly allows one person to take on both roles at the same time",
   "She performs only the test management role, because planning and progress reporting outrank design and execution work",
   "She performs only the testing role, because the syllabus assigns the test management role to the job title 'test manager' only",
+  "She performs both the test management role and the testing role — the syllabus explicitly allows one person to take on both roles at the same time",
   "Her arrangement contradicts the syllabus, which requires the two roles to be held by two different people",
 ]
-answers = [0]
+answers = [2]
 explanation = "The two principal roles are defined by activities, not job titles: the test management role covers planning, monitoring, control and completion, while the testing role covers analysis, design, implementation and execution. Anna does work from both sets, and the syllabus states that one person can take on the roles of testing and test management at the same time."
 lo = "FL-1.4.5"
 klevel = "K2"

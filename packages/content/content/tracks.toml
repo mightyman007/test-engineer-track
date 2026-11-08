@@ -202,7 +202,7 @@ source = "ai/module-a7"
 quizPool = "ai/module-a7"
 deck = "ai/module-a7"
 lessonIds = ["ai-m7-sensor-suite", "ai-m7-av-pipeline", "ai-m7-sim-vs-real"]
-examWeight = 4   # informational; the mocks draw ai7 at 3 of 30 (authored M4 blueprint)
+examWeight = 3   # informational; the mocks draw ai7 at 3 of 30 (authored M4 blueprint)
 
 [[track.module]]
 id = "ai-m8-testing-ai-systems"
@@ -213,4 +213,4 @@ source = "ai/module-a8"
 quizPool = "ai/module-a8"
 deck = "ai/module-a8"
 lessonIds = ["ai-m8-metrics", "ai-m8-nondeterminism-failures", "ai-m8-scenario-coverage-sotif"]
-examWeight = 4   # informational; the mocks draw ai8 at 3 of 30 (authored M4 blueprint)
+examWeight = 3   # informational; the mocks draw ai8 at 3 of 30 (authored M4 blueprint)

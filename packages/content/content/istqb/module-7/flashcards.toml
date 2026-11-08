@@ -14,7 +14,7 @@ tags = ["ch6"]
 [[card]]
 id = "istqb-fc-0102"
 front = "What test tools CANNOT do — the three limits, and the syllabus sentence behind them?"
-back = "The syllabus (1.3): testers use tools, but TESTING IS LARGELY AN INTELLECTUAL ACTIVITY, requiring specialized knowledge, analytical skill, and critical and systems thinking. Tools cannot: (1) REPLACE TEST DESIGN THINKING — a tool can generate thousands of test cases and still test the wrong things; deciding what to test and with what coverage stays human; (2) GUARANTEE QUALITY — simply acquiring a tool does not guarantee success; benefits require effort; a tool faithfully executing a weak suite automates weakness; (3) DO WORK MANUAL TESTING DOES BETTER — one-off checks, exploratory charters, usability judgment (automating them is a named risk)."
+back = "The syllabus (1.3): testers use tools, but TESTING IS LARGELY AN INTELLECTUAL ACTIVITY, requiring specialized knowledge, analytical skill, and critical and systems thinking. Tools cannot: (1) REPLACE TEST DESIGN THINKING — a tool can generate thousands of test cases and still test the wrong things; deciding what to test and with what coverage stays human; (2) GUARANTEE QUALITY — simply acquiring a tool does not guarantee success; benefits require effort; a tool faithfully executing a weak suite automates weakness; (3) DO WORK MANUAL TESTING DOES BETTER — one-off checks, test charters, usability judgment (automating them is a named risk)."
 tags = ["ch6"]
 
 [[card]]
