@@ -30,6 +30,12 @@
 # classification exists, and AI exams use count-only groups.
 # Answer positions across the 16 singles: 4 x each of 0/1/2/3 (25% each,
 # non-cyclic); the two multi-selects use two different correct-pair positions.
+# 2026-11-08 final-review fix: ai-q-0053's key sat on the "list of file paths"
+# distractor while the grid-of-numbers option (index 0) is the only defensible
+# answer — re-keyed to [0]; ai-q-0055's options 0/1 swapped (keyed-option text
+# preserved verbatim) so the 4 x each tally stays honest. The Task-5
+# keyed-option-TEXT audit (each keyed option re-read as a statement against its
+# stem) was then run over ALL of A4 and A5 — 36 questions; no other mis-keys.
 # All stems/options/explanations are original.
 
 [[question]]
@@ -42,7 +48,7 @@ options = [
   "A compressed description written in human language",
   "A set of hand-written rules about shapes and edges",
 ]
-answers = [1]
+answers = [0]
 explanation = "An image enters the machine as a grid of numbers — one value per pixel measuring brightness in grayscale. The other options describe what a human might say about the image, not what the computer receives."
 lo = "A4-1"
 tags = ["ai4"]
@@ -67,12 +73,12 @@ id = "ai-q-0055"
 type = "single"
 stem = "In this module's terms, what is a tensor?"
 options = [
-  "A multi-dimensional grid of numbers — for a color image, height × width × channels",
   "A GPU chip optimized for image arithmetic",
+  "A multi-dimensional grid of numbers — for a color image, height × width × channels",
   "A compression format that shrinks images for storage",
   "The list of labels a classifier predicts from",
 ]
-answers = [0]
+answers = [1]
 explanation = "A tensor is the general name for a multi-dimensional grid of numbers; a color image is one with height, width, and channel dimensions. GPUs merely process tensors — the name belongs to the data, not the chip."
 lo = "A4-1"
 tags = ["ai4"]
