@@ -110,32 +110,35 @@ describe('assembleExam', () => {
 // ---------------------------------------------------------------------------
 // Schema v2: per-(chapter × K-level) cells.
 //
-// The M2-pinned per-chapter K draws (pinned in M2's content headers):
-//   ch1 K1=2/K2=6, ch2 K1=2/K2=4, ch3 K1=1/K2=3, ch4 K1=0/K2=6/K3=5,
-//   ch5 K1=1/K2=5/K3=3, ch6 K1=1/K2=1 — 40 questions total.
+// The RECONCILED per-chapter K draws (istqb-mock-1.toml header; ch3's
+// M2-pinned 1/3 split was corrected to 2/2 in M3 — see that header's
+// correction sources):
+//   ch1 K1=2/K2=6, ch2 K1=2/K2=4, ch3 K1=2/K2=2, ch4 K1=0/K2=6/K3=5,
+//   ch5 K1=1/K2=5/K3=3, ch6 K1=1/K2=1 — 40 questions total, K1 8/K2 24/K3 8.
 // The synthetic bank below mirrors the REAL bank's per-(chapter × K) supplies
 // (including its multi-select distribution, multis drawn from the K counts):
-//   ch1 14 K1/22 K2; ch2 9/24; ch3 13/20; ch4 12/9/17; ch5 9/17/7; ch6 8/10
-//   = 191 questions, no klevel-less questions.
+//   ch1 14 K1/22 K2; ch2 9/24; ch3 13/20; ch4 12/9/17; ch5 9/17/7; ch6 8/11
+//   = 192 questions, no klevel-less questions (ch6's 192nd is the M3-added
+//   istqb-q-0192, a second ch6 K2 multi).
 // ---------------------------------------------------------------------------
 
 type Level = 'K1' | 'K2' | 'K3';
 
-/** Per-chapter K supplies + multi-select distribution of the real 191-question bank. */
+/** Per-chapter K supplies + multi-select distribution of the real 192-question bank. */
 const REAL_BANK_SHAPE: Record<string, Record<Level, number> & { multi: Partial<Record<Level, number>> }> = {
   ch1: { K1: 14, K2: 22, K3: 0, multi: { K2: 2 } },
   ch2: { K1: 9, K2: 24, K3: 0, multi: { K1: 1, K2: 1 } },
   ch3: { K1: 13, K2: 20, K3: 0, multi: { K1: 1, K2: 1 } },
   ch4: { K1: 12, K2: 9, K3: 17, multi: { K2: 2 } },
   ch5: { K1: 9, K2: 17, K3: 7, multi: { K2: 1, K3: 1 } },
-  ch6: { K1: 8, K2: 10, K3: 0, multi: { K2: 1 } },
+  ch6: { K1: 8, K2: 11, K3: 0, multi: { K2: 2 } },
 };
 
-/** M2-pinned per-(chapter × K) draws for mock 1. */
+/** Reconciled per-(chapter × K) draws for mock 1 (M3 correction: ch3 2/2). */
 const PINNED_DRAWS: Record<string, Record<Level, number>> = {
   ch1: { K1: 2, K2: 6, K3: 0 },
   ch2: { K1: 2, K2: 4, K3: 0 },
-  ch3: { K1: 1, K2: 3, K3: 0 },
+  ch3: { K1: 2, K2: 2, K3: 0 },
   ch4: { K1: 0, K2: 6, K3: 5 },
   ch5: { K1: 1, K2: 5, K3: 3 },
   ch6: { K1: 1, K2: 1, K3: 0 },
@@ -178,9 +181,9 @@ const MOCK1_CELLS: ExamDefinition = {
 };
 
 describe('assembleExam per-group K cells (schema v2)', () => {
-  it('fills every per-(chapter × K) cell exactly across 50 seeds (M2-pinned cells, 191-shaped bank)', () => {
+  it('fills every per-(chapter × K) cell exactly across 50 seeds (reconciled cells, 192-shaped bank)', () => {
     const bank = realShapedBank();
-    expect(bank).toHaveLength(191);
+    expect(bank).toHaveLength(192);
     for (let seed = 1; seed <= 50; seed++) {
       const exam = assembleExam(MOCK1_CELLS, bank, seed);
       expect(exam.questions).toHaveLength(40);
@@ -196,10 +199,10 @@ describe('assembleExam per-group K cells (schema v2)', () => {
       }
       for (const q of exam.questions) if (q.type === 'multi') multi++;
       expect(multi).toBeLessThanOrEqual(MOCK1_CELLS.multiSelectMax);
-      // aggregate K follows from the cells (7/25/8 — the pinned draws' sum)
+      // aggregate K follows from the cells (8/24/8 — the reconciled draws' sum)
       const byK: Record<string, number> = {};
       for (const q of exam.questions) if (q.klevel) byK[q.klevel] = (byK[q.klevel] ?? 0) + 1;
-      expect(byK).toEqual({ K1: 7, K2: 25, K3: 8 });
+      expect(byK).toEqual({ K1: 8, K2: 24, K3: 8 });
     }
   });
 
@@ -213,7 +216,7 @@ describe('assembleExam per-group K cells (schema v2)', () => {
   it('throws AssemblyError naming the starved cell when a chapter lacks the K supply', () => {
     // Remove every ch4 K3 question: ch4's K3 cell (5) can never fill.
     const bank = realShapedBank().filter((q) => !(q.tags[0] === 'ch4' && q.klevel === 'K3'));
-    expect(bank).toHaveLength(174);
+    expect(bank).toHaveLength(175);
     expect(() => assembleExam(MOCK1_CELLS, bank, 1)).toThrow(AssemblyError);
     expect(() => assembleExam(MOCK1_CELLS, bank, 1)).toThrow(/group ch4 could not draw 5 K3/);
   });

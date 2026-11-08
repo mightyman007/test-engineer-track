@@ -62,7 +62,7 @@ That fifth bullet is the bridge to lesson 2's risk-based prioritization, and the
 Product risk control comprises all measures taken in response to identified and assessed product risks. It consists of two halves:
 
 - **[Risk mitigation](https://istqb-glossary.page/risk-mitigation/)** — implementing the actions proposed during risk assessment **to reduce the risk level**.
-- **[Risk monitoring](https://istqb-glossary.page/risk-monitoring/)** — making sure the mitigation actions **are effective**, obtaining further information to improve risk assessment, and identifying **emerging risks**.
+- **Risk monitoring** — making sure the mitigation actions **are effective**, obtaining further information to improve risk assessment, and identifying **emerging risks**.
 
 Once a risk has been analyzed, several response options exist: **risk mitigation by testing, risk acceptance, risk transfer, or a contingency plan**. Note what "acceptance" means: a deliberate, recorded decision to live with the risk — not ignoring it. Actions that mitigate product risks **by testing** include:
 
