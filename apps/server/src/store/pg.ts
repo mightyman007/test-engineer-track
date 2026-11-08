@@ -88,9 +88,13 @@ export class PgStore implements DataStore {
     return this.migration;
   }
 
-  private async q<T>(text: string, values?: unknown[]): Promise<T[]> {
+  private async raw(text: string, values?: unknown[]): Promise<PgResultLike> {
     await this.ready();
-    const res = await this.pool.query(text, values);
+    return this.pool.query(text, values);
+  }
+
+  private async q<T>(text: string, values?: unknown[]): Promise<T[]> {
+    const res = await this.raw(text, values);
     return res.rows as T[];
   }
 
@@ -177,7 +181,7 @@ export class PgStore implements DataStore {
   }
 
   async updateUserPassword(userId: number, passwordHash: string): Promise<boolean> {
-    const res = await this.pool.query('UPDATE users SET password_hash = $1 WHERE id = $2', [passwordHash, userId]);
+    const res = await this.raw('UPDATE users SET password_hash = $1 WHERE id = $2', [passwordHash, userId]);
     return (res.rowCount ?? 0) > 0;
   }
 
@@ -250,7 +254,7 @@ export class PgStore implements DataStore {
   async recordQuizAttempt(userId: number, attempt: QuizAttemptInput): Promise<boolean> {
     // RETURNING gives an unambiguous inserted/duplicate signal: no row when
     // the conflict was ignored (works identically on node-pg and pg-mem).
-    const res = await this.pool.query(`
+    const res = await this.raw(`
       INSERT INTO quiz_attempts (user_id, attempt_id, module, score, max_score, per_question, created_at)
       VALUES ($1, $2, $3, $4, $5, $6, $7)
       ON CONFLICT DO NOTHING RETURNING attempt_id`,
@@ -273,7 +277,7 @@ export class PgStore implements DataStore {
   }
 
   async recordExamAttempt(userId: number, attempt: ExamAttemptInput): Promise<boolean> {
-    const res = await this.pool.query(`
+    const res = await this.raw(`
       INSERT INTO exam_attempts
         (user_id, attempt_id, exam_id, score, max_score, passed, score_pct, per_tag, responses, duration_sec, created_at)
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
