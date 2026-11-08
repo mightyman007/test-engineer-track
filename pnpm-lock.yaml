@@ -29,6 +29,9 @@ importers:
       hono:
         specifier: ^4.6.0
         version: 4.13.17
+      jose:
+        specifier: ^6.2.16
+        version: 6.2.16
       tet-content:
         specifier: workspace:*
         version: link:../../packages/content
@@ -1173,6 +1176,9 @@ packages:
 
   is-potential-custom-element-name@1.0.1:
     resolution: {integrity: sha512-bCYeRA2rVibKZd+s2625gGnGF/t7DSqDs4dP7CrLA1m7jKWz6pps0LpYLJN8Q64HtmPKJ1hrN3nzPNKFEKOUiQ==}
+
+  jose@6.2.16:
+    resolution: {integrity: sha512-4LSJpbuBuPdGrONCdZUy0xnxtLf8eEz+EY0SMXdHQEBU7bgUHDVblU/JAjryv3wID9/LK7/YuwFwq+AQNfMscQ==}
 
   js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
@@ -2516,6 +2522,8 @@ snapshots:
   idb@8.0.4: {}
 
   is-potential-custom-element-name@1.0.1: {}
+
+  jose@6.2.16: {}
 
   js-tokens@4.0.0: {}
 

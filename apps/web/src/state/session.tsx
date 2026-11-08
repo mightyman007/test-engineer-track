@@ -43,6 +43,34 @@ export function SessionProvider({ children, adapter: injected }: {
     return () => { alive = false; };
   }, [adapter]);
 
+  // One-time same-origin SSO attempt (non-local hosts = a Dana deployment,
+  // where the edge injects X-User-Token into every browser request): a 200
+  // from /api/auth/sso means the visitor's Applied/okta-ext identity is their
+  // app account — connect in cohort mode with zero configuration.
+  useEffect(() => {
+    let alive = true;
+    void (async () => {
+      if (/^(localhost|127\.0\.0\.1)$/.test(window.location.hostname)) return;
+      try {
+        const res = await fetch('/api/auth/sso', { method: 'POST', credentials: 'include' });
+        if (!res.ok) return;
+        const next = createServerAdapter({
+          serverUrl: window.location.origin,
+          onUnauthorized: () => { setAuthExpired(true); },
+        });
+        const s = await next.getSession();
+        if (!s || !alive) return;
+        adapterRef.current = next;
+        setAdapter(next);
+        setSession(s);
+        setAuthExpired(false);
+      } catch { /* fall through to solo */ }
+    })();
+    return () => { alive = false; };
+    // One-time: the platform identity does not change mid-session.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   /** Swaps the live adapter and its mirror ref in one step. */
   function swapAdapter(next: StorageAdapter) {
     adapterRef.current = next;

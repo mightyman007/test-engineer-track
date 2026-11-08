@@ -8,6 +8,7 @@ import {
 } from './auth.js';
 import { dataRoutes } from './routes/data.js';
 import { adminRoutes } from './routes/admin.js';
+import { ssoRoutes } from './routes/sso.js';
 import { ttsRoutes } from './routes/tts.js';
 
 const USERNAME_RE = /^[a-z0-9_-]{3,32}$/;
@@ -125,6 +126,9 @@ export function createApp(db: DB): Hono<AppEnv> {
     return c.json({ user }, 200);
   });
 
+  // SSO mounts BEFORE the data router: /api/auth/sso must not be behind
+  // requireAuth (it IS the login).
+  app.route('/api', ssoRoutes());
   app.route('/api', dataRoutes());
   app.route('/api/admin', adminRoutes());
   app.route('/api/tts', ttsRoutes());

@@ -9,12 +9,13 @@
     "build": "tsc -p tsconfig.json"
   },
   "dependencies": {
-    "tet-core": "workspace:*",
-    "tet-content": "workspace:*",
-    "hono": "^4.6.0",
     "@hono/node-server": "^1.13.0",
-    "better-sqlite3": "^13.0.3",
     "bcryptjs": "^3.0.2",
+    "better-sqlite3": "^13.0.3",
+    "hono": "^4.6.0",
+    "jose": "^6.2.16",
+    "tet-content": "workspace:*",
+    "tet-core": "workspace:*",
     "tsx": "^4.19.0"
   },
   "devDependencies": {
