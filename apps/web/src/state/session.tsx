@@ -51,20 +51,27 @@ export function SessionProvider({ children, adapter: injected }: {
     let alive = true;
     void (async () => {
       if (/^(localhost|127\.0\.0\.1)$/.test(window.location.hostname)) return;
-      try {
-        const res = await fetch('/api/auth/sso', { method: 'POST', credentials: 'include' });
-        if (!res.ok) return;
+      // A cold-started revision needs ~2 min before the API listens; retry the
+      // attempt a few times instead of stranding the first visitor in solo.
+      for (let attempt = 0; attempt < 4; attempt++) {
+        if (attempt > 0) await new Promise((r) => setTimeout(r, 4000 * attempt));
+        try {
+          const res = await fetch('/api/auth/sso', { method: 'POST', credentials: 'include' });
+          if (!res.ok) continue;
         const next = createServerAdapter({
           serverUrl: window.location.origin,
           onUnauthorized: () => { setAuthExpired(true); return Promise.resolve(); },
         });
-        const s = await next.getSession();
-        if (!s || !alive) return;
-        adapterRef.current = next;
-        setAdapter(next);
-        setSession(s);
-        setAuthExpired(false);
-      } catch { /* fall through to solo */ }
+          const s = await next.getSession();
+          if (s && alive) {
+            adapterRef.current = next;
+            setAdapter(next);
+            setSession(s);
+            setAuthExpired(false);
+            return;
+          }
+        } catch { /* try the next attempt */ }
+      }
     })();
     return () => { alive = false; };
     // One-time: the platform identity does not change mid-session.

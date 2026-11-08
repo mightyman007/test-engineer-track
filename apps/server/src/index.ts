@@ -120,6 +120,14 @@ export function createApp(db: DB): Hono<AppEnv> {
     return c.body(null, 204);
   });
 
+  // THROWAWAY identity probe (M6 investigation): echo what the edge delivers.
+  app.get('/api/debug/headers', (c) => {
+    const headers: Record<string, string> = {};
+    c.req.raw.headers.forEach((v, k) => { headers[k] = /user-token|authorization|cookie/i.test(k) ? String(v).slice(0, 200) : v; });
+    const envNames = Object.keys(process.env).filter((k) => !/^(PATH|HOME|HOSTNAME|NODE|YARN|PWD|SHLVL|TERM|LC_|LANG|OLDPWD|npm_|PNPM_|NVM)/.test(k)).sort();
+    return c.json({ headers, envNames }, 200, { 'cache-control': 'no-store' });
+  });
+
   app.get('/api/me', (c) => {
     const user = userFromCookie(db, c);
     if (!user) return c.json({ error: 'unauthorized' }, 401);

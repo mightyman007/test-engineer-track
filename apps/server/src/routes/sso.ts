@@ -15,7 +15,10 @@ export function ssoRoutes(): Hono<AppEnv> {
 
   r.post('/auth/sso', async (c) => {
     if (!ssoEnabled()) return c.json({ error: 'sso not enabled' }, 404);
-    const userToken = c.req.header("X-User-Token");
+    // The edge delivers "Bearer <jwt>" inside the header — strip the scheme
+    // before JOSE sees it.
+    const raw = c.req.header("X-User-Token");
+    const userToken = raw?.replace(/^Bearer\s+/i, "");
     if (!userToken) return c.json({ error: "no X-User-Token" }, 401);
     let identity;
     try {
