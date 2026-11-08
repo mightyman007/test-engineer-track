@@ -5,7 +5,7 @@ import { TrackPage } from './TrackPage.js';
 import { ContentProvider } from '../lib/content-context.js';
 import { SessionProvider } from '../state/session.js';
 import type { ContentBundle, Module, Track } from 'tet-core';
-import type { ProgressEntry, ProgressMap, StorageAdapter } from 'tet-storage';
+import type { ExamAttempt, ProgressEntry, ProgressMap, StorageAdapter } from 'tet-storage';
 
 // The DOM-level test M2's review asked for: TrackPage is the app's
 // least-tested surface (Dashboard/ExamRunner had coverage; the track
@@ -55,13 +55,33 @@ const progress: ProgressMap = {
 const adapter: Partial<StorageAdapter> = {
   getSession: () => Promise.resolve(null),
   getProgress: () => Promise.resolve(progress),
+  getExamAttempts: () => Promise.resolve([]),
 };
 
-function renderTrackPage(a: Partial<StorageAdapter> = adapter) {
+// Task 4 (M3) made the readiness line data-driven: with examIds wired the
+// line reads the learner's exam attempts (filtered to the track's exams).
+const examTrack: Track = {
+  ...track,
+  readiness: { examIds: ['e1', 'e2'], passPct: 65, readyPct: 80 },
+};
+const attempt = (n: number, examId: string, scorePct: number, day: string): ExamAttempt => ({
+  attemptId: `a${n}`,
+  examId,
+  score: scorePct,
+  max: 100,
+  passed: scorePct >= 65,
+  scorePct,
+  perTag: {},
+  responses: {},
+  createdAt: `2026-01-${day}T10:00:00.000Z`,
+  durationSec: 1800,
+});
+
+function renderTrackPage(a: Partial<StorageAdapter> = adapter, b: ContentBundle = bundle) {
   return render(
     <MemoryRouter initialEntries={['/track/t1']}>
       <SessionProvider adapter={a as StorageAdapter}>
-        <ContentProvider seed={bundle}>
+        <ContentProvider seed={b}>
           <Routes>
             <Route path="/track/:trackId" element={<TrackPage />} />
           </Routes>
@@ -96,19 +116,57 @@ describe('TrackPage', () => {
     // Module 1's lessons are all done → "complete · 100%".
     expect(screen.getByText(/complete · 100%/)).toBeTruthy();
     // A lessonless module shows "complete · 0%" — moduleDone's every() is
-    // vacuously true over an empty lesson list (pinned current behavior;
-    // revisit if M3's lessonless module 8 wants a distinct marker).
+    // vacuously true over an empty lesson list. (M3's module 8 shipped with
+    // one lesson, so no lessonless module exists in the real manifest; the
+    // synthetic fixture keeps pinning the generic behavior.)
     expect(screen.getByText(/complete · 0%/)).toBeTruthy();
     // Module 2 is half done → its marker reflects partial progress.
     expect(screen.getByText(/2 lessons · 50%/)).toBeTruthy();
   });
 
-  it('shows the readiness placeholder while no mock exams are wired', async () => {
-    // Task 4 (M3) makes this line data-driven from readiness.examIds — that
-    // task must update THIS assertion alongside the component change.
+  it('keeps the placeholder line for a track with no wired exams', async () => {
+    // Task 4 (M3) made this line data-driven from readiness.examIds + the
+    // learner's exam attempts. The placeholder branch remains for tracks
+    // whose readiness.examIds is still empty (the M4 AI track ships later).
     renderTrackPage();
     await waitFor(() => expect(screen.getByText(/readiness:/i)).toBeTruthy());
     expect(screen.getByText(/mock exams arrive with milestone 3/)).toBeTruthy();
+  });
+
+  it('reads the readiness verdict from the track exam attempts when exams are wired', async () => {
+    // Ready: last 2 attempts (82 + 88) average 85 ≥ readyPct 80.
+    renderTrackPage({
+      ...adapter,
+      getExamAttempts: () => Promise.resolve([
+        attempt(1, 'e1', 82, '02'),
+        attempt(2, 'e2', 88, '03'),
+      ]),
+    }, { ...bundle, tracks: [examTrack] });
+    await waitFor(() => expect(screen.getByText(/readiness: ready$/i)).toBeTruthy());
+  });
+
+  it('shows the last-2 average when wired exams are below readyPct', async () => {
+    renderTrackPage({
+      ...adapter,
+      getExamAttempts: () => Promise.resolve([
+        attempt(1, 'e1', 60, '02'),
+        attempt(2, 'e2', 70, '03'),
+      ]),
+    }, { ...bundle, tracks: [examTrack] });
+    await waitFor(() => expect(screen.getByText(/readiness: last 2 average 65%/i)).toBeTruthy());
+  });
+
+  it('asks for 2 mock exams when fewer attempts exist on the wired exams', async () => {
+    // One attempt, even a perfect one, gives no readiness reading; attempts
+    // on exams outside the track's readiness list never leak in.
+    renderTrackPage({
+      ...adapter,
+      getExamAttempts: () => Promise.resolve([
+        attempt(1, 'e1', 100, '02'),
+        attempt(2, 'other-exam', 100, '03'),
+      ]),
+    }, { ...bundle, tracks: [examTrack] });
+    await waitFor(() => expect(screen.getByText(/readiness: take 2 mock exams for a reading/i)).toBeTruthy());
   });
 
   it('renders the track-not-found fallback for an unknown track id', async () => {

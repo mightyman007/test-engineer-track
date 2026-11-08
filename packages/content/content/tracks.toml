@@ -1,10 +1,14 @@
 # Track manifest — Test Engineer Track content root.
-# Modules 1-7 shipped (M1/M2); module 8 + the mock exams arrive in M3 —
-# Task 3 wired readiness_examIds to the five blueprint-exact mocks
-# (istqb-mock-1..5, content/exams/); Task 4 replaces TrackPage's readiness
-# placeholder with the data-driven readiness UI that consumes these ids.
-# `readiness_examIds = []` remains valid: the track page shows that placeholder
-# until exams are wired.
+# Modules 1-8 shipped. Module 8 (istqb-m8-readiness) is the readiness hub:
+# ONE lesson ("How mock exams work"), examWeight 0 (not a syllabus chapter —
+# no exam questions draw from it), and INTENTIONALLY EMPTY quiz/deck pools —
+# its questions.toml/flashcards.toml are comment-only TOML, which build.ts
+# parses as empty pools; the module page renders the track's mock-exam list
+# and the readiness indicator instead of a practice section.
+# readiness_examIds wires the five blueprint-exact mocks (istqb-mock-1..5,
+# content/exams/); the TrackPage/Dashboard readiness UI consumes these ids.
+# `readiness_examIds = []` remains valid: the track page shows a placeholder
+# until exams are wired (the M4 AI track will start there).
 
 [[track]]
 id = "istqb-ctfl"
@@ -91,3 +95,14 @@ quizPool = "istqb/module-7"
 deck = "istqb/module-7"
 lessonIds = ["istqb-m7-tool-support", "istqb-m7-benefits-risks"]
 examWeight = 2   # informational; the official ch6 draw is 2 of 40 questions
+
+[[track.module]]
+id = "istqb-m8-readiness"
+track = "istqb-ctfl"
+title = "Exam Readiness"
+order = 8
+source = "istqb/module-8"
+quizPool = "istqb/module-8"   # comment-only file → empty pool (build.ts tolerance)
+deck = "istqb/module-8"       # comment-only file → empty deck
+lessonIds = ["istqb-m8-how-mocks-work"]
+examWeight = 0   # informational: not a syllabus chapter — the mock exams draw from modules 1-7

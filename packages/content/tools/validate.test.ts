@@ -169,6 +169,25 @@ describe('validateContent', () => {
     expect(d.some((x) => x.message.includes('group ch1 could not draw 1 K1'))).toBe(true);
   });
 
+  it('counts a multi-tag klevel\'d question once in the legacy global-K supply', () => {
+    // Task 2's ledgered carry-in (fixed in Task 4): kCount used to increment
+    // inside the per-tag loop, so a double-tagged question inflated the legacy
+    // global-K supply. Two K1 questions double-tagged ch1+ch9 must count as
+    // supply 2 — a global K1 quota of 3 is a shortfall, not a pass.
+    const e = baseExam();
+    e.total = 3;
+    e.klevels = { K1: 3, K2: 0, K3: 0 };
+    e.groups = [{ tag: 'ch1', count: 3 }];
+    const d = validateContent(input({
+      questions: [
+        { ...baseQuestion(), id: 'q1', tags: ['ch1', 'ch9'] },
+        { ...baseQuestion(), id: 'q2', tags: ['ch1', 'ch9'] },
+      ],
+      exams: [e],
+    }));
+    expect(d.some((x) => x.message.includes('K1 quota 3 exceeds bank supply 2'))).toBe(true);
+  });
+
   it('assembles all five shipped mock exams from the real bank with zero diagnostics', () => {
     // Integration with the authored content: the five M3 mock definitions
     // (content/exams/istqb-mock-*.toml) must validate against the REAL 192-question

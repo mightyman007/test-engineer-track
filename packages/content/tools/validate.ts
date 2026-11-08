@@ -84,10 +84,13 @@ export function validateContent(input: ValidationInput): Diagnostic[] {
   /** Key `${tag}|${klevel}` → bank count, for schema-v2 per-group K supply. */
   const tagKCount = new Map<string, number>();
   for (const q of input.questions) {
+    // Global K supply counts each klevel'd question ONCE — the per-tag loop
+    // below multiplies by tags, which would inflate the legacy quota check
+    // for multi-tag questions (Task 2 ledger, fixed in Task 4).
+    if (q.klevel) kCount.set(q.klevel, (kCount.get(q.klevel) ?? 0) + 1);
     for (const t of q.tags) {
       tagCount.set(t, (tagCount.get(t) ?? 0) + 1);
       if (q.klevel) {
-        kCount.set(q.klevel, (kCount.get(q.klevel) ?? 0) + 1);
         const key = `${t}|${q.klevel}`;
         tagKCount.set(key, (tagKCount.get(key) ?? 0) + 1);
       }

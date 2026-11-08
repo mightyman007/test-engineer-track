@@ -14,6 +14,26 @@ export const CONTENT_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..
 
 export interface BankFloor { tag: string; minimum: number; }
 
+/**
+ * Quiz/deck pool files may ship as comment-only TOML — module 8 (exam
+ * readiness) has INTENTIONALLY EMPTY practice pools, and its module page
+ * renders the track's mock-exam list instead of a quiz. A file whose every
+ * line is blank or a comment declares no `[[question]]`/`[[card]]` tables:
+ * parse it as an empty pool. Any other failure — TOML syntax errors, or real
+ * tables failing schema validation — stays loud: the tolerance is only for
+ * "genuinely nothing here", never a mask for a broken bank.
+ */
+function parsePoolToml<T>(path: string, parse: (text: string) => T[]): T[] {
+  const text = readFileSync(path, 'utf8');
+  try {
+    return parse(text);
+  } catch (err) {
+    const commentOnly = text.split(/\r?\n/).every((line) => /^\s*(?:#|$)/.test(line));
+    if (commentOnly) return [];
+    throw err;
+  }
+}
+
 /** Reads content/bank-floors.toml; the file is optional → no floors. */
 export function readBankFloors(root: string): BankFloor[] {
   const path = join(root, 'bank-floors.toml');
@@ -69,10 +89,10 @@ export function collectContent(root: string): {
       for (const f of files.filter((x) => x.endsWith('.md'))) {
         lessons.push(parseLessonMarkdown(readFileSync(join(dir, f), 'utf8')));
       }
-      const modQs = parseQuestionsToml(readFileSync(join(dir, 'questions.toml'), 'utf8'));
+      const modQs = parsePoolToml(join(dir, 'questions.toml'), parseQuestionsToml);
       questions.push(...modQs);
       modQuestions.push(...modQs.map((q) => q.id));
-      const modCardsToml = parseFlashcardsToml(readFileSync(join(dir, 'flashcards.toml'), 'utf8'));
+      const modCardsToml = parsePoolToml(join(dir, 'flashcards.toml'), parseFlashcardsToml);
       flashcards.push(...modCardsToml);
       modCards.push(...modCardsToml.map((c) => c.id));
       questionsByModule[mod.id] = modQuestions;

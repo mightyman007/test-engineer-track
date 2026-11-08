@@ -224,4 +224,40 @@ describe('buildContentJson', () => {
     for (const id of track.readiness.examIds) expect(examIds.has(id)).toBe(true);
     expect(bundle.exams).toHaveLength(5);
   });
+
+  it('parses comment-only quiz and deck files as empty pools (module 8 pattern)', () => {
+    // M3 Task 4: module 8 (exam readiness) ships INTENTIONALLY EMPTY pools as
+    // comment-only TOML — its page renders the track's mock-exam list instead
+    // of a practice quiz. The build must read those as empty pools, keep the
+    // module's lessons, and record [] in the per-module pool maps.
+    const root = seedRoot({ modules: 2 });
+    writeFileSync(join(root, 'm2', 'questions.toml'), [
+      '# Module 8 (exam readiness) — INTENTIONALLY EMPTY question pool.',
+      '#',
+      '# This module is the readiness hub: its page lists the track\'s mock exams',
+      '# and the readiness indicator instead of a module quiz. The exam questions',
+      '# live in the per-chapter banks (modules 1-7) that the mocks draw from.',
+      '# build.ts parses a file with no [[question]] tables as an empty pool, so',
+      '# this comment-only file is valid authoring, not a broken module.',
+      '',
+    ].join('\n'));
+    writeFileSync(join(root, 'm2', 'flashcards.toml'), [
+      '# Module 8 (exam readiness) — INTENTIONALLY EMPTY deck (comment-only TOML).',
+      '',
+    ].join('\n'));
+    const bundle = buildContentJson(root);
+    expect(bundle.lessons['l2']).toBeTruthy();
+    expect(bundle.questions).toHaveLength(1); // only m1's q1
+    expect(bundle.flashcards).toHaveLength(1); // only m1's c1
+    expect(bundle.questionsByModule['m2']).toEqual([]);
+    expect(bundle.cardsByModule['m2']).toEqual([]);
+  });
+
+  it('keeps pool-file failures loud when the file is not comment-only', () => {
+    // The tolerance is for "genuinely nothing here" — a file with real (or
+    // garbage) content must still fail the build, never silently go empty.
+    const root = seedRoot();
+    writeFileSync(join(root, 'm1', 'questions.toml'), 'this file is not valid toml at all\n');
+    expect(() => buildContentJson(root)).toThrow();
+  });
 });
