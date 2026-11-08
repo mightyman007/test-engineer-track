@@ -117,16 +117,17 @@ describe('assembleExam', () => {
 //   ch5 K1=1/K2=5/K3=3, ch6 K1=1/K2=1 — 40 questions total, K1 8/K2 24/K3 8.
 // The synthetic bank below mirrors the REAL bank's per-(chapter × K) supplies
 // (including its multi-select distribution, multis drawn from the K counts):
-//   ch1 14 K1/22 K2; ch2 9/24; ch3 13/20; ch4 12/9/17; ch5 9/17/7; ch6 8/11
+//   ch1 13 K1/23 K2; ch2 9/24; ch3 13/20; ch4 12/9/17; ch5 9/17/7; ch6 8/11
 //   = 192 questions, no klevel-less questions (ch6's 192nd is the M3-added
 //   istqb-q-0192, a second ch6 K2 multi).
+// (ch1 was 14/22 until the M4 consistency pass re-tagged istqb-q-0012 K1→K2.)
 // ---------------------------------------------------------------------------
 
 type Level = 'K1' | 'K2' | 'K3';
 
 /** Per-chapter K supplies + multi-select distribution of the real 192-question bank. */
 const REAL_BANK_SHAPE: Record<string, Record<Level, number> & { multi: Partial<Record<Level, number>> }> = {
-  ch1: { K1: 14, K2: 22, K3: 0, multi: { K2: 2 } },
+  ch1: { K1: 13, K2: 23, K3: 0, multi: { K2: 2 } },
   ch2: { K1: 9, K2: 24, K3: 0, multi: { K1: 1, K2: 1 } },
   ch3: { K1: 13, K2: 20, K3: 0, multi: { K1: 1, K2: 1 } },
   ch4: { K1: 12, K2: 9, K3: 17, multi: { K2: 2 } },
