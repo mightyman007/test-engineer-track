@@ -8,7 +8,8 @@
 # readiness_examIds wires the five blueprint-exact mocks (istqb-mock-1..5,
 # content/exams/); the TrackPage/Dashboard readiness UI consumes these ids.
 # `readiness_examIds = []` remains valid: the track page shows a placeholder
-# until exams are wired (the M4 AI track will start there).
+# until exams are wired (the M4 AI track started there — its mocks landed in
+# M4 Task 7).
 
 [[track]]
 id = "istqb-ctfl"
@@ -106,3 +107,110 @@ quizPool = "istqb/module-8"   # comment-only file → empty pool (build.ts toler
 deck = "istqb/module-8"       # comment-only file → empty deck
 lessonIds = ["istqb-m8-how-mocks-work"]
 examWeight = 0   # informational: not a syllabus chapter — the mock exams draw from modules 1-7
+
+# Track 2 — AI for Test Engineers (M4). No official syllabus exists for this
+# track: the learning objectives live in each module's questions.toml header
+# as the coverage contract, and the mock blueprint is authored rather than
+# reconciled from an official source (M4 Task 7): 30 questions drawn ai1-ai6
+# at 4 each and ai7/ai8 at 3, 45 minutes, pass 70% — count-only groups, since
+# the AI bank ships klevel-free. readiness_examIds wires the two count-matched
+# mocks (ai-mock-1/ai-mock-2, content/exams/) that the validator proves
+# assemble from the 140-question AI bank; the TrackPage/Dashboard readiness UI
+# consumes these ids.
+
+[[track]]
+id = "ai-fundamentals"
+title = "AI for Test Engineers"
+description = "From zero AI knowledge to how AI powers autonomous vehicles — and how to test it."
+order = 2
+readiness_passPct = 70
+readiness_readyPct = 78
+readiness_examIds = ["ai-mock-1", "ai-mock-2"]   # M4 Task 7: the Task 2 empty placeholder, filled
+
+[[track.module]]
+id = "ai-m1-what-is-ai"
+track = "ai-fundamentals"
+title = "What is AI?"
+order = 1
+source = "ai/module-a1"
+quizPool = "ai/module-a1"
+deck = "ai/module-a1"
+lessonIds = ["ai-m1-what-is-ai", "ai-m1-ai-vs-ml", "ai-m1-rule-based-vs-learned"]
+examWeight = 4   # informational; the mocks draw 4 of 30 questions per mock (authored M4 blueprint)
+
+[[track.module]]
+id = "ai-m2-how-machines-learn"
+track = "ai-fundamentals"
+title = "How Machines Learn"
+order = 2
+source = "ai/module-a2"
+quizPool = "ai/module-a2"
+deck = "ai/module-a2"
+lessonIds = ["ai-m2-data-and-labels", "ai-m2-learning-paradigms", "ai-m2-splits-and-overfitting"]
+examWeight = 4   # informational; the mocks draw 4 of 30 questions per mock (authored M4 blueprint)
+
+[[track.module]]
+id = "ai-m3-neural-networks"
+track = "ai-fundamentals"
+title = "Neural Networks from Scratch"
+order = 3
+source = "ai/module-a3"
+quizPool = "ai/module-a3"
+deck = "ai/module-a3"
+lessonIds = ["ai-m3-neurons-forward-pass", "ai-m3-backprop-intuition", "ai-m3-gradient-descent"]
+examWeight = 4   # informational; the mocks draw 4 of 30 questions per mock (authored M4 blueprint)
+
+[[track.module]]
+id = "ai-m4-computer-vision"
+track = "ai-fundamentals"
+title = "Computer Vision Fundamentals"
+order = 4
+source = "ai/module-a4"
+quizPool = "ai/module-a4"
+deck = "ai/module-a4"
+lessonIds = ["ai-m4-images-as-tensors", "ai-m4-convolutions-cnns", "ai-m4-vision-tasks"]
+examWeight = 4   # informational; the mocks draw 4 of 30 questions per mock (authored M4 blueprint)
+
+[[track.module]]
+id = "ai-m5-object-detection"
+track = "ai-fundamentals"
+title = "Object Detection: One-Stage vs Two-Stage"
+order = 5
+source = "ai/module-a5"
+quizPool = "ai/module-a5"
+deck = "ai/module-a5"
+lessonIds = ["ai-m5-detection-task", "ai-m5-two-stage", "ai-m5-one-stage"]
+examWeight = 4   # informational; the mocks draw 4 of 30 questions per mock (authored M4 blueprint)
+
+[[track.module]]
+id = "ai-m6-transformers-llms"
+track = "ai-fundamentals"
+title = "Transformers & LLMs"
+order = 6
+source = "ai/module-a6"
+quizPool = "ai/module-a6"
+deck = "ai/module-a6"
+lessonIds = ["ai-m6-tokens-embeddings", "ai-m6-attention-llms"]
+examWeight = 4   # informational; the mocks draw 4 of 30 questions per mock (authored M4 blueprint)
+
+[[track.module]]
+id = "ai-m7-av-stack"
+track = "ai-fundamentals"
+title = "AI in the Autonomous-Vehicle Stack"
+order = 7
+source = "ai/module-a7"
+quizPool = "ai/module-a7"
+deck = "ai/module-a7"
+lessonIds = ["ai-m7-sensor-suite", "ai-m7-av-pipeline", "ai-m7-sim-vs-real"]
+examWeight = 3   # informational; the mocks draw ai7 at 3 of 30 (authored M4 blueprint)
+
+[[track.module]]
+id = "ai-m8-testing-ai-systems"
+track = "ai-fundamentals"
+title = "Testing AI Systems"
+order = 8
+source = "ai/module-a8"
+quizPool = "ai/module-a8"
+deck = "ai/module-a8"
+lessonIds = ["ai-m8-metrics", "ai-m8-nondeterminism-failures", "ai-m8-scenario-coverage-sotif"]
+examWeight = 3   # informational; the mocks draw ai8 at 3 of 30 (authored M4 blueprint)

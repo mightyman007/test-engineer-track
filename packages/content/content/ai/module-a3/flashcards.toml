@@ -1,0 +1,78 @@
+# AI for Test Engineers — Module A3 "Neural Networks from Scratch"
+# 12 atomic flashcards: the neuron (weighted sum + activation), weights vs
+# bias, why activation/nonlinearity matters, ReLU, layers, the forward pass,
+# loss, backpropagation as blame assignment, its backward ordering, gradient
+# descent as rolling downhill, the learning rate's failure modes, and what
+# training actually changes.
+
+[[card]]
+id = "ai-fc-0023"
+front = "What does a single artificial neuron compute, in order?"
+back = "Two steps: (1) a weighted sum — each input times its weight, plus a bias — and (2) an activation function applied to that total. Weights say how much each input matters; the bias shifts the threshold."
+tags = ["ai3"]
+
+[[card]]
+id = "ai-fc-0024"
+front = "In a neuron, what is the difference between the weights and the bias?"
+back = "Weights multiply the inputs — they set how much each input matters. The bias is a constant added to the sum — it shifts the neuron's threshold without touching any input."
+tags = ["ai3"]
+
+[[card]]
+id = "ai-fc-0025"
+front = "Why do neural networks need a (non-linear) activation function?"
+back = "A stack of purely linear steps collapses into one big linear step, which could only draw straight-line boundaries. The activation is what lets layered networks learn curved patterns."
+tags = ["ai3"]
+
+[[card]]
+id = "ai-fc-0026"
+front = "What does the ReLU activation do?"
+back = "One line: output = max(0, z). Passes positive results through unchanged, clamps negative results to zero — so a neuron whose weighted sum is negative contributes nothing for that input."
+tags = ["ai3"]
+
+[[card]]
+id = "ai-fc-0027"
+front = "What is a layer in a neural network, and what makes a network 'deep'?"
+back = "A layer is a column of neurons that all read the previous layer's outputs and feed the next one. Hidden layers sit between input and output; 'deep learning' simply means many layers stacked this way."
+tags = ["ai3"]
+
+[[card]]
+id = "ai-fc-0028"
+front = "What is a forward pass, and why is it deterministic for a deployed model?"
+back = "One sweep of weighted sums and activations flowing input → hidden → output. A deployed model's weights are frozen numbers, so the same input always yields the same output — inference is a pure function."
+tags = ["ai3"]
+
+[[card]]
+id = "ai-fc-0029"
+front = "What is the loss in machine learning?"
+back = "The measured wrongness of a prediction — a number comparing what the model predicted against the true answer. Big mistake, big loss; training exists to turn the loss down."
+tags = ["ai3"]
+
+[[card]]
+id = "ai-fc-0030"
+front = "What does backpropagation do, in one line?"
+back = "Blame assignment: starting from the prediction error at the output, every weight receives a share of the blame in proportion to its contribution — flowing backward through the layers."
+tags = ["ai3"]
+
+[[card]]
+id = "ai-fc-0031"
+front = "Why does backpropagation work from the output layer backward?"
+back = "Because blame is relative: how much a hidden neuron deserves depends on how much the layers after it used its output. Each layer's share can only be computed once the layer ahead of it is scored."
+tags = ["ai3"]
+
+[[card]]
+id = "ai-fc-0032"
+front = "What is gradient descent, in landscape terms?"
+back = "Every weight setting is a location on a landscape whose height is the loss. Training measures the local slope and takes a small step downhill, over and over — many nearly-blind steps that add up to a descent."
+tags = ["ai3"]
+
+[[card]]
+id = "ai-fc-0033"
+front = "What goes wrong when the learning rate is too big? Too small?"
+back = "Too big: each step overshoots the valley — the loss bounces up and down, sometimes climbing forever. Too small: each step barely moves — training crawls for thousands of steps and may stall. Just right: smooth, steady descent."
+tags = ["ai3"]
+
+[[card]]
+id = "ai-fc-0034"
+front = "What does training actually change — and what must testers re-verify afterwards?"
+back = "Weights and biases (numbers), never code. Because weight changes can shift behavior on other inputs too, every retrain is a regression-testing event: previously-correct behavior must be re-verified."
+tags = ["ai3"]

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <rect width="800" height="450" fill="#f7f8fb"/>
+  <text x="400" y="42" text-anchor="middle" font-size="24" font-weight="700" fill="#1a1a2e">Three ways machines learn</text>
+  <text x="400" y="68" text-anchor="middle" font-size="14" fill="#1a1a2e">Same goal &#8212; getting better at a task &#8212; but the driving feedback is completely different</text>
+  <rect x="24" y="95" width="244" height="290" rx="8" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <rect x="288" y="95" width="244" height="290" rx="8" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <rect x="552" y="95" width="244" height="290" rx="8" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="40" y="124" font-size="13.5" font-weight="700" fill="#1a1a2e">SUPERVISED</text>
+  <text x="40" y="144" font-size="12" fill="#1a1a2e">learning with an answer key:</text><text x="40" y="160" font-size="12" fill="#1a1a2e">every example ships with the</text><text x="40" y="176" font-size="12" fill="#1a1a2e">correct answer (its label)</text>
+  <text x="40" y="212" font-size="12.5" font-weight="700" fill="#1a1a2e">Everyday example</text>
+  <text x="40" y="232" font-size="12" fill="#1a1a2e">spam vs not-spam email,</text><text x="40" y="248" font-size="12" fill="#1a1a2e">house price from size and</text><text x="40" y="264" font-size="12" fill="#1a1a2e">location</text>
+  <text x="40" y="300" font-size="12.5" font-weight="700" fill="#1a1a2e">Watch out</text>
+  <text x="40" y="320" font-size="12" fill="#1a1a2e">wrong labels teach the</text><text x="40" y="336" font-size="12" fill="#1a1a2e">wrong lesson &#8212; confidently</text>
+  <text x="304" y="124" font-size="13.5" font-weight="700" fill="#1a1a2e">UNSUPERVISED</text>
+  <text x="304" y="144" font-size="12" fill="#1a1a2e">no answer key: just a pile</text><text x="304" y="160" font-size="12" fill="#1a1a2e">of examples; the model</text><text x="304" y="176" font-size="12" fill="#1a1a2e">finds structure on its own</text>
+  <text x="304" y="212" font-size="12.5" font-weight="700" fill="#1a1a2e">Everyday example</text>
+  <text x="304" y="232" font-size="12" fill="#1a1a2e">grouping customers by</text><text x="304" y="248" font-size="12" fill="#1a1a2e">behavior; flagging odd</text><text x="304" y="264" font-size="12" fill="#1a1a2e">transactions</text>
+  <text x="304" y="300" font-size="12.5" font-weight="700" fill="#1a1a2e">Watch out</text>
+  <text x="304" y="320" font-size="12" fill="#1a1a2e">no "correct" answer to</text><text x="304" y="336" font-size="12" fill="#1a1a2e">check the groups against</text>
+  <text x="568" y="124" font-size="13.5" font-weight="700" fill="#1a1a2e">REINFORCEMENT</text>
+  <text x="568" y="144" font-size="12" fill="#1a1a2e">learning by trial and error:</text><text x="568" y="160" font-size="12" fill="#1a1a2e">try actions, keep the ones</text><text x="568" y="176" font-size="12" fill="#1a1a2e">that score rewards</text>
+  <text x="568" y="212" font-size="12.5" font-weight="700" fill="#1a1a2e">Everyday example</text>
+  <text x="568" y="232" font-size="12" fill="#1a1a2e">the game-playing AI behind</text><text x="568" y="248" font-size="12" fill="#1a1a2e">AlphaGo; a robot learning</text><text x="568" y="264" font-size="12" fill="#1a1a2e">to walk</text>
+  <text x="568" y="300" font-size="12.5" font-weight="700" fill="#1a1a2e">Watch out</text>
+  <text x="568" y="320" font-size="12" fill="#1a1a2e">it optimizes the reward you</text><text x="568" y="336" font-size="12" fill="#1a1a2e">defined &#8212; not the one you meant</text>
+  <text x="400" y="428" text-anchor="middle" font-size="12.5" fill="#1a1a2e">Ask of any AI feature: what feedback drove its learning? That answer predicts how it will fail.</text>
+</svg>

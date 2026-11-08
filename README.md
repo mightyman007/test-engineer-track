@@ -1,19 +1,32 @@
 # Test Engineer Track
 
-A training platform that turns non-technical test specialists into test engineers:
-ISTQB Foundation (CTFL v4.0) prep plus an AI-testing track, with lessons, module
-quizzes, mock exams, spaced-repetition flashcards, read-aloud (TTS), and cohort
-tracking with an admin roster.
+A training platform that turns non-technical test specialists into test engineers,
+with two self-contained tracks: **ISTQB Foundation (CTFL v4.0)** exam prep and
+**AI for Test Engineers** (from zero AI knowledge to how AI powers autonomous
+vehicles — and how to test it). Both tracks ship lessons, module quizzes, mock
+exams, spaced-repetition flashcards, read-aloud (TTS), and cohort tracking with
+an admin roster.
 
-**Status:** the ISTQB Foundation (CTFL v4.0) track is fully authored: 27
-lessons, 192 questions, 110 flashcards, 27 diagrams, and 85 verified videos,
-plus five blueprint-exact mock exams (`istqb-mock-1..5` — each mirrors the
-official CTFL v4.0 shape: 40 questions, 60 minutes, pass at 65%, with the
-official per-chapter and K-level question distribution). Module 8 is the exam
-readiness hub: it lists the five mock exams as entry points and shows a
-Ready / Not-yet verdict — the mean of the learner's last 2 mock attempts must
-reach 80% to count as ready. The AI track follows in M4. See `docs/` for the
-spec and plan.
+**Status:** both tracks are fully authored — 50 lessons (27 ISTQB + 23 AI), 332
+questions (192 + 140), 202 flashcards (110 + 92), 49 diagrams, and 115 verified
+videos (85 + 30), plus seven mock exams.
+
+- The **ISTQB track** has five blueprint-exact mocks (`istqb-mock-1..5` — each
+  mirrors the official CTFL v4.0 shape: 40 questions, 60 minutes, pass at 65%,
+  with the official per-chapter and K-level question distribution). Its module 8
+  is the exam-readiness hub: it lists the five mock exams as entry points and
+  shows a Ready / Not-yet verdict — the mean of the learner's last 2 mock
+  attempts must reach 80% to count as ready.
+- The **AI track** (eight modules, `ai-m1`–`ai-m8`) covers what AI and machine
+  learning are, neural networks from scratch, computer vision, object detection,
+  transformers & LLMs, the autonomous-vehicle AI stack, and how to *test* AI
+  systems — metrics, nondeterministic failures, and scenario coverage/SOTIF.
+  AI lessons also embed an interactive demo (a trainable perceptron rendered in
+  the browser). Its two mocks (`ai-mock-1..2` — 30 questions, 45 minutes, pass
+  at 70%) draw from the AI question bank per an authored blueprint, and its
+  readiness verdict uses the same last-2-attempts logic at a 78% threshold.
+
+See `docs/` for the spec and plan.
 
 ## What it is
 
@@ -26,13 +39,13 @@ Two ways to run, one codebase:
 
 Feature list: tracks → modules → lessons (markdown + diagrams + verified video
 embeds + read-aloud), per-module quizzes with best-attempt tracking, timed mock
-exams with blueprint assembly and draft-resume, an exam-readiness hub on
-module 8 — the five mock-exam entry points plus a Ready / Not-yet indicator
-(last-2 average of the track's mock attempts vs the 80% readiness threshold) —
-SM-2 spaced-repetition flashcards, TTS via built-in browser voices or
-client-side Kokoro-82M (optional cloud proxy), admin roster with per-learner
-stats + CSV export + one-time invite codes, and a one-time solo→cohort
-migration that preserves in-browser progress.
+exams with blueprint assembly and draft-resume, per-track exam-readiness hubs —
+each track's hub lists its own mock-exam entry points plus a Ready / Not-yet
+indicator (last-2 average of that track's mock attempts vs its readiness
+threshold) — SM-2 spaced-repetition flashcards, TTS via built-in browser voices
+or client-side Kokoro-82M (optional cloud proxy), admin roster with per-learner
+stats + CSV export + one-time invite codes, and a one-time solo→cohort migration
+that preserves in-browser progress.
 
 ## Quickstart (solo)
 
@@ -133,8 +146,8 @@ content/
 ├── tracks.toml             # track + module manifest (ids, titles, order,
 │                           #   readiness thresholds, lessonIds, exam weights)
 ├── exams/                  # mock exam blueprints, one [exam] table per file
-│                           #   (five blueprint-exact ISTQB mocks, wired to the
-│                           #   track's readiness_examIds)
+│                           #   (five blueprint-exact ISTQB mocks + two AI
+│                           #   mocks, wired to each track's readiness_examIds)
 ├── istqb/module-1/         # one directory per module
 │   ├── lesson-01-….md      # flat lesson files: TOML frontmatter (id, module,
 │   │                       #   title, minutes, objectives, videos, diagrams)
@@ -221,10 +234,10 @@ pnpm smoke    # builds content + web, then runs 3 Playwright smoke tests
 ```
 
 Smoke tests boot the real server (throwaway SQLite DB) and the built web app
-(`vite preview`), then drive the solo learner flow, the cohort
-register→login→admin-roster flow, and the cohort mock-exam flow (sign in →
-module 8's readiness hub → answer all 40 questions of mock exam 1 → submit →
-report with score and per-chapter bars). First run downloads Chromium:
-`pnpm exec playwright install chromium`.
+(`vite preview`), then drive the solo learner flow (asserting the two-track
+dashboard), the cohort register→login→admin-roster flow, and the cohort
+mock-exam flow (sign in → ISTQB module 8's readiness hub → answer all 40
+questions of mock exam 1 → submit → report with score and per-chapter bars).
+First run downloads Chromium: `pnpm exec playwright install chromium`.
 
 License: MIT — see `LICENSE`.

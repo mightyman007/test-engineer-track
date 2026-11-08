@@ -2,6 +2,7 @@ import { mkdtempSync, writeFileSync, mkdirSync, readFileSync, rmSync } from 'nod
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
+import { assembleExam } from 'tet-core';
 import { buildContentJson, CONTENT_ROOT } from './build.js';
 
 function seedRoot({
@@ -222,7 +223,60 @@ describe('buildContentJson', () => {
     ]);
     const examIds = new Set(bundle.exams.map((e) => e.id));
     for (const id of track.readiness.examIds) expect(examIds.has(id)).toBe(true);
-    expect(bundle.exams).toHaveLength(5);
+    // Scoped to the istqb track: the bundle also carries the M4 AI mocks
+    // (ai-mock-1..2, pinned by the AI readiness test below).
+    expect(bundle.exams.filter((e) => e.track === 'istqb-ctfl')).toHaveLength(5);
+  });
+
+  it('wires the AI track readiness to the two shipped AI mock exams', () => {
+    // M4 Task 7 wiring: the Task 2 empty-readiness placeholder on the AI track
+    // now lists ai-mock-1..2, and every referenced exam exists in the built
+    // bundle (the validator guards the reference; this pins the authored
+    // wiring itself so a typo in tracks.toml or a dropped mock file fails the
+    // suite, not just the build).
+    const bundle = buildContentJson(CONTENT_ROOT);
+    const track = bundle.tracks.find((t) => t.id === 'ai-fundamentals')!;
+    expect(track.readiness.examIds).toEqual(['ai-mock-1', 'ai-mock-2']);
+    const examIds = new Set(bundle.exams.map((e) => e.id));
+    for (const id of track.readiness.examIds) expect(examIds.has(id)).toBe(true);
+    expect(bundle.exams.filter((e) => e.track === 'ai-fundamentals')).toHaveLength(2);
+  });
+
+  it('assembles both AI mocks from the real bank on the count-only path', () => {
+    // M4 Task 7: the AI mocks are the first legacy-path exams since M1 — no
+    // definition klevels, no per-group cells, no blueprintExact — because the
+    // AI bank ships klevel-free (no official LO taxonomy to map to). The
+    // authored allocation is 4x6 + 3x2 = 30 across ai1..ai8. validate.ts
+    // already runs seed 1 at build; this re-runs it against the REAL built
+    // bank and asserts the drawn shape: 30 questions, per-tag counts matching
+    // the authored groups, multi-select cap respected.
+    const bundle = buildContentJson(CONTENT_ROOT);
+    const aiExams = bundle.exams.filter((e) => e.track === 'ai-fundamentals');
+    expect(aiExams.map((e) => e.id)).toEqual(['ai-mock-1', 'ai-mock-2']);
+    for (const def of aiExams) {
+      // The count-only shape itself: the schema treats a definition with no
+      // klevels anywhere as legacy, and the engine then runs with a null
+      // K quota — pin that no future edit re-introduces K constraints the
+      // klevel-free AI bank cannot satisfy.
+      expect(def.klevels).toBeUndefined();
+      expect(def.blueprintExact).toBeUndefined();
+      expect(def.groups.map((g) => [g.tag, g.count])).toEqual([
+        ['ai1', 4], ['ai2', 4], ['ai3', 4], ['ai4', 4],
+        ['ai5', 4], ['ai6', 4], ['ai7', 3], ['ai8', 3],
+      ]);
+      expect(def.groups.every((g) => g.klevels === undefined)).toBe(true);
+
+      const drawn = assembleExam(def, bundle.questions, 1);
+      expect(drawn.questions).toHaveLength(30);
+      const byTag = new Map<string, number>();
+      let multi = 0;
+      for (const q of drawn.questions) {
+        for (const t of q.tags) byTag.set(t, (byTag.get(t) ?? 0) + 1);
+        if (q.type === 'multi') multi++;
+      }
+      for (const g of def.groups) expect(byTag.get(g.tag)).toBe(g.count);
+      expect(multi).toBeLessThanOrEqual(def.multiSelectMax);
+    }
   });
 
   it('parses comment-only quiz and deck files as empty pools (module 8 pattern)', () => {

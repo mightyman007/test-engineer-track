@@ -1,0 +1,311 @@
+# AI for Test Engineers — Module A5 "Object Detection: One-Stage vs Two-Stage"
+# 18 original questions (ai-q-0071..0088), all tagged ai5.
+#
+# Learning objectives (ours — no official syllabus for this track), authored as
+# the module's coverage contract. The lo field carries the objective id; every
+# objective carries >= 2 questions.
+#
+# Objectives (A5) — the coverage contract:
+#   A5-1 Describe what an object detector outputs per object (bounding box +
+#        class + confidence) and why the unknown object count makes detection
+#        harder than classification.
+#   A5-2 Define Intersection over Union, and compute it by hand for two
+#        grid-cell boxes whose coordinates are given in the question stem.
+#   A5-3 Explain non-maximum suppression: keep the highest-confidence box in
+#        an overlapping cluster, suppress the rest above an IoU threshold.
+#   A5-4 Explain the two-stage paradigm (propose regions first, then classify
+#        each): accurate but slower; stage-1 recall bounds end accuracy.
+#   A5-5 Explain the one-stage paradigm (one pass; grid cells predict boxes +
+#        classes directly): fast, historically slightly less accurate.
+#   A5-6 State the one-stage vs two-stage trade-off and argue which family a
+#        given requirement (latency budget vs accuracy budget) points at.
+#
+# Coverage: A5-1 x3 (0071-0073), A5-2 x3 (0074-0076), A5-3 x2 (0077-0078),
+# A5-4 x3 (0079-0081), A5-5 x3 (0082-0084), A5-6 x4 (0085-0088) — every
+# objective >= 2, and THE SPEC'S NAMED HIGHLIGHT gets its four: 0085-0088 are
+# dedicated to the one-stage vs two-stage trade-off (with the comparison
+# diagram one-vs-two-stage.svg in lesson-03; module A7 ties back to it).
+# Recall-style (K1-equivalent) questions: ai-q-0071, 0074, 0077, 0079, 0082
+# (5 total; the floor is 4). The rest are understanding-style — plus the
+# K3-style IoU computations (0075, 0076): two grid-cell boxes with their
+# coordinates IN the stem, the learner computes intersection, union, IoU —
+# the AI track's self-contained apply-skills pattern. All arithmetic is
+# integer cell counting; every distractor is an identifiable slip.
+# 2 multi-select questions (ai-q-0078, ai-q-0086): 5 options, exactly 2
+# correct. NO klevel field on AI questions — standing M4 ruling: no official
+# K classification exists, and AI exams use count-only groups.
+# Answer positions across the 16 singles: 4 x each of 0/1/2/3 (25% each,
+# non-cyclic); the two multi-selects use two different correct-pair positions.
+# All stems/options/explanations are original.
+
+[[question]]
+id = "ai-q-0071"
+type = "single"
+stem = "What three things does an object detector output for each object it finds?"
+options = [
+  "A pixel mask, a text caption, and a timestamp",
+  "A grayscale value, an edge map, and a texture class",
+  "A bounding box, a class label, and a confidence score",
+  "A segmentation mask, a depth reading, and a speed estimate",
+]
+answers = [2]
+explanation = "Per object: where (bounding box), what (class label), how sure (confidence). Masks belong to segmentation, and captions or depth readings are different tasks entirely."
+lo = "A5-1"
+tags = ["ai5"]
+
+[[question]]
+id = "ai-q-0072"
+type = "single"
+stem = "Why is object detection harder than image classification?"
+options = [
+  "The model must say not only WHAT is present but WHERE each object is — and it does not know in advance how many objects there are",
+  "Detection models cannot be trained on labeled data",
+  "Detection only works on grayscale images",
+  "Classification is unsupervised while detection is supervised",
+]
+answers = [0]
+explanation = "Detection adds localization to classification and must decide the answer count itself — the scene, not the tester, sets how many outputs come back. Both tasks are supervised, and detection is not restricted to grayscale."
+lo = "A5-1"
+tags = ["ai5"]
+
+[[question]]
+id = "ai-q-0073"
+type = "single"
+stem = "A detection run reports: box (12, 15)–(60, 90), class 'pedestrian', confidence 0.91. What does the confidence number claim?"
+options = [
+  "That the box covers 91% of the pedestrian's pixels",
+  "That the model is 91% sure this box really contains a pedestrian",
+  "That the image is 91% similar to the training set",
+  "That 91% of the class's training examples were pedestrians",
+]
+answers = [1]
+explanation = "Confidence is the model's certainty about this specific finding — 'how sure I am that what is in this box is a pedestrian.' It is not an area fraction, a dataset similarity, or a training-set statistic."
+lo = "A5-1"
+tags = ["ai5"]
+
+[[question]]
+id = "ai-q-0074"
+type = "single"
+stem = "What does Intersection over Union (IoU) measure?"
+options = [
+  "How many objects appear in both the prediction and the ground truth",
+  "How similar two class labels are, letter by letter",
+  "The fraction of the whole image covered by objects",
+  "The overlap between two boxes divided by the area they cover together — how well a predicted box matches the truth",
+]
+answers = [3]
+explanation = "IoU = (area both boxes share) ÷ (area they cover together); it runs from 0 (no overlap) to 1 (perfect match) and is the standard way to score box quality against ground truth."
+lo = "A5-2"
+tags = ["ai5"]
+
+[[question]]
+id = "ai-q-0075"
+type = "single"
+stem = "On a grid of unit cells (columns counted left→right, rows top→bottom): the ground-truth box covers columns 1–2 of rows 1–3. The predicted box covers columns 2–3 of rows 2–3. What is the IoU?"
+options = [
+  "0.2",
+  "0.25",
+  "0.33",
+  "0.5",
+]
+answers = [1]
+explanation = "Ground truth = 2 columns × 3 rows = 6 cells; prediction = 2 × 2 = 4 cells. Overlap = column 2, rows 2–3 = 2 cells. Union = 6 + 4 − 2 = 8. IoU = 2/8 = 0.25. The 0.2 slip adds both areas without subtracting the overlap (2/10); 0.33 divides by the ground-truth area only (2/6); 0.5 divides by the prediction's area only (2/4)."
+lo = "A5-2"
+tags = ["ai5"]
+
+[[question]]
+id = "ai-q-0076"
+type = "single"
+stem = "On a grid of unit cells: the ground-truth box covers columns 1–3 of rows 1–2. The predicted box covers columns 2–4 of rows 1–2. What is the IoU?"
+options = [
+  "0.25",
+  "0.33",
+  "0.67",
+  "0.5",
+]
+answers = [3]
+explanation = "Both boxes are 3 × 2 = 6 cells. Overlap = columns 2–3 × rows 1–2 = 4 cells. Union = 6 + 6 − 4 = 8. IoU = 4/8 = 0.5. The 0.33 slip skips the subtraction (4/12); 0.67 divides by one box's area (4/6); 0.25 counts only one overlapping column as the intersection (2/8)."
+lo = "A5-2"
+tags = ["ai5"]
+
+[[question]]
+id = "ai-q-0077"
+type = "single"
+stem = "During non-maximum suppression, what happens to a box that overlaps a kept box with IoU above the threshold?"
+options = [
+  "It is discarded as a duplicate of the same object",
+  "It is promoted to a separate detection",
+  "It is averaged with the kept box into one merged box",
+  "It is sent back to the proposal stage for another look",
+]
+answers = [0]
+explanation = "NMS keeps the most confident box of an overlapping cluster and discards the rest as duplicates of one object. Nothing is promoted, averaged, or re-proposed."
+lo = "A5-3"
+tags = ["ai5"]
+
+[[question]]
+id = "ai-q-0078"
+type = "multi"
+stem = "Which TWO statements about non-maximum suppression (NMS) are true?"
+options = [
+  "It keeps the highest-confidence box among a cluster of overlapping ones",
+  "It merges all overlapping boxes by averaging their coordinates",
+  "It uses IoU to decide when two boxes describe the same object",
+  "It increases the total number of boxes reported per object",
+  "It re-labels boxes whose class changed between video frames",
+]
+answers = [0, 2]
+explanation = "NMS keeps the maximum (most confident) box and suppresses overlapping duplicates — and the overlap test is IoU above a threshold. It averages nothing, adds no boxes, and has no opinion about class changes across frames."
+lo = "A5-3"
+tags = ["ai5"]
+
+[[question]]
+id = "ai-q-0079"
+type = "single"
+stem = "What does a two-stage detector do FIRST, before any classification?"
+options = [
+  "It filters final class labels by confidence",
+  "It converts the image to grayscale to speed up later stages",
+  "It proposes candidate regions — places where an object might be",
+  "It divides the image into a fixed grid of cells and predicts classes directly",
+]
+answers = [2]
+explanation = "Stage 1 proposes regions; stage 2 classifies each one. Option 4 is the one-stage design — the rival paradigm, not the two-stage pipeline's first step."
+lo = "A5-4"
+tags = ["ai5"]
+
+[[question]]
+id = "ai-q-0080"
+type = "single"
+stem = "Why does the two-stage design tend to be accurate?"
+options = [
+  "The classifier only examines regions that plausibly contain an object, so each decision gets focused, well-cropped evidence",
+  "It classifies every possible pixel location, leaving nothing unchecked",
+  "It is allowed to train on more data than one-stage models",
+  "Proposals delete the background so nothing can distract the classifier",
+]
+answers = [0]
+explanation = "Stage 2 makes few, focused decisions on cropped candidate regions instead of guessing about the entire image. It classifies far FEWER places than every pixel, no training-data privilege exists, and background is handled by evidence quality — not deletion."
+lo = "A5-4"
+tags = ["ai5"]
+
+[[question]]
+id = "ai-q-0081"
+type = "single"
+stem = "Faster R-CNN's key upgrade over its ancestors replaced the separate proposal algorithm with…"
+options = [
+  "a grid of cells predicting boxes and classes in a single pass",
+  "a larger crop size for every region",
+  "a second classification layer stacked on the first",
+  "a region proposal network inside the same network — proposals became nearly free",
+]
+answers = [3]
+explanation = "Faster R-CNN moved proposal generation into the network (the RPN), cutting the proposal cost while keeping the two-stage shape. Option 1 is the one-stage paradigm — a different family, not an upgrade to this one."
+lo = "A5-4"
+tags = ["ai5"]
+
+[[question]]
+id = "ai-q-0082"
+type = "single"
+stem = "What does a one-stage detector do in its single pass?"
+options = [
+  "Classifies one object selected by a human-provided crop",
+  "Measures image brightness before making any prediction",
+  "Predicts boxes and class probabilities directly for many positions across the image",
+  "Proposes regions first, then hands each one to a classifier",
+]
+answers = [2]
+explanation = "One network evaluation covers the whole image, predicting boxes and classes in one shot — no proposal stage, no per-region passes. Option 4 is the two-stage rival; option 1 describes classification, not detection."
+lo = "A5-5"
+tags = ["ai5"]
+
+[[question]]
+id = "ai-q-0083"
+type = "single"
+stem = "In YOLO's design, the image is divided into a grid of cells. What is each cell responsible for?"
+options = [
+  "Holding one filter's feature map",
+  "Predicting the boxes and class probabilities for objects centered in it",
+  "Storing one training example's label",
+  "Voting on the image-level class label",
+]
+answers = [1]
+explanation = "Each grid cell predicts — in the same single pass — the bounding boxes and class scores for objects whose center falls inside it. Feature maps live in layers, labels live in the dataset, and there is no image-level vote."
+lo = "A5-5"
+tags = ["ai5"]
+
+[[question]]
+id = "ai-q-0084"
+type = "single"
+stem = "Why do one-stage detectors run fast?"
+options = [
+  "They examine fewer images per second by design",
+  "They skip the classification stage and output only boxes",
+  "They are granted larger GPUs than two-stage models need",
+  "One network evaluation covers the whole image — no separate proposal stage, no per-region passes",
+]
+answers = [3]
+explanation = "The single forward pass is the speed: every position's boxes and classes come out of one evaluation. They still classify (boxes carry class labels), examine every frame they are given, and their speed is architectural — not a hardware privilege."
+lo = "A5-5"
+tags = ["ai5"]
+
+[[question]]
+id = "ai-q-0085"
+type = "single"
+stem = "A feature must flag pedestrians on a live camera feed with a latency budget well under a second. Which paradigm fits best, and why?"
+options = [
+  "Two-stage — the extra stage improves small-object accuracy",
+  "One-stage — a single pass meets real-time budgets, and the historical accuracy gap has narrowed",
+  "Neither — object detection cannot run in real time at all",
+  "Both, stacked — run the two-stage model first, then a one-stage model on its output",
+]
+answers = [1]
+explanation = "A hard latency budget points at the single-pass family: one-stage models were built for exactly this. Two-stage's extra compute is spent on accuracy the budget may not allow time to compute; stacking both families would be the slowest option of all."
+lo = "A5-6"
+tags = ["ai5"]
+
+[[question]]
+id = "ai-q-0086"
+type = "multi"
+stem = "Which TWO statements state the one-stage vs two-stage trade-off correctly?"
+options = [
+  "Two-stage models are typically the faster family",
+  "Two-stage models have historically been the more accurate family",
+  "One-stage models predict in a single pass, which is what makes them fast",
+  "One-stage models cannot output class labels",
+  "The trade-off has been settled — both families are now identical in speed and accuracy",
+]
+answers = [1, 2]
+explanation = "The trade-off in one breath: two-stage buys accuracy with extra compute; one-stage buys speed with a single pass, historically at a small accuracy cost. Two-stage is the slower family, one-stage outputs class labels like any detector, and the gap has narrowed without vanishing."
+lo = "A5-6"
+tags = ["ai5"]
+
+[[question]]
+id = "ai-q-0087"
+type = "single"
+stem = "Why have one-stage models historically been slightly less accurate, especially on small objects?"
+options = [
+  "A coarse grid gives a tiny, distant object only a few cells of evidence, and most cells contain background — hard odds the predictor must overcome",
+  "One-stage models decline to look at small objects as a privacy rule",
+  "Small objects are always too blurry to detect, regardless of the model",
+  "Without a proposal stage, small objects get cropped incorrectly before classification",
+]
+answers = [0]
+explanation = "Grid coarseness starves small objects of evidence, and the flood of empty background cells unbalances the one-shot prediction problem. Option 4 is the trap: one-stage models have NO proposal stage and NO per-object cropping — that stage is exactly what they skipped."
+lo = "A5-6"
+tags = ["ai5"]
+
+[[question]]
+id = "ai-q-0088"
+type = "single"
+stem = "You inherit an AV perception feature and must review its detector choice. Which question best captures the paradigm trade-off as a TEST concern?"
+options = [
+  "'Is the model implemented in Python or C++?'",
+  "'Does the vendor publish the model's weight files?'",
+  "'What latency budget must detection meet on target hardware, and does the chosen family's accuracy meet the bar within it?'",
+  "'How many lines of code is the detection stage?'",
+]
+answers = [2]
+explanation = "The trade-off is requirements-shaped: speed is a measurable budget, and accuracy only counts if it holds within that budget (against a pinned IoU threshold and dataset — module A8's business). Language, weight availability, and code size do not capture the speed-vs-accuracy choice."
+lo = "A5-6"
+tags = ["ai5"]

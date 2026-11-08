@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <rect width="800" height="450" fill="#f7f8fb"/>
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1a1a2e"/></marker></defs>
+  <text x="400" y="42" text-anchor="middle" font-size="24" font-weight="700" fill="#1a1a2e">The machine-learning pipeline &#8212; from examples to predictions</text>
+  <text x="400" y="68" text-anchor="middle" font-size="14" fill="#1a1a2e">Every arrow is a place where quality can silently leak</text>
+  <rect x="20" y="110" width="128" height="64" rx="8" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <rect x="178" y="110" width="128" height="64" rx="8" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <rect x="336" y="110" width="128" height="64" rx="8" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <rect x="494" y="110" width="128" height="64" rx="8" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <rect x="652" y="110" width="128" height="64" rx="8" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="84" y="138" text-anchor="middle" font-size="13.5" font-weight="700" fill="#1a1a2e">Raw data</text>
+  <text x="84" y="158" text-anchor="middle" font-size="11.5" fill="#1a1a2e">the examples</text>
+  <text x="242" y="130" text-anchor="middle" font-size="13.5" font-weight="700" fill="#1a1a2e">Features</text>
+  <text x="242" y="146" text-anchor="middle" font-size="13.5" font-weight="700" fill="#1a1a2e">+ labels</text>
+  <text x="242" y="164" text-anchor="middle" font-size="11.5" fill="#1a1a2e">inputs + answers</text>
+  <text x="400" y="138" text-anchor="middle" font-size="13.5" font-weight="700" fill="#1a1a2e">Training</text>
+  <text x="400" y="158" text-anchor="middle" font-size="11.5" fill="#1a1a2e">find the patterns</text>
+  <text x="558" y="138" text-anchor="middle" font-size="13.5" font-weight="700" fill="#1a1a2e">Model</text>
+  <text x="558" y="158" text-anchor="middle" font-size="11.5" fill="#1a1a2e">patterns, frozen</text>
+  <text x="716" y="138" text-anchor="middle" font-size="13.5" font-weight="700" fill="#1a1a2e">Predictions</text>
+  <text x="716" y="158" text-anchor="middle" font-size="11.5" fill="#1a1a2e">on new emails</text>
+  <line x1="148" y1="142" x2="176" y2="142" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="306" y1="142" x2="334" y2="142" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="464" y1="142" x2="492" y2="142" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="622" y1="142" x2="650" y2="142" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="84" y="206" text-anchor="middle" font-size="12" fill="#1a1a2e">emails, clicks,</text><text x="84" y="222" text-anchor="middle" font-size="12" fill="#1a1a2e">photos, sensor logs</text>
+  <text x="242" y="206" text-anchor="middle" font-size="12" fill="#1a1a2e">what to judge by,</text><text x="242" y="222" text-anchor="middle" font-size="12" fill="#1a1a2e">plus the right answer</text>
+  <text x="400" y="206" text-anchor="middle" font-size="12" fill="#1a1a2e">map features to</text><text x="400" y="222" text-anchor="middle" font-size="12" fill="#1a1a2e">labels, over and over</text>
+  <text x="558" y="206" text-anchor="middle" font-size="12" fill="#1a1a2e">shipped like any</text><text x="558" y="222" text-anchor="middle" font-size="12" fill="#1a1a2e">other build</text>
+  <text x="716" y="206" text-anchor="middle" font-size="12" fill="#1a1a2e">spam? not spam?</text><text x="716" y="222" text-anchor="middle" font-size="12" fill="#1a1a2e">seen or unseen</text>
+  <rect x="120" y="268" width="560" height="72" rx="8" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="400" y="298" text-anchor="middle" font-size="14" font-weight="700" fill="#1a1a2e">Garbage in, garbage out</text>
+  <text x="400" y="320" text-anchor="middle" font-size="12.5" fill="#1a1a2e">mislabeled, duplicated, or biased examples teach the model the wrong lessons</text>
+  <text x="400" y="386" text-anchor="middle" font-size="13.5" font-weight="700" fill="#1a1a2e">For testers: most AI defects start in the data, not the code.</text>
+  <text x="400" y="412" text-anchor="middle" font-size="12.5" fill="#1a1a2e">The model is only as good as the examples it learned from &#8212; and it never "knows" when they were wrong.</text>
+</svg>

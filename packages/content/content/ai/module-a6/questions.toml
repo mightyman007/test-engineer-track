@@ -1,0 +1,276 @@
+# AI for Test Engineers — Module A6 "Transformers & LLMs"
+# 16 original questions (ai-q-0089..0104), all tagged ai6.
+#
+# Learning objectives (ours — no official syllabus for this track), authored as
+# the module's coverage contract. The lo field carries the objective id; every
+# objective carries >= 2 questions.
+#
+# Objectives (A6) — the coverage contract:
+#   A6-1 Describe tokenization: text enters the model as tokens — subword
+#        chunks mapped to ID numbers — and explain why token counts are
+#        test-relevant (limits, pricing, behavior).
+#   A6-2 Explain embeddings: each token becomes a learned vector of numbers;
+#        similar meanings sit near each other in the vector space.
+#   A6-3 Explain next-token prediction: the training objective and the
+#        one-token-at-a-time generation loop, including sampling-driven
+#        non-determinism.
+#   A6-4 Explain attention: the model weighs which context tokens matter for
+#        interpreting a given token; the weights shift with the context.
+#   A6-5 Recognize the LLM features testers now meet (chatbots, copilots,
+#        summarization) and treat hallucination as a first-class, designed-for
+#        failure mode.
+#
+# Coverage: A6-1 x3 (0089-0091), A6-2 x3 (0092-0094), A6-3 x3 (0095-0097),
+# A6-4 x3 (0098-0100), A6-5 x4 (0101-0104) — every objective >= 2, and the
+# tester-facing failure mode (hallucination) gets the module's extra weight.
+# Recall-style (K1-equivalent) questions: ai-q-0089, 0092, 0095, 0101
+# (4 total; the floor is 4). The rest are understanding-style.
+# 2 multi-select questions (ai-q-0098, ai-q-0103): 5 options, exactly 2
+# correct. NO klevel field on AI questions — standing M4 ruling: no official
+# K classification exists, and AI exams use count-only groups.
+# Answer positions across the 14 singles: 3 x 0, 4 x 1, 3 x 2, 4 x 3
+# (~25% each, non-cyclic blocks 2,0,1,3 | 1,3,2,0 | 0,2,3,1 | 3,1); the two
+# multi-selects use two different correct-pair positions ([0,2] and [1,2]).
+# All stems/options/explanations are original.
+
+[[question]]
+id = "ai-q-0089"
+type = "single"
+stem = "Before an LLM can process a sentence, what happens to the text first?"
+options = [
+  "It is translated into the model's internal programming language",
+  "It is scanned for spelling errors and silently corrected",
+  "It is chopped into tokens — subword chunks, each mapped to an ID number",
+  "It is compressed into an archive to save memory",
+]
+answers = [2]
+explanation = "The pipeline starts with tokenization: a tokenizer splits the text into tokens (whole words or subword fragments) and each token maps to an ID the network consumes. No translation, no spell-checking, no archives."
+lo = "A6-1"
+tags = ["ai6"]
+
+[[question]]
+id = "ai-q-0090"
+type = "single"
+stem = "A teammate calls the way text splits into tokens 'implementation trivia'. Why is a tester right to disagree?"
+options = [
+  "API limits, pricing, and context windows are denominated in tokens, and odd splits can change the model's behavior",
+  "Token counts are identical across all models and languages, so nothing can vary",
+  "Tokens only matter when the text contains numbers or code",
+  "The token count of a text is fixed by its word count",
+]
+answers = [0]
+explanation = "Tokenization is observable behavior: context windows, limits, and cost are all stated in tokens, the same text tokenizes differently across models and languages, and a bad split can measurably change the output. It is not trivia, and it is certainly not fixed by word count."
+lo = "A6-1"
+tags = ["ai6"]
+
+[[question]]
+id = "ai-q-0091"
+type = "single"
+stem = "Which statement describes how a modern tokenizer would most plausibly split a word like 'unbelievable'?"
+options = [
+  "Always one token — words and tokens are the same thing",
+  "It may split into several subword tokens, such as 'un' + 'believ' + 'able'",
+  "Always one token per character — 12 tokens for 12 letters",
+  "Two tokens: the word plus a randomly generated padding chunk",
+]
+answers = [1]
+explanation = "Common words often map to a single token, but rarer words split into subword pieces learned from data (schemes like byte pair encoding). The word==token assumption and character-level splitting are both misconceptions, and 'padding' is filler added to batches, not a random word fragment."
+lo = "A6-1"
+tags = ["ai6"]
+
+[[question]]
+id = "ai-q-0092"
+type = "single"
+stem = "What is an embedding?"
+options = [
+  "A checksum that verifies the input text has not been altered",
+  "The token's alphabetical position in the vocabulary",
+  "A compressed copy of the raw text kept for fast retrieval",
+  "A learned list of numbers representing a token's meaning, arranged so similar meanings sit near each other",
+]
+answers = [3]
+explanation = "An embedding is the learned vector attached to each token: meaning becomes position in a numeric space, and similarity of meaning becomes nearness of points. Checksums, alphabet positions, and compressed text are none of those things."
+lo = "A6-2"
+tags = ["ai6"]
+
+[[question]]
+id = "ai-q-0093"
+type = "single"
+stem = "Why must text become vectors of numbers at all before a network can work with it?"
+options = [
+  "Because GPUs cannot physically store letters",
+  "Because neural networks are arithmetic over numbers — meaning has to be represented numerically to be used",
+  "Because vectors compress the text to reduce bandwidth bills",
+  "Because databases require floating-point columns",
+]
+answers = [1]
+explanation = "Everything a network does is arithmetic, so the input must be numbers — the embedding is where meaning enters the model as geometry. Hardware storage, bandwidth, and database types are red herrings."
+lo = "A6-2"
+tags = ["ai6"]
+
+[[question]]
+id = "ai-q-0094"
+type = "single"
+stem = "In a well-trained embedding space, which pair would you expect to sit CLOSEST together?"
+options = [
+  "'car' and 'justice'",
+  "'Monday' and 'screwdriver'",
+  "'cat' and 'banana'",
+  "'physician' and 'doctor'",
+]
+answers = [3]
+explanation = "Training arranges the vector space so similar meanings land near each other — 'physician'/'doctor' are near-neighbors, while the unrelated pairs stay far apart. Nobody programs the nearness; it emerges from how the words are used in text."
+lo = "A6-2"
+tags = ["ai6"]
+
+[[question]]
+id = "ai-q-0095"
+type = "single"
+stem = "At its core, what skill does an LLM's training push the model to master?"
+options = [
+  "Storing every sentence it saw so it can replay them exactly",
+  "Translating all input into formal logic before answering",
+  "Predicting the next token given the tokens so far — practiced across enormous amounts of text",
+  "Searching the live internet for every response",
+]
+answers = [2]
+explanation = "The training objective is next-token prediction at massive scale. Nothing stores sentences for playback (the retrieval misconception), no formal-logic translation happens, and plain LLMs do not search the web as part of generation."
+lo = "A6-3"
+tags = ["ai6"]
+
+[[question]]
+id = "ai-q-0096"
+type = "single"
+stem = "Generation has produced: 'The test suite passed because the flaky test was…'. What does the model do next?"
+options = [
+  "Predicts a probability for each candidate next token, emits one, appends it, and repeats",
+  "Queries a database of sentences written by humans",
+  "Waits for the human to accept a suggestion first",
+  "Outputs the whole remaining paragraph in a single step",
+]
+answers = [0]
+explanation = "Generation is the next-token loop: a distribution over the vocabulary, one sampled token, append, repeat — a fluent paragraph is thousands of loop iterations. It never waits for humans, queries databases, or emits whole paragraphs at once."
+lo = "A6-3"
+tags = ["ai6"]
+
+[[question]]
+id = "ai-q-0097"
+type = "single"
+stem = "Why can the same prompt give different answers on two consecutive runs?"
+options = [
+  "The model samples from the next-token probability distribution rather than always emitting the single top token",
+  "The training data silently changes while you type",
+  "The hardware randomly flips bits inside the weights",
+  "The model retrains itself between requests",
+]
+answers = [0]
+explanation = "Sampling (tuned by temperature) injects designed-in variability: same input, possibly different output. That non-determinism is part of the generator's contract and a testable property — not changing data, flaky hardware, or self-retraining."
+lo = "A6-3"
+tags = ["ai6"]
+
+[[question]]
+id = "ai-q-0098"
+type = "multi"
+stem = "Which TWO statements describe what attention does?"
+options = [
+  "It lets the model weigh which earlier tokens matter when interpreting a given token",
+  "It converts every token into a single fixed word ID before any processing",
+  "The same word can end up weighed differently depending on the words around it",
+  "It stores the model's entire training corpus inside the context window",
+  "It removes the need for training data — attention learns without examples",
+]
+answers = [0, 2]
+explanation = "Attention scores the context for relevance and builds each token's reading from that weighted mixture — and because the weights depend on the surrounding words, the same word can be weighed differently in different sentences. Word IDs come from the tokenizer (before attention), and attention neither stores the corpus nor removes the need for training."
+lo = "A6-4"
+tags = ["ai6"]
+
+[[question]]
+id = "ai-q-0099"
+type = "single"
+stem = "In 'The animal did not cross the street because it was too tired', what lets the model work out what 'it' refers to?"
+options = [
+  "A built-in English grammar rule table",
+  "A dictionary lookup that lists each pronoun's referent",
+  "Attention: it weighs 'animal' and 'street' as candidates, and the tiredness context tips the weight toward 'animal'",
+  "A separate translation model that runs first",
+]
+answers = [2]
+explanation = "The pronoun's reading comes from weighing context — both candidates get weight, and 'too tired' shifts it to the animal (with 'too wide', to the street). No grammar tables, no dictionaries, no side models: the weighing IS the mechanism."
+lo = "A6-4"
+tags = ["ai6"]
+
+[[question]]
+id = "ai-q-0100"
+type = "single"
+stem = "What did the transformer architecture contribute that made today's LLMs possible?"
+options = [
+  "A much larger hard drive for storing text",
+  "A rule engine bolted onto the outside of the network",
+  "A camera input for reading images alongside text",
+  "Attention, which processes the whole context in parallel and weighs which earlier tokens matter for each one",
+]
+answers = [3]
+explanation = "The 2017 transformer put self-attention at the center: parallel processing over the whole context is what made training on mountains of text feasible. Hard drives, external rule engines, and camera inputs are not what the architecture contributed."
+lo = "A6-4"
+tags = ["ai6"]
+
+[[question]]
+id = "ai-q-0101"
+type = "single"
+stem = "Which set of features are all LLM-shaped — i.e., they generate or transform open-ended language?"
+options = [
+  "Firewall, load balancer, backup scheduler",
+  "Chatbot, coding copilot, document summarizer",
+  "Spreadsheet calculator, printer driver, VPN client",
+  "Disk defragmenter, spam filter, file compressor",
+]
+answers = [1]
+explanation = "Chatbots answer, copilots draft code, summarizers condense — all three are next-token generation over open-ended text. The others are classic rule-based or system software with deterministic, specifiable behavior."
+lo = "A6-5"
+tags = ["ai6"]
+
+[[question]]
+id = "ai-q-0102"
+type = "single"
+stem = "A summarization feature returns a summary containing a specific detail that appears NOWHERE in its source document. What is this?"
+options = [
+  "A caching error — the feature mixed in an older document's text",
+  "Correct behavior — summaries are allowed to add context by design",
+  "A network failure — the detail arrived from the internet",
+  "A hallucination — a fabricated detail presented as if it came from the source",
+]
+answers = [3]
+explanation = "Ungrounded output presented confidently is hallucination, the signature failure of generative features. It is not a cache or network bug, and 'summaries may add context' is exactly the misconception that lets fabrication ship."
+lo = "A6-5"
+tags = ["ai6"]
+
+[[question]]
+id = "ai-q-0103"
+type = "multi"
+stem = "Which TWO statements about hallucination in LLM features are true?"
+options = [
+  "It only occurs when the prompt is left empty",
+  "An answer can be fluent, confident, and wrong at the same time — fluency is not evidence of truth",
+  "It happens because the model generates plausible continuations rather than verified facts",
+  "Setting the temperature low eliminates hallucination completely",
+  "It only affects coding copilots, never chatbots or summarizers",
+]
+answers = [1, 2]
+explanation = "The mechanism is next-token prediction: plausibility is not truth, so fluent confident wrongness is possible on any prompt, in any LLM feature. Lower temperature reduces sampling variety but does not eliminate fabrication, and no prompt or feature class is exempt."
+lo = "A6-5"
+tags = ["ai6"]
+
+[[question]]
+id = "ai-q-0104"
+type = "single"
+stem = "You are about to test a support chatbot built on an LLM. Which mindset fits best?"
+options = [
+  "Check the UI layout — the language quality is the vendor's problem",
+  "Design for confident-wrong answers: probe many inputs, measure how often outputs are wrong or ungrounded, and pin down what 'acceptable' means",
+  "Assume fluent answers are correct and spot-check a few by reading them",
+  "Skip testing — probabilistic systems cannot be tested at all",
+]
+answers = [1]
+explanation = "The A1 posture applies: behavior is a measurable share of right and wrong, hallucination is a designed-for failure, and fluent is not true. 'Cannot be tested' is the standing myth; exact-match oracles fail too (outputs vary and open-endedness is the point)."
+lo = "A6-5"
+tags = ["ai6"]

@@ -7,7 +7,7 @@
 [[card]]
 id = "istqb-fc-0021"
 front = "What is an SDLC model, and which models are sequential, iterative/incremental, or agile?"
-back = "An SDLC model is an abstract, high-level representation of how development phases and activities relate. Sequential: waterfall, V-model. Iterative/incremental: spiral, prototyping, Unified Process. Agile practices: Scrum, Kanban, XP — plus methods like TDD, ATDD, BDD, DDD, FDD, Lean IT."
+back = "An SDLC model is an abstract, high-level representation of how development phases and activities relate. Sequential: waterfall, V-model. Iterative/incremental: spiral, prototyping, Unified Process. Development methods and practices (the syllabus's own grouping): ATDD, BDD, DDD, XP, FDD, Kanban, Lean IT, Scrum, TDD."
 tags = ["ch2"]
 
 [[card]]

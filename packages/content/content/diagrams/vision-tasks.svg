@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <rect width="800" height="450" fill="#f7f8fb"/>
+  <text x="400" y="42" text-anchor="middle" font-size="24" font-weight="700" fill="#1a1a2e">Four vision tasks, four output shapes</text>
+  <text x="400" y="68" text-anchor="middle" font-size="14" fill="#1a1a2e">The same street corner, answered four different ways</text>
+
+  <text x="122" y="115" text-anchor="middle" font-size="13" font-weight="700" fill="#1a1a2e">classification</text>
+  <rect x="45" y="130" width="155" height="150" fill="#eef3fb" stroke="#1a1a2e" stroke-width="1.5"/>
+  <text x="122" y="210" text-anchor="middle" font-size="11" fill="#1a1a2e">one scene</text>
+  <rect x="72" y="300" width="100" height="26" rx="13" fill="#16a34a" fill-opacity="0.12" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="122" y="317" text-anchor="middle" font-size="12" font-weight="700" fill="#16a34a">cat &#183; 0.97</text>
+  <text x="122" y="348" text-anchor="middle" font-size="11.5" fill="#1a1a2e">one label, whole image</text>
+
+  <text x="302" y="115" text-anchor="middle" font-size="13" font-weight="700" fill="#1a1a2e">localization</text>
+  <rect x="225" y="130" width="155" height="150" fill="#eef3fb" stroke="#1a1a2e" stroke-width="1.5"/>
+  <rect x="262" y="170" width="78" height="62" fill="none" stroke="#c62828" stroke-width="2"/><text x="262" y="163" font-size="9.5" font-weight="700" fill="#c62828">cat 0.97</text>
+  <rect x="252" y="300" width="100" height="26" rx="13" fill="#c62828" fill-opacity="0.10" stroke="#c62828" stroke-width="1.5"/>
+  <text x="302" y="317" text-anchor="middle" font-size="12" font-weight="700" fill="#c62828">1 box + label</text>
+  <text x="302" y="348" text-anchor="middle" font-size="11.5" fill="#1a1a2e">one known object + where</text>
+
+  <text x="482" y="115" text-anchor="middle" font-size="13" font-weight="700" fill="#1a1a2e">detection</text>
+  <rect x="405" y="130" width="155" height="150" fill="#eef3fb" stroke="#1a1a2e" stroke-width="1.5"/>
+  <rect x="425" y="200" width="80" height="45" fill="none" stroke="#c62828" stroke-width="2"/><text x="425" y="193" font-size="9" font-weight="700" fill="#c62828">car 0.94</text>
+  <rect x="527" y="150" width="28" height="70" fill="none" stroke="#b26a00" stroke-width="2"/><text x="508" y="144" font-size="9" font-weight="700" fill="#b26a00">person 0.87</text>
+  <rect x="516" y="238" width="30" height="38" fill="none" stroke="#16a34a" stroke-width="2"/><text x="497" y="232" font-size="9" font-weight="700" fill="#16a34a">bike 0.79</text>
+  <rect x="428" y="300" width="108" height="26" rx="13" fill="#1a1a2e" fill-opacity="0.08" stroke="#1a1a2e" stroke-width="1.5"/>
+  <text x="482" y="317" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1a1a2e">boxes+labels+conf</text>
+  <text x="482" y="348" text-anchor="middle" font-size="11.5" fill="#1a1a2e">unknown count of objects</text>
+
+  <text x="662" y="115" text-anchor="middle" font-size="13" font-weight="700" fill="#1a1a2e">segmentation</text>
+  <rect x="585" y="130" width="155" height="150" fill="#eef3fb" stroke="#1a1a2e" stroke-width="1.5"/>
+  <ellipse cx="662" cy="205" rx="45" ry="42" fill="#16a34a" fill-opacity="0.25" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="662" y="260" text-anchor="middle" font-size="9.5" font-weight="700" fill="#16a34a">cat mask</text>
+  <rect x="598" y="300" width="128" height="26" rx="13" fill="#16a34a" fill-opacity="0.12" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="662" y="317" text-anchor="middle" font-size="11.5" font-weight="700" fill="#16a34a">a class every pixel</text>
+  <text x="662" y="348" text-anchor="middle" font-size="11.5" fill="#1a1a2e">masks trace true shapes</text>
+
+  <text x="400" y="428" text-anchor="middle" font-size="12.5" fill="#1a1a2e">Same scene, four answers &#8212; the task defines the output shape a test must expect.</text>
+</svg>

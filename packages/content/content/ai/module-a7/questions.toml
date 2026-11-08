@@ -1,0 +1,309 @@
+# AI for Test Engineers — Module A7 "AI in the Autonomous-Vehicle Stack"
+# 18 original questions (ai-q-0105..0122), all tagged ai7.
+#
+# Learning objectives (ours — no official syllabus for this track), authored as
+# the module's coverage contract. The lo field carries the objective id; every
+# objective carries >= 2 questions.
+#
+# Objectives (A7) — the coverage contract:
+#   A7-1 Name the four sensor families (camera, radar, lidar, ultrasonic) and
+#        what each physically senses.
+#   A7-2 Argue the sensors' strengths/weaknesses and explain why suites fuse
+#        them — including sensor disagreement as a testable signal.
+#   A7-3 Name the four pipeline stages (perception, prediction, planning,
+#        control) and what each consumes and produces.
+#   A7-4 Locate object detection inside perception and carry the module A5
+#        tie-back: the one-stage vs two-stage trade-off in the AV stack, and
+#        why BOTH paradigms exist in production.
+#   A7-5 Explain why simulation is indispensable: safety, scale, and
+#        scenario coverage beyond any road campaign.
+#   A7-6 State what simulation cannot fully capture — synthetic sensor
+#        fidelity and the sim-to-real gap — and why sim complements rather
+#        than replaces road testing.
+#
+# Coverage: A7-1 x3 (0105-0107), A7-2 x3 (0108-0110), A7-3 x3 (0111-0113),
+# A7-4 x4 (0114-0117), A7-5 x2 (0118-0119), A7-6 x3 (0120-0122) — every
+# objective >= 2, and THE A5 TIE-BACK gets its four: 0114-0117 carry the
+# "where detection sits + which paradigm fits + why both exist in the field"
+# thread, picking up A5's pre-wired reference ("previewing module A7").
+# Recall-style (K1-equivalent) questions: ai-q-0107, 0111, 0114, 0118
+# (4 total; the floor is 4). The rest are understanding-style.
+# 2 multi-select questions (ai-q-0108, ai-q-0116): 5 options, exactly 2
+# correct. NO klevel field on AI questions — standing M4 ruling: no official
+# K classification exists, and AI exams use count-only groups.
+# Answer positions across the 16 singles: 4 x each of 0/1/2/3 (25% each,
+# non-cyclic blocks 1,3,2,0 | 2,0,3,1 | 3,1,0,2 | 0,2,3,1); the two
+# multi-selects use two different correct-pair positions ([0,3] and [2,3]).
+# All stems/options/explanations are original.
+
+[[question]]
+id = "ai-q-0105"
+type = "single"
+stem = "Which capability does a camera give an AV that radar cannot?"
+options = [
+  "The exact speed of everything ahead, measured directly",
+  "Rich visual detail — lane markings, traffic-light colors, the text on signs",
+  "Perfect distance measurements even in dense fog",
+  "A 3D point cloud of the whole surroundings",
+]
+answers = [1]
+explanation = "Cameras read the visual scene: color, texture, lane paint, sign text. Direct speed is radar's Doppler trick, fog-proof distance is no sensor's guarantee, and 3D point clouds are lidar's output."
+lo = "A7-1"
+tags = ["ai7"]
+
+[[question]]
+id = "ai-q-0106"
+type = "single"
+stem = "What does radar contribute to an AV's sensor suite?"
+options = [
+  "High-resolution photographs of road signs",
+  "Color perception for traffic-light reading",
+  "Object classification by visual shape alone",
+  "Long range plus direct speed measurement, robust in rain, fog, and darkness",
+]
+answers = [3]
+explanation = "Radar's radio waves return range and relative speed (Doppler) and punch through weather and darkness that stop visible light. Its detail is coarse — photographs, colors, and shape-based classification are the camera's business."
+lo = "A7-1"
+tags = ["ai7"]
+
+[[question]]
+id = "ai-q-0107"
+type = "single"
+stem = "What is lidar's signature output?"
+options = [
+  "A live video stream of the scene",
+  "A weather-resistant map of road signs",
+  "A dense 3D point cloud of precise distance measurements",
+  "A short-range echo for parking maneuvers",
+]
+answers = [2]
+explanation = "Lidar sweeps laser pulses and returns centimeter-grade 3D distances — the scene's shape as a point cloud. Video streams and sign text belong to cameras; short-range echoes are the ultrasonic sensors' job."
+lo = "A7-1"
+tags = ["ai7"]
+
+[[question]]
+id = "ai-q-0108"
+type = "multi"
+stem = "Which TWO statements about the AV sensor suite are true?"
+options = [
+  "No single sensor sees everything — each has blind spots the others cover",
+  "Cameras work equally well in darkness and bright glare",
+  "Ultrasonic sensors can map the road several hundred meters ahead",
+  "Fusing sensors trades extra cost for robustness — and disagreement between sensors is itself useful information",
+  "Lidar's point clouds are unaffected by fog and heavy snow",
+]
+answers = [0, 3]
+explanation = "The suite exists because weaknesses interlock: rain blinds cameras and lidar but not radar; darkness spares radar and lidar; ultrasonic reaches only a few meters. Fusion buys robustness with cost and complexity, and sensor disagreement is a first-class test signal. Cameras in glare/darkness and all-weather lidar are the false claims."
+lo = "A7-2"
+tags = ["ai7"]
+
+[[question]]
+id = "ai-q-0109"
+type = "single"
+stem = "The camera reports a clear road; the radar reports something ahead. For a tester, this disagreement is…"
+options = [
+  "A valuable signal — how the fusion layer arbitrates conflicting evidence is exactly the behavior that needs testing",
+  "Proof that one of the two sensors must be unplugged",
+  "Ordinary noise that the log should simply ignore",
+  "A documentation error — sensors cannot disagree by design",
+]
+answers = [0]
+explanation = "Independent sensors can and do disagree; the fusion layer's arbitration under conflict is a designed, safety-critical decision with tunable rules. Unplugging a sensor reduces redundancy, ignoring the conflict hides behavior, and disagreement is not a spec violation."
+lo = "A7-2"
+tags = ["ai7"]
+
+[[question]]
+id = "ai-q-0110"
+type = "single"
+stem = "Why do AV stacks combine several sensor families instead of picking the single best one?"
+options = [
+  "Sensor vendors only sell them in fixed bundles",
+  "Regulations require exactly one sensor of each of four types",
+  "Different conditions degrade different sensors — combining them covers each other's blind spots and adds redundancy",
+  "Extra sensors make the vehicle slower, which is safer",
+]
+answers = [2]
+explanation = "Complementarity plus redundancy: each family's weakness is another's strength, so the fused suite is robust across conditions no single sensor survives alone. Bundles, sensor-count quotas, and 'slower is safer' are fabrications."
+lo = "A7-2"
+tags = ["ai7"]
+
+[[question]]
+id = "ai-q-0111"
+type = "single"
+stem = "What are the four canonical stages of the AV software pipeline, in order?"
+options = [
+  "Perception → prediction → planning → control",
+  "Control → planning → prediction → perception",
+  "Prediction → perception → planning → control",
+  "Perception → planning → prediction → control",
+]
+answers = [0]
+explanation = "See the world (perception), foresee what happens next (prediction), decide the path (planning), actuate (control). The distractors reverse the chain or swap prediction and planning — which changes what consumes what."
+lo = "A7-3"
+tags = ["ai7"]
+
+[[question]]
+id = "ai-q-0112"
+type = "single"
+stem = "What does the planning stage consume and produce?"
+options = [
+  "Consumes raw pixels; produces token IDs",
+  "Consumes wheel angles; produces camera frames",
+  "Consumes the weather forecast; produces a risk report",
+  "Consumes predictions about other agents' next moves; produces the vehicle's chosen trajectory",
+]
+answers = [3]
+explanation = "Planning is the decision layer: given the predicted world, choose the trajectory for our vehicle. Pixels-to-tokens is a language-model pipeline, wheel angles are control's output, and a risk report is not the planning stage's product."
+lo = "A7-3"
+tags = ["ai7"]
+
+[[question]]
+id = "ai-q-0113"
+type = "single"
+stem = "Why do errors compound as they move through the pipeline?"
+options = [
+  "Because the stages run in parallel and average their answers",
+  "Because each stage builds on the previous stage's output — a missed detection becomes a world model without the object, and planning inherits that blindness",
+  "Because a final correction stage fixes accumulated errors at the end",
+  "Because the control stage re-runs perception as a safety check",
+]
+answers = [1]
+explanation = "The pipeline is a dependency chain: prediction can only forecast what perception reported, planning only plans around prediction's futures. Nothing downstream re-checks perception, errors are not averaged away in parallel, and there is no end-of-chain fixer."
+lo = "A7-3"
+tags = ["ai7"]
+
+[[question]]
+id = "ai-q-0114"
+type = "single"
+stem = "Where in the AV pipeline do the object-detection models from module A5 do their work?"
+options = [
+  "In control, converting boxes directly into steering angles",
+  "In prediction, forecasting where each box will go next",
+  "In planning, choosing between candidate boxes",
+  "In perception — detection produces the boxes + classes + confidences the rest of the stack consumes",
+]
+answers = [3]
+explanation = "Detection is part of perception: its per-object triple (where, what, how sure) is the raw material prediction and planning consume. Converting boxes to steering is control's problem, and forecasting box futures is prediction — which runs on perception's output."
+lo = "A7-4"
+tags = ["ai7"]
+
+[[question]]
+id = "ai-q-0115"
+type = "single"
+stem = "An on-vehicle detector must deliver detections within a hard per-frame latency budget. Module A5's trade-off points which way?"
+options = [
+  "Two-stage — the proposal stage is cheap enough to ignore",
+  "One-stage — a single pass fits the latency budget, which is why on-vehicle stacks lean that way",
+  "Neither — latency has no bearing on the paradigm choice",
+  "Run both in series and keep whichever responds last",
+]
+answers = [1]
+explanation = "The A5 rule: latency budgets favor the single-pass family. Two-stage's extra compute buys accuracy the budget may not allow time to compute; 'cheap proposals' misreads the cost; running both in series is the slowest possible design."
+lo = "A7-4"
+tags = ["ai7"]
+
+[[question]]
+id = "ai-q-0116"
+type = "multi"
+stem = "Which TWO statements explain why BOTH detection paradigms still exist in production AV stacks?"
+options = [
+  "Two-stage models are legally mandated on all public roads",
+  "One-stage models cannot output class labels",
+  "Requirements differ: on-vehicle latency budgets favor one-stage, while offline analysis with recall priority can afford two-stage",
+  "The speed–accuracy trade-off is a trade-off, not a verdict — neither family wins everywhere",
+  "Two-stage models are now strictly more accurate, so everyone uses them",
+]
+answers = [2, 3]
+explanation = "The same detection task appears in two contexts with different budgets: the car needs per-frame speed (one-stage), offline mining wants maximum recall (two-stage). No legal mandate exists, one-stage detectors do output classes, and 'strictly more accurate' contradicts the narrowed-but-real trade-off."
+lo = "A7-4"
+tags = ["ai7"]
+
+[[question]]
+id = "ai-q-0117"
+type = "single"
+stem = "Besides latency, why might a perception team run a two-stage detector OFFLINE over recorded drives, even though the car runs one-stage on-board?"
+options = [
+  "Offline analysis has no per-frame budget and can afford the extra compute to mine rare cases with maximum recall",
+  "Offline computers cannot execute one-stage models at all",
+  "Two-stage models produce smaller output files",
+  "Standards bodies prohibit one-stage models outside the vehicle",
+]
+answers = [0]
+explanation = "That is the 'both families in the field' story: offline, the budget that shaped the on-vehicle choice vanishes, and recall on rare hard cases becomes the priority — two-stage's currency. The other options invent bans and non-existent limitations."
+lo = "A7-4"
+tags = ["ai7"]
+
+[[question]]
+id = "ai-q-0118"
+type = "single"
+stem = "Why is simulation indispensable for AV testing?"
+options = [
+  "Simulators are cheaper to maintain than a real test fleet",
+  "Regulations require every test mile to be virtual",
+  "It can rehearse dangerous scenarios safely and cover scenario variants at a scale no road campaign could match",
+  "It removes the need for any real-world testing whatsoever",
+]
+answers = [2]
+explanation = "The three buys are safety (the crash is free), scale (thousands of variants overnight), and coverage (deliberately steering into the rare, dangerous tail). Simulators may well be cheaper to maintain than a fleet — but cheapness isn't what makes simulation indispensable. 'Removes the need for any real-world testing' is the overclaim — sim complements road testing, never replaces it."
+lo = "A7-5"
+tags = ["ai7"]
+
+[[question]]
+id = "ai-q-0119"
+type = "single"
+stem = "Roughly how many real road miles do reliability estimates say a credible safety case would demand — the number that makes simulation necessary?"
+options = [
+  "Hundreds of millions of miles — decades of driving, which no single program can afford",
+  "About one thousand miles of public-road driving",
+  "About one hundred miles on a closed test track",
+  "No such estimate exists — road testing is optional for safety claims",
+]
+answers = [0]
+explanation = "Because severe failures are rare, statistically credible claims demand enormous mileages (estimates run into the hundreds of millions and beyond) — impractical to drive, which is exactly why simulated scale matters. The small numbers and 'optional' claims are the traps."
+lo = "A7-5"
+tags = ["ai7"]
+
+[[question]]
+id = "ai-q-0120"
+type = "single"
+stem = "What is the sim-to-real gap?"
+options = [
+  "The download time of a simulator image",
+  "The version difference between two simulator vendors",
+  "The risk that a model aces the simulator yet fails on real hardware, because simulated sensor data is never a perfect stand-in",
+  "The distance between a car's left and right cameras",
+]
+answers = [2]
+explanation = "The gap is the transfer risk from synthetic to real: sim fidelity is a model of reality, so sim-passing behavior can fail on the road. Vendors' version differences, download times, and camera geometry are wordplay distractors."
+lo = "A7-6"
+tags = ["ai7"]
+
+[[question]]
+id = "ai-q-0121"
+type = "single"
+stem = "Which of these is something simulation struggles to fully capture?"
+options = [
+  "How many scenarios exist in total",
+  "The vehicle's own route plan",
+  "The tester's creativity in designing cases",
+  "True sensor fidelity — what real cameras, radar, and lidar actually return in rain, glare, and dust",
+]
+answers = [3]
+explanation = "Synthetic sensor returns are modeled, not measured — glare on a wet windshield, rain-scarce point clouds, and sensor dirt are the fidelity ceiling sim cannot fully reach. Scenario counts, route plans, and test design live inside the simulator's control, not outside it."
+lo = "A7-6"
+tags = ["ai7"]
+
+[[question]]
+id = "ai-q-0122"
+type = "single"
+stem = "A stakeholder says: 'We don't need road testing — the simulator covers everything.' Your best response?"
+options = [
+  "Agreed — simulation fidelity is now effectively perfect",
+  "No — the sim-to-real gap means mature programs close the loop with real-world testing; sim and road miles complement each other",
+  "Yes — provided the simulator license is expensive enough",
+  "No — simulators cannot represent any meaningful scenario",
+]
+answers = [1]
+explanation = "Sim provides enormous coverage and safety; the road keeps the fidelity. The overclaim ('covers everything') and the overcorrection ('cannot represent anything') are both wrong — the mature position is closing the loop with both."
+lo = "A7-6"
+tags = ["ai7"]

@@ -47,7 +47,11 @@
 #   (b) worked example — istqb-q-0170 carries the brief's q-0159 scenario,
 #       options, keyed semantics and explanation verbatim; only the id
 #       (renumbered into 0170..0187) and the option order (keyed option moved
-#       to position 2 per the standing position-balance rule) differ.
+#       to position 2 per the standing position-balance rule) differ. The same
+#       standing rule placed the M3-added istqb-q-0192's 3-of-7 multi key at
+#       [1,3,5] — scattered across the 7 options rather than a 0-1-2 run, with
+#       the three swapped pairings interleaved between the keyed ones — and its
+#       keyed options were re-read as statements after ordering.
 #   (c) pilot/rollout delta — the brief's coverage map asks lesson-02 to cover
 #       "introducing a tool: pilot → rollout, success criteria"; v4.0.1 chapter
 #       6 has no such section (the release notes record the v3.1 tool-selection/
@@ -74,7 +78,8 @@
 #       2,0,3,1,3,0,1,2,0,3,1,2,0,2,3,1,0 has no fixed period (module 6 shipped
 #       the sequential 0,1,2,3 cycle the Task-7 review flagged; module 4/5
 #       shipped scattered sequences — this pattern follows those). Multi keyed
-#       [0,2] (modules 5/6 used [1,3]). Every question re-read against its
+#       [0,2] (q-0187; the M3 3-of-7 multi q-0192 keyed [1,3,5] — see note (b);
+#       modules 5/6 used [1,3]). Every question re-read against its
 #       keyed index after the distribution was fixed.
 #
 # Coverage: FL-6.1.1: 10 (q-0172, q-0174, q-0176, q-0177, q-0179, q-0181,

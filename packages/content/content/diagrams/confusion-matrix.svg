@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <rect width="800" height="450" fill="#f7f8fb"/>
+  <text x="400" y="42" text-anchor="middle" font-size="24" font-weight="700" fill="#1a1a2e">The confusion matrix: four ways a classifier can land</text>
+  <text x="400" y="66" text-anchor="middle" font-size="14" fill="#1a1a2e">100 evaluation frames &#8212; truth in rows, the model's answer in columns</text>
+
+  <text x="340" y="94" text-anchor="middle" font-size="13" font-weight="700" fill="#1a1a2e">model says: pedestrian</text>
+  <text x="520" y="94" text-anchor="middle" font-size="13" font-weight="700" fill="#1a1a2e">model says: empty</text>
+  <text x="235" y="173" text-anchor="end" font-size="13" font-weight="700" fill="#1a1a2e">truth: pedestrian</text>
+  <text x="235" y="308" text-anchor="end" font-size="13" font-weight="700" fill="#1a1a2e">truth: empty</text>
+
+  <rect x="250" y="102" width="180" height="135" fill="#16a34a" fill-opacity="0.15" stroke="#16a34a" stroke-width="2"/>
+  <text x="340" y="162" text-anchor="middle" font-size="20" font-weight="700" fill="#16a34a">TP = 45</text>
+  <text x="340" y="186" text-anchor="middle" font-size="11" fill="#1a1a2e">flagged &#8212; and right</text>
+
+  <rect x="430" y="102" width="180" height="135" fill="#b26a00" fill-opacity="0.12" stroke="#b26a00" stroke-width="2"/>
+  <text x="520" y="162" text-anchor="middle" font-size="20" font-weight="700" fill="#b26a00">FN = 15</text>
+  <text x="520" y="186" text-anchor="middle" font-size="11" fill="#1a1a2e">there &#8212; but missed</text>
+
+  <rect x="250" y="237" width="180" height="135" fill="#c62828" fill-opacity="0.12" stroke="#c62828" stroke-width="2"/>
+  <text x="340" y="297" text-anchor="middle" font-size="20" font-weight="700" fill="#c62828">FP = 5</text>
+  <text x="340" y="321" text-anchor="middle" font-size="11" fill="#1a1a2e">flagged &#8212; but wrong</text>
+
+  <rect x="430" y="237" width="180" height="135" fill="#ffffff" stroke="#1a1a2e" stroke-width="1.5"/>
+  <text x="520" y="297" text-anchor="middle" font-size="20" font-weight="700" fill="#1a1a2e">TN = 35</text>
+  <text x="520" y="321" text-anchor="middle" font-size="11" fill="#1a1a2e">empty &#8212; correctly left alone</text>
+
+  <rect x="636" y="102" width="150" height="270" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="711" y="130" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1a2e">the three reads</text>
+  <text x="648" y="162" font-size="11.5" fill="#1a1a2e">precision = 45/50</text>
+  <text x="648" y="180" font-size="12.5" font-weight="700" fill="#1a1a2e">= 0.90</text>
+  <text x="648" y="216" font-size="11.5" fill="#1a1a2e">recall = 45/60</text>
+  <text x="648" y="234" font-size="12.5" font-weight="700" fill="#1a1a2e">= 0.75</text>
+  <text x="648" y="270" font-size="11.5" fill="#1a1a2e">accuracy = 80/100</text>
+  <text x="648" y="288" font-size="12.5" font-weight="700" fill="#1a1a2e">= 0.80</text>
+  <text x="711" y="340" text-anchor="middle" font-size="10.5" fill="#1a1a2e">three numbers,</text>
+  <text x="711" y="356" text-anchor="middle" font-size="10.5" fill="#1a1a2e">one matrix</text>
+
+  <text x="400" y="404" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1a1a2e">Same 80% accuracy can hide very different error mixes &#8212;</text>
+  <text x="400" y="426" text-anchor="middle" font-size="12.5" fill="#1a1a2e">the four cells, not one number, are the evidence a tester works from.</text>
+</svg>

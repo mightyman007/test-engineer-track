@@ -27,7 +27,7 @@ Frequent stakeholder feedback throughout the SDLC can **prevent misunderstanding
 
 ## The review process, activity by activity (FL-3.2.2)
 
-The **[ISO/IEC 20246](https://www.iso.org/obp/ui/#iso:std:iso-iec:20246:ed-1:v1:en)** standard defines a **generic review process**: a structured but flexible framework from which a specific review process may be tailored. The rule of thumb: **the more formal the required review, the more of the tasks in each activity will be needed**. And because many work products are too large for a single review, the process may be **invoked multiple times** to cover the whole thing.
+The **ISO/IEC 20246** standard defines a **generic review process**: a structured but flexible framework from which a specific review process may be tailored. The rule of thumb: **the more formal the required review, the more of the tasks in each activity will be needed**. And because many work products are too large for a single review, the process may be **invoked multiple times** to cover the whole thing.
 
 The activities of the review process are:
 

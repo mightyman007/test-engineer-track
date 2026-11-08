@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <rect width="800" height="450" fill="#f7f8fb"/>
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1a1a2e"/></marker></defs>
+  <text x="400" y="42" text-anchor="middle" font-size="24" font-weight="700" fill="#1a1a2e">The AV pipeline: sense &#8594; foresee &#8594; decide &#8594; act</text>
+  <text x="400" y="68" text-anchor="middle" font-size="14" fill="#1a1a2e">Each stage consumes the previous stage's output &#8212; errors compound downstream</text>
+
+  <rect x="40" y="150" width="120" height="64" fill="#ffffff" stroke="#1a1a2e" stroke-width="1.5"/>
+  <text x="100" y="176" text-anchor="middle" font-size="11" fill="#1a1a2e">sensors:</text>
+  <text x="100" y="194" text-anchor="middle" font-size="11" fill="#1a1a2e">camera &#183; radar</text><text x="100" y="208" text-anchor="middle" font-size="11" fill="#1a1a2e">lidar &#183; ultrasonic</text>
+  <line x1="162" y1="182" x2="200" y2="182" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/>
+
+  <rect x="206" y="140" width="140" height="84" fill="#ffffff" stroke="#b26a00" stroke-width="3"/>
+  <text x="276" y="164" text-anchor="middle" font-size="12" font-weight="700" fill="#b26a00">1 &#183; perception</text>
+  <text x="276" y="184" text-anchor="middle" font-size="10.5" fill="#1a1a2e">what is where,</text><text x="276" y="200" text-anchor="middle" font-size="10.5" fill="#1a1a2e">right now</text>
+  <line x1="348" y1="182" x2="386" y2="182" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/><text x="367" y="170" text-anchor="middle" font-size="10" fill="#1a1a2e">world</text><text x="367" y="200" text-anchor="middle" font-size="10" fill="#1a1a2e">model</text>
+
+  <rect x="392" y="140" width="140" height="84" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="462" y="164" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1a2e">2 &#183; prediction</text>
+  <text x="462" y="184" text-anchor="middle" font-size="10.5" fill="#1a1a2e">what will each</text><text x="462" y="200" text-anchor="middle" font-size="10.5" fill="#1a1a2e">agent do next?</text>
+  <line x1="534" y1="182" x2="572" y2="182" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/><text x="553" y="170" text-anchor="middle" font-size="10" fill="#1a1a2e">forecast</text>
+
+  <rect x="578" y="140" width="140" height="84" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="648" y="164" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1a2e">3 &#183; planning</text>
+  <text x="648" y="184" text-anchor="middle" font-size="10.5" fill="#1a1a2e">choose the</text><text x="648" y="200" text-anchor="middle" font-size="10.5" fill="#1a1a2e">trajectory</text>
+  <path d="M 720 240 Q 748 260 748 300 L 722 310" fill="none" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="762" y="266" text-anchor="middle" font-size="10" fill="#1a1a2e">path</text>
+
+  <rect x="578" y="280" width="140" height="84" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="648" y="304" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1a2e">4 &#183; control</text>
+  <text x="648" y="324" text-anchor="middle" font-size="10.5" fill="#1a1a2e">steering &#183; brake</text><text x="648" y="340" text-anchor="middle" font-size="10.5" fill="#1a1a2e">&#183; throttle (actuate)</text>
+
+  <rect x="206" y="300" width="330" height="64" fill="#b26a00" fill-opacity="0.12" stroke="#b26a00" stroke-width="2"/>
+  <text x="371" y="322" text-anchor="middle" font-size="11.5" font-weight="700" fill="#b26a00">inside perception: object detection (module A5)</text>
+  <text x="371" y="342" text-anchor="middle" font-size="11" fill="#1a1a2e">boxes + classes + confidences for every road user</text>
+  <path d="M 276 226 Q 276 268 306 300" fill="none" stroke="#b26a00" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arr)"/>
+
+  <text x="100" y="248" font-size="11" fill="#1a1a2e">runs every frame,</text><text x="100" y="264" font-size="11" fill="#1a1a2e">on a latency budget</text>
+  <text x="400" y="392" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1a1a2e">A missed detection is invisible to everything downstream.</text>
+  <text x="400" y="428" text-anchor="middle" font-size="12.5" fill="#1a1a2e">Latency budgets lean one-stage on-vehicle; offline analysis can afford two-stage &#8212; both exist.</text>
+</svg>

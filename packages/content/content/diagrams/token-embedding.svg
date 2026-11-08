@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <rect width="800" height="450" fill="#f7f8fb"/>
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1a1a2e"/></marker></defs>
+  <text x="400" y="42" text-anchor="middle" font-size="24" font-weight="700" fill="#1a1a2e">From text to numbers: tokens become embeddings</text>
+  <text x="400" y="68" text-anchor="middle" font-size="14" fill="#1a1a2e">The model never reads words &#8212; it reads token IDs and the vectors behind them</text>
+
+  <text x="120" y="112" text-anchor="middle" font-size="13" font-weight="700" fill="#1a1a2e">1 &#183; chop into tokens</text><g stroke="#1a1a2e" stroke-width="1.5" fill="#ffffff">
+    <rect x="30" y="128" width="52" height="34"/><rect x="90" y="128" width="88" height="34"/><rect x="30" y="170" width="76" height="34"/><rect x="114" y="170" width="64" height="34"/>
+  </g>
+  <g font-size="14" text-anchor="middle" fill="#1a1a2e">
+    <text x="56" y="150">The</text><text x="134" y="150">tester</text><text x="68" y="192">wrote</text><text x="146" y="192">the</text>
+  </g>
+  <rect x="186" y="128" width="70" height="76" fill="#ffffff" stroke="#1a1a2e" stroke-width="1.5"/>
+  <text x="221" y="150" text-anchor="middle" font-size="14" fill="#1a1a2e">tests</text><text x="221" y="196" text-anchor="middle" font-size="11" fill="#1a1a2e">&#8594; ID 2231</text>
+  <text x="143" y="228" text-anchor="middle" font-size="11" fill="#1a1a2e">every token gets an ID like this</text>
+
+  <line x1="270" y1="166" x2="314" y2="166" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="292" y="150" text-anchor="middle" font-size="11" fill="#1a1a2e">lookup</text>
+
+  <text x="400" y="112" text-anchor="middle" font-size="13" font-weight="700" fill="#1a1a2e">2 &#183; embed as a vector</text>
+  <rect x="324" y="128" width="150" height="120" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="399" y="152" text-anchor="middle" font-size="11" fill="#1a1a2e">ID 2231 &#183; 'tests'</text>
+  <g font-size="12" fill="#1a1a2e" font-family="monospace">
+    <text x="342" y="176">[ 0.21, &#8722;0.05,</text><text x="342" y="196">  0.83, 0.40,</text><text x="342" y="216">  &#8722;0.12, &#8230; ]</text>
+  </g>
+  <text x="399" y="240" text-anchor="middle" font-size="10.5" fill="#1a1a2e">one learned number per dimension</text>
+
+  <line x1="484" y1="188" x2="528" y2="188" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="506" y="172" text-anchor="middle" font-size="11" fill="#1a1a2e">place</text>
+
+  <text x="648" y="112" text-anchor="middle" font-size="13" font-weight="700" fill="#1a1a2e">3 &#183; a meaning map</text>
+  <rect x="538" y="128" width="220" height="170" fill="#ffffff" stroke="#1a1a2e" stroke-width="1.5"/>
+  <g fill="#b26a00"><circle cx="610" cy="190" r="7"/><circle cx="638" cy="205" r="7"/><circle cx="596" cy="216" r="7"/></g>
+  <text x="648" y="176" font-size="11" fill="#1a1a2e">tester</text><text x="652" y="212" font-size="11" fill="#1a1a2e">engineer</text><text x="614" y="236" font-size="11" fill="#1a1a2e">developer</text>
+  <circle cx="700" cy="268" r="7" fill="#c62828"/><text x="714" y="272" font-size="11" fill="#1a1a2e">banana</text>
+  <text x="648" y="290" text-anchor="middle" font-size="10.5" fill="#1a1a2e">similar meanings sit near each other</text>
+
+  <text x="400" y="356" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1a1a2e">Tokenizer &#8594; ID &#8594; vector. The geometry IS the model's idea of meaning.</text>
+  <text x="400" y="380" text-anchor="middle" font-size="12" fill="#1a1a2e">Same sentence, different tokenizer &#8594; different tokens &#8212; which is why token splits are observable behavior.</text>
+  <text x="400" y="428" text-anchor="middle" font-size="12.5" fill="#1a1a2e">Context windows are denominated in tokens, not words &#8212; token behavior is tester-visible.</text>
+</svg>

@@ -1,0 +1,301 @@
+# AI for Test Engineers — Module A2 "How Machines Learn"
+# 18 original questions (ai-q-0017..0034), all tagged ai2.
+#
+# Learning objectives (ours — no official syllabus for this track), authored as
+# the module's coverage contract. The lo field carries the objective id; every
+# objective carries >= 2 questions.
+#
+# Objectives (A2) — the coverage contract:
+#   A2-1 Define data, features, and labels, and identify each part in a
+#        familiar worked example (the spam filter).
+#   A2-2 Distinguish supervised, unsupervised, and reinforcement learning,
+#        and match everyday systems to the right paradigm.
+#   A2-3 Explain the train/validation/test split and why the test set must
+#        stay untouched until the end.
+#   A2-4 Explain overfitting (memorizing) and underfitting (too simple),
+#        and how the validation set reveals them.
+#   A2-5 Explain why data quality dominates model outcomes, and what that
+#        means for testers.
+#
+# Coverage: A2-1 x4 (0017-0020), A2-2 x5 (0021-0025), A2-3 x3 (0026-0028),
+# A2-4 x4 (0029-0032), A2-5 x2 (0033-0034) — every objective >= 2.
+# Recall-style (K1-equivalent) questions: ai-q-0017, 0018, 0021, 0026, 0029
+# (5 total; the floor is 4). The rest are understanding-style.
+# 2 multi-select questions (ai-q-0024, ai-q-0032): 5 options, exactly 2 correct.
+# NO klevel field on AI questions — standing M4 ruling: no official K
+# classification exists, and AI exams use count-only groups.
+# Answer positions across the 16 singles: 4 x each of 0/1/2/3 (25% each,
+# non-cyclic); the two multi-selects use two different correct-pair positions.
+# All stems/options/explanations are original.
+
+[[question]]
+id = "ai-q-0017"
+type = "single"
+stem = "In machine learning, what is a feature?"
+options = [
+  "The correct answer attached to each example",
+  "The hardware the model runs on",
+  "An observable input detail the model judges by — like a column describing each example",
+  "A bug found during training",
+]
+answers = [2]
+explanation = "Features are the inputs the system judges by — the descriptive columns of each example. The answer being predicted is the label, not a feature."
+lo = "A2-1"
+tags = ["ai2"]
+
+[[question]]
+id = "ai-q-0018"
+type = "single"
+stem = "In machine learning, what is a label?"
+options = [
+  "The answer we want the model to predict for an example — the correct answer attached to it",
+  "The name of the dataset file",
+  "The user-interface text shown to users",
+  "The model's confidence score",
+]
+answers = [0]
+explanation = "A label is the correct answer attached to a training example — the thing the model learns to predict. Confidence scores are produced by the model, not attached to examples."
+lo = "A2-1"
+tags = ["ai2"]
+
+[[question]]
+id = "ai-q-0019"
+type = "single"
+stem = "In the spam-filter training dataset, the record 'this email contains 14 links' is best described as:"
+options = [
+  "A label",
+  "A feature value",
+  "A model",
+  "A prediction",
+]
+answers = [1]
+explanation = "Link count is an observable input the filter judges by — a feature value. The label would be spam / not spam; the model makes predictions."
+lo = "A2-1"
+tags = ["ai2"]
+
+[[question]]
+id = "ai-q-0020"
+type = "single"
+stem = "Which pairing correctly assigns features vs label in a house-price dataset?"
+options = [
+  "Label: number of bedrooms; feature: the sale price",
+  "Feature: the sale price; label: the sale price",
+  "Feature: nothing — only the address is recorded; label: the address",
+  "Features: size, bedrooms, location; label: the sale price",
+]
+answers = [3]
+explanation = "The observable inputs (size, bedrooms, location) are the features; the value to predict (the sale price) is the label. The other pairings invert or empty the roles."
+lo = "A2-1"
+tags = ["ai2"]
+
+[[question]]
+id = "ai-q-0021"
+type = "single"
+stem = "What defines supervised learning?"
+options = [
+  "Every training example ships with its correct answer — its label",
+  "The model learns with no data at all",
+  "The model invents its own labels from nothing",
+  "Learning that happens only under a human watching in real time",
+]
+answers = [0]
+explanation = "Supervised learning trains on labeled examples — like studying with an answer key. The 'supervision' is the labels, not a human hovering."
+lo = "A2-2"
+tags = ["ai2"]
+
+[[question]]
+id = "ai-q-0022"
+type = "single"
+stem = "A music app groups listeners into 'taste tribes' that nobody predefined. Which paradigm is that, and why is testing it unusual?"
+options = [
+  "Supervised — test the tribes against pre-labeled categories",
+  "Reinforcement — test the reward function",
+  "Unsupervised — there is no correct answer to check the groups against, so usefulness is judged rather than correctness",
+  "Rule-based — test each if-then rule",
+]
+answers = [2]
+explanation = "Discovering structure without predefined categories is unsupervised learning. With no answer key, two different groupings can both be defensible — the tester judges whether the structure makes sense for the product."
+lo = "A2-2"
+tags = ["ai2"]
+
+[[question]]
+id = "ai-q-0023"
+type = "single"
+stem = "A game-playing agent earns points for winning moves and keeps the strategies that score best. Which paradigm is that — and what is the sharpest testing risk?"
+options = [
+  "Supervised — the risk is wrong labels",
+  "Reinforcement — the system optimizes the reward as defined, which may differ from the behavior its makers intended",
+  "Unsupervised — the risk is meaningless clusters",
+  "Rule-based — the risk is unreadable rules",
+]
+answers = [1]
+explanation = "Learning from actions and rewards is reinforcement learning. The system optimizes the reward you defined, not the outcome you meant — the reward/behavior gap is the tester's sharpest risk."
+lo = "A2-2"
+tags = ["ai2"]
+
+[[question]]
+id = "ai-q-0024"
+type = "multi"
+stem = "Which TWO tasks are supervised learning as commonly deployed?"
+options = [
+  "Grouping customers into segments with no predefined categories",
+  "Classifying emails as spam or not spam using labeled examples",
+  "Predicting tomorrow's delivery time from historical labeled deliveries",
+  "A robot learning to walk by trial and error",
+  "Sorting a contact list alphabetically",
+]
+answers = [1, 2]
+explanation = "Spam classification and delivery-time prediction both learn from labeled examples (a category and a number, respectively). Segmentation is unsupervised, the robot is reinforcement learning, and alphabetical sorting is plain rule-based logic."
+lo = "A2-2"
+tags = ["ai2"]
+
+[[question]]
+id = "ai-q-0025"
+type = "single"
+stem = "Why can unsupervised output be hard to evaluate?"
+options = [
+  "Because unsupervised models always run too slowly",
+  "Because unsupervised models cannot produce any output",
+  "Because labels are always too expensive to collect",
+  "Because with no answer key, several different groupings can all be defensible — judging usefulness replaces checking correctness",
+]
+answers = [3]
+explanation = "No answer key means no absolute right answer: two clusterings can both be 'reasonable'. Evaluation becomes a judgment about usefulness for the product, not a spec check."
+lo = "A2-2"
+tags = ["ai2"]
+
+[[question]]
+id = "ai-q-0026"
+type = "single"
+stem = "What is the test set for?"
+options = [
+  "A final, held-out measurement of honest performance — used once, at the very end",
+  "The data the model learns from",
+  "The data used to tune the approach during development",
+  "The production traffic arriving after release",
+]
+answers = [0]
+explanation = "The test set is the final exam: kept sealed during development and used once to report honest performance. Study happens on the training set; tuning happens on the validation set."
+lo = "A2-3"
+tags = ["ai2"]
+
+[[question]]
+id = "ai-q-0027"
+type = "single"
+stem = "Why is grading a model only on its training data meaningless?"
+options = [
+  "Because the model may have memorized those exact examples, so the score says nothing about new cases",
+  "Because training data is always too small",
+  "Because training data is always mislabeled",
+  "Because models refuse to run on the same data twice",
+]
+answers = [0]
+explanation = "A model graded on its own study material may be acing questions it memorized. The whole point of machine learning is performing on unseen examples — so measurement must use held-out data."
+lo = "A2-3"
+tags = ["ai2"]
+
+[[question]]
+id = "ai-q-0028"
+type = "single"
+stem = "A team peeks at test-set results repeatedly while tuning the model. What is the consequence?"
+options = [
+  "Nothing — test sets are designed for repeated use",
+  "The test set becomes a de facto validation set, and the final reported score flatters the model",
+  "The model becomes faster",
+  "The test set automatically becomes part of the training set",
+]
+answers = [1]
+explanation = "Every peek-and-tune cycle turns the 'final exam' into a practice exam. The measurement the test set existed to protect is silently corrupted."
+lo = "A2-3"
+tags = ["ai2"]
+
+[[question]]
+id = "ai-q-0029"
+type = "single"
+stem = "What is overfitting, in plain terms?"
+options = [
+  "The model is too simple to learn anything",
+  "The training data was stored incorrectly",
+  "The model learns too slowly",
+  "The model memorizes the training examples — including their noise — instead of learning the general pattern",
+]
+answers = [3]
+explanation = "Overfitting is memorization: brilliant on the examples it studied, stumbling on new ones because the memorized quirks don't repeat in real life. Too-simple-to-learn-anything is underfitting."
+lo = "A2-4"
+tags = ["ai2"]
+
+[[question]]
+id = "ai-q-0030"
+type = "single"
+stem = "During training, the training error keeps falling but the validation error starts rising. What is the diagnosis?"
+options = [
+  "Underfitting — the model is too simple",
+  "The validation set is simply too large",
+  "The model has begun overfitting — memorizing training data rather than learning the pattern",
+  "The model needs more layers immediately",
+]
+answers = [2]
+explanation = "That crossover is the overfitting alarm: training error can only fall (memorization guarantees it), so a climbing validation curve is the warning that learning turned into memorizing."
+lo = "A2-4"
+tags = ["ai2"]
+
+[[question]]
+id = "ai-q-0031"
+type = "single"
+stem = "A model performs poorly on its training set AND on new data. What is this called, and what does it suggest?"
+options = [
+  "Overfitting — add more memorization capacity",
+  "Data leakage — remove the test set",
+  "Underfitting — the model is too simple; it hasn't even learned the training pattern",
+  "Perfect calibration — ship it",
+]
+answers = [2]
+explanation = "Bad everywhere is underfitting: the model is too simple to capture even the examples it studied. Overfitting looks brilliant on training data and poor on new data."
+lo = "A2-4"
+tags = ["ai2"]
+
+[[question]]
+id = "ai-q-0032"
+type = "multi"
+stem = "Which TWO observations are warning signs of overfitting?"
+options = [
+  "Near-perfect scores on training data with visibly worse performance on new examples",
+  "Poor performance on both training data and new data",
+  "Validation error climbing while training error keeps falling",
+  "The model refusing to train at all",
+  "The training data being deleted",
+]
+answers = [0, 2]
+explanation = "The memorization signature: a big gap between training and new-data performance, and a validation curve that turns upward while training keeps improving. Poor performance everywhere is underfitting; refusing to train or losing data are different defects entirely."
+lo = "A2-4"
+tags = ["ai2"]
+
+[[question]]
+id = "ai-q-0033"
+type = "single"
+stem = "A spam filter was trained on last year's spam only; this quarter's new scams slip into inboxes. What does this illustrate?"
+options = [
+  "That the model needs a bigger screen",
+  "That data goes stale — a model judges the world it was shown, and the world has moved on",
+  "That spam filters cannot work at all",
+  "That users should stop reporting junk mail",
+]
+answers = [1]
+explanation = "Models judge the world they were shown. When tactics change faster than retraining, the gap between training data and reality becomes user-visible failures — a data-quality issue, not a code bug."
+lo = "A2-5"
+tags = ["ai2"]
+
+[[question]]
+id = "ai-q-0034"
+type = "single"
+stem = "A batch of newsletter emails was mislabeled as 'spam' in the training data. What is the likely effect?"
+options = [
+  "Nothing — labels are ignored during training",
+  "The model compensates automatically and finds the truth",
+  "The test set gets larger",
+  "The model confidently learns to treat newsletters as spam, and may repeat the mistake at massive scale",
+]
+answers = [3]
+explanation = "Wrong labels teach wrong lessons — garbage in, garbage out. The model trusts its labels, so it repeats the error confidently and at scale, and nothing in the code flags it."
+lo = "A2-5"
+tags = ["ai2"]

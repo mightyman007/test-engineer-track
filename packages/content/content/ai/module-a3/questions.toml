@@ -1,0 +1,306 @@
+# AI for Test Engineers — Module A3 "Neural Networks from Scratch"
+# 18 original questions (ai-q-0035..0052), all tagged ai3.
+#
+# Learning objectives (ours — no official syllabus for this track), authored as
+# the module's coverage contract. The lo field carries the objective id; every
+# objective carries >= 2 questions.
+#
+# Objectives (A3) — the coverage contract:
+#   A3-1 Describe a neuron as a weighted sum plus an activation, and compute a
+#        small neuron's output by hand.
+#   A3-2 Explain how layers of neurons form a network, and trace a forward
+#        pass through a tiny network with hand-computed numbers.
+#   A3-3 Explain backpropagation as blame assignment — prediction error
+#        flowing backward, each weight blamed in proportion to its
+#        contribution — with no calculus required.
+#   A3-4 Explain gradient descent as repeatedly stepping downhill on a loss
+#        landscape, and why many small steps find a good setting.
+#   A3-5 Explain what the learning rate controls, and what goes wrong when it
+#        is too large or too small.
+#
+# Coverage: A3-1 x4 (0035-0038), A3-2 x4 (0039-0042), A3-3 x4 (0043-0046),
+# A3-4 x3 (0047-0049), A3-5 x3 (0050-0052) — every objective >= 2.
+# Recall-style (K1-equivalent) questions: ai-q-0035, 0036, 0039, 0043, 0047
+# (5 total; the floor is 4). The rest are understanding-style — plus the two
+# K3-style hand computations (0037 single neuron, 0041 tiny-network forward
+# pass): weights/inputs given in the stem, the learner computes the output.
+# Backprop/gradient-descent questions stay conceptual-intuition level
+# throughout: no calculus anywhere in this bank.
+# 2 multi-select questions (ai-q-0042, ai-q-0046): 5 options, exactly 2 correct.
+# NO klevel field on AI questions — standing M4 ruling: no official K
+# classification exists, and AI exams use count-only groups.
+# Answer positions across the 16 singles: 4 x each of 0/1/2/3 (25% each,
+# non-cyclic); the two multi-selects use two different correct-pair positions.
+# All stems/options/explanations are original.
+
+[[question]]
+id = "ai-q-0035"
+type = "single"
+stem = "What does a single artificial neuron compute?"
+options = [
+  "A weighted sum of its inputs plus a bias, passed through an activation",
+  "A random number seeded by the training data",
+  "A database lookup among its stored training examples",
+  "A yes/no decision a human wrote as an if-then rule",
+]
+answers = [0]
+explanation = "A neuron does two things in order: a weighted sum of its inputs plus a bias, then an activation function on the result. No randomness, no lookups, no hand-written decision."
+lo = "A3-1"
+tags = ["ai3"]
+
+[[question]]
+id = "ai-q-0036"
+type = "single"
+stem = "In a neuron, what does the bias term do?"
+options = [
+  "It scales how much each individual input matters",
+  "It records the neuron's training history",
+  "It shifts the weighted sum up or down — an adjustable threshold",
+  "It stores the neuron's activation function",
+]
+answers = [2]
+explanation = "The bias is a constant added to the weighted sum, shifting where the neuron's threshold sits. Scaling inputs is the weights' job; the activation function is fixed, not stored."
+lo = "A3-1"
+tags = ["ai3"]
+
+[[question]]
+id = "ai-q-0037"
+type = "single"
+stem = "A neuron has inputs x1 = 2 and x2 = 4, weights w1 = 0.5 and w2 = 0.25, and bias -1.5, with a ReLU activation (output = max(0, z)). What is its output?"
+options = [
+  "3.5",
+  "0.5",
+  "2",
+  "-1.5",
+]
+answers = [1]
+explanation = "z = 2×0.5 + 4×0.25 + (-1.5) = 1 + 1 - 1.5 = 0.5; ReLU passes it through: max(0, 0.5) = 0.5. The 3.5 distractor adds the bias instead of subtracting it, 2 forgets the bias, and -1.5 is the bias alone."
+lo = "A3-1"
+tags = ["ai3"]
+
+[[question]]
+id = "ai-q-0038"
+type = "single"
+stem = "Why do neurons apply an activation function instead of passing the weighted sum straight through?"
+options = [
+  "Because activations make the arithmetic run faster",
+  "Because activations store the training data for later",
+  "Because activations round every output to a whole number",
+  "Because a stack of purely linear steps collapses into one big linear step — activations are what let layered networks learn curved patterns",
+]
+answers = [3]
+explanation = "Composing linear functions yields only another linear function; without a non-linear activation, any stack of layers reduces to a single weighted sum and can only draw straight-line boundaries."
+lo = "A3-1"
+tags = ["ai3"]
+
+[[question]]
+id = "ai-q-0039"
+type = "single"
+stem = "In a neural network, what is a layer?"
+options = [
+  "A backup copy of the model saved between training runs",
+  "The hardware card the model runs on",
+  "A slice of the training data processed at a time",
+  "A column of neurons that all read the previous layer's outputs and feed the next one",
+]
+answers = [3]
+explanation = "A layer is a set of neurons wired in parallel: every neuron in it reads the previous layer's outputs, and its own outputs feed the next layer. It has nothing to do with backups, hardware, or batching."
+lo = "A3-2"
+tags = ["ai3"]
+
+[[question]]
+id = "ai-q-0040"
+type = "single"
+stem = "What happens during a forward pass through a trained network?"
+options = [
+  "Signals flow input → hidden → output, each neuron computing a weighted sum plus activation, and no weights change",
+  "Signals flow output → hidden → input so the error can be located",
+  "The weights are updated at every layer as the signal travels through",
+  "The network re-reads its training data to produce the answer",
+]
+answers = [0]
+explanation = "The forward pass is inference: one sweep of weighted sums and activations from input to output with the weights frozen. The backward direction belongs to backpropagation, and weight updates belong to training, not inference."
+lo = "A3-2"
+tags = ["ai3"]
+
+[[question]]
+id = "ai-q-0041"
+type = "single"
+stem = "A tiny network: inputs x1 = 2, x2 = 3. Hidden neuron h1 uses weights (1, -1) and bias 0 with ReLU; hidden neuron h2 uses weights (1, 1) and bias 0 with ReLU. The output neuron weights h1 by 2 and h2 by 1, with bias -3 and no activation. What does the forward pass output?"
+options = [
+  "5",
+  "3",
+  "2",
+  "0",
+]
+answers = [2]
+explanation = "h1: 2·1 + 3·(-1) = -1, clamped by ReLU to 0; h2: 2 + 3 = 5; output: 2·0 + 1·5 - 3 = 2. The 5 distractor drops the output bias; the 0 distractor keeps h1 un-clamped at -1 (2·(-1) + 5 - 3); the 3 distractor drops both the ReLU clamp and the bias (2·(-1) + 5)."
+lo = "A3-2"
+tags = ["ai3"]
+
+[[question]]
+id = "ai-q-0042"
+type = "multi"
+stem = "Which TWO statements about a forward pass through a trained network are true?"
+options = [
+  "Each neuron applies its activation after computing its weighted sum",
+  "Signals flow from the output layer back toward the input layer",
+  "The weights are updated while the signal travels forward",
+  "Every hidden neuron's inputs are the previous layer's outputs",
+  "The forward pass needs the correct labels in order to run",
+]
+answers = [0, 3]
+explanation = "A forward pass chains layers — each neuron reads the previous layer's outputs, weighted sum first, then activation. It runs input → output, touches no weights (that is training), and needs no labels (labels matter for measuring loss, not for computing the prediction)."
+lo = "A3-2"
+tags = ["ai3"]
+
+[[question]]
+id = "ai-q-0043"
+type = "single"
+stem = "In one sentence, what does backpropagation do?"
+options = [
+  "It rewrites the network's code so the same mistake cannot recur",
+  "It works out how much each weight contributed to the prediction error, flowing the blame backward through the layers",
+  "It collects additional training data after each mistake",
+  "It deletes the weights that took part in bad predictions",
+]
+answers = [1]
+explanation = "Backpropagation is blame assignment: starting from the prediction error at the output, it distributes a share of blame to every weight in proportion to its contribution, moving backward layer by layer. Nothing is deleted, recoded, or re-collected."
+lo = "A3-3"
+tags = ["ai3"]
+
+[[question]]
+id = "ai-q-0044"
+type = "single"
+stem = "Two hidden neurons fed the same wrong prediction. h1's weights barely influenced the output; h2's weights strongly shaped it. How does backpropagation treat them?"
+options = [
+  "Both receive identical blame, because both were involved",
+  "Neither is blamed — the training data is adjusted instead",
+  "h1 is blamed more, because small weights are easier to fix",
+  "h2 receives most of the blame, because blame follows contribution",
+]
+answers = [3]
+explanation = "Blame is assigned in proportion to contribution: h2's weights moved the wrong output strongly, so they carry most of the responsibility and will move most. Involvement alone is not enough, and ease-of-fix plays no role."
+lo = "A3-3"
+tags = ["ai3"]
+
+[[question]]
+id = "ai-q-0045"
+type = "single"
+stem = "Why does backpropagation assign blame starting at the output layer and moving backward, rather than the other way round?"
+options = [
+  "Because the input layer is too computationally expensive to visit first",
+  "Because each layer's blame depends on the blame of the layer after it — earlier layers cannot be scored until later ones are",
+  "Because the output layer holds the largest weights",
+  "Because inputs arrive last in the processing pipeline",
+]
+answers = [1]
+explanation = "Blame is relative: a hidden neuron's share depends on how much the layers after it used its output. Scoring must begin where the error is directly known — the output — and walk backward; input-first would require guessing unknown downstream consequences."
+lo = "A3-3"
+tags = ["ai3"]
+
+[[question]]
+id = "ai-q-0046"
+type = "multi"
+stem = "Which TWO statements describe backpropagation as this module presents it?"
+options = [
+  "It changes the network's code so the mistake cannot repeat",
+  "It assigns each weight a share of the prediction error, in proportion to its contribution",
+  "It requires a tester to label which weights misbehaved",
+  "It adjusts the training data so the error disappears",
+  "It works from the output layer backward, because each layer's blame depends on the layers after it",
+]
+answers = [1, 4]
+explanation = "Two ideas define the intuition: blame in proportion to contribution, and the backward ordering that makes those shares computable layer by layer. Backpropagation changes learned numbers, not code or data, and needs no human labeling of weights."
+lo = "A3-3"
+tags = ["ai3"]
+
+[[question]]
+id = "ai-q-0047"
+type = "single"
+stem = "What is gradient descent?"
+options = [
+  "A training method that repeatedly nudges the weights a small step downhill on the loss, toward lower error",
+  "A technique for compressing a trained model before shipping",
+  "A testing technique that works through a scenario suite in priority order",
+  "A database method for sorting training examples efficiently",
+]
+answers = [0]
+explanation = "Gradient descent is the training walk: measure the local slope of the loss, step a little downhill, repeat. It has nothing to do with compression, test suites, or databases."
+lo = "A3-4"
+tags = ["ai3"]
+
+[[question]]
+id = "ai-q-0048"
+type = "single"
+stem = "Why does gradient descent work in many small steps rather than one big jump?"
+options = [
+  "Because small steps use less computation",
+  "Because big jumps are forbidden by the loss function",
+  "Because each step only knows the local slope — repeating small steps follows the curve safely toward the bottom",
+  "Because small steps avoid touching the validation set",
+]
+answers = [2]
+explanation = "Each step sees only the slope under its feet, not the whole landscape. Small honest steps trace the curve down; a single large leap would have to know everything at once, which no step ever does."
+lo = "A3-4"
+tags = ["ai3"]
+
+[[question]]
+id = "ai-q-0049"
+type = "single"
+stem = "In the loss-landscape picture, what does one point on the landscape represent?"
+options = [
+  "One training example together with its label",
+  "One neuron inside the network",
+  "One complete setting of all the weights, and how wrong the model is there",
+  "One test case in the regression suite",
+]
+answers = [2]
+explanation = "A location on the landscape is a full assignment of every weight and bias; its height is the loss that setting produces. Training walks across assignments, not across examples, neurons, or test cases."
+lo = "A3-4"
+tags = ["ai3"]
+
+[[question]]
+id = "ai-q-0050"
+type = "single"
+stem = "A training run shows the loss bouncing up and down wildly between steps and never settling. The most likely cause?"
+options = [
+  "The learning rate is too small",
+  "The learning rate is too big — each step overshoots the valley it is descending",
+  "The dataset is too clean",
+  "The network has too few layers",
+]
+answers = [1]
+explanation = "Wild oscillation is the signature of an oversized learning rate: every step flies across the valley and lands higher up the far wall. A too-small rate produces the opposite symptom — painfully slow, but smooth, descent."
+lo = "A3-5"
+tags = ["ai3"]
+
+[[question]]
+id = "ai-q-0051"
+type = "single"
+stem = "Another training run shows the loss falling extremely slowly: after thousands of steps it is barely below where it started. The most likely cause?"
+options = [
+  "The learning rate is too big",
+  "The network is too small to matter",
+  "The labels are too perfect",
+  "The learning rate is too small — the steps are too tiny to make progress",
+]
+answers = [3]
+explanation = "Slow, smooth, barely-moving loss is the too-small learning rate: every step is safe but nearly pointless. A too-big rate shows the opposite signature — bouncing, not crawling."
+lo = "A3-5"
+tags = ["ai3"]
+
+[[question]]
+id = "ai-q-0052"
+type = "single"
+stem = "In the module's perceptron demo, each Train press moves the boundary line and the loss readout falls smoothly. You change one setting so each step is 100 times larger — now the line jumps past the points and the loss climbs. What did you change, and which failure mode is this?"
+options = [
+  "The learning rate; this is the too-large case — each step overshoots",
+  "The dataset size; this is underfitting",
+  "The activation function; this is saturation",
+  "The loss function; this is overfitting",
+]
+answers = [0]
+explanation = "Step size is the learning rate, and 'jumps past the target, loss climbs' is its classic too-large failure: overshooting the valley instead of descending into it. Dataset size, activation, and the loss formula are untouched in that scenario."
+lo = "A3-5"
+tags = ["ai3"]

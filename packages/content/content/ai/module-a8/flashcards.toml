@@ -1,0 +1,77 @@
+# AI for Test Engineers — Module A8 "Testing AI Systems"
+# 12 atomic flashcards: the confusion matrix and its three reads, the
+# threshold trade-off, the IoU match rule carried from A5, mAP's mean,
+# non-determinism and its two test contracts, data-driven failure modes,
+# code-vs-scenario coverage, SOTIF, and the CT-AI pointer.
+
+[[card]]
+id = "ai-fc-0081"
+front = "What are the four cells of a confusion matrix?"
+back = "TP — flagged and right. FP — flagged but wrong (false alarm). FN — there but missed. TN — absent, correctly left alone. Truth in rows, the model's answer in columns; every metric is a ratio over these four cells."
+tags = ["ai8"]
+
+[[card]]
+id = "ai-fc-0082"
+front = "Define precision — and which error does it price?"
+back = "Precision = TP / (TP + FP): of everything the model flagged, the share that was right. It prices false alarms — the cost of trusting a flag."
+tags = ["ai8"]
+
+[[card]]
+id = "ai-fc-0083"
+front = "Define recall — and which error does it price?"
+back = "Recall = TP / (TP + FN): of everything truly there, the share the model found. It prices misses — the cost of staying silent. The metric to defend when a miss is unrecoverable."
+tags = ["ai8"]
+
+[[card]]
+id = "ai-fc-0084"
+front = "What does raising the confidence threshold do to precision and recall?"
+back = "Fewer, more confident flags survive: precision rises (fewer false alarms), recall falls (shakier true objects go unflagged). The threshold is configuration that trades one error for the other — and on skewed data, accuracy alone flatters a useless model (99% accuracy, 0% recall)."
+tags = ["ai8"]
+
+[[card]]
+id = "ai-fc-0085"
+front = "Recap IoU from module A5 — formula and the fresh grid example."
+back = "IoU = intersection ÷ union of the two boxes (1.0 perfect match, 0 untouched). Worked: 6-cell box and 6-cell box overlapping 4 cells → union 6 + 6 − 4 = 8 → IoU = 4/8 = 0.50. A match threshold (commonly 0.5) turns box quality into a decidable assertion."
+tags = ["ai8"]
+
+[[card]]
+id = "ai-fc-0086"
+front = "When does a detection count as a true positive?"
+back = "Only when its IoU with a ground-truth box reaches the match threshold AND the class label agrees. Confidence alone is a self-report; any overlap accepts garbage boxes; pixel distance is the string-comparison oracle A5 ruled out."
+tags = ["ai8"]
+
+[[card]]
+id = "ai-fc-0087"
+front = "What is mAP — and what does a mean hide?"
+back = "Mean average precision: score each class (average precision over the confidence sweep), then take the mean across classes — (0.90 + 0.60 + 0.30)/3 = 0.60. The mean can hide a nearly-useless class behind strong ones; demand the per-class APs."
+tags = ["ai8"]
+
+[[card]]
+id = "ai-fc-0088"
+front = "Why can the same input give different outputs from the same model?"
+back = "Generative models sample: temperature shapes the token distribution (low keeps the likeliest token, high spreads the picks). Run-to-run variation is by design — and every retrained checkpoint is a new system under test wearing the old name."
+tags = ["ai8"]
+
+[[card]]
+id = "ai-fc-0089"
+front = "How do you get a repeatable answer from a non-deterministic model?"
+back = "Pin the knobs: temperature 0 (or a fixed random seed) and a version-pinned model. Where variation is by design, assert statistical properties measured over many runs — never one lucky pass at high temperature."
+tags = ["ai8"]
+
+[[card]]
+id = "ai-fc-0090"
+front = "Name the data-driven failure modes every AI tester should know."
+back = "One bad frame (a single wrong label teaches a wrong lesson no code review finds), data poisoning (deliberately bad examples), distribution shift / concept drift (the deployed world differs from the training world), and the long tail (the rarest situations have the least data)."
+tags = ["ai8"]
+
+[[card]]
+id = "ai-fc-0091"
+front = "Why doesn't code coverage measure AI behavior — and what counts instead?"
+back = "Every input executes the same lines; the behavior lives in the learned weights, so 100% statement coverage can hide any failure. Scenario coverage counts situations exercised instead — weather × lighting × road geometry × agents — and simulation is how its map fills."
+tags = ["ai8"]
+
+[[card]]
+id = "ai-fc-0092"
+front = "What does SOTIF (ISO 21448) address — and which certification is the track's next step?"
+back = "SOTIF: hazards from functional insufficiencies of the intended function — nothing fails, yet it isn't safe — plus reasonably foreseeable misuse. ISO 26262 owns faults; SOTIF owns failure without fault, and its trigger conditions are the scenarios to hunt. Next step: ISTQB Certified Tester AI Testing (CT-AI)."
+tags = ["ai8"]

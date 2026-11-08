@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <rect width="800" height="450" fill="#f7f8fb"/>
+  <text x="400" y="42" text-anchor="middle" font-size="24" font-weight="700" fill="#1a1a2e">Two coverages: the code is not the behavior</text>
+  <text x="400" y="66" text-anchor="middle" font-size="14" fill="#1a1a2e">Code coverage counts lines executed; scenario coverage counts situations survived</text>
+
+  <rect x="40" y="96" width="330" height="280" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="205" y="122" text-anchor="middle" font-size="13" font-weight="700" fill="#1a1a2e">code coverage</text>
+  <rect x="60" y="136" width="290" height="26" fill="#16a34a" fill-opacity="0.22" stroke="#16a34a" stroke-width="1"/><rect x="60" y="196" width="290" height="26" fill="#16a34a" fill-opacity="0.22" stroke="#16a34a" stroke-width="1"/><rect x="60" y="256" width="290" height="26" fill="#16a34a" fill-opacity="0.22" stroke="#16a34a" stroke-width="1"/>
+  <rect x="60" y="166" width="290" height="26" fill="#16a34a" fill-opacity="0.22" stroke="#16a34a" stroke-width="1"/><rect x="60" y="226" width="290" height="26" fill="#16a34a" fill-opacity="0.22" stroke="#16a34a" stroke-width="1"/><rect x="60" y="286" width="290" height="26" fill="#16a34a" fill-opacity="0.22" stroke="#16a34a" stroke-width="1"/>
+  <text x="70" y="153" font-size="10.5" fill="#1a1a2e">def detect(frame):</text><text x="70" y="213" font-size="10.5" fill="#1a1a2e">  for b in boxes:</text><text x="70" y="273" font-size="10.5" fill="#1a1a2e">  return boxes</text>
+  <text x="70" y="183" font-size="10.5" fill="#1a1a2e">  boxes = model(frame)</text><text x="70" y="243" font-size="10.5" fill="#1a1a2e">    keep if conf &gt; t</text><text x="70" y="303" font-size="10.5" fill="#1a1a2e">&#8230;every line, every frame</text>
+  <text x="205" y="344" text-anchor="middle" font-size="12" font-weight="700" fill="#16a34a">every line executed = 100%</text>
+  <text x="205" y="364" text-anchor="middle" font-size="10.5" fill="#1a1a2e">the same lines run for every input</text>
+
+  <rect x="430" y="96" width="330" height="280" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="595" y="122" text-anchor="middle" font-size="13" font-weight="700" fill="#1a1a2e">scenario space</text>
+  <text x="482" y="141" text-anchor="middle" font-size="9.5" fill="#1a1a2e">clear</text><text x="537" y="141" text-anchor="middle" font-size="9.5" fill="#1a1a2e">rain</text><text x="592" y="141" text-anchor="middle" font-size="9.5" fill="#1a1a2e">fog</text><text x="647" y="141" text-anchor="middle" font-size="9.5" fill="#1a1a2e">glare</text>
+  <text x="446" y="166" text-anchor="end" font-size="9.5" fill="#1a1a2e">day</text><text x="446" y="206" text-anchor="end" font-size="9.5" fill="#1a1a2e">dusk</text><text x="446" y="246" text-anchor="end" font-size="9.5" fill="#1a1a2e">night</text>
+  <rect x="457" y="148" width="50" height="36" fill="#16a34a" fill-opacity="0.35" stroke="#1a1a2e" stroke-width="0.75"/><rect x="512" y="148" width="50" height="36" fill="#16a34a" fill-opacity="0.35" stroke="#1a1a2e" stroke-width="0.75"/><rect x="567" y="148" width="50" height="36" fill="#16a34a" fill-opacity="0.35" stroke="#1a1a2e" stroke-width="0.75"/><rect x="622" y="148" width="50" height="36" fill="#ffffff" stroke="#1a1a2e" stroke-width="0.75"/>
+  <rect x="457" y="188" width="50" height="36" fill="#16a34a" fill-opacity="0.35" stroke="#1a1a2e" stroke-width="0.75"/><rect x="512" y="188" width="50" height="36" fill="#ffffff" stroke="#1a1a2e" stroke-width="0.75"/><rect x="567" y="188" width="50" height="36" fill="#ffffff" stroke="#1a1a2e" stroke-width="0.75"/><rect x="622" y="188" width="50" height="36" fill="#ffffff" stroke="#1a1a2e" stroke-width="0.75"/>
+  <rect x="457" y="228" width="50" height="36" fill="#ffffff" stroke="#1a1a2e" stroke-width="0.75"/><rect x="512" y="228" width="50" height="36" fill="#ffffff" stroke="#1a1a2e" stroke-width="0.75"/><rect x="567" y="228" width="50" height="36" fill="#ffffff" stroke="#1a1a2e" stroke-width="0.75"/><rect x="622" y="228" width="50" height="36" fill="#c62828" fill-opacity="0.18" stroke="#c62828" stroke-width="2" stroke-dasharray="4 3"/>
+  <text x="595" y="284" text-anchor="middle" font-size="12" font-weight="700" fill="#16a34a">4 of 12 situations exercised = 33%</text>
+  <text x="595" y="306" text-anchor="middle" font-size="10.5" fill="#c62828">the dangerous cells are rare &#8212;</text>
+  <text x="595" y="322" text-anchor="middle" font-size="10.5" fill="#c62828">and rare means untested, not covered</text>
+
+  <text x="400" y="408" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1a1a2e">100% code coverage, 33% scenario coverage &#8212; the gap between them is where the risk lives.</text>
+  <text x="400" y="430" text-anchor="middle" font-size="12" fill="#1a1a2e">Simulation (module A7) is how the shaded area grows: thousands of situation variants, overnight.</text>
+</svg>

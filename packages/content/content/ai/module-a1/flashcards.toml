@@ -1,0 +1,65 @@
+# AI for Test Engineers — Module A1 "What is AI?"
+# 10 atomic flashcards: the working definition of AI, the four myths, the
+# AI/ML/DL nesting, the chess-engine boundary case, rule-based vs learned
+# systems, the spell-checker vs autocomplete contrast, everyday AI features,
+# and what changes for testers.
+
+[[card]]
+id = "ai-fc-0001"
+front = "What is the working definition of AI used in this track?"
+back = "AI is software that makes judgments you cannot fully predict by reading its code alone — the behavior was shaped by data, not written as rules. It covers recognizing, predicting, deciding, and understanding language."
+tags = ["ai1"]
+
+[[card]]
+id = "ai-fc-0002"
+front = "Name the four AI myths this track deflates."
+back = "1) It's a brain — no consciousness or self-awareness, just algorithms at speed. 2) It's always learning — most deployed models are trained once and frozen. 3) It's always right or always wrong — it has a measurable error share. 4) It's one technology — 'AI' spans rule lists to giant neural networks."
+tags = ["ai1"]
+
+[[card]]
+id = "ai-fc-0003"
+front = "How do AI, machine learning, and deep learning nest?"
+back = "AI ⊃ ML ⊃ DL. AI = any software doing tasks we'd call smart (however built). ML = a subset of AI where behavior is learned from examples. DL = a subset of ML built on many-layered neural networks."
+tags = ["ai1"]
+
+[[card]]
+id = "ai-fc-0004"
+front = "Why is a 1990s chess engine AI but not machine learning?"
+back = "It performs a task we'd call intelligent (AI), but its behavior was authored as hand-written rules and brute-force search, not learned from data — so it sits outside ML and DL. The layer depends on where the behavior came from."
+tags = ["ai1"]
+
+[[card]]
+id = "ai-fc-0005"
+front = "What is a rule-based system, and what is its classic form?"
+back = "A system whose behavior follows explicit if-then rules written by people — everything it does traces to a rule a human typed. Classic form: the expert system, which encodes a human expert's knowledge as rules."
+tags = ["ai1"]
+
+[[card]]
+id = "ai-fc-0006"
+front = "What is a learned system?"
+back = "A system whose behavior comes from a training process on collected examples rather than authored rules. The judgment lives in a large pile of numbers; engineers wrote the training procedure, not the behavior."
+tags = ["ai1"]
+
+[[card]]
+id = "ai-fc-0007"
+front = "Spell checker vs autocomplete: how do the two fail differently?"
+back = "Spell checker (rule-based): fails loudly and predictably — flags a rare correct name; visible, explainable, fixable by editing a rule. Autocomplete (learned): fails quietly and subtly — plausible-but-wrong suggestions; the 'why' is buried in training data, with no rule to repair."
+tags = ["ai1"]
+
+[[card]]
+id = "ai-fc-0008"
+front = "List five everyday AI features and the judgment each makes."
+back = "Spam filter (is this junk?), autocomplete (what word comes next?), recommender system (what will this user enjoy?), speech recognition (what was said?), maps ETA (how long will this route take?). Face unlock and self-driving cars extend the same list."
+tags = ["ai1"]
+
+[[card]]
+id = "ai-fc-0009"
+front = "What changes for testers when behavior is learned instead of coded?"
+back = "Expected results no longer come from the code or spec — they come from independently labeled examples (ground truth), quality is measured statistically over many inputs, and retraining can shift behavior, so measurement continues after release."
+tags = ["ai1"]
+
+[[card]]
+id = "ai-fc-0010"
+front = "What quick test tells you whether a feature is AI?"
+back = "Ask: does the software make a judgment that nobody wrote as an explicit rule? If the behavior was shaped by data rather than authored logic, you are looking at an AI feature."
+tags = ["ai1"]

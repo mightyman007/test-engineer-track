@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <rect width="800" height="450" fill="#f7f8fb"/>
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1a1a2e"/></marker></defs>
+  <text x="400" y="42" text-anchor="middle" font-size="24" font-weight="700" fill="#1a1a2e">Same input, different output</text>
+  <text x="400" y="66" text-anchor="middle" font-size="14" fill="#1a1a2e">A generative model samples &#8212; it is a distribution to draw from, not a function with one answer</text>
+
+  <rect x="40" y="185" width="175" height="90" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="127" y="218" text-anchor="middle" font-size="11.5" fill="#1a1a2e">the same input,</text><text x="127" y="236" text-anchor="middle" font-size="11.5" fill="#1a1a2e">every run:</text>
+  <text x="127" y="258" text-anchor="middle" font-size="11" font-style="italic" fill="#1a1a2e">&#8220;Summarize ticket #482&#8221;</text>
+  <line x1="215" y1="230" x2="278" y2="230" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/>
+
+  <rect x="285" y="165" width="175" height="130" fill="#ffffff" stroke="#b26a00" stroke-width="3"/>
+  <text x="372" y="192" text-anchor="middle" font-size="12" font-weight="700" fill="#b26a00">same model, same weights</text>
+  <circle cx="372" cy="244" r="20" fill="#f7f8fb" stroke="#b26a00" stroke-width="2"/>
+  <line x1="372" y1="244" x2="384" y2="232" stroke="#b26a00" stroke-width="2.5"/>
+  <text x="372" y="284" text-anchor="middle" font-size="10.5" fill="#b26a00">temperature: the sampling dial</text>
+
+  <line x1="460" y1="212" x2="530" y2="112" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="460" y1="230" x2="530" y2="222" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/><text x="497" y="178" text-anchor="middle" font-size="10" fill="#1a1a2e">sampling</text>
+  <line x1="460" y1="248" x2="530" y2="332" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/>
+
+  <rect x="538" y="72" width="222" height="80" fill="#ffffff" stroke="#1a1a2e" stroke-width="1.5"/>
+  <text x="548" y="94" font-size="10" fill="#1a1a2e">run 1</text><text x="548" y="114" font-size="11" font-style="italic" fill="#1a1a2e">&#8220;The pedestrian is</text><text x="548" y="130" font-size="11" font-style="italic" fill="#1a1a2e">crossing the road.&#8221;</text>
+
+  <rect x="538" y="182" width="222" height="80" fill="#ffffff" stroke="#1a1a2e" stroke-width="1.5"/>
+  <text x="548" y="204" font-size="10" fill="#1a1a2e">run 2</text><text x="548" y="224" font-size="11" font-style="italic" fill="#1a1a2e">&#8220;A pedestrian crosses</text><text x="548" y="240" font-size="11" font-style="italic" fill="#1a1a2e">the road.&#8221;</text>
+
+  <rect x="538" y="292" width="222" height="80" fill="#ffffff" stroke="#1a1a2e" stroke-width="1.5"/>
+  <text x="548" y="314" font-size="10" fill="#1a1a2e">run 3</text><text x="548" y="334" font-size="11" font-style="italic" fill="#1a1a2e">&#8220;Crossing: one</text><text x="548" y="350" font-size="11" font-style="italic" fill="#1a1a2e">pedestrian.&#8221;</text>
+
+  <text x="400" y="408" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1a1a2e">All three are legitimate outputs of the same weights &#8212; high temperature explores.</text>
+  <text x="400" y="430" text-anchor="middle" font-size="12" fill="#1a1a2e">A test that needs a repeatable answer pins the knobs: temperature 0, fixed seed, version-pinned model.</text>
+</svg>

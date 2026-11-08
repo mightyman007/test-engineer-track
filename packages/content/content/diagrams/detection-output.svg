@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <rect width="800" height="450" fill="#f7f8fb"/>
+  <text x="400" y="42" text-anchor="middle" font-size="24" font-weight="700" fill="#1a1a2e">What an object detector outputs</text>
+  <text x="400" y="68" text-anchor="middle" font-size="14" fill="#1a1a2e">Boxes + class labels + confidence scores &#8212; every object, in one pass</text>
+
+  <rect x="110" y="100" width="380" height="280" fill="#eef3fb" stroke="#1a1a2e" stroke-width="1.5"/>
+  <text x="125" y="122" font-size="11" fill="#1a1a2e">the image</text>
+
+  <rect x="150" y="230" width="120" height="70" fill="none" stroke="#c62828" stroke-width="2"/>
+  <text x="150" y="224" font-size="11" font-weight="700" fill="#c62828">car 0.94</text>
+  <rect x="162" y="238" width="120" height="70" fill="none" stroke="#c62828" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <text x="162" y="326" font-size="9" fill="#c62828">car 0.62 &#8212; duplicate</text>
+
+  <rect x="330" y="140" width="55" height="110" fill="none" stroke="#16a34a" stroke-width="2"/>
+  <text x="330" y="134" font-size="10" font-weight="700" fill="#16a34a">pedestrian 0.87</text>
+
+  <rect x="395" y="240" width="90" height="60" fill="none" stroke="#b26a00" stroke-width="2"/>
+  <text x="395" y="234" font-size="10" font-weight="700" fill="#b26a00">cyclist 0.79</text>
+
+  <rect x="530" y="130" width="230" height="220" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="645" y="162" text-anchor="middle" font-size="13" font-weight="700" fill="#1a1a2e">every box carries:</text>
+  <circle cx="548" cy="192" r="3" fill="#1a1a2e"/><text x="560" y="196" font-size="12" fill="#1a1a2e">box &#8212; where it is</text>
+  <circle cx="548" cy="222" r="3" fill="#1a1a2e"/><text x="560" y="226" font-size="12" fill="#1a1a2e">class &#8212; what it is</text>
+  <circle cx="548" cy="252" r="3" fill="#1a1a2e"/><text x="560" y="256" font-size="12" fill="#1a1a2e">confidence &#8212; how sure, 0&#8211;1</text>
+  <text x="645" y="296" text-anchor="middle" font-size="11" fill="#1a1a2e">one triple per object,</text>
+  <text x="645" y="314" text-anchor="middle" font-size="11" fill="#1a1a2e">as many triples as the scene holds</text>
+
+  <text x="645" y="380" text-anchor="middle" font-size="11" fill="#1a1a2e">the dashed duplicate? NMS removes it.</text>
+
+  <text x="400" y="428" text-anchor="middle" font-size="12.5" fill="#1a1a2e">A detector returns every object it sees &#8212; what, where, and how sure, duplicates and all.</text>
+</svg>

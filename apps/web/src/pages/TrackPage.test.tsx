@@ -4,7 +4,7 @@ import { MemoryRouter, Route, Routes } from 'react-router';
 import { TrackPage } from './TrackPage.js';
 import { ContentProvider } from '../lib/content-context.js';
 import { SessionProvider } from '../state/session.js';
-import type { ContentBundle, Module, Track } from 'tet-core';
+import type { ContentBundle, ExamDefinition, Module, Track } from 'tet-core';
 import type { ExamAttempt, ProgressEntry, ProgressMap, StorageAdapter } from 'tet-storage';
 
 // The DOM-level test M2's review asked for: TrackPage is the app's
@@ -60,10 +60,25 @@ const adapter: Partial<StorageAdapter> = {
 
 // Task 4 (M3) made the readiness line data-driven: with examIds wired the
 // line reads the learner's exam attempts (filtered to the track's exams).
+// M4 final fix wave: the wired state now renders the full readiness hub
+// (ExamReadinessSection) ON the track page — the exam links live here, so a
+// learner on a hub-less track (every AI module has a question pool) is one
+// click from a mock exam instead of dead-ending at a text-only line.
 const examTrack: Track = {
   ...track,
   readiness: { examIds: ['e1', 'e2'], passPct: 65, readyPct: 80 },
 };
+const wiredExams: ExamDefinition[] = [1, 2].map((n) => ({
+  id: `e${n}`,
+  track: 't1',
+  title: `Mock Exam ${n}`,
+  timeLimitMin: 45,
+  passPct: 65,
+  total: 30,
+  multiSelectMax: 2,
+  groups: [{ tag: 't1', count: 30 }],
+}));
+const wiredBundle: ContentBundle = { ...bundle, tracks: [examTrack], exams: wiredExams };
 const attempt = (n: number, examId: string, scorePct: number, day: string): ExamAttempt => ({
   attemptId: `a${n}`,
   examId,
@@ -133,7 +148,7 @@ describe('TrackPage', () => {
     expect(screen.getByText(/mock exams arrive with milestone 3/)).toBeTruthy();
   });
 
-  it('reads the readiness verdict from the track exam attempts when exams are wired', async () => {
+  it('renders the wired exams as one-click entries with the ready verdict', async () => {
     // Ready: last 2 attempts (82 + 88) average 85 ≥ readyPct 80.
     renderTrackPage({
       ...adapter,
@@ -141,32 +156,49 @@ describe('TrackPage', () => {
         attempt(1, 'e1', 82, '02'),
         attempt(2, 'e2', 88, '03'),
       ]),
-    }, { ...bundle, tracks: [examTrack] });
-    await waitFor(() => expect(screen.getByText(/readiness: ready$/i)).toBeTruthy());
+    }, wiredBundle);
+    await waitFor(() => expect(screen.getByText('Ready for the real exam')).toBeTruthy());
+    // The exams are ONE click from the track page: one link per wired exam,
+    // each followed by its question count + time limit. (The "Recent
+    // attempts" links also carry exam titles, hence the exact-name lookups.)
+    expect(screen.getByRole('link', { name: 'Mock Exam 1' }).getAttribute('href')).toBe('/exam/e1');
+    expect(screen.getByRole('link', { name: 'Mock Exam 2' }).getAttribute('href')).toBe('/exam/e2');
+    expect(screen.getAllByText('· 30 questions · 45 min')).toHaveLength(2);
+    // The hub replaces the text-only readiness line — no doubled display.
+    expect(screen.queryByText(/readiness:/i)).toBeNull();
   });
 
-  it('shows the last-2 average when wired exams are below readyPct', async () => {
+  it('shows the not-ready verdict and the exam entries when below readyPct', async () => {
     renderTrackPage({
       ...adapter,
       getExamAttempts: () => Promise.resolve([
         attempt(1, 'e1', 60, '02'),
         attempt(2, 'e2', 70, '03'),
       ]),
-    }, { ...bundle, tracks: [examTrack] });
-    await waitFor(() => expect(screen.getByText(/readiness: last 2 average 65% · ready at 80%/i)).toBeTruthy());
+    }, wiredBundle);
+    const flag = await waitFor(() =>
+      screen.getByText(/not yet — last 2 average 65% · ready at 80%/i));
+    expect(flag.className).toContain('flag warn');
+    expect(screen.getByRole('link', { name: 'Mock Exam 1' })).toBeTruthy();
+    expect(screen.queryByText(/readiness:/i)).toBeNull();
   });
 
-  it('asks for 2 mock exams when fewer attempts exist on the wired exams', async () => {
-    // One attempt, even a perfect one, gives no readiness reading; attempts
-    // on exams outside the track's readiness list never leak in.
+  it('lists the wired exams even before any attempt exists', async () => {
+    // One track attempt (even perfect) + one FOREIGN-exam attempt still give
+    // no readiness reading — foreign exams never leak into the verdict — but
+    // the entry links are already live: a fresh learner starts mock 1 from
+    // the track page directly.
     renderTrackPage({
       ...adapter,
       getExamAttempts: () => Promise.resolve([
         attempt(1, 'e1', 100, '02'),
         attempt(2, 'other-exam', 100, '03'),
       ]),
-    }, { ...bundle, tracks: [examTrack] });
-    await waitFor(() => expect(screen.getByText(/readiness: take 2 mock exams for a reading/i)).toBeTruthy());
+    }, wiredBundle);
+    await waitFor(() =>
+      expect(screen.getByText(/take 2 mock exams to get a readiness reading/i)).toBeTruthy());
+    expect(screen.getByRole('link', { name: 'Mock Exam 1' })).toBeTruthy();
+    expect(screen.getByRole('link', { name: 'Mock Exam 2' })).toBeTruthy();
   });
 
   it('renders the track-not-found fallback for an unknown track id', async () => {

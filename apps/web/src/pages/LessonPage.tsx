@@ -6,6 +6,7 @@ import { useSession } from '../state/session.js';
 import { renderMarkdown } from '../lib/markdown.js';
 import { VideoEmbed } from '../components/VideoEmbed.js';
 import { TtsPlayer } from '../components/TtsPlayer.js';
+import { LESSON_DEMOS } from '../components/demos.js';
 
 export function LessonPage() {
   const { lessonId } = useParams();
@@ -31,6 +32,10 @@ export function LessonPage() {
   const { t: track, m: mod } = trackMod;
   const idx = mod.lessonIds.indexOf(lesson.id);
   const nextId = mod.lessonIds[idx + 1];
+  // A lesson may declare an interactive demo (frontmatter `demo = "<name>"`);
+  // it renders below the body. Unknown names render nothing — the demos
+  // registry is the source of truth for what exists.
+  const Demo = lesson.demo ? LESSON_DEMOS[lesson.demo] : undefined;
 
   async function markComplete() {
     if (!lesson) return;
@@ -48,6 +53,7 @@ export function LessonPage() {
         <p className="muted">Objectives: {lesson.objectives.join(', ')}</p>
       )}
       {renderMarkdown(lesson.body, { diagrams: bundle.diagrams })}
+      {Demo && <Demo />}
       <h2>Watch</h2>
       {lesson.videos.map((v) => <VideoEmbed key={v.url} url={v.url} title={v.title} />)}
       <div style={{ marginTop: '2rem', display: 'flex', gap: '1rem', alignItems: 'center' }}>

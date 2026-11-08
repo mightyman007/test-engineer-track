@@ -1,0 +1,77 @@
+# AI for Test Engineers — Module A5 "Object Detection: One-Stage vs Two-Stage"
+# 12 atomic flashcards: detection's output triple, bounding boxes, IoU and
+# its threshold, non-maximum suppression, the two-stage pipeline and its
+# R-CNN lineage, the one-stage single pass, YOLO's name, the named
+# speed-vs-accuracy trade-off, and where each family fits.
+
+[[card]]
+id = "ai-fc-0047"
+front = "What three things does a detector output per object?"
+back = "A bounding box (where), a class label (what), and a confidence (how sure) — e.g. box (12,15)–(60,90), 'pedestrian', 0.91. The object count is never known in advance."
+tags = ["ai5"]
+
+[[card]]
+id = "ai-fc-0048"
+front = "What is a bounding box?"
+back = "The rectangle convention for 'where': coordinates enclosing the object. Boxes are loose by design — a rectangle cannot trace a curved outline, which is why shape-fidelity needs segmentation."
+tags = ["ai5"]
+
+[[card]]
+id = "ai-fc-0049"
+front = "Define Intersection over Union (IoU)."
+back = "The area two boxes share divided by the area they cover together. 1.0 = perfect overlap, 0 = no overlap. It is the standard way to say how well a predicted box matches the truth."
+tags = ["ai5"]
+
+[[card]]
+id = "ai-fc-0050"
+front = "Worked check: an 8-cell ground-truth box and an 8-cell predicted box overlap in 4 cells. What is the IoU?"
+back = "Union = 8 + 8 − 4 = 12 (subtract the overlap counted twice); IoU = 4/12 ≈ 0.33 — a loose, half-off box. A 0.5 threshold would reject this match."
+tags = ["ai5"]
+
+[[card]]
+id = "ai-fc-0051"
+front = "What does an IoU match threshold of 0.5 mean?"
+back = "A prediction only counts as a match when it overlaps the ground truth by at least half the combined area. Thresholds are configuration — loosening them changes which detections count, so changing them is a regression event."
+tags = ["ai5"]
+
+[[card]]
+id = "ai-fc-0052"
+front = "What is non-maximum suppression (NMS)?"
+back = "Clean-up after detection: keep the highest-confidence box in each overlapping cluster, discard boxes that overlap it above an IoU threshold, repeat — roughly one box per real object. The overlap test IS IoU."
+tags = ["ai5"]
+
+[[card]]
+id = "ai-fc-0053"
+front = "What is a two-stage detector, in one line?"
+back = "Propose first, classify second: stage 1 cheaply suggests candidate regions (~thousands), stage 2 runs the expensive classifier on each. Accurate — focused evidence — but slower, and stage 1's recall is the accuracy ceiling."
+tags = ["ai5"]
+
+[[card]]
+id = "ai-fc-0054"
+front = "What did Fast R-CNN and Faster R-CNN each change in the R-CNN lineage?"
+back = "Fast R-CNN ran the convolutional network once on the whole image and shared features among proposals. Faster R-CNN moved proposal generation into the network itself (a region proposal network) — proposals became nearly free. The two-stage shape stayed."
+tags = ["ai5"]
+
+[[card]]
+id = "ai-fc-0055"
+front = "What is a one-stage detector, in one line?"
+back = "One network pass over the whole image: the image is divided into a grid, and every cell predicts boxes and class probabilities for its share of the scene simultaneously — no proposal stage, no per-region passes."
+tags = ["ai5"]
+
+[[card]]
+id = "ai-fc-0056"
+front = "What does YOLO stand for, and why is the name the architecture's argument?"
+back = "You Only Look Once. Instead of looking at the image thousands of times (once per proposal), one evaluation produces every detection — which is exactly why the family runs fast enough for real-time video."
+tags = ["ai5"]
+
+[[card]]
+id = "ai-fc-0057"
+front = "State the one-stage vs two-stage trade-off in one sentence."
+back = "Two-stage buys accuracy with extra compute (propose, then classify — historically stronger on small objects); one-stage buys speed with a single pass, historically at a small accuracy cost that modern designs have narrowed."
+tags = ["ai5"]
+
+[[card]]
+id = "ai-fc-0058"
+front = "Why were small objects the one-stage family's historical weakness?"
+back = "A coarse grid gives a tiny, distant object only a cell or two of evidence, and most cells contain only background — an imbalanced prediction problem. Two-stage's dedicated per-region look handles those cases better."
+tags = ["ai5"]
