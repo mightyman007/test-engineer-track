@@ -13,6 +13,8 @@ export interface ValidationInput {
   exams: ExamDefinition[];
   /** diagram relpath → SVG text */
   diagramFiles: Map<string, string>;
+  /** Per-tag minimum question counts (from bank-floors.toml); optional. */
+  bankFloors?: Array<{ tag: string; minimum: number }>;
 }
 
 function dupes(ids: string[]): string[] {
@@ -112,10 +114,29 @@ export function validateContent(input: ValidationInput): Diagnostic[] {
     }
   }
 
+  // Declared bank floors: per-tag minimum question counts, independent of any
+  // exam. Floors are the authoring commitment that keeps banks ahead of the
+  // exam blueprints arriving in M3.
+  for (const floor of input.bankFloors ?? []) {
+    const have = tagCount.get(floor.tag) ?? 0;
+    if (have < floor.minimum) {
+      d.push({
+        file: 'bank-floors.toml',
+        message: `group ${floor.tag} bank floor ${floor.minimum} unmet (have ${have})`,
+      });
+    }
+  }
+
+  // The exams directory is optional until M3 (mock exams): when no exams are
+  // defined at all, dangling readiness references are tolerated — there is
+  // nothing to resolve against. Once any exam exists, dangling refs are flagged.
+  const examsDefined = input.exams.length > 0;
   for (const track of input.tracks) {
     const file = `track:${track.id}`;
     for (const eid of track.readiness.examIds) {
-      if (!examIds.has(eid)) d.push({ file, message: `readiness references missing exam ${eid}` });
+      if (examsDefined && !examIds.has(eid)) {
+        d.push({ file, message: `readiness references missing exam ${eid}` });
+      }
     }
   }
 

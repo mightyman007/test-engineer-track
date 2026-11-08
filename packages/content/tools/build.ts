@@ -1,6 +1,7 @@
-import { readdirSync, readFileSync, writeFileSync, mkdirSync, copyFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync, writeFileSync, mkdirSync, copyFileSync } from 'node:fs';
 import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { parse as parseToml } from 'smol-toml';
 import {
   parseTrackToml, parseQuestionsToml, parseFlashcardsToml, parseExamToml,
   parseLessonMarkdown,
@@ -9,6 +10,23 @@ import type { ContentBundle, LessonMeta, Track } from 'tet-core';
 import { validateContent, type Diagnostic } from './validate.js';
 
 const CONTENT_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..', 'content');
+
+interface BankFloor { tag: string; minimum: number; }
+
+/** Reads content/bank-floors.toml; the file is optional → no floors. */
+function readBankFloors(root: string): BankFloor[] {
+  const path = join(root, 'bank-floors.toml');
+  if (!existsSync(path)) return [];
+  const raw = parseToml(readFileSync(path, 'utf8')) as { floor?: unknown };
+  const rows = Array.isArray(raw.floor) ? raw.floor : [];
+  return rows.map((row) => {
+    const r = row as { tag?: unknown; minimum?: unknown };
+    if (typeof r.tag !== 'string' || typeof r.minimum !== 'number') {
+      throw new Error('bank-floors.toml: each [[floor]] needs a string tag and a number minimum');
+    }
+    return { tag: r.tag, minimum: r.minimum };
+  });
+}
 
 export function collectContent(root: string): {
   tracks: Track[];
@@ -24,8 +42,11 @@ export function collectContent(root: string): {
 
   const exams: ReturnType<typeof parseExamToml>[] = [];
   const examsDir = join(root, 'exams');
-  for (const f of readdirSync(examsDir).filter((f) => f.endsWith('.toml'))) {
-    exams.push(parseExamToml(readFileSync(join(examsDir, f), 'utf8')));
+  // The exams directory is optional (it stays empty until M3's mock exams).
+  if (existsSync(examsDir)) {
+    for (const f of readdirSync(examsDir).filter((f) => f.endsWith('.toml'))) {
+      exams.push(parseExamToml(readFileSync(join(examsDir, f), 'utf8')));
+    }
   }
 
   const lessons: LessonMeta[] = [];
@@ -55,11 +76,17 @@ export function collectContent(root: string): {
     }
   }
 
-  // Load every referenced diagram file into the bundle.
+  // Load every referenced diagram file into the bundle. A file that cannot be
+  // read is deliberately NOT added to the map: the validator then emits its
+  // missing-diagram diagnostic and the build fails through the aggregated
+  // diagnostics path instead of crashing here with ENOENT.
   for (const lesson of lessons) {
     for (const dia of lesson.diagrams) {
-      if (!diagramFiles.has(dia.file)) {
+      if (diagramFiles.has(dia.file)) continue;
+      try {
         diagramFiles.set(dia.file, readFileSync(join(root, dia.file), 'utf8'));
+      } catch {
+        // Unreadable diagram file → surfaces as a validator diagnostic below.
       }
     }
   }
@@ -76,6 +103,7 @@ export function buildContentJson(root: string = CONTENT_ROOT): ContentBundle {
   const diagnostics = validateContent({
     ...pieces,
     diagramFiles: new Map(Object.entries(pieces.diagrams)),
+    bankFloors: readBankFloors(root),
   });
   if (diagnostics.length > 0) {
     const lines = diagnostics.map((x: Diagnostic) => `  ${x.file}: ${x.message}`);

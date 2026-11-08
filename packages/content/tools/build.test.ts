@@ -1,4 +1,4 @@
-import { mkdtempSync, writeFileSync, mkdirSync, readFileSync } from 'node:fs';
+import { mkdtempSync, writeFileSync, mkdirSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
@@ -93,5 +93,18 @@ describe('buildContentJson', () => {
     const root = seedRoot();
     writeFileSync(join(root, 'm1', 'questions.toml'), '[[question]]\nid = "q1"\n');
     expect(() => buildContentJson(root)).toThrow(/q1/);
+  });
+
+  it('tolerates a missing exams directory (emits no exams, no crash)', () => {
+    const root = seedRoot();
+    rmSync(join(root, 'exams'), { recursive: true, force: true });
+    const bundle = buildContentJson(root);
+    expect(bundle.exams).toEqual([]);
+  });
+
+  it('reports a missing diagram as a validation diagnostic, not an ENOENT crash', () => {
+    const root = seedRoot();
+    rmSync(join(root, 'diagrams', 'x.svg'));
+    expect(() => buildContentJson(root)).toThrow(/missing diagram file/);
   });
 });
