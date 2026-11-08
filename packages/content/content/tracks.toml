@@ -106,3 +106,42 @@ quizPool = "istqb/module-8"   # comment-only file → empty pool (build.ts toler
 deck = "istqb/module-8"       # comment-only file → empty deck
 lessonIds = ["istqb-m8-how-mocks-work"]
 examWeight = 0   # informational: not a syllabus chapter — the mock exams draw from modules 1-7
+
+# Track 2 — AI for Test Engineers (M4). No official syllabus exists for this
+# track: the examWeight values are informational placeholders, and the learning
+# objectives live in each module's questions.toml header as the coverage
+# contract. readiness_examIds starts EMPTY on purpose: the two AI mock exams
+# (ai-mock-1/ai-mock-2) land in M4 Task 7, and the validator fails the build on
+# any readiness id with no exam behind it — so the ids are wired there, not
+# dangled here (same transitional state track 1 used before M3's mocks shipped).
+
+[[track]]
+id = "ai-fundamentals"
+title = "AI for Test Engineers"
+description = "From zero AI knowledge to how AI powers autonomous vehicles — and how to test it."
+order = 2
+readiness_passPct = 70
+readiness_readyPct = 78
+readiness_examIds = []   # filled with ["ai-mock-1", "ai-mock-2"] in M4 Task 7
+
+[[track.module]]
+id = "ai-m1-what-is-ai"
+track = "ai-fundamentals"
+title = "What is AI?"
+order = 1
+source = "ai/module-a1"
+quizPool = "ai/module-a1"
+deck = "ai/module-a1"
+lessonIds = ["ai-m1-what-is-ai", "ai-m1-ai-vs-ml", "ai-m1-rule-based-vs-learned"]
+examWeight = 4   # informational until the AI mocks exist (M4 Task 7)
+
+[[track.module]]
+id = "ai-m2-how-machines-learn"
+track = "ai-fundamentals"
+title = "How Machines Learn"
+order = 2
+source = "ai/module-a2"
+quizPool = "ai/module-a2"
+deck = "ai/module-a2"
+lessonIds = ["ai-m2-data-and-labels", "ai-m2-learning-paradigms", "ai-m2-splits-and-overfitting"]
+examWeight = 4   # informational until the AI mocks exist (M4 Task 7)

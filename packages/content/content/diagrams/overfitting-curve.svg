@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <rect width="800" height="450" fill="#f7f8fb"/>
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1a1a2e"/></marker></defs>
+  <text x="400" y="42" text-anchor="middle" font-size="24" font-weight="700" fill="#1a1a2e">Overfitting &#8212; when the model memorizes instead of learns</text>
+  <text x="400" y="68" text-anchor="middle" font-size="14" fill="#1a1a2e">Training error keeps improving while validation error turns upward</text>
+  <line x1="90" y1="70" x2="90" y2="360" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="90" y1="360" x2="740" y2="360" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="52" y="86" font-size="12.5" fill="#1a1a2e">error</text>
+  <text x="415" y="390" text-anchor="middle" font-size="12.5" fill="#1a1a2e">rounds of training</text>
+  <polyline points="110,100 210,155 310,215 410,265 510,300 610,325 710,340" fill="none" stroke="#1a1a2e" stroke-width="2.5"/>
+  <polyline points="110,105 210,162 310,222 410,272 510,300 610,290 710,262" fill="none" stroke="#1a1a2e" stroke-width="2.5" stroke-dasharray="7 5"/>
+  <line x1="560" y1="88" x2="560" y2="360" stroke="#1a1a2e" stroke-width="1.5" stroke-dasharray="4 5"/>
+  <text x="575" y="105" font-size="12.5" font-weight="700" fill="#1a1a2e">overfitting starts here:</text>
+  <text x="575" y="123" font-size="12" fill="#1a1a2e">validation error turns up while</text>
+  <text x="575" y="139" font-size="12" fill="#1a1a2e">training error keeps falling</text>
+  <text x="420" y="240" font-size="12.5" font-weight="700" fill="#1a1a2e">training error</text>
+  <text x="580" y="255" font-size="12.5" font-weight="700" fill="#1a1a2e">validation error</text>
+  <text x="400" y="428" text-anchor="middle" font-size="12.5" fill="#1a1a2e">Training error alone can only improve &#8212; it cannot warn you. The validation curve is the alarm.</text>
+</svg>

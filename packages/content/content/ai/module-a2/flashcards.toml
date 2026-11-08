@@ -1,0 +1,77 @@
+# AI for Test Engineers — Module A2 "How Machines Learn"
+# 12 atomic flashcards: training data, features, labels, ground truth, the
+# three learning paradigms with everyday examples, the train/validation/test
+# split, overfitting vs underfitting, split hygiene (peeking, leakage), and
+# why data quality dominates.
+
+[[card]]
+id = "ai-fc-0011"
+front = "What is training data?"
+back = "The collection of examples a machine-learning system learns from — each example a record of something the system should eventually judge. No examples, no learning."
+tags = ["ai2"]
+
+[[card]]
+id = "ai-fc-0012"
+front = "What are features? Give spam-filter examples."
+back = "The observable inputs the model judges by — the descriptive columns of each example. Spam-filter features: sender domain, number of links, ALL-CAPS ratio, 'free money' phrases."
+tags = ["ai2"]
+
+[[card]]
+id = "ai-fc-0013"
+front = "What are labels? What is the spam filter's label?"
+back = "The correct answer attached to each training example — what the model learns to predict. For the spam filter: spam or not spam, agreed for every example in the training data."
+tags = ["ai2"]
+
+[[card]]
+id = "ai-fc-0014"
+front = "What is ground truth, and how does it relate to the tester's oracle?"
+back = "The agreed 'what is actually true' — the labeled answers a model is judged against. It is the AI world's oracle: any reported accuracy means nothing until you know which ground truth it was measured against."
+tags = ["ai2"]
+
+[[card]]
+id = "ai-fc-0015"
+front = "Define supervised learning and its two everyday flavors."
+back = "Training on examples where every feature set arrives with its label — studying with an answer key. Flavors: classification (label = category: spam/not spam) and regression (label = number: a price, a delivery time)."
+tags = ["ai2"]
+
+[[card]]
+id = "ai-fc-0016"
+front = "Define unsupervised learning and its two everyday flavors."
+back = "Training on unlabeled examples: the model finds structure on its own. Flavors: clustering (group customers into segments nobody predefined) and anomaly detection (learn 'normal', flag what doesn't fit). Testing is judgment of usefulness — no absolute answer exists."
+tags = ["ai2"]
+
+[[card]]
+id = "ai-fc-0017"
+front = "Define reinforcement learning, with an example and its tester-relevant catch."
+back = "An agent takes actions, receives rewards, and keeps the strategies that score best (AlphaGo learning Go by self-play). Catch: the system optimizes the reward as defined, not the outcome intended — a cleaning robot rewarded for 'no dust visible' may hide dust under the sofa."
+tags = ["ai2"]
+
+[[card]]
+id = "ai-fc-0018"
+front = "Name the three data splits and each one's job."
+back = "Training set = study material the model learns from. Validation set = practice exam used during development to tune the approach and catch trouble. Test set = final exam, touched exactly once at the end to report honest performance."
+tags = ["ai2"]
+
+[[card]]
+id = "ai-fc-0019"
+front = "Why must the test set be used exactly once — and what does repeated peeking do?"
+back = "Its value is being untouched by any tuning decision. Every peek-and-tune cycle turns it into a de facto validation set, so the final reported score flatters the model — a process defect that corrupts the one honest measurement."
+tags = ["ai2"]
+
+[[card]]
+id = "ai-fc-0020"
+front = "What is overfitting, and what is its warning sign?"
+back = "Memorizing the training examples — including their noise — instead of learning the general pattern: brilliant on studied data, poor on new data. Warning sign: validation error climbing while training error keeps falling."
+tags = ["ai2"]
+
+[[card]]
+id = "ai-fc-0021"
+front = "What is underfitting, and how does it differ from overfitting?"
+back = "The model is too simple to capture even the training pattern — like studying only chapter titles. It performs poorly everywhere; overfitting performs brilliantly on training data and poorly on new data."
+tags = ["ai2"]
+
+[[card]]
+id = "ai-fc-0022"
+front = "Why does data quality dominate model outcomes?"
+back = "Errors flow silently from data into behavior: wrong labels teach wrong lessons at scale, missing variety creates blind spots, stale data loses to a changed world, and duplicates leaking across splits inflate scores. Garbage in, garbage out."
+tags = ["ai2"]

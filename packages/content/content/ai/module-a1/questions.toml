@@ -1,0 +1,270 @@
+# AI for Test Engineers — Module A1 "What is AI?"
+# 16 original questions (ai-q-0001..0016), all tagged ai1.
+#
+# This track has NO official syllabus: the learning objectives below are ours,
+# authored as the module's coverage contract. The lo field carries the
+# objective id; every objective carries >= 2 questions.
+#
+# Objectives (A1) — the coverage contract:
+#   A1-1 Explain in plain language what AI is and is not, and why it is
+#        ordinary software with ordinary failure modes.
+#   A1-2 Describe how AI, machine learning, and deep learning nest inside
+#        each other, and classify everyday systems into the right layer.
+#   A1-3 Distinguish rule-based systems from learned systems using the
+#        spell-checker vs autocomplete contrast.
+#   A1-4 Explain why a learned system's behavior cannot be read from its
+#        code, and where expected results come from instead.
+#   A1-5 Recognize machine-learned features in everyday software.
+#
+# Coverage: A1-1 x3 (0001-0003), A1-2 x4 (0004-0006, 0016), A1-3 x3 (0007-0009),
+# A1-4 x2 (0011-0012), A1-5 x4 (0010, 0013-0015) — every objective >= 2.
+# Recall-style (K1-equivalent) questions: ai-q-0001, 0004, 0007, 0010, 0016
+# (5 total; the floor is 4). The rest are understanding-style.
+# 2 multi-select questions (ai-q-0006, ai-q-0015): 5 options, exactly 2 correct.
+# NO klevel field on AI questions — standing M4 ruling: no official K
+# classification exists, and AI exams use count-only groups.
+# Answer positions across the 14 singles: 0 x4, 1 x3, 2 x4, 3 x3 (~25% each,
+# non-cyclic); the two multi-selects use two different correct-pair positions.
+# All stems/options/explanations are original.
+
+[[question]]
+id = "ai-q-0001"
+type = "single"
+stem = "In this track's working sense, what is 'artificial intelligence'?"
+options = [
+  "A branch of robotics that only concerns physical machines",
+  "Software that makes judgments we associate with human intelligence — recognizing, predicting, deciding",
+  "Any program that stores data in a database",
+  "A special kind of computer that rewrites its own code",
+]
+answers = [1]
+explanation = "AI is ordinary software producing judgments — recognizing, predicting, deciding. It need not be a robot, a database feature, or self-rewriting code."
+lo = "A1-1"
+tags = ["ai1"]
+
+[[question]]
+id = "ai-q-0002"
+type = "single"
+stem = "An email app starts moving newsletters into a 'Promotions' tab without anyone configuring a rule. What does this most likely indicate?"
+options = [
+  "A human moderator is sorting the mail by hand",
+  "A random shuffle the developers forgot to remove",
+  "A learned pattern: a model judged these emails from their features",
+  "A bug that should be reported to the vendor",
+]
+answers = [2]
+explanation = "Judging messages without hand-configured rules is the signature of a learned system — a model classifying from features like sender, subject, and links."
+lo = "A1-1"
+tags = ["ai1"]
+
+[[question]]
+id = "ai-q-0003"
+type = "single"
+stem = "Which statement about AI is true?"
+options = [
+  "AI is software: it can be wrong, biased, or broken like any other software",
+  "AI systems never make mistakes if they are trained well",
+  "AI systems understand their own decisions the way people do",
+  "AI only counts as AI if it runs inside a physical robot",
+]
+answers = [0]
+explanation = "AI is software and inherits software's failure modes. Good training reduces errors but never eliminates them; there is no human-style understanding inside; and embodiment is irrelevant."
+lo = "A1-1"
+tags = ["ai1"]
+
+[[question]]
+id = "ai-q-0004"
+type = "single"
+stem = "Which list correctly describes how the three key terms nest?"
+options = [
+  "Machine learning contains deep learning, which contains all of AI",
+  "Deep learning contains machine learning, which contains AI",
+  "The three terms are unrelated specialities",
+  "Artificial intelligence contains machine learning, which contains deep learning",
+]
+answers = [3]
+explanation = "AI is the umbrella; machine learning is a subset of AI; deep learning is a subset of ML built on many-layered neural networks."
+lo = "A1-2"
+tags = ["ai1"]
+
+[[question]]
+id = "ai-q-0005"
+type = "single"
+stem = "A colleague says: 'Our product uses deep learning, so it's not machine learning.' What is wrong with that sentence?"
+options = [
+  "Deep learning is a subset of machine learning, so a deep-learning product is machine learning too",
+  "Nothing — deep learning and machine learning are rivals that never overlap",
+  "Deep learning replaced machine learning back in the 1990s",
+  "The sentence is wrong only because deep learning is a type of rule-based system",
+]
+answers = [0]
+explanation = "Deep learning nests inside machine learning: every deep-learning system is machine learning, just built on many-layered neural networks."
+lo = "A1-2"
+tags = ["ai1"]
+
+[[question]]
+id = "ai-q-0006"
+type = "multi"
+stem = "A 1990s chess engine picks moves by searching through hand-written rules and brute-force lookahead. Which TWO claims are true?"
+options = [
+  "It is not AI, because nothing in it was learned",
+  "It is AI, because it performs a task we would call intelligent",
+  "It is deep learning, because playing chess requires neural networks",
+  "It is probably not machine learning, because its behavior was written, not learned",
+  "It is machine learning, because it improves with every game it plays",
+]
+answers = [1, 3]
+explanation = "AI is the umbrella — a hand-programmed chess engine performs an intelligent task, so it is AI. But its behavior was authored as rules rather than learned from data, so it sits outside machine learning (and therefore outside deep learning too)."
+lo = "A1-2"
+tags = ["ai1"]
+
+[[question]]
+id = "ai-q-0007"
+type = "single"
+stem = "What is a rule-based system?"
+options = [
+  "A system that rewrites its own rules whenever it is wrong",
+  "A system whose behavior is learned from labeled examples",
+  "A system whose behavior follows explicit if-then rules written by people",
+  "A system with no rules that therefore behaves randomly",
+]
+answers = [2]
+explanation = "Rule-based systems behave exactly as their authored if-then rules dictate — expert systems and dictionary-based spell checkers are the classic examples."
+lo = "A1-3"
+tags = ["ai1"]
+
+[[question]]
+id = "ai-q-0008"
+type = "single"
+stem = "Why is a spell checker's failure easier to predict than an autocomplete's?"
+options = [
+  "Because the spell checker is the newer technology",
+  "Because its behavior comes from an explicit dictionary and rules, so you can reason about what it will flag",
+  "Because the spell checker never makes mistakes",
+  "Because the autocomplete has no code at all",
+]
+answers = [1]
+explanation = "Readable rules make failure enumerable: flagging comes from the dictionary and rule logic. Autocomplete's suggestions come from learned patterns that nobody can read as rules."
+lo = "A1-3"
+tags = ["ai1"]
+
+[[question]]
+id = "ai-q-0009"
+type = "single"
+stem = "A team needs a system whose behavior they can audit rule by rule tomorrow morning. Which choice fits best?"
+options = [
+  "A larger machine-learning model trained on more data",
+  "A deep-learning model with more layers",
+  "The same learned model retrained on more data",
+  "A rule-based system with explicit, human-written rules",
+]
+answers = [3]
+explanation = "Auditable rule-by-rule behavior is the defining property of rule-based systems. More data or more layers makes a learned system bigger — not more readable."
+lo = "A1-3"
+tags = ["ai1"]
+
+[[question]]
+id = "ai-q-0010"
+type = "single"
+stem = "Which everyday feature is typically powered by machine learning?"
+options = [
+  "The email filter that learns which messages users mark as junk",
+  "The 'Save file' dialog",
+  "The operating system clock",
+  "The uninstall wizard",
+]
+answers = [0]
+explanation = "Learning from marked examples is machine learning's signature. Dialogs, clocks, and wizards follow explicit, hand-written logic."
+lo = "A1-5"
+tags = ["ai1"]
+
+[[question]]
+id = "ai-q-0011"
+type = "single"
+stem = "Why can't a tester of a learned system read the expected behavior straight from the code?"
+options = [
+  "Because the code is written in a secret programming language",
+  "Because the behavior was shaped by training data and lives in learned numbers, not in readable rules",
+  "Because the code changes every millisecond",
+  "Because learned systems are compiled directly to hardware",
+]
+answers = [1]
+explanation = "Reading a learned system's code shows the machinery — data flows and math — but not the judgments. The judgments emerged from training data and live as numeric patterns."
+lo = "A1-4"
+tags = ["ai1"]
+
+[[question]]
+id = "ai-q-0012"
+type = "single"
+stem = "When testing a learned spam filter, where do expected results come from?"
+options = [
+  "From the model itself, since it learned the truth",
+  "From the developers' memory of the training data",
+  "From independently labeled examples — the agreed ground truth — not from the code",
+  "From whatever the filter currently outputs",
+]
+answers = [2]
+explanation = "With no rule to read, the oracle is labeled data: examples whose correct classification was agreed independently of the model."
+lo = "A1-4"
+tags = ["ai1"]
+
+[[question]]
+id = "ai-q-0013"
+type = "single"
+stem = "Which pairing of everyday feature → system type is correct?"
+options = [
+  "Next-word suggestions → rule-based; calculator arithmetic → learned",
+  "Alphabetical file sorting → learned; spell-check red underline → learned",
+  "Calculator arithmetic → learned; video recommendations → rule-based",
+  "Video recommendations → learned; spell-check red underline → rule-based",
+]
+answers = [3]
+explanation = "Recommendations are learned from viewing patterns; the red underline comes from a dictionary plus rules. The other pairings invert or misassign the machinery."
+lo = "A1-5"
+tags = ["ai1"]
+
+[[question]]
+id = "ai-q-0014"
+type = "single"
+stem = "A phone unlocks by recognizing its owner's face. What best describes this feature?"
+options = [
+  "Deep learning: a many-layered neural network learned to match faces from examples",
+  "A rule list such as 'if a face is present, unlock'",
+  "A saved PIN checked against the camera",
+  "A database that stores one photo and does exact file comparison",
+]
+answers = [0]
+explanation = "Recognizing faces across lighting, angles, and glasses is a learned perception task; modern face unlock is built on deep neural networks, not static rules or file lookups."
+lo = "A1-5"
+tags = ["ai1"]
+
+[[question]]
+id = "ai-q-0015"
+type = "multi"
+stem = "Which TWO of these features are typically LEARNED (machine-learned) rather than rule-based?"
+options = [
+  "A spam filter that adapts as new scams appear",
+  "The blinking cursor in a text box",
+  "A calculator computing 17 × 23",
+  "A file dialog sorting names A to Z",
+  "Next-word suggestions on a phone keyboard",
+]
+answers = [0, 4]
+explanation = "Adapting to new scams and predicting your next word both come from patterns learned on data. The cursor, the arithmetic, and the alphabetical sorting are explicit, hand-written logic."
+lo = "A1-5"
+tags = ["ai1"]
+
+[[question]]
+id = "ai-q-0016"
+type = "single"
+stem = "What is the name for the approach where a program improves at a task by finding patterns in examples instead of following hand-written rules?"
+options = [
+  "Defragmentation",
+  "Unit testing",
+  "Machine learning",
+  "Compilation",
+]
+answers = [2]
+explanation = "That is machine learning in one sentence: behavior learned from examples. Defragmentation, compilation, and unit testing are entirely other disciplines."
+lo = "A1-2"
+tags = ["ai1"]

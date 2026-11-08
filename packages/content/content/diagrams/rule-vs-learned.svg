@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <rect width="800" height="450" fill="#f7f8fb"/>
+  <text x="400" y="42" text-anchor="middle" font-size="24" font-weight="700" fill="#1a1a2e">Rule-based vs learned &#8212; same goal, different machinery</text>
+  <text x="400" y="68" text-anchor="middle" font-size="14" fill="#1a1a2e">Where the behavior comes from decides how it fails &#8212; and how you test it</text>
+  <rect x="40" y="92" width="350" height="308" rx="8" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <rect x="410" y="92" width="350" height="308" rx="8" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="56" y="122" font-size="14" font-weight="700" fill="#1a1a2e">RULE-BASED &#8212; the spell checker</text>
+  <text x="426" y="122" font-size="14" font-weight="700" fill="#1a1a2e">LEARNED &#8212; the autocomplete</text>
+  <text x="56" y="152" font-size="12.5" font-weight="700" fill="#1a1a2e">Behavior: written by people</text>
+  <text x="56" y="170" font-size="12" fill="#1a1a2e">every if-then rule lives in the code</text>
+  <text x="426" y="152" font-size="12.5" font-weight="700" fill="#1a1a2e">Behavior: learned from examples</text>
+  <text x="426" y="170" font-size="12" fill="#1a1a2e">patterns distilled from billions of sentences</text>
+  <text x="56" y="202" font-size="12.5" font-weight="700" fill="#1a1a2e">Reasoning: you can read it</text>
+  <text x="56" y="220" font-size="12" fill="#1a1a2e">word not in the dictionary &#8594; flag it</text>
+  <text x="426" y="202" font-size="12.5" font-weight="700" fill="#1a1a2e">Reasoning: numbers, not rules</text>
+  <text x="426" y="220" font-size="12" fill="#1a1a2e">no rule to point to for any suggestion</text>
+  <text x="56" y="252" font-size="12.5" font-weight="700" fill="#1a1a2e">Failure mode: loud and predictable</text>
+  <text x="56" y="270" font-size="12" fill="#1a1a2e">flags a rare but correct name &#8212; you see it</text>
+  <text x="426" y="252" font-size="12.5" font-weight="700" fill="#1a1a2e">Failure mode: quiet and subtle</text>
+  <text x="426" y="270" font-size="12" fill="#1a1a2e">suggests something plausible but wrong</text>
+  <text x="56" y="302" font-size="12.5" font-weight="700" fill="#1a1a2e">Changes: only when edited</text>
+  <text x="56" y="320" font-size="12" fill="#1a1a2e">tomorrow's behavior = today's behavior</text>
+  <text x="426" y="302" font-size="12.5" font-weight="700" fill="#1a1a2e">Changes: whenever retrained</text>
+  <text x="426" y="320" font-size="12" fill="#1a1a2e">new training data can shift old answers</text>
+  <text x="56" y="352" font-size="12.5" font-weight="700" fill="#1a1a2e">Testing: exercise the rules</text>
+  <text x="56" y="370" font-size="12" fill="#1a1a2e">boundary values around each rule</text>
+  <text x="426" y="352" font-size="12.5" font-weight="700" fill="#1a1a2e">Testing: exercise the behavior</text>
+  <text x="426" y="370" font-size="12" fill="#1a1a2e">expected results come from labeled examples</text>
+  <text x="400" y="428" text-anchor="middle" font-size="12.5" fill="#1a1a2e">A rule-based system's "why" is in the code; a learned system's "why" is buried in the data it trained on.</text>
+</svg>

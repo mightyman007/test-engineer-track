@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <rect width="800" height="450" fill="#f7f8fb"/>
+  <text x="400" y="42" text-anchor="middle" font-size="24" font-weight="700" fill="#1a1a2e">AI, machine learning, deep learning &#8212; three nested circles</text>
+  <text x="400" y="68" text-anchor="middle" font-size="14" fill="#1a1a2e">Every inner layer is a strict subset of the layer around it</text>
+  <circle cx="250" cy="252" r="148" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <circle cx="250" cy="252" r="100" fill="#f0f1f7" stroke="#1a1a2e" stroke-width="2"/>
+  <circle cx="250" cy="252" r="52" fill="#e2e4f0" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="250" y="136" text-anchor="middle" font-size="16" font-weight="700" fill="#1a1a2e">AI</text>
+  <text x="250" y="182" text-anchor="middle" font-size="16" font-weight="700" fill="#1a1a2e">ML</text>
+  <text x="250" y="248" text-anchor="middle" font-size="15" font-weight="700" fill="#1a1a2e">DL</text>
+  <text x="250" y="266" text-anchor="middle" font-size="10.5" fill="#1a1a2e">many-layered</text>
+  <text x="250" y="282" text-anchor="middle" font-size="10.5" fill="#1a1a2e">neural networks</text>
+  <text x="440" y="150" font-size="13" font-weight="700" fill="#1a1a2e">AI &#8212; the umbrella</text>
+  <text x="440" y="170" font-size="12" fill="#1a1a2e">any software doing tasks we'd call smart:</text>
+  <text x="440" y="186" font-size="12" fill="#1a1a2e">recognizing, deciding, predicting &#8212; even</text>
+  <text x="440" y="202" font-size="12" fill="#1a1a2e">when the behavior was hand-coded</text>
+  <text x="440" y="218" font-size="12" fill="#1a1a2e">(a rules-only chess engine counts)</text>
+  <text x="440" y="262" font-size="13" font-weight="700" fill="#1a1a2e">ML &#8212; learning from examples</text>
+  <text x="440" y="282" font-size="12" fill="#1a1a2e">a subset of AI: the program's behavior</text>
+  <text x="440" y="298" font-size="12" fill="#1a1a2e">is learned from data instead of written</text>
+  <text x="440" y="314" font-size="12" fill="#1a1a2e">rules &#8212; spam filters, price estimates,</text>
+  <text x="440" y="330" font-size="12" fill="#1a1a2e">recommendations</text>
+  <text x="440" y="366" font-size="13" font-weight="700" fill="#1a1a2e">DL &#8212; neural networks, many layers deep</text>
+  <text x="440" y="386" font-size="12" fill="#1a1a2e">a subset of ML: pattern-hungry neural</text>
+  <text x="440" y="402" font-size="12" fill="#1a1a2e">networks &#8212; face unlock, speech recognition</text>
+  <text x="400" y="436" text-anchor="middle" font-size="12.5" fill="#1a1a2e">Marketing often says "AI" for all three; for testing, what matters is which layer you actually have.</text>
+</svg>
