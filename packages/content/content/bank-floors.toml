@@ -17,3 +17,8 @@ minimum = 33
 [[floor]]
 tag = "ch3"
 minimum = 33
+
+# Task 6: modules 4 (20) + 5 (18) complete the ch4 bank at 38 questions.
+[[floor]]
+tag = "ch4"
+minimum = 38

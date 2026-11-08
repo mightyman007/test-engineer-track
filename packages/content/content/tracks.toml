@@ -55,3 +55,14 @@ quizPool = "istqb/module-4"
 deck = "istqb/module-4"
 lessonIds = ["istqb-m4-overview", "istqb-m4-equivalence-partitioning", "istqb-m4-boundary-values", "istqb-m4-decisions-states"]
 examWeight = 6   # informational; Ch4's 11 exam questions draw from modules 4+5
+
+[[track.module]]
+id = "istqb-m5-whitebox"
+track = "istqb-ctfl"
+title = "Test Analysis & Design II — White-Box, Experience-Based, Collaboration-Based"
+order = 5
+source = "istqb/module-5"
+quizPool = "istqb/module-5"
+deck = "istqb/module-5"
+lessonIds = ["istqb-m5-white-box", "istqb-m5-experience-based", "istqb-m5-collaboration"]
+examWeight = 5   # informational; Ch4 total 11 = modules 4 (6) + 5 (5)

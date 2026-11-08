@@ -1,0 +1,365 @@
+# ISTQB CTFL Module 5 — Test Analysis & Design II: White-Box, Experience-Based,
+# Collaboration-Based (Ch4 part B)
+# 18 original questions. istqb-q-0119 is the brief's worked example (statement/
+# decision coverage computation), lightly reworded for stem self-containment —
+# see ruling (b) below.
+#
+# Verified against the official ISTQB CTFL Syllabus v4.0.1 PDF (istqb.org,
+# 2024-09-15; md5 b2577c7a8437970d172797d7061a7aba re-downloaded live and
+# byte-identical 2026-11-07; text-extracted with pdftotext -layout; Ch4 LO list
+# p. 38 of 78, sections 4.3-4.5 pp. 42-46) AND — new this task — the official
+# ISTQB Exam Structures & Rules Tables v1.20 (istqb.org CTFL page download,
+# fetched live 2026-11-07; "CTFL - Certified Tester Foundation Level v4.0" page
+# 5 of 38):
+#   FL-4.3.1 (K2) Explain statement testing
+#   FL-4.3.2 (K2) Explain branch testing
+#   FL-4.3.3 (K2) Explain the value of white-box testing
+#   FL-4.4.1 (K2) Explain error guessing
+#   FL-4.4.2 (K2) Explain exploratory testing
+#   FL-4.4.3 (K2) Explain checklist-based testing
+#   FL-4.5.1 (K2) Explain how to write user stories in collaboration with developers and business representatives
+#   FL-4.5.2 (K2) Classify the different options for writing acceptance criteria
+#   FL-4.5.3 (K3) Use acceptance test-driven development (ATDD) to derive test cases
+#
+# OFFICIAL ch4 K-DRAW (resolves the controller's 0-vs-1 K1 ruling): Exam
+# Structures & Rules Tables v1.20, Chapter 4: "There is a total of 11 questions
+# required for Chapter 4. K1 = 0, K2 = 6, K3 = 5; Number of points = 11."
+# Group split: {4.1.1, 4.3.1} x 1 K2; {4.3.2, 4.3.3} x 2 K2; {4.4.1-4.4.3} x 2 K2;
+# {4.5.1, 4.5.2} x 1 K2; {4.2.1-4.2.4, 4.5.3} x 5 K3. The "1 K1" belongs to the
+# FL2018 structure only (FL_2018 Exam Structure and Rules: ch4 K1=1, K2=5, K3=5) —
+# v4.0 draws ZERO K1 questions from ch4.
+#
+# NOTE on K-levels: sections 4.3-4.5 contain exactly one K3 LO (FL-4.5.3); the
+# other eight are K2. The contract's >=5 K1 is grounded via the syllabus's own
+# global rule (0.5): "all contents of chapters 1-6 of this syllabus are
+# examinable at a K1 level" and "All terms listed as keywords just below chapter
+# headings shall be remembered (K1), even if not explicitly mentioned in the
+# learning objectives" (this module's keywords: statement coverage, branch
+# coverage, white-box/experience-based test technique, error guessing,
+# exploratory testing, checklist-based testing, collaboration-based test
+# approach, acceptance criteria, acceptance test-driven development). K3
+# assignments on K2 LOs (q-0119/0121/0122 coverage computations, q-0126 fault
+# attack, q-0132 user-story format) follow the brief's own worked-example
+# precedent (istqb-q-0119 keyed K3 on FL-4.3.1): they are apply-level exercises
+# whose every datum sits in the stem and whose definitions are the syllabus's
+# own 4.3.1/4.3.2/4.4.1/4.5.1 text. The official exam itself draws K3 only from
+# FL-4.2.1-4.2.4 + FL-4.5.3.
+#
+# Rulings applied to the brief:
+#   (a) floor value — the brief's Files line and the controller dispatch both say
+#       bank-floors.toml gains ch4 minimum 38 (combined bank 20+18=38); the step
+#       list's stray "(35)" was read as a stale carryover and not applied.
+#   (b) worked example — q-0119 keeps the brief's scenario (paths A/B, 4 distinct
+#       statements, one decision, keyed statement 100% + decision 100%) but the
+#       stem now says "six statement executions along the two paths, four of them
+#       distinct" where the brief said "6 statements" (4 distinct labels — the
+#       brief's own explanation counted distinct statements), and option 1 says
+#       "4 of 4 distinct statements" where the brief said "6/6... 4 distinct".
+#       Keyed answer, option semantics and explanation are unchanged.
+#   (c) wording — the syllabus v4.0 uses BRANCH coverage (a branch = transfer of
+#       control between two nodes, unconditional or conditional/decision outcome;
+#       "Branch coverage subsumes statement coverage... but not vice versa",
+#       4.3.2; Appendix C records why decision testing/coverage was replaced).
+#       Stems that compute over decision outcomes say so explicitly; stems that
+#       compute over all transfers of control say that too. Cyclomatic complexity
+#       is NOT in CTFL v4.0 (only a McCabe bibliography entry) — it appears in
+#       lesson-01 as a clearly-flagged beyond-syllabus aside, and no keyed
+#       question depends on its formula.
+#
+# Coverage: FL-4.3.1: 2 (q-0119, q-0120), FL-4.3.2: 2 (q-0121, q-0122), FL-4.3.3:
+# 2 (q-0123, q-0124), FL-4.4.1: 2 (q-0125, q-0126), FL-4.4.2: 2 (q-0127, q-0128),
+# FL-4.4.3: 2 (q-0129, q-0130), FL-4.5.1: 2 (q-0131, q-0132), FL-4.5.2: 2
+# (q-0133, q-0134), FL-4.5.3: 2 (q-0135, q-0136) — every LO exactly 2 (9 LOs x 2
+# = 18). K mix: 6 K1 + 5 K2 + 7 K3 (contract floors: >=5 K1, >=7 K3). 1
+# multi-select (istqb-q-0134): 5 options, exactly 2 correct. Combined with module
+# 4, ch4 carries 17 K3 against the official 5-K3 chapter draw. All stems/options/
+# explanations are original — no ISTQB official sample questions copied.
+
+[[question]]
+id = "istqb-q-0119"
+type = "single"
+stem = "A function's control flow has six statement executions along two paths: path A runs statements S1, S2, S3; path B runs S1, S2, S4 — four of them distinct. Decision D1 chooses between path A and path B; no other decisions exist. A test suite runs path A, then path B. What are the statement and decision-outcome coverage counts?"
+options = [
+  "Statement 100% (4 of 4 distinct statements), decision 100% (2 of 2 outcomes)",
+  "Statement 100%, decision 50%",
+  "Statement 67% (4 of 6 executions), decision 100%",
+  "Statement 100%, decision 0% — decisions need a decision table",
+]
+answers = [0]
+explanation = "The distinct statements are S1, S2, S3, S4 and both paths together touch all four — statement coverage counts distinct statements, so 100%. Decision D1 has two outcomes and the suite took both (A and B), so 100%. '67%' wrongly divides the 4 distinct statements by the 6 executions, '50%' counts only path A's outcome, and the decision is right there in the control flow — no decision table is needed."
+lo = "FL-4.3.1"
+klevel = "K3"
+tags = ["ch4"]
+
+[[question]]
+id = "istqb-q-0120"
+type = "single"
+stem = "In statement testing, what are the coverage items and how is coverage measured?"
+options = [
+  "The executable statements; coverage = statements exercised ÷ total executable statements, expressed as a percentage",
+  "The branches between nodes; coverage = branches exercised ÷ total branches, expressed as a percentage",
+  "The decision outcomes; coverage = outcomes taken ÷ total outcomes, expressed as a percentage",
+  "The paths through the control flow graph; coverage = paths exercised ÷ total possible paths",
+]
+answers = [0]
+explanation = "In statement testing the coverage items are the executable statements, and coverage is the number of statements exercised by the test cases divided by the total number of executable statements, as a percentage. Branches and decision outcomes are the items of branch-level criteria, and full path coverage is beyond the Foundation syllabus."
+lo = "FL-4.3.1"
+klevel = "K1"
+tags = ["ch4"]
+
+[[question]]
+id = "istqb-q-0121"
+type = "single"
+stem = "A function's control flow: S1 executes, then decision D1 — true leads to S2, false to S3; both routes join at S4; then decision D2 — true leads to S5, false to S6. Counting every transfer of control between two nodes as a branch, how many branches must the test suite exercise for 100% branch coverage?"
+options = [
+  "2 — one per decision",
+  "4 — one per decision outcome",
+  "6 — one per executable statement",
+  "8 — every arrow in the control flow graph",
+]
+answers = [3]
+explanation = "Branches are ALL transfers of control between two nodes — unconditional ones included: S1→D1, D1→S2, D1→S3, S2→S4, S3→S4, S4→D2, D2→S5, D2→S6 = 8. Counting only the decision outcomes (4) is the classic trap: a decision outcome is a conditional branch, but the unconditional arrows count too. '2' counts decisions and '6' counts statements — neither is a branch."
+lo = "FL-4.3.2"
+klevel = "K3"
+tags = ["ch4"]
+
+[[question]]
+id = "istqb-q-0122"
+type = "single"
+stem = "A guard clause: statement S1 runs, then decision D1. If D1 is true, statement S2 runs; if false, S2 is skipped. Both routes then reach statement S3. The control flow has four arrows: S1→D1, D1→S2 (true outcome), D1→S3 (false outcome), S2→S3. One test case triggers the true route. What does this single test achieve?"
+options = [
+  "Statement 100% (S1, S2, S3); branch 75% (3 of 4 arrows) — the false outcome's arrow D1→S3 was never taken",
+  "Statement 100%; branch 100% — every statement ran, so every arrow did too",
+  "Statement 100%; branch 50% — one of the two decision outcomes was taken",
+  "Statement 67%; branch 75% — S3 was reached by two routes and counts twice",
+]
+answers = [0]
+explanation = "All three statements ran (S3 is a single statement reached by both routes — no double counting), so statement coverage is 100%. Branch coverage counts all four transfers of control; three were exercised, and the false outcome's arrow D1→S3 was not — 75%. '50%' is the decision-outcome-only reading, which omits the unconditional arrows the syllabus's branch criterion counts."
+lo = "FL-4.3.2"
+klevel = "K3"
+tags = ["ch4"]
+
+[[question]]
+id = "istqb-q-0123"
+type = "single"
+stem = "A payment module reached 100% branch coverage in white-box testing, yet in production it ignores a fee-waiver rule that exists in the marketing material but never made it into the specification or the code. Why did the white-box suite not detect this?"
+options = [
+  "Because the branch coverage was measured against the wrong control flow graph",
+  "Because if the software does not implement one or more requirements, white-box testing may not detect the resulting defects of omission — the missing behavior is not in the structure the tests traverse",
+  "Because 100% branch coverage cannot be achieved while requirements are missing",
+  "Because white-box testing only detects data-dependent defects such as division by zero",
+]
+answers = [1]
+explanation = "Defects of omission are white-box testing's documented blind spot: a rule that was never implemented creates no statements or branches to exercise, so no amount of code coverage can reveal it. The fix is a black-box test derived from the (complete) specification — and data-dependent defects are a limitation of statement coverage, not the issue here."
+lo = "FL-4.3.3"
+klevel = "K2"
+tags = ["ch4"]
+
+[[question]]
+id = "istqb-q-0124"
+type = "single"
+stem = "A team tests a REST API exclusively from its specification. A manager asks: 'How much of the service's actual code did our test suite exercise?' Which answer matches the syllabus?"
+options = [
+  "The number of endpoints tested divided by the total endpoints is a code-coverage measure",
+  "Test cases divided by requirements gives the code coverage percentage",
+  "Performing only black-box testing does not provide a measure of actual code coverage — white-box coverage measures provide an objective measurement and the information needed to generate additional tests",
+  "The question is unanswerable until the code is rewritten to match the tests",
+]
+answers = [2]
+explanation = "Black-box testing never looks at the internal structure, so nothing in it counts what the code did. White-box coverage measures provide the objective measurement — and, crucially, the information needed to generate additional tests that increase coverage and confidence in the code. Endpoint and requirement ratios measure specification coverage, not code coverage."
+lo = "FL-4.3.3"
+klevel = "K2"
+tags = ["ch4"]
+
+[[question]]
+id = "istqb-q-0125"
+type = "single"
+stem = "What is error guessing?"
+options = [
+  "A test technique used to anticipate the occurrence of errors, defects and failures based on the tester's knowledge — how the application worked in the past, the errors developers tend to make, and the failures of similar applications",
+  "A black-box technique that guesses equivalence partitions when no specification exists",
+  "A white-box technique that estimates which statements contain defects before the code runs",
+  "A test management practice that schedules defect fixes by their likelihood",
+]
+answers = [0]
+explanation = "Error guessing anticipates errors, defects and failures from the tester's knowledge: past application behavior, the error types developers tend to make, and failure types seen in similar applications. It is experience-based — not a black-box partitioning shortcut, not a static prediction of defective statements, and not a scheduling practice."
+lo = "FL-4.4.1"
+klevel = "K1"
+tags = ["ch4"]
+
+[[question]]
+id = "istqb-q-0126"
+type = "single"
+stem = "A team builds a fault-attack list for a new invoice module. One entry reads: 'Computation — incorrect operand: tax calculated on the net amount instead of the gross amount (happened in a previous product).' Which test best implements this fault attack?"
+options = [
+  "Verify the invoice prints the correct company address",
+  "Create an invoice with known net and gross amounts where they differ, and verify the tax is computed on the gross amount",
+  "Submit the same invoice twice and verify the system rejects the duplicate",
+  "Export the invoice to PDF and verify the layout matches the on-screen version",
+]
+answers = [1]
+explanation = "The fault entry names a computation error with a specific wrong operand — tax based on the net instead of the gross amount. A test that feeds known, differing net and gross amounts and checks the tax base exposes exactly that defect. The other tests address unrelated failure classes — output content, data duplication, interface rendering — that this entry does not name."
+lo = "FL-4.4.1"
+klevel = "K3"
+tags = ["ch4"]
+
+[[question]]
+id = "istqb-q-0127"
+type = "single"
+stem = "According to the syllabus, what makes exploratory testing exploratory?"
+options = [
+  "Tests are simultaneously designed, executed and evaluated while the tester learns about the test object",
+  "Tests are designed by a test lead and executed by junior testers on rotation",
+  "Tests are executed with no documentation, no objective and no record of any kind",
+  "Tests are generated automatically from production logs overnight",
+]
+answers = [0]
+explanation = "The defining property is simultaneity: designing, executing and evaluating happen in the same activity, while the tester learns about the test object. It is not undocumented randomness — session-based testing structures it with charters, time boxes, session sheets and debriefings."
+lo = "FL-4.4.2"
+klevel = "K1"
+tags = ["ch4"]
+
+[[question]]
+id = "istqb-q-0128"
+type = "single"
+stem = "A team wants to structure its exploratory work on a billing system. Which set of session-based testing mechanics matches the syllabus?"
+options = [
+  "Testing within a defined time box, guided by a test charter containing the test objectives, documented in test session sheets, and followed by a debriefing with the stakeholders interested in the results",
+  "Scripted test cases executed in fixed eight-hour shifts, with daily sign-off by the test manager",
+  "Random inputs generated overnight in bulk, triaged the next morning by developers",
+  "Pair programming in which one developer writes the feature and the other reviews it",
+]
+answers = [0]
+explanation = "Session-based testing structures exploratory testing with exactly these four mechanics: a defined time box, a charter of test objectives, session sheets documenting steps and discoveries, and a closing debrief. Shift-based scripting, overnight random generation and pair programming are different practices entirely."
+lo = "FL-4.4.2"
+klevel = "K2"
+tags = ["ch4"]
+
+[[question]]
+id = "istqb-q-0129"
+type = "single"
+stem = "In checklist-based testing, what does the tester do?"
+options = [
+  "Designs, implements and executes tests to cover the test conditions from a checklist",
+  "Executes only the test cases that failed in the previous release",
+  "Writes the checklist, checks it into version control, and stops there",
+  "Converts every checklist item into an automated script before any manual testing",
+]
+answers = [0]
+explanation = "Checklist-based testing covers test conditions from a checklist — the checklist is the basis for designing, implementing and executing tests, not a deliverable in itself. Automating items is precisely what the syllabus says checklists should NOT contain, and re-running old failures is regression testing."
+lo = "FL-4.4.3"
+klevel = "K1"
+tags = ["ch4"]
+
+[[question]]
+id = "istqb-q-0130"
+type = "single"
+stem = "Which checklist item is acceptable under the syllabus's rules for what a checklist should and should not contain?"
+options = [
+  "'Does the build pass continuous integration?' — it can be checked automatically",
+  "'Is the testing good enough?' — it captures overall quality sentiment",
+  "'For a transfer above the daily limit, is a confirmation shown before the debit?' — a specific question, separately and directly checkable",
+  "'Meets the definition of done' — it fits the team's workflow gate",
+]
+answers = [2]
+explanation = "The acceptable item is specific, phrased as a question, separately and directly checkable, and refers to a real test condition. The others break the three exclusions: items that can be checked automatically, items better suited as entry or exit criteria, and items that are too general."
+lo = "FL-4.4.3"
+klevel = "K2"
+tags = ["ch4"]
+
+[[question]]
+id = "istqb-q-0131"
+type = "single"
+stem = "Which list names the three critical aspects of a user story — the '3 C's?"
+options = [
+  "Card, Conversation, Confirmation",
+  "Card, Commitment, Content",
+  "Context, Conversation, Confirmation",
+  "Card, Cost, Confirmation",
+]
+answers = [0]
+explanation = "The 3 C's: Card (the medium describing the story — index card or board entry), Conversation (explains how the software will be used, documented or verbal) and Confirmation (the acceptance criteria). The wrong lists substitute adjacent vocabulary for one of the three."
+lo = "FL-4.5.1"
+klevel = "K1"
+tags = ["ch4"]
+
+[[question]]
+id = "istqb-q-0132"
+type = "single"
+stem = "A stakeholder says: 'Customers keep emailing us for refunds.' Which user story follows the syllabus's most common format and stays testable?"
+options = [
+  "As a customer, I want refunds to be easier, so that things are better",
+  "As a customer, I want to request a refund from my order-history page, so that I can get my money back without emailing support",
+  "As a developer, I want to refactor the refund module, so that the code is cleaner",
+  "Refund handling: self-service request form; approval workflow; payout within five working days",
+]
+answers = [1]
+explanation = "The format is 'As a [role], I want [goal to be accomplished], so that I can [resulting business value for the role]' — and the filled-in goal is concrete enough to test. The first option has no actionable goal or value, the third is a developer concern with no user value, and the fourth is a rule list, not a story in the 3 C's shape."
+lo = "FL-4.5.1"
+klevel = "K3"
+tags = ["ch4"]
+
+[[question]]
+id = "istqb-q-0133"
+type = "single"
+stem = "What are acceptance criteria for a user story?"
+options = [
+  "The conditions that an implementation of the user story must meet to be accepted by stakeholders — viewable as the test conditions that should be exercised by the tests",
+  "The test cases the developers write and run after implementing the story",
+  "The story points the team agreed on during planning",
+  "The release-level definition of done, shared by every story",
+]
+answers = [0]
+explanation = "Acceptance criteria are the conditions an implementation must meet to be accepted by stakeholders — which is why they can be viewed as the test conditions the tests should exercise. They usually result from the Conversation, and they are not test cases, estimates, or a release-wide definition of done."
+lo = "FL-4.5.2"
+klevel = "K1"
+tags = ["ch4"]
+
+[[question]]
+id = "istqb-q-0134"
+type = "multi"
+stem = "Which TWO statements about writing acceptance criteria are correct?"
+options = [
+  "The two most common formats are scenario-oriented (e.g. the Given/When/Then format used in BDD) and rule-oriented (e.g. a bullet-point verification list, or a tabulated form of input-output mapping)",
+  "Acceptance criteria define the scope of the user story, describe both positive and negative scenarios, and serve as the basis for the user story acceptance testing",
+  "Only the two common formats are permitted — using a custom format violates the guidance",
+  "Acceptance criteria are written by the developers alone, after implementation, without showing them to stakeholders",
+  "Every acceptance criterion must be automated as an executable test before the story's code is written",
+]
+answers = [0, 1]
+explanation = "The two common formats are scenario-oriented (Given/When/Then) and rule-oriented (verification bullets, input-output tables); and acceptance criteria scope the story, reach consensus, describe positive AND negative scenarios, underpin acceptance testing, and allow planning. A custom format IS allowed when well-defined and unambiguous; the criteria come out of the conversation with stakeholders; and tests may be executed manually or automated — automation is not a pre-implementation must."
+lo = "FL-4.5.2"
+klevel = "K2"
+tags = ["ch4"]
+
+[[question]]
+id = "istqb-q-0135"
+type = "single"
+stem = "An ATDD team has just analyzed and written a user story and its acceptance criteria in a specification workshop; the criteria include error handling for expired payment cards. Following the syllabus's guidance, in what order should the team create the test cases?"
+options = [
+  "Positive test cases first (correct behavior without exceptions), then negative tests (e.g. the expired card), then non-functional quality characteristics (e.g. performance efficiency, usability)",
+  "Negative tests first — defects hide in error paths — then positive tests, then non-functional characteristics",
+  "Non-functional characteristics first (they constrain the design), then negative tests, then positive tests",
+  "Automate all test cases inside the workshop before any positive test case exists",
+]
+answers = [0]
+explanation = "Typically the first test cases are positive, confirming correct behavior without exceptions or error conditions; after those, the team performs negative testing (the expired card belongs here); finally non-functional quality characteristics such as performance efficiency and usability are covered. Automation happens when the format is supported by a test automation framework — not as a workshop precondition."
+lo = "FL-4.5.3"
+klevel = "K3"
+tags = ["ch4"]
+
+[[question]]
+id = "istqb-q-0136"
+type = "single"
+stem = "User story: 'As a bank customer, I want to transfer money between my own accounts, so that I can manage my savings without fees.' Acceptance criteria: (1) transfers are only allowed between accounts owned by the same customer; (2) an unverified target account is rejected with a clear message; (3) on success the balance updates immediately. Four tests were drafted — T1: transfer between two own verified accounts, expect success and immediate balance update; T2: transfer to an unverified target account, expect rejection; T3: transfer to another customer's account, expect rejection; T4: schedule the transfer for next month and verify the calendar dialog. Which set follows the syllabus's ATDD rules for test cases?"
+options = [
+  "T1, T2 and T3 — they cover all the story's characteristics, stay within the story, and no two describe the same characteristics",
+  "T1, T2, T3 and T4 — more test cases are always better in ATDD",
+  "T1 only — one positive example is the complete specification of the story",
+  "T2, T3 and T4 — negative and scheduling tests matter more than positive ones",
+]
+answers = [0]
+explanation = "ATDD test cases must cover all the characteristics of the user story (T1–T3 map to criteria 3, 2 and 1), should not go beyond it (scheduling appears nowhere in the story — T4 is out of scope), and no two should describe the same characteristics (T1–T3 are disjoint). Captured in an automation-supported format, exactly such tests become executable requirements."
+lo = "FL-4.5.3"
+klevel = "K3"
+tags = ["ch4"]
