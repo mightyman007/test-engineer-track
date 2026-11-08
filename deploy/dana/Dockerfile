@@ -36,6 +36,10 @@ COPY packages/content/src packages/content/src
 COPY deploy/dana/dist/ /app/apps/web/dist/
 COPY deploy/dana/nginx.conf /etc/nginx/http.d/default.conf
 COPY deploy/dana/start.sh /app/start.sh
+# The platform's Postgres (AlloyDB) requires TLS even on its private host
+# (pg_hba rejects plaintext) — opt the pool in via the PGSSLMODE knob. The
+# code default stays node-pg's for self-hosters pointing at local instances.
+ENV PGSSLMODE=require
 ENV PORT=8787
 ENV DB_PATH=/tmp/tet.sqlite3
 EXPOSE 8080

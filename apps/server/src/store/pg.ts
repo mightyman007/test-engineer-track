@@ -450,12 +450,14 @@ function userFromPg(row: UserDbRow): UserRow {
 
 /**
  * PGSSLMODE → node-pg `ssl` config, as a spreadable fragment. `require` turns
- * TLS on (AlloyDB/IAM may require it), `disable` turns it off explicitly;
- * absent or unrecognized keeps node-pg's default (no `ssl` key). Exported for
- * unit tests — the knob is exact-match, like the rest of the env gates.
+ * TLS on with certificate verification OFF — the platform doc's recipe: "AlloyDB
+ * requires TLS even on a private host" and its example sets InsecureSkipVerify
+ * (a bare private IP has no SNI name to verify against). `disable` turns TLS
+ * off explicitly; absent or unrecognized keeps node-pg's default (no `ssl` key).
+ * Exported for unit tests — the knob is exact-match, like the rest of the env gates.
  */
-export function resolvePgSsl(mode: string | undefined): { ssl?: boolean } {
-  if (mode === 'require') return { ssl: true };
+export function resolvePgSsl(mode: string | undefined): { ssl?: boolean | { rejectUnauthorized: boolean } } {
+  if (mode === 'require') return { ssl: { rejectUnauthorized: false } };
   if (mode === 'disable') return { ssl: false };
   return {};
 }

@@ -3,8 +3,8 @@ import { PgStore, SCHEMA_PG_SQL, createPgPool, resolvePgSsl } from './pg.js';
 import type { PgPoolLike } from './pg.js';
 
 describe('resolvePgSsl (the PGSSLMODE knob)', () => {
-  it("'require' → ssl on, 'disable' → ssl off", () => {
-    expect(resolvePgSsl('require')).toEqual({ ssl: true });
+  it("'require' → TLS on with verification off (the platform recipe), 'disable' → ssl off", () => {
+    expect(resolvePgSsl('require')).toEqual({ ssl: { rejectUnauthorized: false } });
     expect(resolvePgSsl('disable')).toEqual({ ssl: false });
   });
 
@@ -23,7 +23,7 @@ describe('createPgPool PGSSLMODE wiring', () => {
     (pool as unknown as { options: Record<string, unknown> }).options;
 
   it('propagates the knob into the pool config', () => {
-    expect(optionsOf(createPgPool({ PGHOST: 'h', PGSSLMODE: 'require' }).pool)).toMatchObject({ host: 'h', ssl: true });
+    expect(optionsOf(createPgPool({ PGHOST: 'h', PGSSLMODE: 'require' }).pool)).toMatchObject({ host: 'h', ssl: { rejectUnauthorized: false } });
     expect(optionsOf(createPgPool({ PGHOST: 'h', PGSSLMODE: 'disable' }).pool)).toMatchObject({ host: 'h', ssl: false });
   });
 
