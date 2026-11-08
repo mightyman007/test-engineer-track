@@ -6,7 +6,9 @@ export async function loadContent(): Promise<ContentBundle> {
   if (cached) return cached;
   let res: Response;
   try {
-    res = await fetch('content.json'); // relative: works under any base path
+    // absolute: the Dana app serves at a subdomain root — a relative fetch
+    // under a deep link (/track/x) would resolve to /track/x/content.json
+    res = await fetch('/content.json');
   } catch (err) {
     // Network-level failure (offline, DNS) — same family as the non-ok
     // status below, so the UI message always names the stage that failed.

@@ -78,33 +78,33 @@ The API server listens on http://localhost:8787. Then:
 3. The **first registered user becomes the admin** — register first yourself,
    then create one-time invite codes from `/admin` and invite learners.
 
-## Deploying the static site to Ondana
+## Deploying to Ondana (Dana app)
 
-The learner UI is a fully static build. When Ondana builds from the connected
-Git repo, configure its app with:
-
-- **Install command:** `pnpm install --ignore-scripts`
-- **Build command:** `pnpm --filter tet-content build && pnpm --filter tet-web build`
-- **Output directory:** `apps/web/dist`
-
-(`--ignore-scripts` skips the server's native SQLite build, which a static web
-build never needs; the content build must run before the web build because it
-emits `apps/web/public/content.json`.) For a manual upload, build locally (`pnpm build` runs the content build first
-automatically — pnpm orders workspace builds by dependency):
+The production home is a **Dana app**: nginx serves the built SPA with a
+server-side SPA fallback, so **deep links work** (`/track/istqb-ctfl`,
+`/exam/istqb-mock-1` render directly). Deploy with:
 
 ```bash
-pnpm build
+./scripts/dana-deploy.sh        # pnpm build → stage dist/ → dana app deploy
 ```
 
-Upload `apps/web/dist/` per Ondana's app-deployment flow. All asset references
-are relative (`./assets/…`), so the app works from any subpath. Routes are
-client-side and the static build ships no server rewrites, so **enter the app
-via its root URL** — a deep link does not work on a static host: without an
-SPA fallback the request 404s, and where a fallback serves `index.html` anyway
-the relative `./assets/…` script paths resolve under the deep path and the
-browser refuses the module, so the app never boots. The root route's own
-failure mode is covered: missing or corrupt `content.json` renders a readable
-error card with a Retry button (never a blank page).
+Prereqs: the `dana` CLI installed and `dana auth login` completed (see
+Ondana's Install the Dana Utility doc). The script builds the content bundle
+and web app, stages `apps/web/dist` into `deploy/dana/dist`, and hands the
+Docker image (nginx:alpine + strict asset routing) to `dana app deploy`.
+Manual equivalent: `docker build -t test-engineer-track:latest deploy/dana/`
+then `dana app deploy --image test-engineer-track:latest` from
+`deploy/dana/`.
+
+The web app uses absolute asset paths (`base: '/'`) because Dana serves the
+app at its own subdomain root (`test-engineer-track.applied.ondana.ai`).
+Assets are served strictly (404, never the fallback) so a missing asset can
+never mask itself as HTML. Apps sit behind Ondana SSO — first visit prompts
+for sign-in.
+
+A raw static host (uploading `apps/web/dist/` without a server) still works
+for solo mode from the root URL, but deep links need a server fallback — use
+the Dana app.
 
 Cohort logins are configured per user at sign-in (the **Server URL** field), so
 point them at wherever the API server runs — same origin, another port on the

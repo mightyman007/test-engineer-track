@@ -1,9 +1,8 @@
 import { test, expect } from '@playwright/test';
 
-// The static build uses relative asset paths (Ondana subpath hosting), so the
-// app must be entered at its root — deep `page.goto('/quiz/…')` URLs resolve
-// `./assets/…` against the deep path and render blank. The specs therefore
-// drive the same user flows through real UI navigation.
+// The app now ships as a Dana app (nginx SPA fallback at a subdomain root):
+// deep links resolve correctly on the deployed URL. The specs still drive the
+// same user flows through real UI navigation.
 
 test('solo learner: lesson → quiz → flashcard review', async ({ page }) => {
   await page.goto('/');
