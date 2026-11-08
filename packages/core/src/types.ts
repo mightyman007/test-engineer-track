@@ -27,6 +27,11 @@ export interface LessonMeta {
   objectives: string[];
   videos: VideoRef[];
   diagrams: DiagramRef[];
+  /**
+   * Optional interactive demo key (e.g. "perceptron"). The web app maps the
+   * key to a component via its demos registry and renders it below the body.
+   */
+  demo?: string;
   /** Full markdown body (frontmatter stripped). */
   body: string;
 }

@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <rect width="800" height="450" fill="#f7f8fb"/>
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1a1a2e"/></marker>
+    <marker id="arrg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#16a34a"/></marker>
+    <marker id="arrr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#c62828"/></marker>
+    <marker id="arra" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#b26a00"/></marker>
+  </defs>
+  <text x="400" y="42" text-anchor="middle" font-size="24" font-weight="700" fill="#1a1a2e">Gradient descent: rolling downhill on the loss landscape</text>
+  <text x="400" y="68" text-anchor="middle" font-size="14" fill="#1a1a2e">Height = loss. Each step reads only the local slope and moves the weights a little</text>
+
+  <rect x="106" y="94" width="14" height="14" fill="#16a34a"/>
+  <text x="130" y="106" font-size="13" font-weight="700" fill="#16a34a">just right: a small step downhill</text>
+  <rect x="106" y="118" width="14" height="14" fill="#b26a00"/>
+  <text x="130" y="130" font-size="13" font-weight="700" fill="#b26a00">too small: barely moves</text>
+  <rect x="106" y="142" width="14" height="14" fill="#c62828"/>
+  <text x="130" y="154" font-size="13" font-weight="700" fill="#c62828">too big: overshoots the valley</text>
+
+  <line x1="90" y1="70" x2="90" y2="360" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="90" y1="360" x2="740" y2="360" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="52" y="86" font-size="12.5" fill="#1a1a2e">loss</text>
+  <text x="415" y="390" text-anchor="middle" font-size="12.5" fill="#1a1a2e">one weight's setting</text>
+
+  <polyline points="110,150 220,230 330,300 430,330 540,305 650,250 740,170" fill="none" stroke="#1a1a2e" stroke-width="2.5"/>
+
+  <circle cx="170" cy="192" r="11" fill="#1a1a2e"/>
+  <line x1="185" y1="199" x2="240" y2="239" stroke="#16a34a" stroke-width="3.5" marker-end="url(#arrg)"/>
+  <line x1="182" y1="192" x2="193" y2="195" stroke="#b26a00" stroke-width="3" marker-end="url(#arra)"/>
+  <path d="M 185,196 Q 430,20 636,266" fill="none" stroke="#c62828" stroke-width="3" marker-end="url(#arrr)"/>
+
+  <circle cx="430" cy="319" r="11" fill="none" stroke="#1a1a2e" stroke-width="2" stroke-dasharray="4 3"/>
+  <text x="452" y="306" font-size="12" fill="#1a1a2e">after many small steps</text>
+
+  <line x1="430" y1="332" x2="430" y2="360" stroke="#1a1a2e" stroke-width="1.5" stroke-dasharray="4 5"/>
+  <text x="444" y="352" font-size="12" fill="#1a1a2e">lowest loss</text>
+
+  <text x="400" y="428" text-anchor="middle" font-size="12.5" fill="#1a1a2e">Repeat one move &#8212; read the slope, step downhill &#8212; and the learning rate sets how far each step goes.</text>
+</svg>

@@ -49,6 +49,10 @@ export const LessonMetaSchema = z.object({
   objectives: z.array(z.string()),
   videos: z.array(VideoRefSchema).min(1),
   diagrams: z.array(DiagramRefSchema).min(1),
+  // Optional interactive demo key; the web app's demos registry resolves it to
+  // a component (content validation cannot see that registry, so only the
+  // presence/shape is checked here).
+  demo: z.string().min(1).optional(),
   body: z.string(),
 });
 

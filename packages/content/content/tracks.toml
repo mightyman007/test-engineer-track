@@ -145,3 +145,14 @@ quizPool = "ai/module-a2"
 deck = "ai/module-a2"
 lessonIds = ["ai-m2-data-and-labels", "ai-m2-learning-paradigms", "ai-m2-splits-and-overfitting"]
 examWeight = 4   # informational until the AI mocks exist (M4 Task 7)
+
+[[track.module]]
+id = "ai-m3-neural-networks"
+track = "ai-fundamentals"
+title = "Neural Networks from Scratch"
+order = 3
+source = "ai/module-a3"
+quizPool = "ai/module-a3"
+deck = "ai/module-a3"
+lessonIds = ["ai-m3-neurons-forward-pass", "ai-m3-backprop-intuition", "ai-m3-gradient-descent"]
+examWeight = 4   # informational until the AI mocks exist (M4 Task 7)
