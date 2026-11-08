@@ -1,7 +1,8 @@
 # Track manifest — Test Engineer Track content root.
 # Modules 1-7 shipped (M1/M2); module 8 + the mock exams arrive in M3 —
-# Task 4 wires readiness_examIds, replacing TrackPage's readiness placeholder.
-# `readiness_examIds = []` remains valid: readiness renders "no exams yet"
+# Task 4 wires readiness_examIds, replacing TrackPage's readiness placeholder
+# ("mock exams arrive with milestone 3").
+# `readiness_examIds = []` remains valid: the track page shows that placeholder
 # until exams are wired.
 
 [[track]]

@@ -13,11 +13,14 @@ export default defineConfig({
   timeout: 60_000,
   // One local retry (two in CI): the M2 verification saw a 1-in-5 transient
   // whose output was lost to the default list reporter — retries plus the
-  // html report below keep both the result and the evidence. workers stays 1
-  // so the two specs' shared throwaway DB (bootstrap-admin registration) is
-  // never contended.
+  // html report below keep both the result and the evidence.
   retries: process.env.CI ? 2 : 1,
   reporter: [['list'], ['html', { open: 'never' }]],
+  // Pinned to 1 (NOT Playwright's default "50% of CPUs"): the specs share one
+  // throwaway DB whose bootstrap-admin registration assumes a clean wipe, and
+  // Task 4 adds API-writing specs against it — parallel workers would race
+  // those writes.
+  workers: 1,
   // Wipes the throwaway smoke DB before the servers boot, so the cohort
   // test's bootstrap-admin registration (first user) works on every run.
   globalSetup: './tests/global-setup.ts',
