@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { MemoryRouter } from 'react-router';
 import { ExamReadinessSection } from './ExamReadinessSection.js';
 import { ContentProvider } from '../lib/content-context.js';
+import { TAKE_TWO_MOCKS } from '../lib/readiness.js';
 import type { ContentBundle, ExamDefinition, Track } from 'tet-core';
 import type { ExamAttempt } from 'tet-storage';
 
@@ -63,7 +64,7 @@ describe('ExamReadinessSection', () => {
     expect(screen.getByRole('link', { name: 'ISTQB CTFL Mock Exam 2' })).toBeTruthy();
     expect(screen.getAllByText(/40 questions · 60 min/)).toHaveLength(2);
     // No attempts → no readiness reading, no verdict wording, no history.
-    expect(screen.getByText('Take 2 mock exams to get a readiness reading')).toBeTruthy();
+    expect(screen.getByText(TAKE_TWO_MOCKS)).toBeTruthy();
     expect(screen.queryByText(/Ready for the real exam/)).toBeNull();
     expect(screen.queryByText(/average/)).toBeNull();
     expect(screen.queryByText(/Recent attempts/)).toBeNull();
@@ -117,7 +118,7 @@ describe('ExamReadinessSection', () => {
 
   it('needs 2 attempts even when the single one is excellent', () => {
     renderSection([attempt(1, 'mock-1', 100, '02')]);
-    expect(screen.getByText('Take 2 mock exams to get a readiness reading')).toBeTruthy();
+    expect(screen.getByText(TAKE_TWO_MOCKS)).toBeTruthy();
     expect(screen.getByText('Recent attempts')).toBeTruthy();
   });
 
@@ -126,7 +127,7 @@ describe('ExamReadinessSection', () => {
       attempt(1, 'other-exam', 100, '02'),
       attempt(2, 'other-exam', 100, '03'),
     ]);
-    expect(screen.getByText('Take 2 mock exams to get a readiness reading')).toBeTruthy();
+    expect(screen.getByText(TAKE_TWO_MOCKS)).toBeTruthy();
     expect(screen.queryByText(/Ready for the real exam/)).toBeNull();
   });
 });

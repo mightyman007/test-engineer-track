@@ -4,7 +4,7 @@ import { useContent } from '../lib/content-context.js';
 import { useSession } from '../state/session.js';
 import { trackCompletion } from 'tet-core';
 import { ProgressBar } from '../components/ProgressBar.js';
-import { readinessVerdict } from '../lib/readiness.js';
+import { readinessVerdict, TAKE_TWO_MOCKS } from '../lib/readiness.js';
 
 export function Dashboard() {
   const bundle = useContent();
@@ -63,9 +63,6 @@ export function Dashboard() {
               ? <p><Link className="btn" to={`/module/${nextModule.id}`}>Continue: {nextModule.title}</Link></p>
               : <p className="flag ok">All modules complete — take a mock exam.</p>}
             {bestQuiz > 0 && <p className="muted">best quiz {Math.round(bestQuiz * 100)}%</p>}
-            {state.examScores.length > 0 && (
-              <p className="muted">last exam {Math.round(state.examScores[0]!.scorePct)}%</p>
-            )}
             {/* Readiness chip (spec §5), compact: ready / last-2 average / the ask for 2 mocks. */}
             {readiness.state !== 'no-exams' && (
               <p>
@@ -77,13 +74,23 @@ export function Dashboard() {
                   </span>
                 )}
                 {readiness.state === 'no-attempts' && (
-                  <span className="muted">take 2 mock exams for a readiness reading</span>
+                  <span className="muted">{TAKE_TWO_MOCKS}</span>
                 )}
               </p>
             )}
           </section>
         );
       })}
+      {/* Latest exam (M5 Task 1): moved OUT of the per-track cards — it reads
+          examScores[0] globally (adapter order across all tracks), so the old
+          per-card rendering let a foreign exam's score leak into every track
+          card. One global section states it once. */}
+      {state.examScores.length > 0 && (
+        <section className="card">
+          <h2>Latest exam</h2>
+          <p className="muted">last exam {Math.round(state.examScores[0]!.scorePct)}%</p>
+        </section>
+      )}
       <section className="card">
         <h2>Review</h2>
         {state.dueCount === 0

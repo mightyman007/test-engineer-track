@@ -16,7 +16,18 @@ export function htmlToPostProcessed(html: string, diagrams: Record<string, strin
       const tpl = document.createElement('template');
       tpl.innerHTML = diagrams[src]!;
       const svg = tpl.content.firstElementChild;
-      if (svg) img.replaceWith(svg);
+      if (svg) {
+        // Carry the img's alt onto the SVG: after the swap the accessible
+        // name would otherwise vanish. An empty alt means decorative —
+        // role=img without a name is itself an a11y violation, so leave it
+        // unlabelled.
+        const alt = img.getAttribute('alt') ?? '';
+        if (alt) {
+          svg.setAttribute('role', 'img');
+          svg.setAttribute('aria-label', alt);
+        }
+        img.replaceWith(svg);
+      }
     }
   }
   for (const a of Array.from(doc.querySelectorAll('a[href]'))) {

@@ -4,6 +4,7 @@ import { MemoryRouter, Route, Routes } from 'react-router';
 import { TrackPage } from './TrackPage.js';
 import { ContentProvider } from '../lib/content-context.js';
 import { SessionProvider } from '../state/session.js';
+import { TAKE_TWO_MOCKS } from '../lib/readiness.js';
 import type { ContentBundle, ExamDefinition, Module, Track } from 'tet-core';
 import type { ExamAttempt, ProgressEntry, ProgressMap, StorageAdapter } from 'tet-storage';
 
@@ -196,7 +197,7 @@ describe('TrackPage', () => {
       ]),
     }, wiredBundle);
     await waitFor(() =>
-      expect(screen.getByText(/take 2 mock exams to get a readiness reading/i)).toBeTruthy());
+      expect(screen.getByText(TAKE_TWO_MOCKS)).toBeTruthy());
     expect(screen.getByRole('link', { name: 'Mock Exam 1' })).toBeTruthy();
     expect(screen.getByRole('link', { name: 'Mock Exam 2' })).toBeTruthy();
   });

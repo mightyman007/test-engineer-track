@@ -34,7 +34,11 @@ export function FlashcardsPage() {
       <h1>Flashcards</h1>
       {!active && (
         <div className="grid" style={{ marginBottom: '1rem' }}>
-          {decks.map(({ t, m }) => {
+          {/* Zero-card decks are hidden from the picker (M5 Task 1): module
+              8's empty deck rendered "0 due · 0 total" — an unusable tile.
+              Display-only: a zero-card module reached by deep link still
+              serves its (empty) review session below. */}
+          {decks.filter(({ m }) => (bundle.cardsByModule[m.id] ?? []).length > 0).map(({ t, m }) => {
             const ids = bundle.cardsByModule[m.id] ?? [];
             return (
               <Link key={m.id} to={`/flashcards/${m.id}`} className="card" style={{ textDecoration: 'none', color: 'inherit' }}>

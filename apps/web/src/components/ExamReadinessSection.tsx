@@ -1,6 +1,6 @@
 import { Link } from 'react-router';
 import { useContent } from '../lib/content-context.js';
-import { readinessVerdict } from '../lib/readiness.js';
+import { TAKE_TWO_MOCKS, readinessVerdict } from '../lib/readiness.js';
 import type { Track } from 'tet-core';
 import type { ExamAttempt } from 'tet-storage';
 
@@ -32,7 +32,7 @@ export function ExamReadinessSection({ track, attempts }: {
         </p>
       )}
       {verdict.state === 'no-attempts' && (
-        <p className="muted">Take 2 mock exams to get a readiness reading</p>
+        <p className="muted">{TAKE_TWO_MOCKS}</p>
       )}
       <ol>
         {track.readiness.examIds.map((id) => {
