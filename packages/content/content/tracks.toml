@@ -1,7 +1,8 @@
 # Track manifest — Test Engineer Track content root.
-# M1 ships module 1 only; modules 2–8 join in M2/M3.
-# `readiness_examIds = []` is valid: mock exams arrive in M3, and readiness
-# renders "no exams yet" until then.
+# Modules 1-7 shipped (M1/M2); module 8 + the mock exams arrive in M3 —
+# Task 4 wires readiness_examIds, replacing TrackPage's readiness placeholder.
+# `readiness_examIds = []` remains valid: readiness renders "no exams yet"
+# until exams are wired.
 
 [[track]]
 id = "istqb-ctfl"

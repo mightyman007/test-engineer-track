@@ -126,13 +126,17 @@ describe('ExamRunner', () => {
       seed: 42,
     };
     mount();
-    await screen.findAllByText(/stem-/);
+    // The draft-resume effect restores responses, flags, and the remaining
+    // clock in ONE commit — so gate on the restored clock ('20:00', vs the
+    // fresh exam's '60:00') before asserting restored state. A bare
+    // findAllByText(/stem-/) gate resolves on the initial fresh-seed commit
+    // (RTL's waitFor checks immediately, before the resume re-render lands)
+    // and raced these assertions ~1-in-10 under the fake-timer seam.
+    await screen.findByText('20:00');
     // Restored single-choice answers render as pressed option buttons.
     expect(screen.getAllByRole('button', { name: 'a', pressed: true })).toHaveLength(2);
     // The flagged question shows its star (exactly one was flagged).
     expect(screen.getAllByText('★ flagged')).toHaveLength(1);
-    // Restored clock: 1200s = 20:00.
-    expect(screen.getByText('20:00')).toBeTruthy();
     // A live clock must not auto-submit.
     expect(examAttempts).toHaveLength(0);
   });
@@ -163,7 +167,13 @@ describe('ExamRunner', () => {
       seed: 42,
     };
     mount();
-    await screen.findAllByText(/stem-/);
+    // Gate on the restored clock: the resume commit re-assembles with the
+    // draft's seed AND swaps the clock to the draft's remaining time in the
+    // same render, so '20:00' proves the resumed assembly is on screen. A
+    // bare findAllByText(/stem-/) gate resolves on the transient fresh-seed
+    // commit (RTL's waitFor checks immediately) and raced the order
+    // assertion ~1-in-10 under the fake-timer seam.
+    await screen.findByText('20:00');
     // No auto-submit on a live clock.
     expect(examAttempts).toHaveLength(0);
     // The rendered exam IS the seed-42 assembly, in assembly order.

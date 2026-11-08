@@ -41,11 +41,17 @@ test('solo learner: lesson → quiz → flashcard review', async ({ page }) => {
 test('cohort: register → admin roster shows the user', async ({ browser, request }) => {
   // Register through the API directly (first user = bootstrap admin). This
   // request context is cookie-independent; the browser signs in separately.
+  // NOTE: the throwaway DB is wiped once per invocation (globalSetup), NOT
+  // per retry — so a retry's registration collides with the user the first
+  // attempt created and 403s at the invite gate. Accept that outcome; the
+  // sign-in below still proves the credentials work.
   const res = await request.post('http://127.0.0.1:8787/api/auth/register', {
     data: { username: 'smokeadmin', displayName: 'Smoke Admin', password: 'longenough1' },
   });
-  if (!res.ok()) console.error('register failed:', res.status(), await res.text());
-  expect(res.ok()).toBeTruthy();
+  if (!res.ok() && res.status() !== 403) {
+    console.error('register failed:', res.status(), await res.text());
+  }
+  expect(res.ok() || res.status() === 403).toBeTruthy();
 
   const page = await browser.newPage();
   await page.goto('/');
