@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { validateContent } from './validate.js';
+import { collectContent, readBankFloors, CONTENT_ROOT } from './build.js';
 import type { ExamDefinition, Flashcard, LessonMeta, Question, Track } from 'tet-core';
 
 function baseTrack(): Track {
@@ -135,5 +136,95 @@ describe('validateContent', () => {
     const e = baseExam(); e.groups = [{ tag: 'ch1', count: 8 }]; // bank has 1
     const d = validateContent(input({ exams: [e] }));
     expect(d.some((x) => x.message.includes('needs 8 questions'))).toBe(true);
+  });
+
+  it('reports no diagnostics for a satisfiable schema-v2 exam', () => {
+    const e = baseExam();
+    e.total = 2;
+    e.groups = [{ tag: 'ch1', count: 2, klevels: { K1: 1, K2: 1, K3: 0 } }];
+    const d = validateContent(input({
+      questions: [
+        { ...baseQuestion(), id: 'q1', klevel: 'K1' },
+        { ...baseQuestion(), id: 'q2', klevel: 'K2' },
+      ],
+      exams: [e],
+    }));
+    expect(d).toEqual([]);
+  });
+
+  it('flags a schema-v2 exam whose per-group K supply is short in the bank', () => {
+    const e = baseExam();
+    e.total = 2;
+    e.groups = [{ tag: 'ch1', count: 2, klevels: { K1: 2, K2: 0, K3: 0 } }];
+    const d = validateContent(input({
+      questions: [
+        { ...baseQuestion(), id: 'q1', klevel: 'K1' },
+        { ...baseQuestion(), id: 'q2', klevel: 'K2' }, // ch1 K1 supply: 1, cell needs 2
+      ],
+      exams: [e],
+    }));
+    expect(d.some((x) => x.file === 'exam:e1'
+      && x.message.includes('group ch1 needs 2 K1 questions, bank has 1'))).toBe(true);
+    // The assembly pass names the starved cell as well.
+    expect(d.some((x) => x.message.includes('group ch1 could not draw 1 K1'))).toBe(true);
+  });
+
+  it('counts a multi-tag klevel\'d question once in the legacy global-K supply', () => {
+    // Task 2's ledgered carry-in (fixed in Task 4): kCount used to increment
+    // inside the per-tag loop, so a double-tagged question inflated the legacy
+    // global-K supply. Two K1 questions double-tagged ch1+ch9 must count as
+    // supply 2 — a global K1 quota of 3 is a shortfall, not a pass.
+    const e = baseExam();
+    e.total = 3;
+    e.klevels = { K1: 3, K2: 0, K3: 0 };
+    e.groups = [{ tag: 'ch1', count: 3 }];
+    const d = validateContent(input({
+      questions: [
+        { ...baseQuestion(), id: 'q1', tags: ['ch1', 'ch9'] },
+        { ...baseQuestion(), id: 'q2', tags: ['ch1', 'ch9'] },
+      ],
+      exams: [e],
+    }));
+    expect(d.some((x) => x.message.includes('K1 quota 3 exceeds bank supply 2'))).toBe(true);
+  });
+
+  it('assembles all five shipped mock exams from the real bank with zero diagnostics', () => {
+    // Integration with the authored content: the five M3 mock definitions
+    // (content/exams/istqb-mock-*.toml) must validate against the REAL 192-question
+    // bank — every per-(chapter x K) cell supplied and every assembly (validator
+    // runs assembleExam per exam) succeeding. A regression in either the
+    // definitions or the bank fails here, not only at app runtime.
+    const pieces = collectContent(CONTENT_ROOT);
+    const diagnostics = validateContent({
+      ...pieces,
+      diagramFiles: new Map(Object.entries(pieces.diagrams)),
+      bankFloors: readBankFloors(CONTENT_ROOT),
+    });
+    expect(diagnostics).toEqual([]);
+
+    const mocks = pieces.exams.filter((e) => e.id.startsWith('istqb-mock-'));
+    expect(mocks.map((e) => e.id)).toEqual([
+      'istqb-mock-1', 'istqb-mock-2', 'istqb-mock-3', 'istqb-mock-4', 'istqb-mock-5',
+    ]);
+    // Reconciled official blueprint, pinned so a cell drift fails loudly:
+    // 40 questions; per-(chapter x K) cells summing exactly to K1 8 / K2 24 / K3 8.
+    // ch3 was corrected in M3 Task 3 from M2's mis-split 1/3 to the official 2/2.
+    const expectedCells = [
+      { tag: 'ch1', count: 8, klevels: { K1: 2, K2: 6, K3: 0 } },
+      { tag: 'ch2', count: 6, klevels: { K1: 2, K2: 4, K3: 0 } },
+      { tag: 'ch3', count: 4, klevels: { K1: 2, K2: 2, K3: 0 } },
+      { tag: 'ch4', count: 11, klevels: { K1: 0, K2: 6, K3: 5 } },
+      { tag: 'ch5', count: 9, klevels: { K1: 1, K2: 5, K3: 3 } },
+      { tag: 'ch6', count: 2, klevels: { K1: 1, K2: 1, K3: 0 } },
+    ];
+    for (const mock of mocks) {
+      expect(mock.groups).toEqual(expectedCells);
+      expect(mock.total).toBe(40);
+      expect(mock.blueprintExact).toBe(true);
+      expect(mock.klevels).toEqual({ K1: 8, K2: 24, K3: 8 });
+    }
+    // The five are identical-blueprint variants: same cells, distinct titles.
+    expect(new Set(mocks.map((m) => m.title)).size).toBe(5);
+    expect(mocks.every((m) => m.title.startsWith('ISTQB CTFL Mock Exam '))).toBe(true);
   });
 });

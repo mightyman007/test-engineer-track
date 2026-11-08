@@ -5,10 +5,15 @@ ISTQB Foundation (CTFL v4.0) prep plus an AI-testing track, with lessons, module
 quizzes, mock exams, spaced-repetition flashcards, read-aloud (TTS), and cohort
 tracking with an admin roster.
 
-**Status:** the ISTQB Foundation (CTFL v4.0) track is fully authored through
-module 7: 26 lessons, 191 questions, 110 flashcards, 26 diagrams, and 83
-verified videos. Module 8 — exam readiness — and the mock exams that power it
-arrive in M3; the AI track follows in M4. See `docs/` for the spec and plan.
+**Status:** the ISTQB Foundation (CTFL v4.0) track is fully authored: 27
+lessons, 192 questions, 110 flashcards, 27 diagrams, and 85 verified videos,
+plus five blueprint-exact mock exams (`istqb-mock-1..5` — each mirrors the
+official CTFL v4.0 shape: 40 questions, 60 minutes, pass at 65%, with the
+official per-chapter and K-level question distribution). Module 8 is the exam
+readiness hub: it lists the five mock exams as entry points and shows a
+Ready / Not-yet verdict — the mean of the learner's last 2 mock attempts must
+reach 80% to count as ready. The AI track follows in M4. See `docs/` for the
+spec and plan.
 
 ## What it is
 
@@ -21,10 +26,13 @@ Two ways to run, one codebase:
 
 Feature list: tracks → modules → lessons (markdown + diagrams + verified video
 embeds + read-aloud), per-module quizzes with best-attempt tracking, timed mock
-exams with blueprint assembly and draft-resume, SM-2 spaced-repetition
-flashcards, TTS via built-in browser voices or client-side Kokoro-82M (optional
-cloud proxy), admin roster with per-learner stats + CSV export + one-time invite
-codes, and a one-time solo→cohort migration that preserves in-browser progress.
+exams with blueprint assembly and draft-resume, an exam-readiness hub on
+module 8 — the five mock-exam entry points plus a Ready / Not-yet indicator
+(last-2 average of the track's mock attempts vs the 80% readiness threshold) —
+SM-2 spaced-repetition flashcards, TTS via built-in browser voices or
+client-side Kokoro-82M (optional cloud proxy), admin roster with per-learner
+stats + CSV export + one-time invite codes, and a one-time solo→cohort
+migration that preserves in-browser progress.
 
 ## Quickstart (solo)
 
@@ -125,7 +133,8 @@ content/
 ├── tracks.toml             # track + module manifest (ids, titles, order,
 │                           #   readiness thresholds, lessonIds, exam weights)
 ├── exams/                  # mock exam blueprints, one [exam] table per file
-│                           #   (empty for now — mock exams arrive in M3)
+│                           #   (five blueprint-exact ISTQB mocks, wired to the
+│                           #   track's readiness_examIds)
 ├── istqb/module-1/         # one directory per module
 │   ├── lesson-01-….md      # flat lesson files: TOML frontmatter (id, module,
 │   │                       #   title, minutes, objectives, videos, diagrams)
@@ -208,12 +217,14 @@ credentials.
 ```bash
 pnpm test     # all unit/component suites (core, content, storage, web, server)
 pnpm build    # content validation + web static build + server typecheck
-pnpm smoke    # builds content + web, then runs 2 Playwright smoke tests
+pnpm smoke    # builds content + web, then runs 3 Playwright smoke tests
 ```
 
 Smoke tests boot the real server (throwaway SQLite DB) and the built web app
-(`vite preview`), then drive the solo learner flow and the cohort
-register→login→admin-roster flow. First run downloads Chromium:
+(`vite preview`), then drive the solo learner flow, the cohort
+register→login→admin-roster flow, and the cohort mock-exam flow (sign in →
+module 8's readiness hub → answer all 40 questions of mock exam 1 → submit →
+report with score and per-chapter bars). First run downloads Chromium:
 `pnpm exec playwright install chromium`.
 
 License: MIT — see `LICENSE`.

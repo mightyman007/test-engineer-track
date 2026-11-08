@@ -1,0 +1,99 @@
+# ISTQB CTFL Mock Exam 4 — blueprint-exact practice exam.
+# One of five identical-blueprint mocks (istqb-mock-1..5) wired to the
+# istqb-ctfl track's readiness (tracks.toml).
+# Description: Blueprint-exact practice exam 4 of 5 — 40 questions mirroring the
+# official CTFL v4.0 chapter and K-level distribution.
+# (The schema carries no description field; this line is the authored copy.)
+#
+# RECONCILED OFFICIAL BLUEPRINT (global): 40 questions, 1 point each,
+# pass 26/40 (65%), 60 minutes; K-levels K1 = 8 / K2 = 24 / K3 = 8.
+# Per-chapter K draws (per-(chapter x K) cells below):
+#   ch1  8 q: K1 2 / K2 6 / K3 0
+#   ch2  6 q: K1 2 / K2 4 / K3 0
+#   ch3  4 q: K1 2 / K2 2 / K3 0   <-- M3 Task 3 CORRECTION (M2 pinned 1/3)
+#   ch4 11 q: K1 0 / K2 6 / K3 5
+#   ch5  9 q: K1 1 / K2 5 / K3 3
+#   ch6  2 q: K1 1 / K2 1 / K3 0
+#   sums: 40 questions; K1 2+2+2+0+1+1 = 8, K2 6+4+2+6+5+1 = 24, K3 0+0+0+5+3+0 = 8.
+#
+# ch3 CORRECTION SOURCES (the M2-pinned ch3 split of K1 1 / K2 3 was never
+# verified against a K-split source — the M2 Task 4 header cross-checked the
+# ASTQB chapter-weight table, which carries per-chapter totals only):
+#   1. Official ISTQB Exam Structures & Rules Tables v1.20 (istqb.org CTFL v4.0
+#      page download, fetched live 2026-11-07; md5 c18e5eb5b144c5268874dbaba2488b13
+#      — byte-identical to the copy M2 Tasks 6-8 verified), Chapter 3 block:
+#      "There is a total of 4 questions required for Chapter 3. K1 = 2, K2 = 2,
+#      K3 = 0; Number of points for this chapter = 4", with ONE K1 group
+#      covering all four ch3 K1 LOs — {FL-3.1.1, FL-3.2.1, FL-3.2.3, FL-3.2.5}
+#      — drawing TWO of the chapter's four questions (the "2" in the
+#      "Number of Questions per LO (group)" column), and the K2 groups
+#      {FL-3.1.2, FL-3.1.3} x 1 and {FL-3.2.2, FL-3.2.4} x 1 drawing the rest.
+#   2. ESR Tables v1.16 (isqi.org mirror, April 15, 2026): identical ch3 block —
+#      an independent copy of the same official table.
+#   3. Official CTFL v4.0 Sample Exam Set A, Answers v1.7 (istqb.org download):
+#      ch3 questions #15-18 are FL-3.1.2 (K2), FL-3.2.1 (K1), FL-3.2.4 (K2),
+#      FL-3.2.5 (K1) — a 2 K1 / 2 K2 draw. The other chapters' sample draws
+#      (ch1 2/6, ch2 2/4, ch4 0/6/5, ch5 1/5/3, ch6 1/1) match their M2 pins
+#      exactly, isolating ch3 as the one mis-split chapter.
+# ch1 (2/6, decoded from ESR cell coordinates in M2 Task 9), ch2 (2/4), ch4
+# (0/6/5), ch5 (1/5/3) and ch6 (1/1) re-verify verbatim against the same v1.20
+# Chapter blocks — unchanged from the M2 pins.
+
+[exam]
+id = "istqb-mock-4"
+track = "istqb-ctfl"
+title = "ISTQB CTFL Mock Exam 4"
+timeLimitMin = 60
+passPct = 65
+total = 40
+multiSelectMax = 2
+blueprintExact = true
+klevels = { K1 = 8, K2 = 24, K3 = 8 }
+
+[[exam.group]]
+tag = "ch1"
+count = 8
+[exam.group.klevels]
+K1 = 2
+K2 = 6
+K3 = 0
+
+[[exam.group]]
+tag = "ch2"
+count = 6
+[exam.group.klevels]
+K1 = 2
+K2 = 4
+K3 = 0
+
+[[exam.group]]
+tag = "ch3"
+count = 4
+[exam.group.klevels]
+K1 = 2
+K2 = 2
+K3 = 0
+
+[[exam.group]]
+tag = "ch4"
+count = 11
+[exam.group.klevels]
+K1 = 0
+K2 = 6
+K3 = 5
+
+[[exam.group]]
+tag = "ch5"
+count = 9
+[exam.group.klevels]
+K1 = 1
+K2 = 5
+K3 = 3
+
+[[exam.group]]
+tag = "ch6"
+count = 2
+[exam.group.klevels]
+K1 = 1
+K2 = 1
+K3 = 0

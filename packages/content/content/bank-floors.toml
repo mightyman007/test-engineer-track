@@ -2,7 +2,6 @@
 # Task 2 seeds the ch1 floor only; content tasks 3-8 append their chapter
 # floors in the same commit as their content. Floors are independent of exam
 # blueprints — they keep banks ahead of M3's mock exams as content grows.
-# M1's ch1 bank holds 32 questions, so this floor stays green until Task 3.
 
 [[floor]]
 tag = "ch1"

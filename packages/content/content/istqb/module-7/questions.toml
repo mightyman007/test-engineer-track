@@ -1,5 +1,7 @@
 # ISTQB CTFL Module 7 — Test Tools (Ch6)
-# 18 original questions. istqb-q-0170 is the brief's worked example (the
+# 19 original questions (18 from M2 Task 8 + istqb-q-0192, the M3 Task 3
+# optional 3-of-7 multi — see the q-0192 note above its block). istqb-q-0170 is
+# the brief's worked example (the
 # execution-tool-expects-to-design scenario), renumbered into this module's id
 # range with its keyed option relocated to position 2 for answer-position
 # balance — scenario, option semantics, keyed answer and explanation are the
@@ -34,8 +36,8 @@
 # items, one recalls the chapter keyword's definition (grounded via syllabus 0.5
 # — "all terms listed as keywords just below chapter headings shall be
 # remembered (K1)"; ch6's only keyword is test automation). The bank therefore
-# carries 0 K3, mirroring the official draw, and over-represents K1 (8/18 =
-# 44% vs the official 50%) for learning value.
+# carries 0 K3, mirroring the official draw, and over-represents K1 (8/19 =
+# 42% vs the official 50%) for learning value.
 #
 # Rulings applied to the brief:
 #   (a) floor value — the brief's Files line says "+ ch6: 15" while the step
@@ -75,14 +77,15 @@
 #       [0,2] (modules 5/6 used [1,3]). Every question re-read against its
 #       keyed index after the distribution was fixed.
 #
-# Coverage: FL-6.1.1: 9 (q-0172, q-0174, q-0176, q-0177, q-0179, q-0181,
-# q-0183, q-0185, q-0187), FL-6.2.1: 9 (q-0170, q-0171, q-0173, q-0175,
+# Coverage: FL-6.1.1: 10 (q-0172, q-0174, q-0176, q-0177, q-0179, q-0181,
+# q-0183, q-0185, q-0187, q-0192), FL-6.2.1: 9 (q-0170, q-0171, q-0173, q-0175,
 # q-0178, q-0180, q-0182, q-0184, q-0186) — both LOs >= 2 (contract: the
-# official draw is only 2 questions, one per LO). K mix: 8 K1 + 10 K2 + 0 K3
+# official draw is only 2 questions, one per LO). K mix: 8 K1 + 11 K2 + 0 K3
 # (contract floors: >=5 K1, 0 K3 per the verified official draw; official ch6
-# draw for comparison: 1 K1 + 1 K2 + 0 K3). 1 multi-select question
-# (istqb-q-0187): 5 options, exactly 2 correct. All stems/options/explanations
-# are original — no ISTQB official sample questions copied.
+# draw for comparison: 1 K1 + 1 K2 + 0 K3). 2 multi-select questions
+# (istqb-q-0187: 5 options, exactly 2 correct; istqb-q-0192: 7 options, exactly
+# 3 correct). All stems/options/explanations are original — no ISTQB official
+# sample questions copied.
 
 [[question]]
 id = "istqb-q-0170"
@@ -369,6 +372,49 @@ options = [
 ]
 answers = [0, 2]
 explanation = "Gap 1 is analysis without execution — static testing tools support reviews and static analysis; gap 2 is coverage measurement of executed tests — test execution and test coverage tools facilitate automated test execution and coverage measurement. Collaboration, non-functional and test management tools support communication, hard-to-do-manually testing and management of the SDLC/tests/defects/configuration — none finds code violations or measures coverage by itself."
+lo = "FL-6.1.1"
+klevel = "K2"
+tags = ["ch6"]
+
+# istqb-q-0192 (M3 Task 3): the ledgered optional 3-of-7 multi for ch6, authored
+# because the pairing format makes it genuinely unambiguous — each option pairs
+# one tool family with a support phrase, the three keyed pairings quote the
+# syllabus's own 6.1 definitions verbatim, and each of the four distractors
+# pins a DIFFERENT family's verbatim support phrase on the wrong family (a
+# cross-category swap, the same distractor pattern as istqb-q-0187). Each tool
+# family appears exactly once, so no option contradicts another's claim about
+# the same family. Verified against the official ISTQB CTFL Syllabus v4.0.1
+# PDF (md5 b2577c7a8437970d172797d7061a7aba, byte-identical to the copy M2
+# verified; section 6.1 "Tool Support for Testing", p. 59 of 78), from which
+# every support phrase below is quoted:
+#   test management tools -> "...facilitating management of the SDLC,
+#     requirements, tests, defects, configuration"
+#   test design and test implementation tools -> "...facilitate generation of
+#     test cases, test data and test procedures"
+#   non-functional testing tools -> "...allow the tester to perform
+#     non-functional testing that is difficult or impossible to perform
+#     manually"
+#   static testing tools -> "...support the tester in performing reviews and
+#     static analysis" (they do NOT execute code — the swapped phrase is the
+#     test-execution family's)
+#   collaboration tools -> "...facilitate communication"
+#   DevOps tools -> "...support the DevOps delivery pipeline, workflow
+#     tracking, automated build process(es), CI/CD"
+[[question]]
+id = "istqb-q-0192"
+type = "multi"
+stem = "A tester sorts the team's tooling using the syllabus's classification of test tools, matching each tool type to the support that classification assigns it. Which THREE of the following pairings are correct?"
+options = [
+  "Static testing tools facilitate automated test execution and coverage measurement",
+  "Test management tools facilitate management of the SDLC, requirements, tests, defects and configuration",
+  "DevOps tools facilitate communication between stakeholders",
+  "Non-functional testing tools allow the tester to perform non-functional testing that is difficult or impossible to perform manually",
+  "Collaboration tools facilitate generation of test cases, test data and test procedures",
+  "Test design and test implementation tools facilitate generation of test cases, test data and test procedures",
+  "Test execution and test coverage tools support the DevOps delivery pipeline and the automated build process",
+]
+answers = [1, 3, 5]
+explanation = "The syllabus's 6.1 classification assigns each family its own support: test management tools facilitate management of the SDLC, requirements, tests, defects and configuration; test design and test implementation tools facilitate generation of test cases, test data and test procedures; non-functional testing tools allow testing that is difficult or impossible to perform manually. The three swapped pairings assign other families' supports: automated test execution and coverage measurement belongs to test execution and test coverage tools (static testing tools support reviews and static analysis, without executing the code), communication belongs to collaboration tools, and delivery-pipeline/build support belongs to DevOps tools."
 lo = "FL-6.1.1"
 klevel = "K2"
 tags = ["ch6"]

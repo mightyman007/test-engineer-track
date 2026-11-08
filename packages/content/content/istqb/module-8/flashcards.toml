@@ -1,0 +1,6 @@
+# ISTQB CTFL Module 8 — Exam Readiness: INTENTIONALLY EMPTY deck.
+#
+# No flashcards: the readiness hub drills nothing of its own — the weak-area
+# loop (see the module's lesson) sends learners back to the per-chapter
+# modules' decks (modules 1-7). build.ts parses a deck file with no [[card]]
+# tables as an empty pool, so this comment-only file is valid authoring.

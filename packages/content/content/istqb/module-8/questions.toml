@@ -1,0 +1,10 @@
+# ISTQB CTFL Module 8 — Exam Readiness: INTENTIONALLY EMPTY question pool.
+#
+# This module is the readiness hub, not a syllabus chapter: its page lists
+# the track's five mock exams with the readiness indicator (spec §5) instead
+# of a module quiz. The exam questions live in the per-chapter banks
+# (modules 1-7) that the mocks draw from — there is nothing to practice here.
+#
+# build.ts parses a quiz file with no [[question]] tables as an empty pool,
+# so this comment-only file is valid authoring, not a broken module. The
+# quiz page for this module renders its "No questions yet" empty state.

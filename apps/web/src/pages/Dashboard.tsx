@@ -4,6 +4,7 @@ import { useContent } from '../lib/content-context.js';
 import { useSession } from '../state/session.js';
 import { trackCompletion } from 'tet-core';
 import { ProgressBar } from '../components/ProgressBar.js';
+import { readinessVerdict } from '../lib/readiness.js';
 
 export function Dashboard() {
   const bundle = useContent();
@@ -11,7 +12,7 @@ export function Dashboard() {
   const [state, setState] = useState<{
     progress: Record<string, { status: string }>;
     quizBest: Record<string, number>;
-    examScores: { scorePct: number; createdAt: string }[];
+    examScores: { examId: string; scorePct: number; createdAt: string }[];
     dueCount: number;
   } | null>(null);
 
@@ -29,7 +30,13 @@ export function Dashboard() {
       for (const a of quiz) {
         quizBest[a.module] = Math.max(quizBest[a.module] ?? 0, a.max > 0 ? a.score / a.max : 0);
       }
-      if (alive) setState({ progress, quizBest, examScores: exams.map((e) => ({ scorePct: e.scorePct, createdAt: e.createdAt })), dueCount });
+      // examId is kept per attempt: the per-track readiness chip must filter
+      // to the track's own readiness exams (foreign exams never leak in).
+      if (alive) setState({
+        progress, quizBest,
+        examScores: exams.map((e) => ({ examId: e.examId, scorePct: e.scorePct, createdAt: e.createdAt })),
+        dueCount,
+      });
     })();
     return () => { alive = false; };
   }, [adapter]);
@@ -45,6 +52,7 @@ export function Dashboard() {
         const nextModule = track.modules.find((m) =>
           !m.lessonIds.every((lid) => state.progress[`${track.id}/${m.id}/${lid}`]?.status === 'done'));
         const bestQuiz = Math.max(0, ...track.modules.map((m) => state.quizBest[m.id] ?? 0));
+        const readiness = readinessVerdict(track.readiness.examIds, track.readiness.readyPct, state.examScores);
         return (
           <section className="card" key={track.id}>
             <h2>{track.title}</h2>
@@ -57,6 +65,21 @@ export function Dashboard() {
             {bestQuiz > 0 && <p className="muted">best quiz {Math.round(bestQuiz * 100)}%</p>}
             {state.examScores.length > 0 && (
               <p className="muted">last exam {Math.round(state.examScores[0]!.scorePct)}%</p>
+            )}
+            {/* Readiness chip (spec §5), compact: ready / last-2 average / the ask for 2 mocks. */}
+            {readiness.state !== 'no-exams' && (
+              <p>
+                {readiness.state === 'ready' && <span className="flag ok">✓ Ready</span>}
+                {readiness.state === 'not-ready' && (
+                  // Target surfaced from track data so a 65% learner knows the goal.
+                  <span className="flag warn">
+                    {readiness.lastTwoAvgPct}% avg (last 2) · ready at {track.readiness.readyPct}%
+                  </span>
+                )}
+                {readiness.state === 'no-attempts' && (
+                  <span className="muted">take 2 mock exams for a readiness reading</span>
+                )}
+              </p>
             )}
           </section>
         );

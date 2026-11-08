@@ -60,7 +60,17 @@ export interface Track {
   readiness: TrackReadiness;
 }
 
-export interface ExamGroup { tag: string; count: number; }
+export interface ExamGroup {
+  tag: string;
+  count: number;
+  /**
+   * Schema v2: this group's K-level cells. When EVERY group declares cells,
+   * the engine draws each group against its own cells (authoritative); when
+   * NO group does, the definition assembles with the legacy global quota.
+   * Levels absent from the record mean no quota for that level in this group.
+   */
+  klevels?: Record<KLevel, number>;
+}
 
 export interface ExamDefinition {
   id: string;
@@ -71,7 +81,19 @@ export interface ExamDefinition {
   total: number;
   multiSelectMax: number;
   groups: ExamGroup[];
+  /**
+   * Legacy global K quota (M1 shape). Not consulted while drawing when every
+   * group declares its own `klevels` cells (per-group cells are
+   * authoritative); the schema cross-checks that the two agree per level.
+   */
   klevels?: Record<KLevel, number>;
+  /**
+   * Strict blueprint accounting (schema v2): every group's cells must sum
+   * exactly to that group's count — no klevel-less filler slots. Mock exams
+   * set this; casual exams may omit it and let klevel-less questions fill
+   * the slots their cells leave open.
+   */
+  blueprintExact?: boolean;
 }
 
 export interface ContentBundle {
