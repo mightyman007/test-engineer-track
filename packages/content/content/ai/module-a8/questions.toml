@@ -1,0 +1,316 @@
+# AI for Test Engineers — Module A8 "Testing AI Systems"
+# 18 original questions (ai-q-0123..0140), all tagged ai8.
+#
+# Learning objectives (ours — no official syllabus for this track), authored as
+# the module's coverage contract. The lo field carries the objective id; every
+# objective carries >= 2 questions.
+#
+# Objectives (A8) — the coverage contract:
+#   A8-1 Read a confusion matrix (TP/FP/FN/TN) and compute precision and
+#        recall from it.
+#   A8-2 Explain what error each of precision and recall prices, how the
+#        confidence threshold trades one for the other, and which metric a
+#        given failure cost defends — including why accuracy flatters
+#        skewed data.
+#   A8-3 Carry IoU from module A5: state the detection match rule
+#        (IoU >= threshold AND same class) and compute IoU on a small grid.
+#   A8-4 Explain mAP as a mean over per-class average precisions (swept
+#        across confidence levels), and name what a mean hides.
+#   A8-5 Explain why the same input can produce different outputs
+#        (sampling/temperature, moving versions) and how to restore
+#        reproducibility when a test needs it.
+#   A8-6 Recognize data-driven failure modes (one bad frame, poisoning,
+#        distribution shift, the long tail) and contrast them with code bugs.
+#   A8-7 Argue why code-coverage metrics don't transfer to learned behavior,
+#        and define what scenario coverage counts instead.
+#   A8-8 Orient in SOTIF (ISO 21448) — safety of the intended functionality,
+#        failure without fault — and locate the ISTQB CT-AI certification as
+#        the next step.
+#
+# Coverage: A8-1 x2 (0123-0124), A8-2 x4 (0125-0128), A8-3 x2 (0129-0130),
+# A8-4 x2 (0131-0132), A8-5 x2 (0133-0134), A8-6 x2 (0135-0136),
+# A8-7 x2 (0137-0138), A8-8 x2 (0139-0140) — every objective >= 2.
+# The metric computations are the module's apply core: every confusion-matrix
+# and IoU question carries its numbers IN the stem, and formulas are restated
+# in the stem where new (mAP's mean), so each question is self-contained.
+# Recall-style (K1-equivalent) questions: ai-q-0130, 0133, 0138, 0139
+# (4 total; the floor is 4). The rest are understanding/application-style.
+# 2 multi-select questions (ai-q-0128, ai-q-0134): 5 options, exactly 2
+# correct. NO klevel field on AI questions — standing M4 ruling: no official
+# K classification exists, and AI exams use count-only groups.
+# Answer positions across the 16 singles: 4 x each of 0/1/2/3 (25% each,
+# non-cyclic blocks 1,3,2,0 | 2,0,3,1 | 3,1,0,2 | 0,2,1,3); the two
+# multi-selects use two different correct-pair positions ([1,4] and [0,3]).
+# All stems/options/explanations are original.
+
+[[question]]
+id = "ai-q-0123"
+type = "single"
+stem = "A detector is evaluated on 100 frames: 60 contain a pedestrian, 40 do not. The model flags 50 frames as pedestrian; 45 of those flags are correct. What is its precision?"
+options = [
+  "0.75 — 45 of the 60 true pedestrians were found",
+  "0.90 — 45 of the 50 flags were correct",
+  "0.80 — 80 of the 100 frames were judged correctly",
+  "0.60 — pedestrians are 60% of the data",
+]
+answers = [1]
+explanation = "Precision divides true positives by everything the model flagged: 45/(45+5) = 0.90. The 0.75 figure is recall (45 of the 60 actual pedestrians found), 0.80 is accuracy ((45+35)/100), and 0.60 is just the class share — none of those answer 'of the flags, how many were right?'."
+lo = "A8-1"
+tags = ["ai8"]
+
+[[question]]
+id = "ai-q-0124"
+type = "single"
+stem = "A different run on the same kind of evaluation: the model flags 50 frames, 20 of them correct. Ground truth holds 25 pedestrian frames in total. What is its recall?"
+options = [
+  "0.40 — of the 50 flags, 20 were right",
+  "0.50 — half the flags landed on true pedestrians",
+  "0.25 — 5 pedestrians were missed out of 20 found",
+  "0.80 — 20 of the 25 actual pedestrians were found",
+]
+answers = [3]
+explanation = "Recall divides true positives by everything that was actually there: 20/(20+5) = 0.80. The 0.40 figure is precision (20 of 50 flags right) — the classic swap; 0.50 and 0.25 divide by the wrong quantities."
+lo = "A8-1"
+tags = ["ai8"]
+
+[[question]]
+id = "ai-q-0125"
+type = "single"
+stem = "A night-scene classifier is evaluated on 1,000 frames: 990 contain no pedestrian, 10 do. The model flags nothing at all, so TP = 0, FP = 0, FN = 10, TN = 990, and accuracy is 990/1000 = 99%. What is the trap?"
+options = [
+  "There is no trap — 99% accuracy is a strong result for night scenes",
+  "The accuracy is actually 0%, because every pedestrian was missed",
+  "99% is arithmetically right, but it hides a recall of 0% — every pedestrian was missed",
+  "99% is arithmetically right, but it hides a precision problem — the flags are unreliable",
+]
+answers = [2]
+explanation = "Accuracy rewards getting the abundant class right: a model that never flags anything scores 99% while missing every pedestrian (recall 0/10 = 0). On skewed data accuracy is nearly a negatives-only score — the one number hides exactly the failure that matters. With no flags there is no precision story at all."
+lo = "A8-2"
+tags = ["ai8"]
+
+[[question]]
+id = "ai-q-0126"
+type = "single"
+stem = "A team raises the detector's confidence threshold from 0.5 to 0.8, so only very confident flags survive. What happens to the metrics?"
+options = [
+  "Precision rises — fewer, more confident flags mean fewer false alarms — while recall falls, because shakier true objects now go unflagged",
+  "Recall rises and precision falls — more flags means more true objects found",
+  "Both rise — higher thresholds only remove errors",
+  "Neither changes — the threshold affects speed, not accuracy",
+]
+answers = [0]
+explanation = "The threshold is the trade-off dial: pruning to high-confidence flags removes false alarms (precision up) and silently drops the shakier true objects (recall down). Raising a bar cannot reveal more finds, and the threshold changes which errors occur, not just how fast."
+lo = "A8-2"
+tags = ["ai8"]
+
+[[question]]
+id = "ai-q-0127"
+type = "single"
+stem = "For an AV's pedestrian detector, a missed pedestrian is far more dangerous than a false alarm that triggers an early, gentle brake. Which metric should the team refuse to trade away?"
+options = [
+  "Precision — every flag must be right before anything else matters",
+  "Accuracy — it balances both error types in one number",
+  "Recall — the failure you cannot afford is the pedestrian the model never flagged",
+  "F1 — a balanced metric is always the safest choice",
+]
+answers = [2]
+explanation = "When the two errors' costs differ this sharply, the asymmetry picks the metric: the unrecoverable error is the miss, so recall is the floor. Precision optimizes the cheaper error, accuracy averages both away, and F1 bakes in an equal weighting that this situation contradicts."
+lo = "A8-2"
+tags = ["ai8"]
+
+[[question]]
+id = "ai-q-0128"
+type = "multi"
+stem = "Which TWO statements about precision and recall are true?"
+options = [
+  "Precision counts how many of the actual pedestrians the model found",
+  "Precision answers: of everything the model flagged, how much was right?",
+  "A model with perfect precision must also have high recall",
+  "Recall counts how many flagged items were wrong",
+  "Lowering the confidence threshold typically raises recall and lowers precision",
+]
+answers = [1, 4]
+explanation = "Precision looks down the model's flag list (of the flags, the correct share); recall looks down the truth list (of the actual objects, the found share). Perfect precision with low recall is easy — flag only the one obvious object. Lowering the threshold admits shakier flags: more true objects found (recall up), more false alarms too (precision down). The other two statements swap the definitions, and high recall never follows from high precision."
+lo = "A8-2"
+tags = ["ai8"]
+
+[[question]]
+id = "ai-q-0129"
+type = "single"
+stem = "On a small grid, the ground-truth box covers columns 1–3, rows 1–2 (6 cells) and the predicted box covers columns 2–4, rows 1–2 (also 6 cells). They overlap on columns 2–3, rows 1–2 (4 cells). Recalling that IoU = intersection ÷ union, what is the IoU?"
+options = [
+  "4 ÷ (6 + 6 − 4) = 0.50",
+  "4 ÷ (6 + 6) = 0.33 — no need to subtract the overlap",
+  "(6 + 6 − 4) ÷ 4 = 2.0 — union over intersection",
+  "4 ÷ 6 = 0.67 — overlap over the predicted box",
+]
+answers = [0]
+explanation = "Union = both boxes added, minus the overlap counted twice: 6 + 6 − 4 = 8, so IoU = 4/8 = 0.50. Forgetting the subtraction gives 0.33, inverting the ratio gives 2.0, and dividing by just one box ignores that the union spans both."
+lo = "A8-3"
+tags = ["ai8"]
+
+[[question]]
+id = "ai-q-0130"
+type = "single"
+stem = "When does a detection count as a true positive?"
+options = [
+  "Whenever its confidence score exceeds 0.9",
+  "Whenever the predicted box overlaps the truth at all — any IoU above 0",
+  "Whenever the predicted box is within a few pixels of the true box",
+  "When it reaches the IoU match threshold against a ground-truth box of the same class",
+]
+answers = [3]
+explanation = "The match rule has two clauses: box quality (IoU ≥ threshold, commonly 0.5) and class agreement. Confidence alone is a self-report, any-overlap accepts garbage boxes, and pixel distance is the string-comparison oracle module A5 ruled out — IoU measures box quality, not proximity."
+lo = "A8-3"
+tags = ["ai8"]
+
+[[question]]
+id = "ai-q-0131"
+type = "single"
+stem = "A detector is scored per class, giving average precision: car 0.90, pedestrian 0.60, cyclist 0.30. Given that mAP is the mean of the per-class average precisions, what is the mAP?"
+options = [
+  "1.80 — the three scores added together",
+  "0.60 — (0.90 + 0.60 + 0.30) ÷ 3",
+  "0.90 — the strongest class's score",
+  "0.30 — the weakest class's score",
+]
+answers = [1]
+explanation = "The 'mean' in mean average precision is doing ordinary work: (0.90 + 0.60 + 0.30) ÷ 3 = 1.80/3 = 0.60. The sum forgets to divide, the best class hides the rest, and the weakest class alone is an AP, not the mean."
+lo = "A8-4"
+tags = ["ai8"]
+
+[[question]]
+id = "ai-q-0132"
+type = "single"
+stem = "A perception stack reports mAP = 0.75 across eight classes. What does that single number NOT tell you?"
+options = [
+  "That it is an average over the per-class scores",
+  "That it summarizes behavior across confidence levels",
+  "That eight classes contributed to the mean",
+  "Which class is failing — a strong mean can hide a class that is nearly useless",
+]
+answers = [3]
+explanation = "mAP's mean is both its value and its danger: 0.75 could be seven strong classes and one blind spot — and the blind spot is exactly what an AV tester must find. What it hides is the per-class breakdown; the other options are all things the metric's construction does tell you."
+lo = "A8-4"
+tags = ["ai8"]
+
+[[question]]
+id = "ai-q-0133"
+type = "single"
+stem = "The same prompt sent twice to the same chatbot returns two different summaries. Which setting best explains this?"
+options = [
+  "The prompt's character count",
+  "Temperature — the sampling dial that lets the model pick less-certain tokens on purpose",
+  "The model's parameter count",
+  "The number of users currently online",
+]
+answers = [1]
+explanation = "Generative models decode by sampling from a probability distribution; temperature shapes that distribution (low keeps the likeliest token, high spreads the picks). Same input, different sampled tokens, different output — by design. Character counts, parameter counts, and concurrent users do not re-roll an answer."
+lo = "A8-5"
+tags = ["ai8"]
+
+[[question]]
+id = "ai-q-0134"
+type = "multi"
+stem = "Model output legitimately varies between runs. Which TWO practices keep testing sane?"
+options = [
+  "Pin the knobs for tests that need repeatability — temperature 0 or a fixed random seed, with the model version pinned",
+  "Assert the exact output string on every run, even at high temperature",
+  "Accept one lucky pass as evidence the feature works",
+  "Where variation is by design, assert statistical properties measured over many runs",
+  "Raise the temperature to make the model more deterministic",
+]
+answers = [0, 3]
+explanation = "Two regimes, two contracts: when you need a repeatable answer, remove the randomness (temperature 0, fixed seed, version-pinned model); when variation is the product, measure a rate over N runs instead of grading one sample. Exact-string assertions fight the design, one pass proves nothing, and higher temperature means more randomness, not less."
+lo = "A8-5"
+tags = ["ai8"]
+
+[[question]]
+id = "ai-q-0135"
+type = "single"
+stem = "While mining a training set, you find one image labeled 'empty road' that actually shows a pedestrian in the far lane. The model was trained on 2 million images. What kind of problem is this?"
+options = [
+  "A data problem: one wrong label teaches a wrong lesson, and no amount of code review will surface it",
+  "A code bug: fix the inference loop and the label stops mattering",
+  "Harmless: one image among 2 million cannot move a trained model",
+  "A hardware fault: the camera that captured the frame must be recalibrated",
+]
+answers = [0]
+explanation = "The weights were written by the data: a mislabeled frame teaches the model that a distant pedestrian is road-empty, a lesson no code review finds because the defect lives in a data file, not a function. Scale is not protection — rare bad labels sit in exactly the tail the model also learns."
+lo = "A8-6"
+tags = ["ai8"]
+
+[[question]]
+id = "ai-q-0136"
+type = "single"
+stem = "A detector trained on footage from one country is deployed where lane markings, sign shapes, and vehicle types all differ, and its error rate jumps — with no fault logged anywhere. The failure mode?"
+options = [
+  "Overfitting to the test set",
+  "A race condition in the inference pipeline",
+  "Distribution shift — the world it meets has drifted away from the world it trained on",
+  "Model compression loss",
+]
+answers = [2]
+explanation = "The model only knows the data distribution it learned; deploy it on a different one and performance drops with no fault anywhere — distribution shift, also called concept drift when it moves over time. Overfitting is memorizing your own training data, a race condition is a code-level fault, and compression is a separate technique with its own tests."
+lo = "A8-6"
+tags = ["ai8"]
+
+[[question]]
+id = "ai-q-0137"
+type = "single"
+stem = "The perception stack's inference code reports 100% statement coverage. Why does this say almost nothing about detection quality?"
+options = [
+  "Every input executes the same lines — the behavior lives in the learned weights, which coverage cannot see",
+  "Coverage tools cannot parse the model's source code",
+  "100% statement coverage is impossible for real systems",
+  "Coverage only measures how fast the tests run",
+]
+answers = [0]
+explanation = "Coverage was built to find untested code paths, but a trained model has one path for every input — the same forward pass — so every scenario, benign or catastrophic, executes 'covered' lines. The behavior to cover lives in weights and data; that is why scenario coverage counts situations instead."
+lo = "A8-7"
+tags = ["ai8"]
+
+[[question]]
+id = "ai-q-0138"
+type = "single"
+stem = "In an AV program, what does scenario coverage count?"
+options = [
+  "The percentage of requirements traced to test cases",
+  "The number of test cases filed in the tracker",
+  "The share of the situation space exercised — weather, lighting, road geometry, and the agents in it",
+  "The branches executed per build",
+]
+answers = [2]
+explanation = "Scenario coverage treats the test space as situations, not statements: each cell of weather × lighting × road users × maneuvers is a case to exercise — and simulation is how the count scales (module A7). Requirements tracing, ticket counts, and branch percentages are real numbers, but they measure other things."
+lo = "A8-7"
+tags = ["ai8"]
+
+[[question]]
+id = "ai-q-0139"
+type = "single"
+stem = "A lane-keeper works exactly as designed — every component passes its checks — yet it drifts toward the barrier in one specific combination of bridge deck, side wind, and sun glare. Which standard names this class of risk?"
+options = [
+  "ISO 26262 — it classifies the fault that must have caused the drift",
+  "SOTIF (ISO 21448) — hazards from functional insufficiencies of the intended functionality and foreseeable misuse, even when nothing fails",
+  "ISO 9001 — it is a quality-management defect",
+  "GDPR — it is a data-protection issue",
+]
+answers = [1]
+explanation = "This is SOTIF's home turf: performance insufficiency of the intended function — sensor limits, algorithm blind spots, foreseeable misuse — with no fault to repair. ISO 26262 governs failures (the component breaks); SOTIF governs the system working as designed yet insufficiently, and the triggering situation is exactly what scenario coverage hunts."
+lo = "A8-8"
+tags = ["ai8"]
+
+[[question]]
+id = "ai-q-0140"
+type = "single"
+stem = "Your team wants an internationally recognized certification that formalizes testing AI-based systems — the natural next step after this track. Which is it?"
+options = [
+  "ISTQB Certified Tester Foundation Level (CTFL) — it covers AI testing in depth",
+  "ISTQB Certified Tester Advanced Level Test Analyst",
+  "There is no certification for testing AI systems",
+  "ISTQB Certified Tester AI Testing (CT-AI)",
+]
+answers = [3]
+explanation = "CT-AI is the ISTQB specialist certification for exactly this ground: quality characteristics for AI-based systems, metrics for ML models, testing AI-based systems, and using AI in testing. CTFL is the general foundation (a sensible prerequisite, not the AI specialist step), Test Analyst is a different specialist track, and the 'no such certification' claim is out of date."
+lo = "A8-8"
+tags = ["ai8"]
