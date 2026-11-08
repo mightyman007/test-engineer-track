@@ -26,6 +26,13 @@ test('solo learner: lesson → quiz → flashcard review', async ({ page }) => {
   // picked, multi-select renders checkboxes + "Check answer".
   await page.getByRole('link', { name: /fundamentals of testing/i }).first().click();
   await page.getByRole('link', { name: /module quiz/i }).click();
+  // Gate the checkbox probe on the question render: probing earlier can see 0
+  // checkboxes, and if Q1 is multi-select the else branch then clicks the only
+  // button — "Check answer", disabled until a checkbox is picked — and stalls
+  // to the 60s timeout. The "Question 1 of N" counter commits with the
+  // options in both branches (single and multi), so this closes the race
+  // deterministically instead of leaning on the retry.
+  await expect(page.getByText(/Question 1 of/)).toBeVisible();
   const checkboxes = page.getByRole('checkbox');
   if (await checkboxes.count()) {
     await checkboxes.first().check();
