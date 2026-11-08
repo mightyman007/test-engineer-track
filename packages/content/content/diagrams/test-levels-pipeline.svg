@@ -23,8 +23,7 @@
   <line x1="205" y1="266" x2="205" y2="274" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/>
   <line x1="205" y1="328" x2="205" y2="336" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/>
   <text x="415" y="106" font-size="13" font-weight="700" fill="#1a1a2e">Who: developers</text>
-  <text x="415" y="124" font-size="12" fill="#1a1a2e">in their own dev environment,</text>
-  <text x="415" y="140" font-size="12" fill="#1a1a2e">often with test harnesses</text>
+  <text x="415" y="130" font-size="12" fill="#1a1a2e">in their own dev environment, often with test harnesses</text>
   <text x="415" y="168" font-size="13" font-weight="700" fill="#1a1a2e">When: as pieces are built</text>
   <text x="415" y="186" font-size="12" fill="#1a1a2e">strategy matters: big-bang,</text>
   <text x="415" y="202" font-size="12" fill="#1a1a2e">top-down, or bottom-up</text>
@@ -32,8 +31,7 @@
   <text x="415" y="248" font-size="12" fill="#1a1a2e">basis: specifications; needs a</text>
   <text x="415" y="264" font-size="12" fill="#1a1a2e">representative environment</text>
   <text x="415" y="292" font-size="13" font-weight="700" fill="#1a1a2e">What: interfaces to external services</text>
-  <text x="415" y="310" font-size="12" fill="#1a1a2e">test environment close to the</text>
-  <text x="415" y="326" font-size="12" fill="#1a1a2e">real operational one</text>
+  <text x="415" y="318" font-size="12" fill="#1a1a2e">test environment close to the real operational one</text>
   <text x="415" y="354" font-size="13" font-weight="700" fill="#1a1a2e">Who: ideally the intended users</text>
   <text x="415" y="372" font-size="12" fill="#1a1a2e">UAT, operational, contractual,</text>
   <text x="415" y="388" font-size="12" fill="#1a1a2e">regulatory, alpha, beta</text>

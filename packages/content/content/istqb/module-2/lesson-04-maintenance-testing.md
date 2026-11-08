@@ -15,7 +15,7 @@ diagrams = [
 
 ## Testing a system that is already live (FL-2.3.1)
 
-Everything so far assumed software still being built. **[Maintenance testing](https://istqb-glossary.page/maintenance-testing/)** is different: it deals with changes to an **operational system** — software that real users already depend on. Testing the change means two things: evaluating whether the change itself works, and checking for possible **regressions** in the parts of the system that remain unchanged — which is usually *most* of the system.
+Everything so far assumed software still being built. **[Maintenance testing](https://istqb-glossary.page/maintenance-testing/)** is different: it deals with changes to an **operational system** — software that real users already depend on. Testing the change means two things: evaluating whether the change itself works, and checking for possible [regressions](https://istqb-glossary.page/regression-testing/) in the parts of the system that remain unchanged — which is usually *most* of the system.
 
 How much maintenance testing is needed? The scope typically depends on:
 
@@ -27,9 +27,9 @@ How much maintenance testing is needed? The scope typically depends on:
 
 The syllabus classifies what sets maintenance testing in motion into three groups:
 
-**1. Modifications.** The most familiar trigger. This includes **planned enhancements** (ordinary release-based work), **corrective changes** (fixing defects), and **unplanned releases** — so-called **hot fixes** applied in a hurry when something is broken in production. Under the [ISO/IEC 14764](https://en.wikipedia.org/wiki/Software_maintenance#Categories) standard, maintenance is categorized as **corrective** (fixing defects), **adaptive** (adjusting to a changed environment), **perfective** (improving performance or maintainability), or **preventive** (stopping problems before they happen).
+**1. Modifications.** The most familiar trigger. This includes **planned enhancements** (ordinary release-based work), **corrective changes** (fixing defects), and **unplanned releases** — so-called [hot fixes](https://glossary.istqb.org/en_US/term/hot-fix) applied in a hurry when something is broken in production. Under the [ISO/IEC 14764](https://en.wikipedia.org/wiki/Software_maintenance#Categories) standard, maintenance is categorized as **corrective** (fixing defects), **adaptive** (adjusting to a changed environment), **perfective** (improving performance or maintainability), or **preventive** (stopping problems before they happen).
 
-**2. Upgrades or migrations of the operational environment.** The software didn't change — its *world* did: a new platform, a new operating system, a new data centre. Such a move can require tests associated with the new environment as well as of the changed software. A special case is **data conversion**: when data from another application is migrated into the maintained system, the migrated data needs testing.
+**2. Upgrades or migrations of the operational environment.** The software didn't change — its *world* did: a new platform, a new operating system, a new data centre. Such a move can require tests associated with the new environment as well as of the changed software. A special case is **[data conversion](https://glossary.istqb.org/en_US/term/data-conversion)**: when data from another application is migrated into the maintained system, the migrated data needs testing.
 
 **3. Retirement.** Every system eventually reaches the end of its life. Even switching a system *off* can require testing: if long data retention periods apply, the **archiving** of data must be tested — including the **restore and retrieval procedures**, in case some of that data is needed during the archiving period.
 

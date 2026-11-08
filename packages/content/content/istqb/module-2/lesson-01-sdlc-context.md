@@ -19,9 +19,9 @@ Software is never built in a vacuum — it is built by following some plan for t
 
 The three families you must know for the exam:
 
-- **Sequential models** — phases follow one another, each finished before the next begins. Examples: the [waterfall model](https://en.wikipedia.org/wiki/Waterfall_model) and the [V-model](https://en.wikipedia.org/wiki/V-model_(software_development_model)). Here testers typically join *early* activities — reviewing requirements, doing test analysis and design — but because code only appears late, **dynamic testing** (actually running the software) cannot happen early.
-- **Iterative and incremental models** — the product is built in cycles, each producing a working piece. Examples: the [spiral model](https://en.wikipedia.org/wiki/Spiral_model), [prototyping](https://en.wikipedia.org/wiki/Prototyping#Software_prototyping), and the [Unified Process](https://en.wikipedia.org/wiki/Unified_Process). Here *both* static and dynamic testing can happen at every test level in every iteration — and frequent delivery demands fast feedback and extensive regression testing.
-- **Agile ways of working** — for example [Scrum](https://en.wikipedia.org/wiki/Scrum_(software_development)), [Kanban](https://en.wikipedia.org/wiki/Kanban_(development)), or [Extreme Programming](https://en.wikipedia.org/wiki/Extreme_programming). Agile assumes **change can happen at any time**, so teams favour lightweight documentation and extensive [test automation](https://istqb-glossary.page/test-automation/) to keep regression testing affordable. Much manual testing is experience-based, without lengthy upfront analysis.
+- **Sequential models** — phases follow one another, each finished before the next begins. Examples: the [waterfall model](https://en.wikipedia.org/wiki/Waterfall_model) and the [V-model](https://en.wikipedia.org/wiki/V-model_(software_development_model)). Here testers typically join *early* activities — reviewing requirements, doing [test analysis](https://istqb-glossary.page/test-analysis/) and [test design](https://istqb-glossary.page/test-design/) — but because code only appears late, **[dynamic testing](https://istqb-glossary.page/dynamic-testing/)** (actually running the software) cannot happen early.
+- **Iterative and incremental models** — the product is built in cycles, each producing a working piece. Examples: the [spiral model](https://en.wikipedia.org/wiki/Spiral_model), [prototyping](https://en.wikipedia.org/wiki/Prototyping#Software_prototyping), and the [Unified Process](https://en.wikipedia.org/wiki/Unified_Process). Here *both* [static testing](https://istqb-glossary.page/static-testing/) and dynamic testing can happen at every [test level](https://istqb-glossary.page/test-level/) in every iteration — and frequent delivery demands fast feedback and extensive [regression testing](https://istqb-glossary.page/regression-testing/).
+- **Agile ways of working** — for example [Scrum](https://en.wikipedia.org/wiki/Scrum_(software_development)), [Kanban](https://en.wikipedia.org/wiki/Kanban_(development)), or [Extreme Programming](https://en.wikipedia.org/wiki/Extreme_programming). Agile assumes **change can happen at any time**, so teams favour lightweight [work product](https://en.wikipedia.org/wiki/Software_artifact) documentation and extensive [test automation](https://istqb-glossary.page/test-automation/) to keep regression testing affordable. Much manual testing is experience-based, without lengthy upfront analysis.
 
 (There are also more detailed **development methods and practices** — ATDD, BDD, DDD, XP, FDD, Kanban, Lean IT, Scrum, TDD — which we meet in the next sections.)
 
@@ -29,7 +29,7 @@ The three families you must know for the exam:
 
 Why does the model matter to testers? The syllabus says testing **must be adapted to the SDLC to succeed**, and the choice of model changes:
 
-- the **scope and timing** of test activities (which test levels and types get used, and when);
+- the **scope and timing** of test activities (which test levels and [test types](https://istqb-glossary.page/test-type/) get used, and when);
 - the **level of detail** of test documentation;
 - the **choice of test techniques** and the overall test approach;
 - the **extent of test automation**;
@@ -49,16 +49,16 @@ Whatever the model, some practices are always right. The syllabus lists four —
 Some approaches go further than "test early" — they write the **tests before the code**. The syllabus names three; be able to recall which is which:
 
 - **[Test-driven development](https://istqb-glossary.page/test-driven-development/) (TDD)**: directs the coding through test cases. A test is written first, then just enough code to satisfy it, then both are refactored (restructured cleanly).
-- **[Acceptance test-driven development](https://istqb-glossary.page/acceptance-test-driven-development/) (ATDD)**: derives tests from **acceptance criteria** (the conditions a feature must meet to be accepted by the business) as part of designing the system.
+- **[Acceptance test-driven development](https://istqb-glossary.page/acceptance-test-driven-development/) (ATDD)**: derives tests from **[acceptance criteria](https://istqb-glossary.page/acceptance-criteria/)** (the conditions a feature must meet to be accepted by the business) as part of designing the system.
 - **[Behavior-driven development](https://istqb-glossary.page/behavior-driven-development/) (BDD)**: expresses the desired behaviour as test cases in a simple, readable form of natural language — usually the *Given / When / Then* format — which stakeholders can understand, and which is then translated into automated tests.
 
 All three implement the early-testing principle and follow shift left, because the tests exist before the code does.
 
 ## When testing meets operations: DevOps (FL-2.1.4)
 
-**[DevOps](https://glossary.istqb.org/en_US/term/devops)** is an organizational approach that gets development (including testing) and operations — the people who run live systems — working together toward common goals. Its technical heart is the **delivery pipeline**: a chain of automated steps (a **[CI/CD](https://en.wikipedia.org/wiki/CI/CD)** pipeline — continuous integration, continuous delivery) that builds, tests and releases code changes quickly.
+**[DevOps](https://glossary.istqb.org/en_US/term/devops)** is an organizational approach that gets development (including testing) and operations — the people who run live systems — working together toward common goals. Its technical heart is the **[delivery pipeline](https://glossary.istqb.org/en_US/term/delivery-pipeline)**: a chain of automated steps (a **[CI/CD](https://en.wikipedia.org/wiki/CI/CD)** pipeline — continuous integration, continuous delivery) that builds, tests and releases code changes quickly.
 
-From the testing perspective, the syllabus highlights real benefits: fast feedback on whether a change broke something, automated regression testing that reduces the risk of regressions, better visibility of non-functional quality characteristics, and less repetitive manual testing. But DevOps is not free: someone must define and maintain the pipeline and its CI/CD tools, and test automation takes real effort to establish and keep running. And even in a highly automated pipeline, **manual testing — especially from the user's perspective — is still needed**.
+From the testing perspective, the syllabus highlights real benefits: fast feedback on whether a change broke something, automated regression testing that reduces the risk of regressions, better visibility of non-functional [quality characteristics](https://istqb-glossary.page/quality-characteristic/), and less repetitive manual testing. But DevOps is not free: someone must define and maintain the pipeline and its CI/CD tools, and test automation takes real effort to establish and keep running. And even in a highly automated pipeline, **manual testing — especially from the user's perspective — is still needed**.
 
 ## Shift left (FL-2.1.5)
 
@@ -67,10 +67,10 @@ The early-testing principle has a nickname: **[shift left](https://glossary.istq
 Good practices that illustrate shift left:
 
 - **Reviewing specifications from the testers' perspective** — reviews of requirements often catch ambiguities, incompleteness and inconsistencies before any code exists.
-- **Writing test cases before the code is written**, and running the code in a test harness during implementation.
+- **Writing test cases before the code is written**, and running the code in a [test harness](https://istqb-glossary.page/test-harness/) during implementation.
 - **Using CI, and better still CD**, so every code submission gets fast, automated feedback.
-- **Performing static analysis of the source code before dynamic testing** (or as part of an automated process).
-- **Starting non-functional testing (for example performance checks) at component level**, where possible, instead of waiting for a complete system in a representative environment.
+- **Performing [static analysis](https://istqb-glossary.page/static-analysis/) of the source code before dynamic testing** (or as part of an automated process).
+- **Starting [non-functional testing](https://istqb-glossary.page/non-functional-testing/) (for example performance checks) at component level**, where possible, instead of waiting for a complete system in a representative environment.
 
 Shift left may cost extra training, effort or money *early* — the expectation is that it **saves effort and cost later**, because defects are cheapest when found early. One practical condition: the stakeholders must be convinced and bought into the idea.
 
@@ -78,7 +78,7 @@ Shift left may cost extra training, effort or money *early* — the expectation 
 
 A **[retrospective](https://glossary.istqb.org/en_US/term/retrospective)** is a meeting held at the end of a project or iteration (or whenever needed, depending on the lifecycle) where the participants — not only testers, but also developers, architects, the product owner, business analysts — discuss three questions: what worked and should be kept, what didn't and could be improved, and how to make improvements stick. Results are recorded and normally become part of the test completion report.
 
-For testing, typical benefits include more effective and efficient testing, better-quality testware, team bonding and learning, a better test basis (requirements improve when their deficiencies are addressed), and better cooperation between development and testing. A retrospective only matters if its recommended improvements are actually followed up.
+For testing, typical benefits include more effective and efficient testing, better-quality [testware](https://istqb-glossary.page/testware/), team bonding and learning, a better test basis (requirements improve when their deficiencies are addressed), and better cooperation between development and testing. A retrospective only matters if its recommended improvements are actually followed up.
 
 ## In plain terms
 
