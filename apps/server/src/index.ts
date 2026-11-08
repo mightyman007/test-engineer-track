@@ -5,7 +5,7 @@ import {
   AppEnv, COOKIE, createSession, hashPassword,
   userFromCookie, verifyPassword,
 } from './auth.js';
-import type { DataStore } from './store/index.js';
+import { InviteConsumedError, type DataStore } from './store/index.js';
 import { dataRoutes } from './routes/data.js';
 import { adminRoutes } from './routes/admin.js';
 import { ssoRoutes } from './routes/sso.js';
@@ -77,10 +77,21 @@ export function createApp(store: DataStore): Hono<AppEnv> {
 
     const passwordHash = hashPassword(password);
     const createdAt = new Date().toISOString();
-    const userId = await store.createUser({
-      username, displayName, passwordHash, role, createdAt,
-      inviteCode: usedInviteCode ?? undefined,
-    });
+    let userId: number;
+    try {
+      userId = await store.createUser({
+        username, displayName, passwordHash, role, createdAt,
+        inviteCode: usedInviteCode ?? undefined,
+      });
+    } catch (err) {
+      // The store's guarded invite decrement is the source of truth: a register
+      // that exhausted the invite between the pre-check above and the write
+      // lands here — same body as the pre-check's 403.
+      if (err instanceof InviteConsumedError) {
+        return c.json({ error: 'valid invite code required' }, 403);
+      }
+      throw err;
+    }
     const { token, expiresAt } = await createSession(store, userId);
     setCookie(c, COOKIE, token, { httpOnly: true, sameSite: 'Lax', path: '/', expires: new Date(expiresAt) });
     return c.json({ user: { username, displayName, role } }, 201);
@@ -106,14 +117,6 @@ export function createApp(store: DataStore): Hono<AppEnv> {
     }
     deleteCookie(c, COOKIE, { path: '/' });
     return c.body(null, 204);
-  });
-
-  // THROWAWAY identity probe (M6 investigation): echo what the edge delivers.
-  app.get('/api/debug/headers', (c) => {
-    const headers: Record<string, string> = {};
-    c.req.raw.headers.forEach((v, k) => { headers[k] = /user-token|authorization|cookie/i.test(k) ? String(v).slice(0, 200) : v; });
-    const envNames = Object.keys(process.env).filter((k) => !/^(PATH|HOME|HOSTNAME|NODE|YARN|PWD|SHLVL|TERM|LC_|LANG|OLDPWD|npm_|PNPM_|NVM)/.test(k)).sort();
-    return c.json({ headers, envNames }, 200, { 'cache-control': 'no-store' });
   });
 
   app.get('/api/me', async (c) => {

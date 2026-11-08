@@ -58,7 +58,7 @@ describe('roster + csv', () => {
       (user_id, card_id, grade, ease, interval_days, due_at, created_at)
       VALUES (?, 'istqb-fc-0001', 'good', 2.5, 1, '2026-11-08', '2026-11-07T00:00:00Z')`);
     review.run(learner.id);
-    review.run(learner.id); // two reviews of the SAME card: tracked 1, reviewed 2
+    review.run(learner.id); // two reviews of the same card, but card_states has no row: tracked 0, reviewed 2
     const res = await app.request('/api/admin/roster', { headers: { cookie: adminCookie } });
     const body = await res.json() as { users: Array<{ username: string; cardsReviewed: number; cardsTracked: number }> };
     expect(body.users.map((u) => u.username).sort()).toEqual(['admin', 'learner1']);

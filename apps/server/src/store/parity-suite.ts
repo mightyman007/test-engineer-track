@@ -1,4 +1,5 @@
 import { describe, expect, it, beforeEach, afterEach } from 'vitest';
+import { InviteConsumedError } from './types.js';
 import type { DataStore } from './types.js';
 
 const STATE = { ease: 2.5, intervalDays: 1, dueAt: '2026-11-08T00:00:00Z', reps: 1, lapses: 0 };
@@ -126,6 +127,33 @@ export function runStoreParitySuite(
       });
       expect(newId).toBeGreaterThan(0);
       expect((await store.getInviteByCode('FIRST'))!.usesLeft).toBe(4); // one use burned, atomically
+    });
+
+    it('refuses an exhausted invite with a typed error and creates no user', async () => {
+      const admin = await store.createUser({ username: 'adm-e', displayName: 'A', passwordHash: 'h', role: 'admin', createdAt: 't0' });
+      await store.createInvite({ code: 'EMPTY', createdBy: admin, usesLeft: 0, expiresAt: null });
+      await expect(store.createUser({
+        username: 'exhausted', displayName: 'E', passwordHash: 'h', role: 'learner', createdAt: 't1', inviteCode: 'EMPTY',
+      })).rejects.toBeInstanceOf(InviteConsumedError);
+      expect(await store.countUsers()).toBe(1); // no user row was created
+      expect((await store.getInviteByCode('EMPTY'))!.usesLeft).toBe(0); // never decremented below zero
+    });
+
+    it('a 1-use invite cannot be consumed twice (guarded decrement, race analogue)', async () => {
+      // Race analogue: both registers passed the route's pre-check, then both
+      // hit createUser with the same 1-use invite. Sequential calls on a single
+      // connection here — the guarded SQL (uses_left > 0) is itself atomic, so
+      // the second consumer loses deterministically instead of going negative.
+      const admin = await store.createUser({ username: 'adm-r', displayName: 'A', passwordHash: 'h', role: 'admin', createdAt: 't0' });
+      await store.createInvite({ code: 'ONCE', createdBy: admin, usesLeft: 1, expiresAt: null });
+      await store.createUser({
+        username: 'race-winner', displayName: 'W', passwordHash: 'h', role: 'learner', createdAt: 't1', inviteCode: 'ONCE',
+      });
+      await expect(store.createUser({
+        username: 'race-loser', displayName: 'L', passwordHash: 'h', role: 'learner', createdAt: 't1', inviteCode: 'ONCE',
+      })).rejects.toBeInstanceOf(InviteConsumedError);
+      expect((await store.getInviteByCode('ONCE'))!.usesLeft).toBe(0); // 0, NOT -1
+      expect(await store.countUsers()).toBe(2); // admin + the winning register only
     });
 
     // ---- progress ----

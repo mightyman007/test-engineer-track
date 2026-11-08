@@ -15,14 +15,19 @@ afterEach(() => { vi.useRealTimers(); });
 
 describe('fetchIamToken', () => {
   it('hits the GCP metadata server with the Metadata-Flavor header', async () => {
-    const seen: Array<{ url: string; flavor: string | null }> = [];
+    const seen: Array<{ url: string; flavor: string | null; signal: unknown }> = [];
     const fetchLike = (async (input: RequestInfo | URL, init?: RequestInit) => {
-      seen.push({ url: String(input), flavor: new Headers(init?.headers).get('Metadata-Flavor') });
+      seen.push({
+        url: String(input),
+        flavor: new Headers(init?.headers).get('Metadata-Flavor'),
+        signal: init?.signal,
+      });
       return new Response(JSON.stringify({ access_token: 'abc', expires_in: 3600 }), { status: 200 });
     }) as typeof fetch;
     const token = await fetchIamToken(fetchLike);
     expect(seen[0]!.url).toBe('http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token');
     expect(seen[0]!.flavor).toBe('Google');
+    expect(seen[0]!.signal).toBeInstanceOf(AbortSignal); // the metadata fetch is time-bounded
     expect(token.accessToken).toBe('abc');
     expect(token.expiresAt).toBe(1_000_000 + 3600_000);
   });

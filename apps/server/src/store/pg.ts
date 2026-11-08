@@ -4,6 +4,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createIamTokenProvider } from './iamToken.js';
 import { rosterFromRow } from './sqlite.js';
+import { InviteConsumedError } from './types.js';
 import type {
   CardReviewInput, CreateUserInput, DataStore, ExamAttemptInput, ExamAttemptRow,
   ImportPayload, InviteRow, ProgressInput, ProgressRow, QuizAttemptInput, QuizAttemptRow,
@@ -90,7 +91,15 @@ export class PgStore implements DataStore {
 
   private async raw(text: string, values?: unknown[]): Promise<PgResultLike> {
     await this.ready();
-    return this.pool.query(text, values);
+    try {
+      return await this.pool.query(text, values);
+    } catch (err) {
+      // A rejected pool query usually means the connection — or the cached IAM
+      // token behind it — died mid-flight. Invalidate the cached token so the
+      // next attempt mints a fresh one; the error itself still propagates.
+      this.onConnectionError?.();
+      throw err;
+    }
   }
 
   private async q<T>(text: string, values?: unknown[]): Promise<T[]> {
@@ -99,7 +108,7 @@ export class PgStore implements DataStore {
   }
 
   /** Transaction helper: one pooled client, BEGIN/COMMIT with ROLLBACK on error. */
-  private async tx<T>(fn: (query: (text: string, values?: unknown[]) => Promise<unknown[]>) => Promise<T>): Promise<T> {
+  private async tx<T>(fn: (query: (text: string, values?: unknown[]) => Promise<PgResultLike>) => Promise<T>): Promise<T> {
     await this.ready();
     let client: PgClientLike;
     try {
@@ -109,8 +118,8 @@ export class PgStore implements DataStore {
       this.onConnectionError?.();
       throw err;
     }
-    const query = async (text: string, values?: unknown[]): Promise<unknown[]> =>
-      (await client.query(text, values)).rows;
+    const query = async (text: string, values?: unknown[]): Promise<PgResultLike> =>
+      await client.query(text, values);
     try {
       await client.query('BEGIN');
       const out = await fn(query);
@@ -148,13 +157,22 @@ export class PgStore implements DataStore {
 
   async createUser(input: CreateUserInput): Promise<number> {
     if (input.inviteCode) {
-      // Atomic invite consumption + insert (register flow).
+      // Atomic invite consumption + insert (register flow). The decrement is
+      // GUARDED (uses_left > 0): a register that raced the route's pre-check
+      // cannot take a use that is no longer there, so uses_left never goes
+      // negative — 0 affected rows throws the typed error and the transaction
+      // rolls back with no user row.
+      const inviteCode = input.inviteCode; // narrowed copy: closures reset property narrowing
       return this.tx(async (query) => {
-        await query('UPDATE invites SET uses_left = uses_left - 1 WHERE code = $1', [input.inviteCode]);
-        const rows = await query(
+        const dec = await query(
+          'UPDATE invites SET uses_left = uses_left - 1 WHERE code = $1 AND uses_left > 0',
+          [inviteCode],
+        );
+        if ((dec.rowCount ?? 0) === 0) throw new InviteConsumedError(inviteCode);
+        const rows = (await query(
           'INSERT INTO users (username, display_name, password_hash, role, created_at) VALUES ($1, $2, $3, $4, $5) RETURNING id',
           [input.username, input.displayName, input.passwordHash, input.role, input.createdAt],
-        ) as IdDbRow[];
+        )).rows as IdDbRow[];
         return Number(rows[0]!.id);
       });
     }
@@ -431,6 +449,18 @@ function userFromPg(row: UserDbRow): UserRow {
 }
 
 /**
+ * PGSSLMODE → node-pg `ssl` config, as a spreadable fragment. `require` turns
+ * TLS on (AlloyDB/IAM may require it), `disable` turns it off explicitly;
+ * absent or unrecognized keeps node-pg's default (no `ssl` key). Exported for
+ * unit tests — the knob is exact-match, like the rest of the env gates.
+ */
+export function resolvePgSsl(mode: string | undefined): { ssl?: boolean } {
+  if (mode === 'require') return { ssl: true };
+  if (mode === 'disable') return { ssl: false };
+  return {};
+}
+
+/**
  * Production pool wiring: Dana injects PGHOST/PGPORT/PGDATABASE/PGUSER and
  * expects IAM-token auth (the metadata access token IS the password). The
  * function-password hook runs per connection attempt; failed connections
@@ -446,6 +476,7 @@ export function createPgPool(env: NodeJS.ProcessEnv = process.env): { pool: PgPo
     database: env.PGDATABASE,
     user: env.PGUSER,
     password: iam.password,
+    ...resolvePgSsl(env.PGSSLMODE),
   });
   // Pool-level errors (broken idle connections) also drop the token cache.
   pool.on('error', () => iam.invalidate());

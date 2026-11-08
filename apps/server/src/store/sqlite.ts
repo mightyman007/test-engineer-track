@@ -1,4 +1,5 @@
 import type { DB } from '../db.js';
+import { InviteConsumedError } from './types.js';
 import type {
   CardReviewInput, CreateUserInput, DataStore, ExamAttemptInput, ExamAttemptRow,
   ImportPayload, InviteRow, ProgressInput, ProgressRow, QuizAttemptInput, QuizAttemptRow,
@@ -48,9 +49,17 @@ export class SqliteStore implements DataStore {
   async createUser(input: CreateUserInput): Promise<number> {
     if (input.inviteCode) {
       // Invite decrement + user insert happen atomically, so a failed insert
-      // never burns a use (register flow).
+      // never burns a use (register flow). The decrement is GUARDED on
+      // uses_left > 0: a register that raced the route's pre-check cannot
+      // take a use that is no longer there — 0 changed rows throws the typed
+      // error and the transaction rolls back with no user row (uses_left
+      // never goes negative).
+      const inviteCode = input.inviteCode; // narrowed copy: closures reset property narrowing
       const tx = this.db.transaction(() => {
-        this.db.prepare('UPDATE invites SET uses_left = uses_left - 1 WHERE code = ?').run(input.inviteCode);
+        const dec = this.db
+          .prepare('UPDATE invites SET uses_left = uses_left - 1 WHERE code = ? AND uses_left > 0')
+          .run(inviteCode);
+        if (dec.changes === 0) throw new InviteConsumedError(inviteCode);
         const info = this.db.prepare(
           'INSERT INTO users (username, display_name, password_hash, role, created_at) VALUES (?, ?, ?, ?, ?)',
         ).run(input.username, input.displayName, input.passwordHash, input.role, input.createdAt);

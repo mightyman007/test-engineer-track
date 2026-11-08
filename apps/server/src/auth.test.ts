@@ -65,6 +65,9 @@ describe('auth', () => {
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ inviteCode: 'USED', username: 'xxx', displayName: 'X', password: 'longenough1' }) });
     expect(res.status).toBe(403);
+    // 403 alone is not enough: the guarded decrement must mean NO user row exists.
+    const users = db.prepare('SELECT COUNT(*) AS n FROM users').get() as { n: number };
+    expect(users.n).toBe(1); // only the bootstrap admin
   });
 
   it('rejects weak passwords and bad usernames', async () => {

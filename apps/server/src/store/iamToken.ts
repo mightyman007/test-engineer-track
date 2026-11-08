@@ -23,7 +23,12 @@ export interface IamToken {
 
 /** One metadata-server token fetch. Injectable fetch keeps unit tests offline. */
 export async function fetchIamToken(fetchLike: typeof fetch = fetch): Promise<IamToken> {
-  const res = await fetchLike(metadataTokenUrl(), { headers: { 'Metadata-Flavor': 'Google' } });
+  const res = await fetchLike(metadataTokenUrl(), {
+    headers: { 'Metadata-Flavor': 'Google' },
+    // Bound the fetch: a hung metadata server must not hang the pool's
+    // password hook indefinitely (the stubs in tests ignore the signal).
+    signal: AbortSignal.timeout(5_000),
+  });
   if (!res.ok) throw new Error(`metadata token request failed: ${res.status}`);
   const body = (await res.json()) as { access_token?: unknown; expires_in?: unknown };
   if (typeof body.access_token !== 'string' || body.access_token === '') {

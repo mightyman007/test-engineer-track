@@ -25,4 +25,12 @@ describe('createStore env gating', () => {
     expect(store).toBeInstanceOf(PgStore);
     await store.close(); // pool.end without ever connecting
   });
+
+  it('PGHOST set but PGDATABASE/PGUSER missing → fail fast, naming the missing vars', () => {
+    // Dana injects all four together; a half-set env would otherwise fail
+    // obscurely at pool-connect on the first request.
+    expect(() => createStore({ PGHOST: '10.1.2.3' })).toThrow(/PGDATABASE, PGUSER/);
+    expect(() => createStore({ PGHOST: '10.1.2.3', PGUSER: 'app' })).toThrow(/PGDATABASE/);
+    expect(() => createStore({ PGHOST: '10.1.2.3', PGDATABASE: 'tet' })).toThrow(/PGUSER/);
+  });
 });

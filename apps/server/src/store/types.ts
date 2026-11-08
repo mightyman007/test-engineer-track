@@ -8,6 +8,20 @@
  * (INTEGER booleans, lastInsertRowid, rowid ordering, int8 strings).
  */
 
+/**
+ * Thrown by both stores when the guarded invite decrement matched no row —
+ * the invite is unknown or its uses_left reached 0 (e.g. a register that
+ * raced the route's pre-check). Thrown inside the store transaction, so it
+ * rolls back: no user row is created. The register route maps it to the same
+ * 403 body as its pre-check.
+ */
+export class InviteConsumedError extends Error {
+  constructor(inviteCode: string) {
+    super(`invite code cannot be consumed (unknown or exhausted): ${inviteCode}`);
+    this.name = 'InviteConsumedError';
+  }
+}
+
 export type Role = 'admin' | 'learner';
 
 export interface UserRow {
