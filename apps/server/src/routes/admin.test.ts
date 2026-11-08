@@ -1,5 +1,6 @@
 import { describe, expect, it, beforeEach } from 'vitest';
 import { openDb, type DB } from '../db.js';
+import { SqliteStore } from '../store/index.js';
 import { createApp } from '../index.js';
 import type { Hono } from 'hono';
 import type { AppEnv } from '../auth.js';
@@ -11,7 +12,7 @@ let learnerCookie: string;
 
 beforeEach(async () => {
   db = openDb(':memory:');
-  app = createApp(db);
+  app = createApp(new SqliteStore(db));
   const reg = async (u: string) => {
     const res = await app.request('/api/auth/register', { method: 'POST',
       headers: { 'content-type': 'application/json' },

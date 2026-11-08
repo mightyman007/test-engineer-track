@@ -1,5 +1,6 @@
 import { describe, expect, it, beforeEach } from 'vitest';
 import { openDb, type DB } from './db.js';
+import { SqliteStore } from './store/index.js';
 import { createApp } from './index.js';
 import type { Hono } from 'hono';
 import type { AppEnv } from './auth.js';
@@ -9,7 +10,7 @@ let app: Hono<AppEnv>;
 
 beforeEach(() => {
   db = openDb(':memory:');
-  app = createApp(db);
+  app = createApp(new SqliteStore(db));
 });
 
 function parseCookie(res: Response): string {

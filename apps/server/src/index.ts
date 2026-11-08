@@ -1,11 +1,11 @@
 import { Hono } from 'hono';
 import type { Context, Next } from 'hono';
 import { setCookie, deleteCookie } from 'hono/cookie';
-import type { DB } from './db.js';
 import {
   AppEnv, COOKIE, createSession, hashPassword,
   userFromCookie, verifyPassword,
 } from './auth.js';
+import type { DataStore } from './store/index.js';
 import { dataRoutes } from './routes/data.js';
 import { adminRoutes } from './routes/admin.js';
 import { ssoRoutes } from './routes/sso.js';
@@ -37,12 +37,12 @@ export function cors(): (c: Context<AppEnv>, next: Next) => Promise<Response | v
   };
 }
 
-export function createApp(db: DB): Hono<AppEnv> {
+export function createApp(store: DataStore): Hono<AppEnv> {
   const app = new Hono<AppEnv>();
 
   app.use('*', cors());
   app.use('*', async (c, next) => {
-    c.set('db', db);
+    c.set('store', store);
     await next();
   });
 
@@ -55,18 +55,15 @@ export function createApp(db: DB): Hono<AppEnv> {
 
     // Bootstrap/invite gate runs before format validation: it decides whether this
     // registration is allowed at all (403) regardless of field validity.
-    const userCount = db.prepare('SELECT COUNT(*) AS n FROM users').get() as { n: number };
+    const userCount = await store.countUsers();
     let role: 'admin' | 'learner' = 'learner';
     let usedInviteCode: string | null = null;
-    if (userCount.n === 0) {
+    if (userCount === 0) {
       role = 'admin'; // bootstrap admin needs no invite
     } else {
-      const invite = inviteCode
-        ? db.prepare('SELECT * FROM invites WHERE code = ?').get(inviteCode) as
-            { code: string; uses_left: number; expires_at: string | null } | undefined
-        : undefined;
-      if (!invite || invite.uses_left <= 0 ||
-          (invite.expires_at && new Date(invite.expires_at) < new Date())) {
+      const invite = inviteCode ? await store.getInviteByCode(inviteCode) : null;
+      if (!invite || invite.usesLeft <= 0 ||
+          (invite.expiresAt && new Date(invite.expiresAt) < new Date())) {
         return c.json({ error: 'valid invite code required' }, 403);
       }
       usedInviteCode = invite.code;
@@ -75,46 +72,37 @@ export function createApp(db: DB): Hono<AppEnv> {
     if (!USERNAME_RE.test(username)) return c.json({ error: 'invalid username (3-32 chars: a-z 0-9 _ -)' }, 400);
     if (password.length < 8) return c.json({ error: 'password must be at least 8 characters' }, 400);
 
-    const exists = db.prepare('SELECT id FROM users WHERE username = ?').get(username);
+    const exists = await store.getUserByUsername(username);
     if (exists) return c.json({ error: 'username already taken' }, 409);
 
-    // Invite decrement + user insert happen atomically, so a failed insert never burns a use.
     const passwordHash = hashPassword(password);
     const createdAt = new Date().toISOString();
-    const register = db.transaction(() => {
-      if (usedInviteCode) {
-        db.prepare('UPDATE invites SET uses_left = uses_left - 1 WHERE code = ?').run(usedInviteCode);
-      }
-      const info = db.prepare(
-        'INSERT INTO users (username, display_name, password_hash, role, created_at) VALUES (?, ?, ?, ?, ?)',
-      ).run(username, displayName, passwordHash, role, createdAt);
-      return Number(info.lastInsertRowid);
+    const userId = await store.createUser({
+      username, displayName, passwordHash, role, createdAt,
+      inviteCode: usedInviteCode ?? undefined,
     });
-    const userId = register();
-    const { token, expiresAt } = createSession(db, userId);
+    const { token, expiresAt } = await createSession(store, userId);
     setCookie(c, COOKIE, token, { httpOnly: true, sameSite: 'Lax', path: '/', expires: new Date(expiresAt) });
     return c.json({ user: { username, displayName, role } }, 201);
   });
 
   app.post('/api/auth/login', async (c) => {
     const body = await c.req.json<Record<string, unknown>>();
-    const row = db.prepare('SELECT * FROM users WHERE username = ?')
-      .get(String(body.username ?? '')) as
-      { id: number; username: string; password_hash: string; role: string } | undefined;
-    if (!row || !verifyPassword(String(body.password ?? ''), row.password_hash)) {
+    const row = await store.getUserByUsername(String(body.username ?? ''));
+    if (!row || !verifyPassword(String(body.password ?? ''), row.passwordHash)) {
       return c.json({ error: 'invalid credentials' }, 401);
     }
-    db.prepare('UPDATE users SET last_seen_at = ? WHERE id = ?').run(new Date().toISOString(), row.id);
-    const { token, expiresAt } = createSession(db, row.id);
+    await store.updateUserLogin(row.id, new Date().toISOString());
+    const { token, expiresAt } = await createSession(store, row.id);
     setCookie(c, COOKIE, token, { httpOnly: true, sameSite: 'Lax', path: '/', expires: new Date(expiresAt) });
     return c.json({ user: { username: row.username, role: row.role } }, 200);
   });
 
-  app.post('/api/auth/logout', (c) => {
-    const user = userFromCookie(db, c);
+  app.post('/api/auth/logout', async (c) => {
+    const user = await userFromCookie(store, c);
     if (user) {
       // Sessions are keyed by token hash; delete every session for robustness on logout-all semantics later.
-      db.prepare('DELETE FROM sessions WHERE user_id = ?').run(user.id);
+      await store.deleteSessionsForUser(user.id);
     }
     deleteCookie(c, COOKIE, { path: '/' });
     return c.body(null, 204);
@@ -128,8 +116,8 @@ export function createApp(db: DB): Hono<AppEnv> {
     return c.json({ headers, envNames }, 200, { 'cache-control': 'no-store' });
   });
 
-  app.get('/api/me', (c) => {
-    const user = userFromCookie(db, c);
+  app.get('/api/me', async (c) => {
+    const user = await userFromCookie(store, c);
     if (!user) return c.json({ error: 'unauthorized' }, 401);
     return c.json({ user }, 200);
   });
@@ -144,14 +132,14 @@ export function createApp(db: DB): Hono<AppEnv> {
   return app;
 }
 
-// Entry point (only when run directly): open DB, serve.
+// Entry point (only when run directly): open the store, serve.
 import { serve } from '@hono/node-server';
-import { openDb } from './db.js';
+import { createStore } from './store/index.js';
 
 const isMain = process.argv[1] && process.argv[1].endsWith('src/index.ts');
 if (isMain) {
-  const db = openDb(process.env.DB_PATH ?? './data/tet.sqlite3');
-  const app = createApp(db);
+  const store = createStore();
+  const app = createApp(store);
   const port = Number(process.env.PORT ?? 8787);
   serve({ fetch: app.fetch, port });
   console.log(`test-engineer-track server on :${port}`);

@@ -17,6 +17,8 @@ export function openDb(path: string): DB {
   for (const col of ['identity_id TEXT', 'email TEXT', 'auth_provider TEXT NOT NULL DEFAULT \'local\'']) {
     try { db.exec(`ALTER TABLE users ADD COLUMN ${col}`); } catch { /* column exists */ }
   }
-  try { db.exec('CREATE UNIQUE INDEX IF NOT EXISTS users_identity_id ON users (identity_id) WHERE identity_id IS NOT NULL'); } catch { /* exists */ }
+  // Plain unique index (no partial WHERE): NULLs are distinct in SQLite and
+  // Postgres alike, so both engines get identical identity_id semantics (M7).
+  try { db.exec('CREATE UNIQUE INDEX IF NOT EXISTS users_identity_id ON users (identity_id)'); } catch { /* exists */ }
   return db;
 }

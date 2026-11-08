@@ -78,6 +78,7 @@ describe('adminEmails', () => {
 
 // Route-level: the full SSO login against the real app (in-memory DB).
 import { openDb, type DB } from './db.js';
+import { SqliteStore } from './store/index.js';
 import { createApp } from './index.js';
 import type { Hono } from 'hono';
 import type { AppEnv } from './auth.js';
@@ -88,7 +89,7 @@ describe('POST /api/auth/sso (route)', () => {
 
   beforeEach(() => {
     db = openDb(':memory:');
-    app = createApp(db);
+    app = createApp(new SqliteStore(db));
   });
 
   function parseCookie(res: Response): string {

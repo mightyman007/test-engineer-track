@@ -1,11 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import { serve } from '@hono/node-server';
 import { openDb, type DB } from './db.js';
+import { SqliteStore } from './store/index.js';
 import { createApp } from './index.js';
 import { createServerAdapter, runParitySuite } from 'tet-storage';
 async function startServer(): Promise<{ url: string; db: DB; close: () => Promise<void> }> {
   const db = openDb(':memory:');
-  const app = createApp(db);
+  const app = createApp(new SqliteStore(db));
   const server = serve({ fetch: app.fetch, port: 0 });
   const addr = server.address();
   const port = typeof addr === 'object' && addr ? addr.port : 0;
