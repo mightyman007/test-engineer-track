@@ -44,3 +44,14 @@ quizPool = "istqb/module-3"
 deck = "istqb/module-3"
 lessonIds = ["istqb-m3-static-basics", "istqb-m3-review-process", "istqb-m3-review-types"]
 examWeight = 4
+
+[[track.module]]
+id = "istqb-m4-blackbox"
+track = "istqb-ctfl"
+title = "Test Analysis & Design I — Black-Box Techniques"
+order = 4
+source = "istqb/module-4"
+quizPool = "istqb/module-4"
+deck = "istqb/module-4"
+lessonIds = ["istqb-m4-overview", "istqb-m4-equivalence-partitioning", "istqb-m4-boundary-values", "istqb-m4-decisions-states"]
+examWeight = 6   # informational; Ch4's 11 exam questions draw from modules 4+5

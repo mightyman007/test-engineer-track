@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <rect width="800" height="450" fill="#f7f8fb"/>
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1a1a2e"/></marker></defs>
+  <text x="400" y="42" text-anchor="middle" font-size="24" font-weight="700" fill="#1a1a2e">Boundary Value Analysis: Fence Posts at the Edge</text>
+  <text x="400" y="66" text-anchor="middle" font-size="13" fill="#1a1a2e">shipping rule: paid below $75, free from $75 (whole-dollar orders)</text>
+  <text x="60" y="104" font-size="13" font-weight="700" fill="#1a1a2e">2-value BVA &#8212; per boundary value: itself + closest neighbor in the ADJACENT partition</text>
+  <rect x="106" y="132" width="258" height="16" fill="#fbf3ee"/>
+  <rect x="364" y="132" width="330" height="16" fill="#eef3fb"/>
+  <line x1="100" y1="140" x2="730" y2="140" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/>
+  <path d="M 104 140 a 6 6 0 1 0 12 0 a 6 6 0 1 0 -12 0 M 177 140 a 6 6 0 1 0 12 0 a 6 6 0 1 0 -12 0 M 249 140 a 6 6 0 1 0 12 0 a 6 6 0 1 0 -12 0 M 322 140 a 6 6 0 1 0 12 0 a 6 6 0 1 0 -12 0 M 394 140 a 6 6 0 1 0 12 0 a 6 6 0 1 0 -12 0 M 467 140 a 6 6 0 1 0 12 0 a 6 6 0 1 0 -12 0 M 539 140 a 6 6 0 1 0 12 0 a 6 6 0 1 0 -12 0 M 612 140 a 6 6 0 1 0 12 0 a 6 6 0 1 0 -12 0 M 684 140 a 6 6 0 1 0 12 0 a 6 6 0 1 0 -12 0" fill="none" stroke="#1a1a2e" stroke-width="1.5"/>
+  <circle cx="328" cy="140" r="7" fill="#1a1a2e"/>
+  <circle cx="400" cy="140" r="7" fill="#1a1a2e"/>
+  <text x="328" y="164" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a2e">74<tspan x="400">75</tspan></text>
+  <text x="237" y="186" text-anchor="middle" font-size="11" fill="#1a1a2e">paid partition</text>
+  <text x="529" y="186" text-anchor="middle" font-size="11" fill="#1a1a2e">free partition</text>
+  <text x="328" y="210" text-anchor="middle" font-size="11" fill="#1a1a2e">$74 &#8212; paid&#8217;s max</text>
+  <text x="400" y="232" text-anchor="middle" font-size="11" fill="#1a1a2e">$75 &#8212; free&#8217;s min</text>
+  <text x="400" y="262" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1a2e">2-value coverage items: {74, 75} &#8212; 2 distinct test values at this edge</text>
+  <text x="60" y="304" font-size="13" font-weight="700" fill="#1a1a2e">3-value BVA &#8212; per boundary value: itself + BOTH neighbors</text>
+  <rect x="106" y="332" width="258" height="16" fill="#fbf3ee"/>
+  <rect x="364" y="332" width="330" height="16" fill="#eef3fb"/>
+  <line x1="100" y1="340" x2="730" y2="340" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/>
+  <path d="M 104 340 a 6 6 0 1 0 12 0 a 6 6 0 1 0 -12 0 M 177 340 a 6 6 0 1 0 12 0 a 6 6 0 1 0 -12 0 M 249 340 a 6 6 0 1 0 12 0 a 6 6 0 1 0 -12 0 M 322 340 a 6 6 0 1 0 12 0 a 6 6 0 1 0 -12 0 M 394 340 a 6 6 0 1 0 12 0 a 6 6 0 1 0 -12 0 M 467 340 a 6 6 0 1 0 12 0 a 6 6 0 1 0 -12 0 M 539 340 a 6 6 0 1 0 12 0 a 6 6 0 1 0 -12 0 M 612 340 a 6 6 0 1 0 12 0 a 6 6 0 1 0 -12 0 M 684 340 a 6 6 0 1 0 12 0 a 6 6 0 1 0 -12 0" fill="none" stroke="#1a1a2e" stroke-width="1.5"/>
+  <circle cx="255" cy="340" r="7" fill="#1a1a2e"/>
+  <circle cx="328" cy="340" r="7" fill="#1a1a2e"/>
+  <circle cx="400" cy="340" r="7" fill="#1a1a2e"/>
+  <circle cx="473" cy="340" r="7" fill="#1a1a2e"/>
+  <text x="255" y="364" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a2e">73<tspan x="328">74</tspan><tspan x="400">75</tspan><tspan x="473">76</tspan></text>
+  <text x="237" y="386" text-anchor="middle" font-size="11" fill="#1a1a2e">paid partition</text>
+  <text x="529" y="386" text-anchor="middle" font-size="11" fill="#1a1a2e">free partition</text>
+  <text x="200" y="408" text-anchor="middle" font-size="11" fill="#1a1a2e">73 &#8212; not a boundary value</text>
+  <text x="400" y="408" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a2e">74 and 75 &#8212; the boundary pair</text>
+  <text x="610" y="408" text-anchor="middle" font-size="11" fill="#1a1a2e">76 &#8212; not a boundary value</text>
+  <text x="400" y="434" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1a1a2e">3-value items: {73, 74, 75, 76} &#8212; some are not boundary values; 3-value is the more rigorous BVA</text>
+</svg>

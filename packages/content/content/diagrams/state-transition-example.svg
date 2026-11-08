@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <rect width="800" height="450" fill="#f7f8fb"/>
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1a1a2e"/></marker><marker id="arrbad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#c62828"/></marker></defs>
+  <text x="400" y="42" text-anchor="middle" font-size="24" font-weight="700" fill="#1a1a2e">State Transition Testing: A Login Machine</text>
+  <text x="400" y="66" text-anchor="middle" font-size="13" fill="#1a1a2e">solid arrows = valid transitions &#8226; dashed red = invalid (no such transition from that state)</text>
+  <rect x="90" y="92" width="170" height="52" rx="10" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="175" y="124" text-anchor="middle" font-size="13.5" font-weight="700" fill="#1a1a2e">Logged Out</text>
+  <rect x="540" y="92" width="170" height="52" rx="10" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="625" y="112" text-anchor="middle" font-size="13.5" font-weight="700" fill="#1a1a2e">Awaiting 2nd</text>
+  <text x="625" y="132" text-anchor="middle" font-size="13.5" font-weight="700" fill="#1a1a2e">Factor</text>
+  <rect x="540" y="304" width="170" height="52" rx="10" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="625" y="336" text-anchor="middle" font-size="13.5" font-weight="700" fill="#1a1a2e">Logged In</text>
+  <rect x="90" y="304" width="170" height="52" rx="10" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="175" y="336" text-anchor="middle" font-size="13.5" font-weight="700" fill="#1a1a2e">Locked</text>
+  <line x1="262" y1="118" x2="536" y2="118" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="400" y="108" text-anchor="middle" font-size="12" fill="#1a1a2e">credentials accepted</text>
+  <line x1="580" y1="146" x2="580" y2="300" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="570" y="228" text-anchor="end" font-size="12" fill="#1a1a2e">2nd factor accepted</text>
+  <line x1="538" y1="330" x2="264" y2="330" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="400" y="320" text-anchor="middle" font-size="12" fill="#1a1a2e">logout chosen</text>
+  <line x1="130" y1="146" x2="130" y2="300" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="140" y="228" text-anchor="start" font-size="12" fill="#1a1a2e">3rd failed attempt</text>
+  <line x1="650" y1="146" x2="650" y2="300" stroke="#c62828" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrbad)"/>
+  <text x="658" y="222" text-anchor="start" font-size="11.5" font-weight="700" fill="#c62828">logout here</text>
+  <text x="658" y="240" text-anchor="start" font-size="11" fill="#c62828">invalid: no valid</text>
+  <text x="658" y="258" text-anchor="start" font-size="11" fill="#c62828">transition</text>
+  <text x="400" y="392" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1a1a2e">State table: rows = states, columns = events &#8212; empty cells are the invalid transitions</text>
+  <text x="400" y="416" text-anchor="middle" font-size="12" fill="#1a1a2e">Coverage ladder: all states &lt; valid transitions (0-switch) &lt; all transitions (valid + attempted invalid)</text>
+  <text x="400" y="438" text-anchor="middle" font-size="11.5" fill="#1a1a2e">Label syntax: event [guard] / action &#8212; transitions are instantaneous</text>
+</svg>

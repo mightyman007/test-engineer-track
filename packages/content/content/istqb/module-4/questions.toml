@@ -1,0 +1,365 @@
+# ISTQB CTFL Module 4 — Test Analysis & Design I: Black-Box Techniques (Ch4 part A)
+# 20 original questions. istqb-q-0099 is the brief's worked style anchor; two
+# controller rulings applied to it:
+#   (a) id-range ruling — the brief's example id istqb-q-0081 (module-3's range)
+#       was renumbered into this module's range as istqb-q-0099;
+#   (b) Step-1 verification ruling — the brief's 3-value stem keyed "6", but per
+#       syllabus §4.2.2 a 3-value BVA on that scenario yields 12 distinct values
+#       (the brief's own explanation enumerated nine values: 49/50/51, 99/100/101,
+#       199/200/201). The stem was corrected to 2-value BVA, which yields the
+#       keyed 6; options and keyed answer are unchanged. The 3-value count is
+#       covered by the companion question istqb-q-0100.
+#
+# Verified against the official ISTQB CTFL Syllabus v4.0.1 PDF (istqb.org,
+# 2024-09-15, downloaded and text-extracted 2026-11-07; Chapter 4 LO list on
+# p. 38 of 78; ch4 exam draw of 11 questions cross-checked against the official
+# ASTQB chapter-weight table — astqb.org "Number of ISTQB Exam Questions and
+# Points Based On Each ISTQB Syllabus Chapter", ISTQB Foundation Level 4.0 Exam:
+# ch1=8, ch2=6, ch3=4, ch4=11, ch5=9, ch6=2):
+#   FL-4.1.1 (K2) Distinguish black-box test techniques, white-box test techniques and experience-based test techniques
+#   FL-4.2.1 (K3) Use equivalence partitioning to derive test cases
+#   FL-4.2.2 (K3) Use boundary value analysis to derive test cases
+#   FL-4.2.3 (K3) Use decision table testing to derive test cases
+#   FL-4.2.4 (K3) Use state transition testing to derive test cases
+#
+# NOTE on K-levels: the K-classified LOs of sections 4.1/4.2 are FL-4.1.1 (K2)
+# and FL-4.2.1–4.2.4 (all K3) — this module has NO K1 LOs. K1 questions here are
+# keyword-recall questions, which the syllabus itself authorizes: §0.5 states
+# "all contents of chapters 1-6 of this syllabus are examinable at a K1 level"
+# and "All terms listed as keywords just below chapter headings shall be
+# remembered (K1), even if not explicitly mentioned in the learning objectives"
+# (ch4 keywords include test technique, black-box/white-box/experience-based
+# test technique, coverage, coverage item, equivalence partitioning, boundary
+# value analysis, decision table testing, state transition testing). K2 questions
+# sit on FL-4.1.1 (officially K2). K3 questions are apply-exercises whose stems
+# contain every partition/boundary/table/state datum needed to compute the
+# answer; each was re-solved independently from its stem before commit.
+#
+# Coverage: FL-4.1.1: 5 (q-0101..0105), FL-4.2.1: 5 (q-0106..0110), FL-4.2.2: 4
+# (q-0099, q-0100, q-0111, q-0112), FL-4.2.3: 3 (q-0113..0115), FL-4.2.4: 3
+# (q-0116..0118) — every LO ≥ 2 questions. K mix: 6 K1 + 4 K2 + 10 K3
+# (contract floors: ≥5 K1, ≥7 K3). 1 multi-select (istqb-q-0105): 5 options,
+# exactly 2 correct. Combined with module 5, ch4 carries ≥14 K3 against the
+# official 5-K3 chapter draw. All stems/options/explanations are original — no
+# ISTQB official sample questions copied.
+
+[[question]]
+id = "istqb-q-0099"
+type = "single"
+stem = "A discount calculator applies: 0% for purchases under $50; 5% for $50–$99; 10% for $100–$199; 15% for $200 and above. The calculator accepts whole-dollar amounts only. Using 2-value boundary value analysis on the monetary input ONLY, how many DISTINCT test values are needed to cover the boundaries between these four partitions?"
+options = [
+  "4",
+  "6",
+  "8",
+  "12",
+]
+answers = [1]
+explanation = "The four partitions share three edges, giving six boundary values: 49 and 50, 99 and 100, 199 and 200. In 2-value BVA each boundary value's coverage items are itself plus its closest neighbor in the adjacent partition — which here are the boundary values of the same edge — so the distinct set is still {49, 50, 99, 100, 199, 200}: six values. '4' counts partitions (that is EP, not BVA), '8' adds same-partition neighbors such as 48 or 51 (they are not 2-value coverage items), and 12 is the 3-value BVA count."
+lo = "FL-4.2.2"
+klevel = "K3"
+tags = ["ch4"]
+
+[[question]]
+id = "istqb-q-0100"
+type = "single"
+stem = "A discount calculator applies: 0% for purchases under $50; 5% for $50–$99; 10% for $100–$199; 15% for $200 and above. The calculator accepts whole-dollar amounts only. Using 3-value boundary value analysis on the monetary input ONLY, how many DISTINCT test values are needed to cover the boundaries between these four partitions?"
+options = [
+  "6",
+  "9",
+  "12",
+  "18",
+]
+answers = [2]
+explanation = "3-value BVA gives each of the six boundary values a third coverage item — its other neighbor — stretching one value deeper into each partition: {48, 49, 50, 51}, {98, 99, 100, 101}, {198, 199, 200, 201} — twelve distinct values. '9' treats each shared edge as a single boundary (49/50/51, 99/100/101, 199/200/201 only), forgetting that each edge holds TWO boundary values; '6' is the 2-value count; '18' sums six boundaries × three items without deduplicating the overlaps."
+lo = "FL-4.2.2"
+klevel = "K3"
+tags = ["ch4"]
+
+[[question]]
+id = "istqb-q-0101"
+type = "single"
+stem = "Which list contains ONLY the three categories into which the syllabus classifies test techniques?"
+options = [
+  "Black-box, white-box and experience-based test techniques",
+  "Static, dynamic and exploratory test techniques",
+  "Functional, non-functional and structural test techniques",
+  "Manual, automated and hybrid test techniques",
+]
+answers = [0]
+explanation = "The syllabus classifies test techniques as black-box, white-box and experience-based. The other lists borrow neighboring vocabularies — static vs dynamic (module 3), the functional/non-functional/white-box test TYPES (module 2), and a manual-versus-automation split — none of which is the technique classification."
+lo = "FL-4.1.1"
+klevel = "K1"
+tags = ["ch4"]
+
+[[question]]
+id = "istqb-q-0102"
+type = "single"
+stem = "A tester designs test cases purely from a REST API's specification document — the code is never read. Six months later the service is reimplemented behind the same specification, and every one of those test cases still applies unchanged. Which technique category does this illustrate, and why?"
+options = [
+  "Black-box — the tests derive from specified behavior and are independent of the internal structure, so implementation changes do not invalidate them",
+  "White-box — reading the specification is a form of structural analysis of the system's documentation",
+  "Experience-based — the tester's familiarity with APIs is the knowledge being applied",
+  "Structure-based — the specification is the structure the tests are based on",
+]
+answers = [0]
+explanation = "Deriving tests from specified behavior without reference to internal structure is exactly the black-box (specification-based) family — and implementation-independence is precisely why the tests survived the rewrite while the behavior stayed the same. 'Structure-based' is the alias of white-box, which analyzes code structure, not specifications."
+lo = "FL-4.1.1"
+klevel = "K2"
+tags = ["ch4"]
+
+[[question]]
+id = "istqb-q-0103"
+type = "single"
+stem = "A team wants to derive tests from a module's internal structure and processing. The module's design and code do not exist yet — only the requirements specification does. What does the syllabus's classification imply?"
+options = [
+  "They can proceed with white-box test design anyway, because requirements describe the structure",
+  "They must wait: white-box (structure-based) test cases depend on how the software is designed and can only be created after the design or implementation exists",
+  "They should switch to experience-based techniques, which never require a design either",
+  "No technique can be used until code exists — black-box test design also waits for the implementation",
+]
+answers = [1]
+explanation = "White-box techniques analyze the test object's internal structure and processing, so their test cases can only be created after the design or implementation of the test object. Black-box techniques work from the specification and are available right now — and experience-based techniques do not require code either."
+lo = "FL-4.1.1"
+klevel = "K2"
+tags = ["ch4"]
+
+[[question]]
+id = "istqb-q-0104"
+type = "single"
+stem = "A seasoned tester keeps a list of the ways similar billing modules have failed in the past and designs targeted attacks from it. These tests find defects that the team's specification-based suite missed. Which category is this, and how does the syllabus position it?"
+options = [
+  "White-box — experience with source code is structural knowledge",
+  "Black-box — the failure list acts as a specification of past defects",
+  "Experience-based — it uses the tester's knowledge and experience, and it is complementary to black-box and white-box techniques, able to find defects they miss",
+  "Experience-based — and once testers are senior enough it should replace the other two families",
+]
+answers = [2]
+explanation = "The technique draws on the tester's knowledge and experience, which makes it experience-based; its effectiveness depends heavily on the tester's skill. The syllabus positions these techniques as COMPLEMENTARY to the black-box and white-box families — they can detect defects those families miss, not replace them."
+lo = "FL-4.1.1"
+klevel = "K2"
+tags = ["ch4"]
+
+[[question]]
+id = "istqb-q-0105"
+type = "multi"
+stem = "Which TWO statements about the three technique categories are correct?"
+options = [
+  "Black-box test cases remain useful when the implementation changes but the specified behavior does not",
+  "White-box test cases can be created before the test object's design exists",
+  "The effectiveness of experience-based techniques depends heavily on the tester's skills",
+  "Black-box test techniques are based on an analysis of the test object's internal structure",
+  "White-box test techniques are also known as specification-based techniques",
+]
+answers = [0, 2]
+explanation = "The first and third statements are syllabus-exact: black-box tests are implementation-independent (their cases stay useful while behavior is unchanged), and experience-based effectiveness hinges on tester skill. Statement two is backwards — white-box needs the design or implementation first; statement four describes white-box, not black-box; statement five swaps the aliases — 'specification-based' belongs to black-box techniques."
+lo = "FL-4.1.1"
+klevel = "K2"
+tags = ["ch4"]
+
+[[question]]
+id = "istqb-q-0106"
+type = "single"
+stem = "In equivalence partitioning, what are the coverage items?"
+options = [
+  "The equivalence partitions themselves",
+  "The individual values inside each partition",
+  "The boundary values at the edges of each partition",
+  "The test cases derived from the first partition only",
+]
+answers = [0]
+explanation = "In EP the coverage items are the equivalence partitions: coverage is measured as the number of partitions exercised by at least one test case divided by the total number of identified partitions. Boundary values are the coverage items of boundary value analysis, not of EP."
+lo = "FL-4.2.1"
+klevel = "K1"
+tags = ["ch4"]
+
+[[question]]
+id = "istqb-q-0107"
+type = "single"
+stem = "For which data elements can equivalence partitions be identified?"
+options = [
+  "Only the numeric values typed into input fields",
+  "Any data element related to the test object — inputs, outputs, configuration items, internal values, time-related values and interface parameters",
+  "Only the elements named explicitly in the requirements specification",
+  "Only the inputs — outputs and internal values must be left to white-box techniques",
+]
+answers = [1]
+explanation = "The syllabus lists inputs, outputs, configuration items, internal values, time-related values and interface parameters as partitionable data elements; partitions may be continuous or discrete, ordered or unordered, finite or infinite. Restricting EP to typed numeric input or to explicitly named values has no basis in the syllabus."
+lo = "FL-4.2.1"
+klevel = "K1"
+tags = ["ch4"]
+
+[[question]]
+id = "istqb-q-0108"
+type = "single"
+stem = "An age field accepts whole-year ages from 18 to 65 inclusive and rejects anything else (no other input formats exist). How many equivalence partitions does the age input have, and how many test cases achieve 100% EP coverage?"
+options = [
+  "2 partitions; 2 test cases",
+  "3 partitions; 3 test cases",
+  "3 partitions; 1 test case",
+  "4 partitions; 4 test cases",
+]
+answers = [1]
+explanation = "Three partitions: below 18 (invalid), 18–65 (valid), above 65 (invalid). One test per partition is sufficient, so three test cases — one value from each partition — give 100% EP coverage. '1 test case' confuses 'one test per partition' with 'one test in total'; '4 partitions' slips the boundary values 17/18 or 65/66 in as if they were partitions of their own."
+lo = "FL-4.2.1"
+klevel = "K3"
+tags = ["ch4"]
+
+[[question]]
+id = "istqb-q-0109"
+type = "single"
+stem = "A pizza-ordering form has two inputs. Size accepts 'S', 'M' or 'L'; any other value (for example 'XL') is rejected as one invalid family. Topping count accepts 1 through 5; 0 is rejected and more than 5 is rejected. Under Each Choice coverage, what is the minimum number of test cases?"
+options = [
+  "3",
+  "4",
+  "7",
+  "12",
+]
+answers = [1]
+explanation = "Size has four partitions (S, M, L, invalid); topping count has three (0, 1–5, over 5). Each Choice coverage requires each partition of EACH set to be exercised at least once, and a test case may combine one partition per set — so the minimum is the size of the larger set: 4 test cases. '3' forgets the invalid size partition, '7' adds the two counts, and '12' is the full cross-product, which Each Choice explicitly does not require."
+lo = "FL-4.2.1"
+klevel = "K3"
+tags = ["ch4"]
+
+[[question]]
+id = "istqb-q-0110"
+type = "single"
+stem = "A tax-rate input was partitioned into 8 equivalence partitions: 5 valid and 3 invalid. The test suite exercises all 5 valid partitions and 1 of the invalid partitions. What is the EP coverage?"
+options = [
+  "50%",
+  "62.5%",
+  "75%",
+  "100%",
+]
+answers = [2]
+explanation = "6 of the 8 identified partitions (5 valid + 1 invalid) are exercised by at least one test case: 6 ÷ 8 = 75%. '100%' is the classic trap — exercising all VALID partitions is not 100% EP coverage, because invalid partitions count too; '62.5%' counts only the five valid partitions against the total, ignoring the exercised invalid one."
+lo = "FL-4.2.1"
+klevel = "K3"
+tags = ["ch4"]
+
+[[question]]
+id = "istqb-q-0111"
+type = "single"
+stem = "What are the boundary values of an equivalence partition?"
+options = [
+  "The values in the middle of the partition, where most real data lies",
+  "The minimum and maximum values of the partition",
+  "The values the developer feels least confident about",
+  "The first and last values ever observed in production",
+]
+answers = [1]
+explanation = "By definition, the minimum and maximum values of a partition are its boundary values — the fence posts BVA exercises, because developers are more likely to make errors there (boundaries get misplaced above or below their intended positions, or omitted altogether)."
+lo = "FL-4.2.2"
+klevel = "K1"
+tags = ["ch4"]
+
+[[question]]
+id = "istqb-q-0112"
+type = "single"
+stem = "A shipping rule specifies: orders under $75 pay shipping; orders of $75 or more ship free (whole-dollar amounts). The developer implemented the cutoff as 'amount is strictly greater than 75'. A 2-value BVA suite for the boundary between the two partitions contains two test values. Which of them detects the defect?"
+options = [
+  "74",
+  "75",
+  "76",
+  "Either 74 or 75 detects it",
+]
+answers = [1]
+explanation = "The boundary values are 74 (the paid partition's maximum) and 75 (the free partition's minimum) — exactly the two 2-value coverage items. The misplaced cutoff ('greater than' instead of 'greater than or equal') changes the treatment of exactly $75: the specification grants free shipping, the implementation charges. $74 behaves identically under both implementations, and $76 sits inside the free partition — it is not a 2-value coverage item at all."
+lo = "FL-4.2.2"
+klevel = "K3"
+tags = ["ch4"]
+
+[[question]]
+id = "istqb-q-0113"
+type = "single"
+stem = "In a limited-entry decision table, what does a '–' (dash) entry in a condition row mean?"
+options = [
+  "The condition is satisfied for that rule",
+  "The condition is infeasible for that rule",
+  "The value of the condition is irrelevant for the action outcome of that rule",
+  "The condition must still be tested with both true and false values in that rule",
+]
+answers = [2]
+explanation = "In the syllabus notation: T = the condition is satisfied, F = it is not satisfied, '–' = its value is irrelevant for the action outcome (the mark of a merged/minimized column), and N/A = the condition is infeasible for the rule. Confusing '–' with 'N/A' is the classic trap here."
+lo = "FL-4.2.3"
+klevel = "K1"
+tags = ["ch4"]
+
+[[question]]
+id = "istqb-q-0114"
+type = "single"
+stem = "A loan decision is governed by three independent Boolean conditions (each one is either true or false). How many columns does the FULL decision table have?"
+options = [
+  "3",
+  "6",
+  "8",
+  "9",
+]
+answers = [2]
+explanation = "A full decision table covers every combination of conditions: two conditions give 4 columns and each further condition doubles the count — 2³ = 8 columns for three conditions. '3' counts the conditions, '6' multiplies conditions by the two Boolean values, and '9' squares the condition count."
+lo = "FL-4.2.3"
+klevel = "K3"
+tags = ["ch4"]
+
+[[question]]
+id = "istqb-q-0115"
+type = "single"
+stem = "An approval service has two Boolean conditions: C1 'request complete' and C2 'amount under limit'. Its FULL table has four rules: (T,T) → approve; (T,F) → route to a manager; (F,T) → reject; (F,F) → reject. Minimizing merges columns whose outcome is unaffected by a condition's value. How many columns does the minimized table have?"
+options = [
+  "2",
+  "3",
+  "4",
+  "5",
+]
+answers = [1]
+explanation = "The two reject rules — (F,T) and (F,F) — share the same outcome regardless of C2's value, so they merge into a single column with C1 = F and C2 = '–'. The minimized table has three columns: approve, route to a manager, reject. '2' would additionally merge the two T-columns, but they lead to different actions; '4' is the unmerged full table."
+lo = "FL-4.2.3"
+klevel = "K3"
+tags = ["ch4"]
+
+[[question]]
+id = "istqb-q-0116"
+type = "single"
+stem = "In a state table, what do the empty cells represent?"
+options = [
+  "Valid transitions that produce no action",
+  "States that can never be reached",
+  "Events that are only possible with a guard condition",
+  "Invalid transitions — events for which no transition is specified from that state",
+]
+answers = [3]
+explanation = "A state table's rows are states and its columns are events; each cell is a transition (target state and any resulting actions). Empty cells explicitly show the invalid transitions — event/state combinations for which no transition is defined — which is exactly what the state diagram does not surface."
+lo = "FL-4.2.4"
+klevel = "K1"
+tags = ["ch4"]
+
+[[question]]
+id = "istqb-q-0117"
+type = "single"
+stem = "A login dialog has four states — Logged Out, Awaiting Second Factor, Logged In, Locked — and exactly four valid transitions: Logged Out →(credentials accepted)→ Awaiting Second Factor; Awaiting Second Factor →(second factor accepted)→ Logged In; Logged In →(logout chosen)→ Logged Out; Logged Out →(third consecutive failed attempt)→ Locked. A single test case executes this event sequence: credentials accepted, second factor accepted, logout chosen, third consecutive failed attempt. What coverage does this one test case achieve?"
+options = [
+  "All states coverage only — it visits four states but exercises only three transitions",
+  "100% valid transitions (0-switch) coverage — and therefore 100% all states coverage as well",
+  "100% all transitions coverage — every transition in the model was exercised",
+  "No meaningful coverage — a single test case can only ever cover one transition",
+]
+answers = [1]
+explanation = "The sequence walks Logged Out → Awaiting Second Factor → Logged In → Logged Out → Locked, exercising all four valid transitions — 100% valid transitions (0-switch) coverage, which guarantees full all-states coverage (all four states are visited). It does NOT reach all-transitions coverage: not one invalid transition (for example 'logout chosen' while Awaiting Second Factor) was attempted. And a single test case may cover several transitions — that is normal, which is why the last option is wrong."
+lo = "FL-4.2.4"
+klevel = "K3"
+tags = ["ch4"]
+
+[[question]]
+id = "istqb-q-0118"
+type = "single"
+stem = "A document editor has four states — Draft, In Review, Approved, Published — and four events: submit, request changes, approve, publish. The valid transitions are: Draft →(submit)→ In Review; In Review →(request changes)→ Draft; In Review →(approve)→ Approved; Approved →(publish)→ Published. The state table has one row per state and one column per event. For 100% ALL transitions coverage, how many transitions must be exercised or attempted?"
+options = [
+  "4",
+  "12",
+  "16",
+  "20",
+]
+answers = [2]
+explanation = "The state table is a 4 × 4 grid: 16 cells, and each cell is a transition. Four cells hold valid transitions; the remaining 12 are invalid transitions (the empty cells). All transitions coverage counts both: exercise all 4 valid transitions AND attempt the 12 invalid ones — 16 in total. '4' is valid-transitions (0-switch) coverage only, '12' counts just the invalid ones, and '20' double-counts the valid transitions."
+lo = "FL-4.2.4"
+klevel = "K3"
+tags = ["ch4"]
