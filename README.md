@@ -102,6 +102,25 @@ Assets are served strictly (404, never the fallback) so a missing asset can
 never mask itself as HTML. Apps sit behind Ondana SSO — first visit prompts
 for sign-in.
 
+**Managed Postgres (M7):** the Dana app opts into the platform's managed
+Postgres via `deploy/dana/project.toml`:
+
+```toml
+[databases]
+enable_postgres = true
+```
+
+On deploy Dana injects `PGHOST`/`PGPORT`/`PGDATABASE`/`PGUSER`; the API then
+uses the `PgStore` driver (`apps/server/src/store/pg.ts`) and authenticates
+with an **IAM access token** fetched from the GCP metadata server — the token
+*is* the database password, fetched per connection attempt and refreshed
+before expiry (no `PGPASSWORD`). Schema (`apps/server/src/schema.pg.sql`) is
+applied idempotently on first use. If the environment's Postgres engine is
+off, the deploy still succeeds but no `PG*` envs appear — the server
+env-gates on `PGHOST` and silently falls back to SQLite (`apps/server/src/store/index.ts`).
+No SQLite file is written in Postgres mode; data survives scale-to-zero and
+redeploys. Local dev and self-host keep SQLite unchanged.
+
 A raw static host (uploading `apps/web/dist/` without a server) still works
 for solo mode from the root URL, but deep links need a server fallback — use
 the Dana app.

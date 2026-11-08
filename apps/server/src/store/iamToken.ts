@@ -5,8 +5,15 @@
  * connection attempt via the provider below and never used past their life.
  */
 
-const METADATA_URL =
-  'http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token';
+/**
+ * The metadata-server token endpoint. GCE_METADATA_HOST overrides the host
+ * (the same convention google-auth-library uses) — for tests and for driving
+ * the IAM path against a stub server or a local Postgres.
+ */
+export function metadataTokenUrl(): string {
+  const host = process.env.GCE_METADATA_HOST;
+  return `http://${host ?? 'metadata.google.internal'}/computeMetadata/v1/instance/service-accounts/default/token`;
+}
 
 export interface IamToken {
   accessToken: string;
@@ -14,9 +21,9 @@ export interface IamToken {
   expiresAt: number;
 }
 
-/** One metadata-server token fetch. Injectable fetch keeps tests offline. */
+/** One metadata-server token fetch. Injectable fetch keeps unit tests offline. */
 export async function fetchIamToken(fetchLike: typeof fetch = fetch): Promise<IamToken> {
-  const res = await fetchLike(METADATA_URL, { headers: { 'Metadata-Flavor': 'Google' } });
+  const res = await fetchLike(metadataTokenUrl(), { headers: { 'Metadata-Flavor': 'Google' } });
   if (!res.ok) throw new Error(`metadata token request failed: ${res.status}`);
   const body = (await res.json()) as { access_token?: unknown; expires_in?: unknown };
   if (typeof body.access_token !== 'string' || body.access_token === '') {

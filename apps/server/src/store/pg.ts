@@ -45,6 +45,9 @@ interface IdDbRow { id: number }
 const SCHEMA_PG_SQL = readFileSync(
   join(dirname(fileURLToPath(import.meta.url)), '..', 'schema.pg.sql'), 'utf8');
 
+/** Exported for the opt-in real-Postgres parity suite (bootstrap + TRUNCATE). */
+export { SCHEMA_PG_SQL };
+
 /**
  * Postgres driver (M7): the same queries ported to the PG dialect. IAM auth
  * lives in the pool (see createPgPool); this class only speaks SQL, so parity
@@ -63,7 +66,11 @@ export class PgStore implements DataStore {
     this.onConnectionError = options.onConnectionError;
   }
 
+  private closed = false;
+
   async close(): Promise<void> {
+    if (this.closed) return; // real pg-pool throws on a second end()
+    this.closed = true;
     await this.pool.end?.();
   }
 

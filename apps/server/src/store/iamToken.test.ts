@@ -27,6 +27,17 @@ describe('fetchIamToken', () => {
     expect(token.expiresAt).toBe(1_000_000 + 3600_000);
   });
 
+  it('honors the GCE_METADATA_HOST override (google-auth convention)', async () => {
+    vi.stubEnv('GCE_METADATA_HOST', '127.0.0.1:18081');
+    const seen: string[] = [];
+    const fetchLike = (async (input: RequestInfo | URL) => {
+      seen.push(String(input));
+      return new Response(JSON.stringify({ access_token: 'abc', expires_in: 3600 }), { status: 200 });
+    }) as unknown as typeof fetch;
+    await fetchIamToken(fetchLike);
+    expect(seen[0]).toBe('http://127.0.0.1:18081/computeMetadata/v1/instance/service-accounts/default/token');
+  });
+
   it('fails loudly on a non-200 or a token-less response', async () => {
     await expect(fetchIamToken(metadataStub([], 3600, 403))).rejects.toThrow(/failed: 403/);
     await expect(fetchIamToken(metadataStub([], 3600, 200, { expires_in: 3600 }))).rejects.toThrow(/no access_token/);
