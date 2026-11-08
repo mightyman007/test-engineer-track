@@ -1,7 +1,8 @@
 # Track manifest — Test Engineer Track content root.
 # Modules 1-7 shipped (M1/M2); module 8 + the mock exams arrive in M3 —
-# Task 4 wires readiness_examIds, replacing TrackPage's readiness placeholder
-# ("mock exams arrive with milestone 3").
+# Task 3 wired readiness_examIds to the five blueprint-exact mocks
+# (istqb-mock-1..5, content/exams/); Task 4 replaces TrackPage's readiness
+# placeholder with the data-driven readiness UI that consumes these ids.
 # `readiness_examIds = []` remains valid: the track page shows that placeholder
 # until exams are wired.
 
@@ -12,7 +13,7 @@ description = "Prepare for the official ISTQB Certified Tester Foundation Level 
 order = 1
 readiness_passPct = 65
 readiness_readyPct = 80
-readiness_examIds = []
+readiness_examIds = ["istqb-mock-1", "istqb-mock-2", "istqb-mock-3", "istqb-mock-4", "istqb-mock-5"]
 
 [[track.module]]
 id = "istqb-m1-fundamentals"

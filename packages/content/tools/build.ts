@@ -9,12 +9,13 @@ import {
 import type { ContentBundle, LessonMeta, Track } from 'tet-core';
 import { validateContent, type Diagnostic } from './validate.js';
 
-const CONTENT_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..', 'content');
+/** Content root shared with the tests that validate the authored tree. */
+export const CONTENT_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..', 'content');
 
-interface BankFloor { tag: string; minimum: number; }
+export interface BankFloor { tag: string; minimum: number; }
 
 /** Reads content/bank-floors.toml; the file is optional → no floors. */
-function readBankFloors(root: string): BankFloor[] {
+export function readBankFloors(root: string): BankFloor[] {
   const path = join(root, 'bank-floors.toml');
   if (!existsSync(path)) return [];
   const raw = parseToml(readFileSync(path, 'utf8')) as { floor?: unknown };

@@ -2,7 +2,7 @@ import { mkdtempSync, writeFileSync, mkdirSync, readFileSync, rmSync } from 'nod
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { buildContentJson } from './build.js';
+import { buildContentJson, CONTENT_ROOT } from './build.js';
 
 function seedRoot({
   readinessExamIds = ['e1'],
@@ -208,5 +208,20 @@ describe('buildContentJson', () => {
     const manifest = readFileSync(join(root, 'tracks.toml'), 'utf8').replace('order = 5', 'order = 4');
     writeFileSync(join(root, 'tracks.toml'), manifest);
     expect(() => buildContentJson(root)).toThrow(/duplicate module order 4 in track t1/);
+  });
+
+  it('wires the real track readiness to the five shipped mock exams', () => {
+    // M3 Task 3 wiring: readiness.examIds lists istqb-mock-1..5, and every
+    // referenced exam exists in the built bundle (the validator also guards
+    // this; this test pins the authored wiring itself so a typo in tracks.toml
+    // or a dropped mock file fails the suite, not just the build).
+    const bundle = buildContentJson(CONTENT_ROOT);
+    const track = bundle.tracks.find((t) => t.id === 'istqb-ctfl')!;
+    expect(track.readiness.examIds).toEqual([
+      'istqb-mock-1', 'istqb-mock-2', 'istqb-mock-3', 'istqb-mock-4', 'istqb-mock-5',
+    ]);
+    const examIds = new Set(bundle.exams.map((e) => e.id));
+    for (const id of track.readiness.examIds) expect(examIds.has(id)).toBe(true);
+    expect(bundle.exams).toHaveLength(5);
   });
 });

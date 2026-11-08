@@ -13,8 +13,8 @@
 ## Global Constraints
 
 - TypeScript `strict: true`; no `any` in exported signatures; `noUncheckedIndexedAccess: true`; no new dependencies.
-- **Blueprint immutability (per mock):** 40 Q, 1 pt each, pass 26/40 (65%), 60 min; chapter counts Ch1=8, Ch2=6, Ch3=4, Ch4=11, Ch5=9, Ch6=2; **per-chapter K draws (pinned in M2):** Ch1 K1=2/K2=6, Ch2 K1=2/K2=4, Ch3 K1=1/K2=3, Ch4 K1=0/K2=6/K3=5, Ch5 K1=1/K2=5/K3=3, Ch6 K1=1/K2=1/K3=0 — each mock's per-(chapter×K) cells must sum to exactly these and to the global 8/24/8; ≤2 multi-select per exam.
-- **Ch2/Ch3 K-split pinning:** M2 pinned ch2 (2/4) and ch3 (1/3) draws in their content headers during M3 Task 1's verification step (M2 flagged these as unpinned); if official sources disagree, the discrepancy is documented in the exam definitions' header comments.
+- **Blueprint immutability (per mock):** 40 Q, 1 pt each, pass 26/40 (65%), 60 min; chapter counts Ch1=8, Ch2=6, Ch3=4, Ch4=11, Ch5=9, Ch6=2; **per-chapter K draws (M2 pins RECONCILED in Task 3):** Ch1 K1=2/K2=6, Ch2 K1=2/K2=4, Ch3 K1=2/K2=2 (CORRECTED from the M2-pinned 1/3 — the official ESR Tables v1.20 Chapter 3 block reads "K1 = 2, K2 = 2, K3 = 0", confirmed by the v1.16 mirror and Sample Exam Set A's ch3 draw; sources documented in each mock's header), Ch4 K1=0/K2=6/K3=5, Ch5 K1=1/K2=5/K3=3, Ch6 K1=1/K2=1/K3=0 — each mock's per-(chapter×K) cells must sum to exactly these and to the global 8/24/8; ≤2 multi-select per exam.
+- **Ch2/Ch3 K-split pinning:** M2 pinned ch2 (2/4) and ch3 (1/3) draws in their content headers during M3 Task 1's verification step (M2 flagged these as unpinned); if official sources disagree, the discrepancy is documented in the exam definitions' header comments. RESOLVED in Task 3: ch2 = 2/4 confirmed; ch3 corrected to 2/2 (see Global Constraints above).
 - Readiness (spec §5): mean of last 2 exam attempts per track ≥ readyPct (ISTQB 80%) → "ready"; shown on dashboard + track + module-8 page. Unchanged thresholds.
 - Assembly failures are loud: any definition that cannot assemble from the bank fails the build (validator) — never a runtime white-screen (ExamRunner already renders AssemblyError cards).
 - All existing behavior preserved: quiz/exam/flashcard/SRS/TTS/admin surfaces untouched except where this plan names them.
@@ -119,7 +119,7 @@ count = 8
 K1 = 2
 K2 = 6
 
-# ... ch2 (6: K1 2/K2 4), ch3 (4: K1 1/K2 3), ch4 (11: K2 6/K3 5), ch5 (9: K1 1/K2 5/K3 3), ch6 (2: K1 1/K2 1)
+# ... ch2 (6: K1 2/K2 4), ch3 (4: K1 2/K2 2 — corrected in Task 3, see Global Constraints), ch4 (11: K2 6/K3 5), ch5 (9: K1 1/K2 5/K3 3), ch6 (2: K1 1/K2 1)
 ```
 
 - Readiness: `isReady(attempts, readyPct, minAttempts)` already implements the spec (mean of last 2 ≥ pct); wire per-track filtering at the UI call site in Task 4 (filter attempts by the track's examIds). No core change unless tests expose a gap (then extend scoring tests first).
