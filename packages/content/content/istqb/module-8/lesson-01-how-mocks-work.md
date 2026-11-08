@@ -15,7 +15,7 @@ diagrams = [
 
 ## What a mock exam is
 
-A mock exam is a full dress rehearsal for the real [ISTQB](https://istqb-glossary.page/istqb/) Certified Tester Foundation Level exam, taken at home under the same rules. Each of the five mocks in this track is **blueprint-exact**, which means it reproduces the official exam's shape, not a random grab-bag of questions:
+A mock exam is a full dress rehearsal for the real ISTQB Certified Tester Foundation Level exam, taken at home under the same rules. Each of the five mocks in this track is **blueprint-exact**, which means it reproduces the official exam's shape, not a random grab-bag of questions:
 
 - **40 questions, 1 point each** — the same total as the real exam.
 - **60 minutes** — the same time limit; the timer runs and auto-submits at zero, so practice against the clock, not with it paused.
