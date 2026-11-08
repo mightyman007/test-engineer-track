@@ -22,3 +22,9 @@ minimum = 33
 [[floor]]
 tag = "ch4"
 minimum = 38
+
+# Task 7: module 6 ships 33 questions tagged ch5 — the second-highest-weighted
+# exam chapter (9 of 40 questions).
+[[floor]]
+tag = "ch5"
+minimum = 33

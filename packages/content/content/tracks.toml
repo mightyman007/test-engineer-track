@@ -66,3 +66,14 @@ quizPool = "istqb/module-5"
 deck = "istqb/module-5"
 lessonIds = ["istqb-m5-white-box", "istqb-m5-experience-based", "istqb-m5-collaboration"]
 examWeight = 5   # informational; Ch4 total 11 = modules 4 (6) + 5 (5)
+
+[[track.module]]
+id = "istqb-m6-managing"
+track = "istqb-ctfl"
+title = "Managing the Test Activities"
+order = 6
+source = "istqb/module-6"
+quizPool = "istqb/module-6"
+deck = "istqb/module-6"
+lessonIds = ["istqb-m6-planning", "istqb-m6-estimation", "istqb-m6-risk", "istqb-m6-monitoring", "istqb-m6-config-defects"]
+examWeight = 9
