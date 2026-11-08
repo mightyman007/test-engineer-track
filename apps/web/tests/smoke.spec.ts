@@ -37,9 +37,12 @@ test('solo learner: lesson → quiz → flashcard review', async ({ page }) => {
     await checkboxes.first().check();
     await page.getByRole('button', { name: /check answer/i }).click();
   } else {
-    // Scope past the nav's theme-toggle button (nav renders before content):
-    // option buttons carry the option text as their accessible name.
-    await page.getByRole('button').filter({ hasNotText: /switch to/i }).first().click();
+    // Scope to the quiz card (the .card containing the "Question 1 of N"
+    // counter): an unscoped getByRole('button').first() would match the nav's
+    // theme-toggle button, whose inner text (🌙) hasNotText cannot see — only
+    // its aria-label carries "Switch to…".
+    const quizCard = page.locator('.card', { has: page.getByText(/Question 1 of/) });
+    await quizCard.getByRole('button').first().click();
   }
   await expect(page.getByText(/correct|not quite/i).first()).toBeVisible();
 

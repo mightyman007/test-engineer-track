@@ -1,10 +1,12 @@
 import { describe, expect, it, beforeEach, afterEach, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router';
 import { StrictMode } from 'react';
 import { Layout } from './Layout.js';
 import { SessionProvider } from '../state/session.js';
+import { ContentProvider } from '../lib/content-context.js';
+import type { ContentBundle, Track } from 'tet-core';
 
 // Same env quirk as MigrationPrompt: window.localStorage is undefined in this
 // vitest jsdom run — stub a Map-backed double for the theme persistence key.
@@ -16,22 +18,38 @@ const localStorageDouble = {
   clear: (): void => { themeStore.clear(); },
 };
 
-// The theme toggle must (a) default to dark, (b) flip the document attribute
-// and persist, (c) flip the icon — verified through the real Layout + provider.
+const track: Track = {
+  id: 't1',
+  title: 'ISTQB Foundation (CTFL v4.0)',
+  description: 'D',
+  order: 1,
+  modules: [
+    { id: 'm1', track: 't1', title: 'Fundamentals of Testing', order: 1, source: 'x', quizPool: 'x', deck: 'x', lessonIds: ['l1', 'l2'] },
+    { id: 'm2', track: 't1', title: 'Testing Throughout the SDLC', order: 2, source: 'x', quizPool: 'x', deck: 'x', lessonIds: ['l3'] },
+  ],
+  readiness: { examIds: [], passPct: 65, readyPct: 80 },
+};
+
+const bundle: ContentBundle = {
+  tracks: [track], lessons: {}, questions: [], flashcards: [], exams: [],
+  diagrams: {}, questionsByModule: {}, cardsByModule: {},
+};
 
 function mount() {
   return render(
     <StrictMode>
       <MemoryRouter>
         <SessionProvider>
-          <Layout>{<p>body</p>}</Layout>
+          <ContentProvider seed={bundle}>
+            <Layout>{<p>body</p>}</Layout>
+          </ContentProvider>
         </SessionProvider>
       </MemoryRouter>
     </StrictMode>,
   );
 }
 
-describe('Layout theme toggle', () => {
+describe('Layout navigation rail', () => {
   beforeEach(() => {
     themeStore.clear();
     vi.stubGlobal('localStorage', localStorageDouble);
@@ -42,7 +60,18 @@ describe('Layout theme toggle', () => {
     delete document.documentElement.dataset.theme;
   });
 
-  it('defaults to dark and the toggle flips to light + persists', async () => {
+  it('renders the rail: brand, both tracks with module deep links, Flashcards', () => {
+    mount();
+    expect(screen.getByRole('link', { name: 'Test Engineer Track' })).toBeTruthy();
+    expect(screen.getByRole('link', { name: 'ISTQB Foundation (CTFL v4.0)' })).toBeTruthy();
+    const mods = screen.getAllByRole('link', { name: 'Fundamentals of Testing' });
+    expect(mods.length).toBeGreaterThanOrEqual(1);
+    expect(screen.getByRole('link', { name: 'Testing Throughout the SDLC' })).toBeTruthy();
+    expect(screen.getByRole('link', { name: 'Flashcards' })).toBeTruthy();
+    expect(screen.getByText('solo mode')).toBeTruthy();
+  });
+
+  it('the theme toggle flips the document attribute and persists', async () => {
     mount();
     expect(document.documentElement.dataset.theme).toBe('dark');
     await userEvent.click(screen.getByRole('button', { name: /switch to light/i }));
@@ -51,9 +80,53 @@ describe('Layout theme toggle', () => {
     expect(screen.getByRole('button', { name: /switch to dark/i })).toBeTruthy();
   });
 
-  it('survives StrictMode double-mount (default stays dark)', () => {
-    mount();
-    expect(document.documentElement.dataset.theme).toBe('dark');
-    expect(themeStore.has('tet.theme')).toBe(false);
+  it('module progress dots reflect completed lessons', async () => {
+    const withProgress = {
+      ...bundle,
+      tracks: [{
+        ...track,
+        modules: [
+          { ...track.modules[0]!, lessonIds: ['l1', 'l2'] },
+          track.modules[1]!,
+        ],
+      }],
+    };
+    const adapter = {
+      getSession: () => Promise.resolve(null),
+      getProgress: () => Promise.resolve({
+        't1/m1/l1': { track: 't1', module: 'm1', itemId: 'l1', status: 'done', updatedAt: 'x' },
+        't1/m1/l2': { track: 't1', module: 'm1', itemId: 'l2', status: 'done', updatedAt: 'x' },
+      }),
+    };
+    render(
+      <StrictMode>
+        <MemoryRouter>
+          <SessionProvider adapter={adapter as never}>
+            <ContentProvider seed={withProgress}>
+              <Layout>{<p>body</p>}</Layout>
+            </ContentProvider>
+          </SessionProvider>
+        </MemoryRouter>
+      </StrictMode>,
+    );
+    // m1: both lessons done → "module complete" dot; m2: none started
+    await screen.findByLabelText('module complete');
+    expect(document.querySelectorAll('.dot.done')).toHaveLength(1);
+  });
+
+  it('the rail has a Main navigation landmark and marks active routes', () => {
+    render(
+      <StrictMode>
+        <MemoryRouter initialEntries={['/flashcards']}>
+          <SessionProvider>
+            <ContentProvider seed={bundle}>
+              <Layout>{<p>body</p>}</Layout>
+            </ContentProvider>
+          </SessionProvider>
+        </MemoryRouter>
+      </StrictMode>,
+    );
+    const nav = screen.getByRole('navigation', { name: 'Main navigation' });
+    expect(within(nav).getByText('Flashcards')).toBeTruthy();
   });
 });

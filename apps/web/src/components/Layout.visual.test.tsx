@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 
 // jsdom doesn't apply stylesheets, so the dark-default contract is pinned at
 // the stylesheet level: :root carries the dark tokens (the default) and
-// [data-theme='light'] carries the override.
+// [data-theme='light'] carries the override. Rail styles are pinned too.
 const css = readFileSync(join(process.cwd(), 'src', 'styles.css'), 'utf8');
 
 function blockFor(selector: string): string {
@@ -29,6 +29,12 @@ describe('dark default (stylesheet contract)', () => {
     expect(light).toContain('--bg: #f7f7f9');
     expect(light).toContain('--surface: #ffffff');
     expect(light).toContain('--ink: #1a1a2e');
+  });
+
+  it('the rail ships the grid shell + responsive collapse', () => {
+    expect(css).toContain('.shell { display: grid; grid-template-columns: 280px minmax(0, 1fr)');
+    expect(css).toContain('@media (max-width: 900px)');
+    expect(css).toContain('.rail { border-right: 1px solid var(--border)');
   });
 
   it('components reference tokens, not hardcoded hexes', () => {
