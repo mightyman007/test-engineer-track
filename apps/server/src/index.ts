@@ -8,6 +8,7 @@ import {
 } from './auth.js';
 import { dataRoutes } from './routes/data.js';
 import { adminRoutes } from './routes/admin.js';
+import { ssoRoutes } from './routes/sso.js';
 import { ttsRoutes } from './routes/tts.js';
 
 const USERNAME_RE = /^[a-z0-9_-]{3,32}$/;
@@ -119,12 +120,23 @@ export function createApp(db: DB): Hono<AppEnv> {
     return c.body(null, 204);
   });
 
+  // THROWAWAY identity probe (M6 investigation): echo what the edge delivers.
+  app.get('/api/debug/headers', (c) => {
+    const headers: Record<string, string> = {};
+    c.req.raw.headers.forEach((v, k) => { headers[k] = /user-token|authorization|cookie/i.test(k) ? String(v).slice(0, 200) : v; });
+    const envNames = Object.keys(process.env).filter((k) => !/^(PATH|HOME|HOSTNAME|NODE|YARN|PWD|SHLVL|TERM|LC_|LANG|OLDPWD|npm_|PNPM_|NVM)/.test(k)).sort();
+    return c.json({ headers, envNames }, 200, { 'cache-control': 'no-store' });
+  });
+
   app.get('/api/me', (c) => {
     const user = userFromCookie(db, c);
     if (!user) return c.json({ error: 'unauthorized' }, 401);
     return c.json({ user }, 200);
   });
 
+  // SSO mounts BEFORE the data router: /api/auth/sso must not be behind
+  // requireAuth (it IS the login).
+  app.route('/api', ssoRoutes());
   app.route('/api', dataRoutes());
   app.route('/api/admin', adminRoutes());
   app.route('/api/tts', ttsRoutes());

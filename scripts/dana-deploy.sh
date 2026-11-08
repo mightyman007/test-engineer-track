@@ -6,6 +6,6 @@ cd "$(dirname "$0")/.."
 pnpm build                                    # content build + web build (dependency-ordered)
 rm -rf deploy/dana/dist
 cp -r apps/web/dist deploy/dana/dist
-docker build -t test-engineer-track:latest deploy/dana/
+docker build -f deploy/dana/Dockerfile -t test-engineer-track:latest .
 cd deploy/dana
 dana app deploy --image test-engineer-track:latest
