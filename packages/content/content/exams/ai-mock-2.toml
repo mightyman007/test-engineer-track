@@ -1,0 +1,83 @@
+# AI for Test Engineers — Mock Exam 2.
+# One of two count-matched mocks (ai-mock-1..2) wired to the ai-fundamentals
+# track's readiness (tracks.toml).
+# Description: Practice exam 2 of 2 — 30 questions spanning all eight AI
+# modules, 45 minutes, pass at 70%.
+# (The schema carries no description field; this line is the authored copy.)
+#
+# AUTHORED BLUEPRINT (global): 30 questions, 1 point each, pass 21/30 (70%),
+# 45 minutes. No official syllabus exists for this track — there is no
+# official chapter-weight table or K-level distribution to reconcile, so the
+# per-module draws below are the track's own coverage contract (the module
+# learning objectives live in each module's questions.toml header).
+#
+# COUNT ALLOCATION (per-module draws below):
+#   ai1  4 q   (module A1, bank 16)
+#   ai2  4 q   (module A2, bank 18)
+#   ai3  4 q   (module A3, bank 18)
+#   ai4  4 q   (module A4, bank 18)
+#   ai5  4 q   (module A5, bank 18)
+#   ai6  4 q   (module A6, bank 16)
+#   ai7  3 q   (module A7, bank 18)
+#   ai8  3 q   (module A8, bank 18)
+#   sums: 4x6 + 3x2 = 30 questions.
+# The six concept modules A1-A6 carry the standard 4-question draw each; the
+# two application-capstone modules A7 (AV stack) and A8 (testing AI systems)
+# carry 3 each. Both mocks share this identical allocation, exactly as the
+# five istqb mocks share the official CTFL blueprint.
+#
+# COUNT-ONLY GROUPS (legacy engine path): AI questions carry NO K-levels —
+# the M4 bank ships klevel-free because there is no official LO taxonomy to
+# map to. Groups therefore declare `count` only: no per-group klevels cells,
+# no definition-level klevels, no blueprintExact (nothing official to be
+# exact against). tet-core's assembleExam runs such a definition in legacy
+# mode — a null K quota, pure per-tag count draws — and the build-time
+# assembly check (validate.ts) proves each mock assembles from the real
+# 140-question AI bank before content.json is written.
+#
+# BANK SUPPLY at authoring (build-verified): 140 questions, ai1 16 / ai2 18 /
+# ai3 18 / ai4 18 / ai5 18 / ai6 16 / ai7 18 / ai8 18 — every draw has >= 4x
+# headroom (smallest bank 16 vs largest draw 4). Each module banks exactly 2
+# multi-select questions, so any 30-question draw trivially respects the
+# global multiSelectMax = 2.
+
+[exam]
+id = "ai-mock-2"
+track = "ai-fundamentals"
+title = "AI for Test Engineers — Mock Exam 2"
+timeLimitMin = 45
+passPct = 70
+total = 30
+multiSelectMax = 2
+
+[[exam.group]]
+tag = "ai1"
+count = 4
+
+[[exam.group]]
+tag = "ai2"
+count = 4
+
+[[exam.group]]
+tag = "ai3"
+count = 4
+
+[[exam.group]]
+tag = "ai4"
+count = 4
+
+[[exam.group]]
+tag = "ai5"
+count = 4
+
+[[exam.group]]
+tag = "ai6"
+count = 4
+
+[[exam.group]]
+tag = "ai7"
+count = 3
+
+[[exam.group]]
+tag = "ai8"
+count = 3
