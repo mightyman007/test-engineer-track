@@ -25,7 +25,11 @@ export function ExamReadinessSection({ track, attempts }: {
       <h2>Take a mock exam</h2>
       {verdict.state === 'ready' && <p className="flag ok">Ready for the real exam</p>}
       {verdict.state === 'not-ready' && (
-        <p className="flag warn">Not yet — last 2 average {verdict.lastTwoAvgPct}%</p>
+        // State the goal in the same breath as the shortfall — the target
+        // comes from the track's data (readyPct), never hard-coded.
+        <p className="flag warn">
+          Not yet — last 2 average {verdict.lastTwoAvgPct}% · ready at {track.readiness.readyPct}%
+        </p>
       )}
       {verdict.state === 'no-attempts' && (
         <p className="muted">Take 2 mock exams to get a readiness reading</p>

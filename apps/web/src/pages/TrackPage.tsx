@@ -32,8 +32,9 @@ export function TrackPage() {
     ? 'mock exams arrive with milestone 3'
     : readiness.state === 'ready'
       ? 'Ready'
+      // Target surfaced from track data so a 65% learner knows the goal.
       : readiness.state === 'not-ready'
-        ? `last 2 average ${readiness.lastTwoAvgPct}%`
+        ? `last 2 average ${readiness.lastTwoAvgPct}% · ready at ${track.readiness.readyPct}%`
         : 'take 2 mock exams for a reading';
 
   return (

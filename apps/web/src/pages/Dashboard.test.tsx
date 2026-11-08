@@ -123,9 +123,9 @@ describe('Dashboard readiness chip', () => {
     expect(screen.getByText('✓ Ready').className).toContain('flag ok');
   });
 
-  it('shows the last-2 average chip when the verdict is not ready', async () => {
+  it('shows the last-2 average chip with the target when the verdict is not ready', async () => {
     renderChip(adapterWith([attempt(1, 'e1', 60, '02'), attempt(2, 'e2', 70, '03')]));
-    const chip = await waitFor(() => screen.getByText('65% avg (last 2)'));
+    const chip = await waitFor(() => screen.getByText('65% avg (last 2) · ready at 80%'));
     expect(chip.className).toContain('flag warn');
   });
 

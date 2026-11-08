@@ -71,7 +71,10 @@ export function Dashboard() {
               <p>
                 {readiness.state === 'ready' && <span className="flag ok">✓ Ready</span>}
                 {readiness.state === 'not-ready' && (
-                  <span className="flag warn">{readiness.lastTwoAvgPct}% avg (last 2)</span>
+                  // Target surfaced from track data so a 65% learner knows the goal.
+                  <span className="flag warn">
+                    {readiness.lastTwoAvgPct}% avg (last 2) · ready at {track.readiness.readyPct}%
+                  </span>
                 )}
                 {readiness.state === 'no-attempts' && (
                   <span className="muted">take 2 mock exams for a readiness reading</span>

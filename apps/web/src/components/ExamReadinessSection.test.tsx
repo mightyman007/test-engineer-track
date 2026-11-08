@@ -84,9 +84,23 @@ describe('ExamReadinessSection', () => {
       attempt(1, 'mock-1', 60, '02'),
       attempt(2, 'mock-2', 70, '03'),
     ]);
-    const flag = screen.getByText('Not yet — last 2 average 65%');
+    // The goal is stated in the same breath as the shortfall — sourced from
+    // track.readiness.readyPct (80), never hard-coded.
+    const flag = screen.getByText('Not yet — last 2 average 65% · ready at 80%');
     expect(flag.className).toContain('flag warn');
     expect(screen.queryByText(/Ready for the real exam/)).toBeNull();
+  });
+
+  it('shows the ready flag on an exact tie at readyPct (the documented rule)', () => {
+    // 80 + 80 → last-2 mean exactly 80 = readyPct. isReady ties count as
+    // ready (scoring.test.ts pins the core rule); this is the same rule
+    // flowing through readinessVerdict into the UI verdict.
+    renderSection([
+      attempt(1, 'mock-1', 80, '02'),
+      attempt(2, 'mock-2', 80, '03'),
+    ]);
+    expect(screen.getByText('Ready for the real exam')).toBeTruthy();
+    expect(screen.queryByText(/Not yet/)).toBeNull();
   });
 
   it('lists recent attempt history (score · date · exam), newest first', () => {

@@ -153,7 +153,7 @@ describe('TrackPage', () => {
         attempt(2, 'e2', 70, '03'),
       ]),
     }, { ...bundle, tracks: [examTrack] });
-    await waitFor(() => expect(screen.getByText(/readiness: last 2 average 65%/i)).toBeTruthy());
+    await waitFor(() => expect(screen.getByText(/readiness: last 2 average 65% · ready at 80%/i)).toBeTruthy());
   });
 
   it('asks for 2 mock exams when fewer attempts exist on the wired exams', async () => {
