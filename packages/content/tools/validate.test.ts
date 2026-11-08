@@ -136,4 +136,35 @@ describe('validateContent', () => {
     const d = validateContent(input({ exams: [e] }));
     expect(d.some((x) => x.message.includes('needs 8 questions'))).toBe(true);
   });
+
+  it('reports no diagnostics for a satisfiable schema-v2 exam', () => {
+    const e = baseExam();
+    e.total = 2;
+    e.groups = [{ tag: 'ch1', count: 2, klevels: { K1: 1, K2: 1, K3: 0 } }];
+    const d = validateContent(input({
+      questions: [
+        { ...baseQuestion(), id: 'q1', klevel: 'K1' },
+        { ...baseQuestion(), id: 'q2', klevel: 'K2' },
+      ],
+      exams: [e],
+    }));
+    expect(d).toEqual([]);
+  });
+
+  it('flags a schema-v2 exam whose per-group K supply is short in the bank', () => {
+    const e = baseExam();
+    e.total = 2;
+    e.groups = [{ tag: 'ch1', count: 2, klevels: { K1: 2, K2: 0, K3: 0 } }];
+    const d = validateContent(input({
+      questions: [
+        { ...baseQuestion(), id: 'q1', klevel: 'K1' },
+        { ...baseQuestion(), id: 'q2', klevel: 'K2' }, // ch1 K1 supply: 1, cell needs 2
+      ],
+      exams: [e],
+    }));
+    expect(d.some((x) => x.file === 'exam:e1'
+      && x.message.includes('group ch1 needs 2 K1 questions, bank has 1'))).toBe(true);
+    // The assembly pass names the starved cell as well.
+    expect(d.some((x) => x.message.includes('group ch1 could not draw 1 K1'))).toBe(true);
+  });
 });

@@ -81,9 +81,17 @@ export function validateContent(input: ValidationInput): Diagnostic[] {
   // Exam capacity: group tag coverage and K-level supply.
   const tagCount = new Map<string, number>();
   const kCount = new Map<string, number>();
+  /** Key `${tag}|${klevel}` → bank count, for schema-v2 per-group K supply. */
+  const tagKCount = new Map<string, number>();
   for (const q of input.questions) {
-    for (const t of q.tags) tagCount.set(t, (tagCount.get(t) ?? 0) + 1);
-    if (q.klevel) kCount.set(q.klevel, (kCount.get(q.klevel) ?? 0) + 1);
+    for (const t of q.tags) {
+      tagCount.set(t, (tagCount.get(t) ?? 0) + 1);
+      if (q.klevel) {
+        kCount.set(q.klevel, (kCount.get(q.klevel) ?? 0) + 1);
+        const key = `${t}|${q.klevel}`;
+        tagKCount.set(key, (tagKCount.get(key) ?? 0) + 1);
+      }
+    }
   }
   for (const exam of input.exams) {
     const file = `exam:${exam.id}`;
@@ -92,6 +100,15 @@ export function validateContent(input: ValidationInput): Diagnostic[] {
       const have = tagCount.get(g.tag) ?? 0;
       if (have < g.count) {
         d.push({ file, message: `group ${g.tag} needs ${g.count} questions, bank has ${have}` });
+      }
+      // Schema v2: per-group K cells need per-(tag × K) bank supply.
+      if (g.klevels) {
+        for (const [k, need] of Object.entries(g.klevels)) {
+          const haveK = tagKCount.get(`${g.tag}|${k}`) ?? 0;
+          if (haveK < need) {
+            d.push({ file, message: `group ${g.tag} needs ${need} ${k} questions, bank has ${haveK}` });
+          }
+        }
       }
     }
     if (exam.klevels) {

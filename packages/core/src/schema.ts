@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { parse as parseToml } from 'smol-toml';
-import type { ExamDefinition, Flashcard, LessonMeta, Question, Track } from './types.js';
+import type { ExamDefinition, Flashcard, KLevel, LessonMeta, Question, Track } from './types.js';
 
 export const QuestionSchema = z.object({
   id: z.string().min(1),
@@ -79,6 +79,18 @@ export const TrackSchema = z.object({
   readiness: TrackReadinessSchema,
 });
 
+export const ExamGroupSchema = z.object({
+  tag: z.string().min(1),
+  count: z.number().int().positive(),
+  /**
+   * Schema v2: per-group K-level cells. All-or-nothing across a definition's
+   * groups (see the ExamDefinitionSchema cross-check below) — per-cell
+   * assembly when every group declares cells, legacy global-quota assembly
+   * when none do.
+   */
+  klevels: z.record(z.enum(['K1', 'K2', 'K3']), z.number().int().nonnegative()).optional(),
+});
+
 export const ExamDefinitionSchema = z.object({
   id: z.string().min(1),
   track: z.string().min(1),
@@ -87,8 +99,14 @@ export const ExamDefinitionSchema = z.object({
   passPct: z.number().min(1).max(100),
   total: z.number().int().positive(),
   multiSelectMax: z.number().int().nonnegative(),
-  groups: z.array(z.object({ tag: z.string().min(1), count: z.number().int().positive() })).min(1),
+  groups: z.array(ExamGroupSchema).min(1),
   klevels: z.record(z.enum(['K1', 'K2', 'K3']), z.number().int().nonnegative()).optional(),
+  /**
+   * Schema v2: strict blueprint accounting. When true, every group's cells
+   * must sum exactly to that group's count; without it, cells may cover
+   * fewer slots and klevel-less questions fill the rest.
+   */
+  blueprintExact: z.boolean().optional(),
 }).superRefine((e, ctx) => {
   const groupSum = e.groups.reduce((n, g) => n + g.count, 0);
   if (groupSum !== e.total) {
@@ -98,6 +116,52 @@ export const ExamDefinitionSchema = z.object({
     const kSum = Object.values(e.klevels).reduce((n, v) => n + v, 0);
     if (kSum !== e.total) {
       ctx.addIssue({ code: z.ZodIssueCode.custom, message: `klevels sum ${kSum} != total ${e.total}` });
+    }
+  }
+  // Schema v2 cross-checks. A definition either declares klevels cells on
+  // EVERY group (per-cell assembly) or on NONE (legacy global-quota
+  // assembly). Mixing the two is rejected: per-group cells are
+  // authoritative, so a cell-less group would draw from an incoherent
+  // "global remainder" — all-or-nothing keeps the semantics unambiguous.
+  const withCells = e.groups.filter((g) => g.klevels !== undefined);
+  if (withCells.length === 0) return; // legacy definition — M1 checks only
+  if (withCells.length !== e.groups.length) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: 'per-group klevels must be declared on all groups or none (found mix)',
+    });
+    return;
+  }
+  const cellSums: Record<KLevel, number> = { K1: 0, K2: 0, K3: 0 };
+  for (const g of withCells) {
+    const cells = g.klevels!;
+    const sum = (cells.K1 ?? 0) + (cells.K2 ?? 0) + (cells.K3 ?? 0);
+    if (sum > g.count) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: `group ${g.tag} klevels sum ${sum} exceeds count ${g.count}`,
+      });
+    } else if (e.blueprintExact && sum !== g.count) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: `group ${g.tag} klevels sum ${sum} != count ${g.count} (blueprintExact)`,
+      });
+    }
+    cellSums.K1 += cells.K1 ?? 0;
+    cellSums.K2 += cells.K2 ?? 0;
+    cellSums.K3 += cells.K3 ?? 0;
+  }
+  if (e.klevels) {
+    // Declared global klevels must agree with the per-group cells per level
+    // (the cells are authoritative; the global field is a derived summary).
+    for (const k of ['K1', 'K2', 'K3'] as const) {
+      const global = e.klevels[k] ?? 0;
+      if (cellSums[k] !== global) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: `per-group ${k} cells sum ${cellSums[k]} != global klevels ${global}`,
+        });
+      }
     }
   }
 });
