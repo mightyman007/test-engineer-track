@@ -127,16 +127,10 @@ export function validateContent(input: ValidationInput): Diagnostic[] {
     }
   }
 
-  // The exams directory is optional until M3 (mock exams): when no exams are
-  // defined at all, dangling readiness references are tolerated — there is
-  // nothing to resolve against. Once any exam exists, dangling refs are flagged.
-  const examsDefined = input.exams.length > 0;
   for (const track of input.tracks) {
     const file = `track:${track.id}`;
     for (const eid of track.readiness.examIds) {
-      if (examsDefined && !examIds.has(eid)) {
-        d.push({ file, message: `readiness references missing exam ${eid}` });
-      }
+      if (!examIds.has(eid)) d.push({ file, message: `readiness references missing exam ${eid}` });
     }
   }
 

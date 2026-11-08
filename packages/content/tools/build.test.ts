@@ -4,7 +4,7 @@ import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { buildContentJson } from './build.js';
 
-function seedRoot(): string {
+function seedRoot({ readinessExamIds = ['e1'] }: { readinessExamIds?: string[] } = {}): string {
   const root = mkdtempSync(join(tmpdir(), 'tet-content-'));
   writeFileSync(join(root, 'tracks.toml'), `
 [[track]]
@@ -14,7 +14,7 @@ description = "D"
 order = 1
 readiness_passPct = 65
 readiness_readyPct = 80
-readiness_examIds = ["e1"]
+readiness_examIds = [${readinessExamIds.map((id) => `"${id}"`).join(', ')}]
 [[track.module]]
 id = "m1"
 track = "t1"
@@ -96,10 +96,18 @@ describe('buildContentJson', () => {
   });
 
   it('tolerates a missing exams directory (emits no exams, no crash)', () => {
-    const root = seedRoot();
+    // Realistic no-exams state: M1 manifests ship readiness_examIds = []
+    // until M3's mock exams arrive, so the exam-less tree stays consistent.
+    const root = seedRoot({ readinessExamIds: [] });
     rmSync(join(root, 'exams'), { recursive: true, force: true });
     const bundle = buildContentJson(root);
     expect(bundle.exams).toEqual([]);
+  });
+
+  it('fails the build when the manifest references an exam that does not exist', () => {
+    const root = seedRoot(); // readiness_examIds = ["e1"], no exam defined on disk
+    rmSync(join(root, 'exams'), { recursive: true, force: true });
+    expect(() => buildContentJson(root)).toThrow(/readiness references missing exam e1/);
   });
 
   it('reports a missing diagram as a validation diagnostic, not an ENOENT crash', () => {
