@@ -80,10 +80,20 @@ The API server listens on http://localhost:8787. Then:
 
 ## Deploying the static site to Ondana
 
-The learner UI is a fully static build:
+The learner UI is a fully static build. When Ondana builds from the connected
+Git repo, configure its app with:
+
+- **Install command:** `pnpm install --ignore-scripts`
+- **Build command:** `pnpm --filter tet-content build && pnpm --filter tet-web build`
+- **Output directory:** `apps/web/dist`
+
+(`--ignore-scripts` skips the server's native SQLite build, which a static web
+build never needs; the content build must run before the web build because it
+emits `apps/web/public/content.json`.) For a manual upload, build locally (`pnpm build` runs the content build first
+automatically — pnpm orders workspace builds by dependency):
 
 ```bash
-pnpm build && pnpm content:build
+pnpm build
 ```
 
 Upload `apps/web/dist/` per Ondana's app-deployment flow. All asset references
