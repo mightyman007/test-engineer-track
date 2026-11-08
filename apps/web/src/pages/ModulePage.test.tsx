@@ -1,7 +1,24 @@
+import { describe, expect, it, vi, beforeEach } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { userEvent } from '@testing-library/user-event';
 import { MemoryRouter, Route, Routes } from 'react-router';
 import { ModulePage } from './ModulePage.js';
+
+// CollapsibleCard persists per-section state in localStorage, which is
+// undefined in this vitest jsdom env — Map-backed double (house pattern).
+const cardStore = new Map<string, string>();
+const localStorageDouble = {
+  getItem: (key: string): string | null => cardStore.get(key) ?? null,
+  setItem: (key: string, value: string): void => { cardStore.set(key, String(value)); },
+  removeItem: (key: string): void => { cardStore.delete(key); },
+  clear: (): void => { cardStore.clear(); },
+};
+
+beforeEach(() => {
+  cardStore.clear();
+  vi.stubGlobal('localStorage', localStorageDouble);
+});
+
 import { ContentProvider } from '../lib/content-context.js';
 import { SessionProvider } from '../state/session.js';
 import type { ContentBundle, ExamDefinition, LessonMeta, Module, Track } from 'tet-core';
@@ -72,6 +89,8 @@ describe('ModulePage section gating', () => {
   it('empty-pool module on an exam-wired track: readiness hub replaces Practice', async () => {
     renderModule('m2', wiredBundle);
     await waitFor(() => expect(screen.getByRole('heading', { name: /readiness hub/i })).toBeTruthy());
+    // Sections are collapsed by default (M5): expand the card under test.
+    await userEvent.click(screen.getByRole('button', { name: /mock exams/i }));
     expect(screen.getByRole('heading', { name: /take a mock exam/i })).toBeTruthy();
     expect(screen.getByRole('link', { name: 'Mock Exam 1' })).toBeTruthy();
     // The whole Practice card is replaced — quiz AND flashcards entries gone.
@@ -83,6 +102,7 @@ describe('ModulePage section gating', () => {
   it('question-bearing module on an exam-wired track: normal Practice card', async () => {
     renderModule('m1', wiredBundle);
     await waitFor(() => expect(screen.getByRole('heading', { name: /question module/i })).toBeTruthy());
+    await userEvent.click(screen.getByRole('button', { name: /practice/i }));
     expect(screen.getByRole('heading', { name: /practice/i })).toBeTruthy();
     expect(screen.getByRole('link', { name: /module quiz/i })).toBeTruthy();
     expect(screen.getByRole('link', { name: /flashcards/i })).toBeTruthy();
@@ -96,6 +116,7 @@ describe('ModulePage section gating', () => {
     // quiz nor exams.
     renderModule('m2', examlessBundle);
     await waitFor(() => expect(screen.getByRole('heading', { name: /readiness hub/i })).toBeTruthy());
+    await userEvent.click(screen.getByRole('button', { name: /practice/i }));
     expect(screen.getByRole('heading', { name: /practice/i })).toBeTruthy();
     expect(screen.getByRole('link', { name: /module quiz/i })).toBeTruthy();
     expect(screen.queryByRole('heading', { name: /take a mock exam/i })).toBeNull();

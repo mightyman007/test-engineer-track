@@ -69,3 +69,20 @@ a { color: var(--accent); }
   .rail { position: static; height: auto; overflow-y: visible;
     border-right: 0; border-bottom: 1px solid var(--border); }
 }
+
+/* Collapsible cards + rail collapse chevrons. */
+.collapse-header { display: flex; gap: 0.6rem; align-items: center; width: 100%;
+  background: none; border: 0; color: var(--ink); cursor: pointer;
+  font: inherit; font-weight: 600; text-align: left; padding: 0; }
+.collapse-header:hover { color: var(--accent); }
+.collapse-header .chevron { display: inline-block; transition: transform 0.15s ease; }
+.collapse-header .chevron.open { transform: rotate(90deg); }
+.collapse-summary { margin-left: auto; font-weight: 400; font-size: 0.85rem; }
+.collapse-body { margin-top: 1rem; }
+.rail-track-head { display: flex; align-items: center; gap: 0.4rem; }
+.rail-collapse { background: none; border: 0; color: var(--muted); cursor: pointer;
+  font-size: 0.8rem; padding: 0 0.15rem; }
+.rail-collapse:hover { color: var(--accent); }
+.rail-count { margin-left: auto; font-size: 0.78rem; color: var(--muted); }
+.topbar { position: sticky; top: 0; z-index: 5; background: var(--surface);
+  border-bottom: 1px solid var(--border); padding: 0.45rem 1rem; }
