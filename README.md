@@ -45,8 +45,10 @@ each track's hub lists its own mock-exam entry points plus a Ready / Not-yet
 indicator (last-2 average of that track's mock attempts vs its readiness
 threshold) — SM-2 spaced-repetition flashcards, TTS via built-in browser voices
 or client-side Kokoro-82M (optional cloud proxy), admin roster with per-learner
-stats + CSV export + one-time invite codes, and a one-time solo→cohort migration
-that preserves in-browser progress.
+stats (including card-review counts) + CSV export + one-time invite codes, and
+a one-time solo→cohort migration that preserves in-browser progress. Per-card
+retention analytics are future work; the shipped admin stat is the per-user
+count of card reviews.
 
 ## Quickstart (solo)
 

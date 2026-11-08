@@ -9,9 +9,9 @@ import type { SessionInfo, StorageAdapter } from 'tet-storage';
 const roster = {
   users: [
     { id: 1, username: 'admin', displayName: 'Admin', role: 'admin', lastSeenAt: '2026-11-07T09:00:00Z',
-      quizAttempts: 3, bestQuizPct: 90, examAttempts: 1, bestExamPct: 72, cardsTracked: 14 },
+      quizAttempts: 3, bestQuizPct: 90, examAttempts: 1, bestExamPct: 72, cardsTracked: 14, cardsReviewed: 27 },
     { id: 2, username: 'learner1', displayName: 'L1', role: 'learner', lastSeenAt: null,
-      quizAttempts: 0, bestQuizPct: null, examAttempts: 0, bestExamPct: null, cardsTracked: 0 },
+      quizAttempts: 0, bestQuizPct: null, examAttempts: 0, bestExamPct: null, cardsTracked: 0, cardsReviewed: 0 },
   ],
 };
 
@@ -41,6 +41,9 @@ describe('AdminPage', () => {
     await waitFor(() => expect(screen.getByText('learner1')).toBeTruthy());
     expect(screen.getByText(/90%/)).toBeTruthy();
     expect(screen.getByText(/72%/)).toBeTruthy();
+    // Card-review count column (spec §8 "flashcard retention" ships as a count).
+    expect(screen.getByRole('columnheader', { name: 'reviews' })).toBeTruthy();
+    expect(screen.getByText('27')).toBeTruthy();
   });
 
   it('creates an invite and shows the code for copying', async () => {
