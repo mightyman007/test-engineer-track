@@ -1,0 +1,553 @@
+# ISTQB CTFL Module 2 — Testing Throughout the Software Development Lifecycle
+# 33 original questions. istqb-q-0033 is the brief's worked style anchor; per the
+# controller ruling its lo was corrected from the placeholder FL-2.1.2 to the
+# verified FL-2.1.5 (shift left). Question text unchanged.
+#
+# Verified against the official ISTQB CTFL Syllabus v4.0.1 PDF (istqb.org,
+# 2024-09-15, downloaded and text-extracted 2026-11-07; LO list on p. 24,
+# exam-structure table on pp. 58–59 of the same PDF — same source cross-check):
+#   FL-2.1.1 (K2) Explain the impact of the chosen software development lifecycle on testing
+#   FL-2.1.2 (K1) Recall good testing practices that apply to all software development lifecycles
+#   FL-2.1.3 (K1) Recall the examples of test-first approaches to development
+#   FL-2.1.4 (K2) Summarize how DevOps might have an impact on testing
+#   FL-2.1.5 (K2) Explain shift left
+#   FL-2.1.6 (K2) Explain how retrospectives can be used as a mechanism for process improvement
+#   FL-2.2.1 (K2) Distinguish the different test levels
+#   FL-2.2.2 (K2) Distinguish the different test types
+#   FL-2.2.3 (K2) Distinguish confirmation testing from regression testing
+#   FL-2.3.1 (K2) Summarize maintenance testing and its triggers
+#
+# Coverage: every LO ≥ 2 questions. K mix: 9 K1 + 24 K2 — K-levels follow the
+# official LO classification, so K1 questions appear only on FL-2.1.2/FL-2.1.3.
+# 2 multi-select questions (istqb-q-0038, istqb-q-0065): 5 options, exactly 2 correct.
+# All stems/options/explanations are original — no ISTQB official sample questions copied.
+
+[[question]]
+id = "istqb-q-0033"
+type = "single"
+stem = "An e-commerce team works in two-week sprints. The tester joins the sprint planning meeting to help write acceptance criteria for the upcoming stories. Which good practice is the tester applying?"
+options = [
+  "Shift-left testing — moving test activities earlier in the SDLC",
+  "Regression avoidance — retesting every previous sprint in parallel",
+  "Test-right-ification — testing only after code review passes",
+  "Acceptance sign-off replacement — the tester now owns the stories",
+]
+answers = [0]
+explanation = "Participating in planning and shaping acceptance criteria is early, preventive test involvement — the shift-left good practice. The other options invent non-existent practices."
+lo = "FL-2.1.5"
+klevel = "K2"
+tags = ["ch2"]
+
+[[question]]
+id = "istqb-q-0034"
+type = "single"
+stem = "How does testing typically differ between a sequential development model and an iterative or incremental one?"
+options = [
+  "In sequential models both static and dynamic testing happen in every cycle; in iterative models no testing is possible before the final release",
+  "In sequential models testers typically join requirement reviews, test analysis and design early, but dynamic testing waits for the later phases when executable code exists; in iterative models both static and dynamic testing may be performed at all test levels in each iteration",
+  "In sequential models testing is skipped entirely; in iterative models only the customers test",
+  "There is no difference, because the choice of lifecycle has no impact on testing",
+]
+answers = [1]
+explanation = "Sequential models let testers contribute early through reviews and test analysis/design, but runnable code — and therefore dynamic testing — arrives late. Iterative and incremental models deliver working increments, so both static and dynamic testing can happen at every level in every iteration."
+lo = "FL-2.1.1"
+klevel = "K2"
+tags = ["ch2"]
+
+[[question]]
+id = "istqb-q-0035"
+type = "single"
+stem = "Which list contains ONLY aspects of testing that the choice of software development lifecycle can affect?"
+options = [
+  "The programming language used; the price of the product; the number of competitors",
+  "The office floor plan; the colour of the logo; the catering supplier",
+  "The scope and timing of test activities; the level of detail of test documentation; the choice of test techniques; the extent of test automation; the role and responsibilities of a tester",
+  "The testing aspects are fixed by international law and can never be adapted",
+]
+answers = [2]
+explanation = "The syllabus lists exactly these five impacts: scope and timing of test activities, documentation detail, choice of techniques and approach, extent of automation, and the tester's role and responsibilities."
+lo = "FL-2.1.1"
+klevel = "K2"
+tags = ["ch2"]
+
+[[question]]
+id = "istqb-q-0036"
+type = "single"
+stem = "A team expects requirements to keep changing throughout the project. Which combination of testing adaptations fits this agile way of working?"
+options = [
+  "Extensive upfront test documentation and one big dynamic test phase at the very end",
+  "Lightweight work product documentation, extensive test automation to make regression testing easier, and manual testing that leans on experience-based techniques",
+  "Abandoning static testing altogether, since change makes reviews useless",
+  "Manual testing only, with no automation, because automation cannot keep up with change",
+]
+answers = [1]
+explanation = "Agile assumes change may occur throughout the project, so agile projects favour lightweight documentation and extensive test automation; most manual testing tends to use experience-based techniques that need little prior analysis and design."
+lo = "FL-2.1.1"
+klevel = "K2"
+tags = ["ch2"]
+
+[[question]]
+id = "istqb-q-0037"
+type = "single"
+stem = "Which list contains ONLY good testing practices that apply to every software development lifecycle?"
+options = [
+  "Testing only in a final phase; a single test level for everything; reviewing only the finished product",
+  "Automating every possible test; eliminating all documentation; skipping regression testing on small projects",
+  "Writing all test cases after release; keeping testers out of reviews; giving every level identical objectives",
+  "A corresponding test activity for every development activity; specific and different objectives for each test level; test analysis and design beginning during the corresponding development phase; testers reviewing work products as soon as drafts are available",
+]
+answers = [3]
+explanation = "These are the syllabus's four lifecycle-independent good practices. The other options contradict them: testing exists for every development activity, levels have distinct objectives, and testers review drafts early."
+lo = "FL-2.1.2"
+klevel = "K1"
+tags = ["ch2"]
+
+[[question]]
+id = "istqb-q-0038"
+type = "multi"
+stem = "Which TWO of the following are good testing practices that apply to all software development lifecycles?"
+options = [
+  "Different test levels have specific and different test objectives, so testing is comprehensive while avoiding redundancy",
+  "Testing should be confined to a single dedicated test phase at the end of the project",
+  "Testers are involved in reviewing work products as soon as drafts of these work products are available",
+  "Dynamic testing must always be completed before any static testing begins",
+  "Test documentation should always be as voluminous as possible, whatever the lifecycle",
+]
+answers = [0, 2]
+explanation = "Distinct objectives per level and early reviewer involvement are two of the four lifecycle-independent practices. The others contradict the syllabus: testing corresponds to every development activity (not just a final phase), static and dynamic testing are not ordered that way, and documentation detail depends on the lifecycle."
+lo = "FL-2.1.2"
+klevel = "K1"
+tags = ["ch2"]
+
+[[question]]
+id = "istqb-q-0039"
+type = "single"
+stem = "Why does the syllabus give each test level specific and different test objectives?"
+options = [
+  "So that each level can be handed to a different outside company",
+  "So that every level can reuse exactly the same test cases",
+  "So that only one level ever needs to be executed in earnest",
+  "So that testing is appropriately comprehensive while avoiding redundancy between levels",
+]
+answers = [3]
+explanation = "Distinct objectives per level let the levels cover the system thoroughly without everyone re-testing the same things — comprehensive yet not redundant."
+lo = "FL-2.1.2"
+klevel = "K1"
+tags = ["ch2"]
+
+[[question]]
+id = "istqb-q-0040"
+type = "single"
+stem = "The syllabus says every development activity should have a corresponding test activity. What is the point of this practice?"
+options = [
+  "To ensure that all development activities are subject to quality control",
+  "To double the size of the test team",
+  "To allow developers to skip reviewing their own work products",
+  "To remove the need for separate test levels",
+]
+answers = [0]
+explanation = "Pairing a test activity with every development activity means nothing gets built without quality control — requirements are reviewed, designs are reviewed, code is tested."
+lo = "FL-2.1.2"
+klevel = "K1"
+tags = ["ch2"]
+
+[[question]]
+id = "istqb-q-0041"
+type = "single"
+stem = "What does it mean for test analysis and design for a given test level to begin during the corresponding development phase?"
+options = [
+  "All test preparation is deliberately delayed until after the release",
+  "Test cases are designed only while tests are already executing",
+  "The test work for a level is prepared while that part of the system is being developed, so testing adheres to the principle of early testing",
+  "Developers write every test case themselves so that testers can rest",
+]
+answers = [2]
+explanation = "Preparing each level's analysis and design during its matching development phase is how the early-testing principle is put into practice across the lifecycle."
+lo = "FL-2.1.2"
+klevel = "K1"
+tags = ["ch2"]
+
+[[question]]
+id = "istqb-q-0042"
+type = "single"
+stem = "A tester starts reviewing a requirements draft the moment it exists, instead of waiting for the final document. Which good practice does this illustrate?"
+options = [
+  "Shift left — earlier testing and earlier defect detection",
+  "The pesticide paradox — tests wearing out",
+  "Big-bang integration",
+  "Retirement testing",
+]
+answers = [0]
+explanation = "Reviewing work products as soon as drafts are available is one of the lifecycle-independent good practices, and the syllabus notes it directly supports shift left."
+lo = "FL-2.1.2"
+klevel = "K1"
+tags = ["ch2"]
+
+[[question]]
+id = "istqb-q-0043"
+type = "single"
+stem = "What characterizes test-driven development (TDD)?"
+options = [
+  "The code is written first and the tests are added months after the release",
+  "Tests direct the coding: a test is written first, then the code is written to satisfy the tests, and then the tests and code are refactored",
+  "Business stakeholders express requirements only in formal mathematics",
+  "Tests are derived from acceptance criteria as part of the system design process",
+]
+answers = [1]
+explanation = "TDD directs the coding through test cases: tests first, then code to satisfy them, then refactoring. Deriving tests from acceptance criteria during design describes ATDD, not TDD."
+lo = "FL-2.1.3"
+klevel = "K1"
+tags = ["ch2"]
+
+[[question]]
+id = "istqb-q-0044"
+type = "single"
+stem = "What characterizes behavior-driven development (BDD)?"
+options = [
+  "Tests are written only by developers, in assembly language",
+  "The desired behavior is expressed as test cases in a simple form of natural language — usually Given/When/Then — which is easy for stakeholders to understand and can be translated into executable tests",
+  "Testing is postponed until after the software has been deployed to customers",
+  "Every test must measure the system's response time under heavy load",
+]
+answers = [1]
+explanation = "BDD's signature is readable natural-language test cases (Given/When/Then) that stakeholders can follow and that are then automated. Response-time checks belong to non-functional testing, not BDD's definition."
+lo = "FL-2.1.3"
+klevel = "K1"
+tags = ["ch2"]
+
+[[question]]
+id = "istqb-q-0045"
+type = "single"
+stem = "Which list contains ONLY test-first approaches, as named in the syllabus?"
+options = [
+  "TDD, ATDD, BDD",
+  "Scrum, Kanban, Lean IT",
+  "Waterfall, V-model, spiral model",
+  "CI, CD, static analysis",
+]
+answers = [0]
+explanation = "The test-first approaches are test-driven development, acceptance test-driven development and behavior-driven development. The other lists are lifecycle models, agile methods without a test-first core, or pipeline practices."
+lo = "FL-2.1.3"
+klevel = "K1"
+tags = ["ch2"]
+
+[[question]]
+id = "istqb-q-0046"
+type = "single"
+stem = "A team adopts DevOps with a CI/CD delivery pipeline. Which pairing of a testing benefit with a genuine challenge is correct?"
+options = [
+  "Benefit: testing can be eliminated entirely. Challenge: pipelines make feedback slower",
+  "Benefit: fast feedback on whether changes adversely affect existing code. Challenge: test automation requires additional resources and may be difficult to establish and maintain",
+  "Benefit: manual testing disappears completely. Challenge: pipelines remove the need for test environments",
+  "Benefit: regression risk grows, which keeps testers busy. Challenge: continuous integration forbids automated tests",
+]
+answers = [1]
+explanation = "DevOps brings fast feedback and automated regression testing, but the pipeline must be defined and maintained, CI/CD tools kept running, and test automation resourced — real challenges the syllabus names. Manual testing from the user's perspective is still needed."
+lo = "FL-2.1.4"
+klevel = "K2"
+tags = ["ch2"]
+
+[[question]]
+id = "istqb-q-0047"
+type = "single"
+stem = "What is DevOps, as the syllabus defines it?"
+options = [
+  "A job title for whoever operates the test tools",
+  "A commercial tool that writes all test cases automatically",
+  "An organizational approach that gets development (including testing) and operations working together toward common goals, promoting team autonomy, fast feedback and technical practices like CI and CD",
+  "A lifecycle model in which testing is forbidden before deployment",
+]
+answers = [2]
+explanation = "DevOps is an organizational approach — a cultural shift bridging development and operations — whose technical practices include continuous integration and continuous delivery through a delivery pipeline."
+lo = "FL-2.1.4"
+klevel = "K2"
+tags = ["ch2"]
+
+[[question]]
+id = "istqb-q-0048"
+type = "single"
+stem = "Which list contains ONLY practices that illustrate shift left?"
+options = [
+  "Reviewing specifications from the testers' perspective; writing test cases before the code exists; using CI/CD for fast feedback; performing static analysis before dynamic testing",
+  "Delaying all testing until after integration; reviewing only the compiled binary; starting usability work after release",
+  "Planning the launch party; archiving last year's test data; counting last quarter's defects",
+  "Testing only through the user interface; avoiding automation; skipping reviews to save time",
+]
+answers = [0]
+explanation = "These are the syllabus's shift-left examples: early specification reviews, test cases before code, CI/CD with automated component tests, and static analysis ahead of dynamic testing. Starting non-functional testing at component level would be a further example."
+lo = "FL-2.1.5"
+klevel = "K2"
+tags = ["ch2"]
+
+[[question]]
+id = "istqb-q-0049"
+type = "single"
+stem = "A manager objects that shift left will cost extra training and effort early in the project, and that the team can therefore stop testing in the later phases. What does the syllabus say about both parts of that claim?"
+options = [
+  "The objection is unfounded — shift left never requires any early investment, and later phases never needed testing anyway",
+  "Shift left guarantees a defect-free product, which repays any cost immediately",
+  "Shift left moves all testing before coding, so the later phases are formally abolished",
+  "The early cost is real: shift left may add training, effort or costs earlier, but it is expected to save effort or costs later — and it does not mean that testing later in the SDLC should be neglected",
+]
+answers = [3]
+explanation = "The syllabus acknowledges the early investment and justifies it by later savings, and is explicit that shift left does not mean neglecting later testing. Stakeholders must also be convinced and bought into the concept."
+lo = "FL-2.1.5"
+klevel = "K2"
+tags = ["ch2"]
+
+[[question]]
+id = "istqb-q-0050"
+type = "single"
+stem = "Rather than waiting for the finished product, a team starts checking response-time behaviour on individual components as they are built. Which shift-left practice is the team applying?"
+options = [
+  "Performing non-functional testing starting at the component test level, where possible",
+  "Postponing non-functional testing until a complete system and representative environment exist",
+  "Regression avoidance through parallel testing",
+  "Retrospective-driven process improvement",
+]
+answers = [0]
+explanation = "Starting non-functional testing at component level instead of waiting for a full system is an explicit shift-left good practice — non-functional checks tend to happen late, so moving them earlier is a textbook shift."
+lo = "FL-2.1.5"
+klevel = "K2"
+tags = ["ch2"]
+
+[[question]]
+id = "istqb-q-0051"
+type = "single"
+stem = "Who typically takes part in a retrospective, and what do they discuss?"
+options = [
+  "Only testers attend, and they list every defect found in the iteration",
+  "Only senior managers attend, and they decide the next round of bonuses",
+  "Only external customers attend, and they re-rank the product backlog",
+  "Not only testers but also, for example, developers, architects, the product owner and business analysts; they discuss what was successful and should be retained, what was not and could be improved, and how to incorporate the improvements",
+]
+answers = [3]
+explanation = "Retrospectives are whole-team meetings about what worked, what did not, and how to improve — with results recorded, normally as part of the test completion report."
+lo = "FL-2.1.6"
+klevel = "K2"
+tags = ["ch2"]
+
+[[question]]
+id = "istqb-q-0052"
+type = "single"
+stem = "Which list contains ONLY typical benefits of retrospectives for testing?"
+options = [
+  "Increased test effectiveness and efficiency; better testware quality; team bonding and learning; a better test basis; better cooperation between development and testing",
+  "Fewer meetings; less documentation; automatic promotion of the testers",
+  "The elimination of all future defects; guaranteed on-time releases; smaller teams",
+  "Longer test plans; slower feedback; reduced stakeholder trust",
+]
+answers = [0]
+explanation = "These are the syllabus's five typical retrospective benefits for testing. Improvements only matter if they are followed up — which is why recording results is part of the practice."
+lo = "FL-2.1.6"
+klevel = "K2"
+tags = ["ch2"]
+
+[[question]]
+id = "istqb-q-0053"
+type = "single"
+stem = "By which set of attributes are the test levels distinguished from one another?"
+options = [
+  "The programming language; the hardware vendor; the project budget",
+  "Only the calendar dates on which the testing happens",
+  "Only the brand of test tool each level uses",
+  "Test object; test objectives; test basis; typical defects and failures; approach and responsibilities",
+]
+answers = [3]
+explanation = "The syllabus distinguishes levels by exactly these attributes — what is tested, why, on what basis, which defects are typical, and who does it — so that test activities do not overlap."
+lo = "FL-2.2.1"
+klevel = "K2"
+tags = ["ch2"]
+
+[[question]]
+id = "istqb-q-0054"
+type = "single"
+stem = "Which statement about component (unit) testing is correct?"
+options = [
+  "It is performed by end users in the production environment",
+  "It focuses on testing components in isolation, often needs support such as test harnesses or unit test frameworks, and is normally performed by developers in their development environments",
+  "It focuses on the interfaces between the system and external services of other companies",
+  "It always requires the complete system running in a representative environment",
+]
+answers = [1]
+explanation = "Component testing examines single pieces in isolation, which is why harnesses and unit frameworks exist — and it is developer work in the development environment, not user testing."
+lo = "FL-2.2.1"
+klevel = "K2"
+tags = ["ch2"]
+
+[[question]]
+id = "istqb-q-0055"
+type = "single"
+stem = "A team integrates its lowest-level components first, tests them together, then progressively adds the components that call them, working upward toward the top. Which integration strategy is the team following?"
+options = [
+  "Big-bang integration",
+  "Top-down integration",
+  "Bottom-up integration",
+  "Side-by-side integration",
+]
+answers = [2]
+explanation = "Starting from the lowest levels and adding callers as you go up is bottom-up integration. Big-bang combines everything at once; top-down starts from the highest-level components."
+lo = "FL-2.2.1"
+klevel = "K2"
+tags = ["ch2"]
+
+[[question]]
+id = "istqb-q-0056"
+type = "single"
+stem = "Which statement about system testing is correct?"
+options = [
+  "It focuses on the overall behavior and capabilities of the entire system or product, may be performed by an independent test team, and is related to the specifications for the system",
+  "It examines only the interfaces between two components written by the same developer",
+  "It is performed exclusively by the customer's accounting department",
+  "It excludes all non-functional quality characteristics by definition",
+]
+answers = [0]
+explanation = "System testing looks at the whole system's behaviour and capabilities — including non-functional characteristics, some of which are best judged in a representative environment — and is often run by an independent test team against the specifications."
+lo = "FL-2.2.1"
+klevel = "K2"
+tags = ["ch2"]
+
+[[question]]
+id = "istqb-q-0057"
+type = "single"
+stem = "An online shop must work together with a bank's payment service and a warehouse company's stock database. Which test level — and which environment need — matches this challenge?"
+options = [
+  "Component testing, in each developer's personal sandbox",
+  "Acceptance testing, on a whiteboard sketch of the interfaces",
+  "Component integration testing, which by definition never involves other companies' systems",
+  "System integration testing, which needs suitable test environments preferably similar to the operational environment",
+]
+answers = [3]
+explanation = "Interfaces between the system under test and other systems or external services are the domain of system integration testing — and it needs environments as close to production as possible."
+lo = "FL-2.2.1"
+klevel = "K2"
+tags = ["ch2"]
+
+[[question]]
+id = "istqb-q-0058"
+type = "single"
+stem = "A company hands a nearly finished product to a group of real potential customers, who use it in their own workplaces and report problems before the general release. Which form of acceptance testing is this?"
+options = [
+  "Operational acceptance testing",
+  "Beta testing",
+  "Contractual acceptance testing",
+  "Component testing",
+]
+answers = [1]
+explanation = "Acceptance testing by potential or existing customers at their own sites before wide release is beta testing. Operational acceptance testing is performed by the operations staff instead."
+lo = "FL-2.2.1"
+klevel = "K2"
+tags = ["ch2"]
+
+[[question]]
+id = "istqb-q-0059"
+type = "single"
+stem = "A tester checks two things about a report page: that the displayed totals are arithmetically correct, and that the page renders within two seconds. Which classification is right?"
+options = [
+  "The first is non-functional testing; the second is functional testing",
+  "Both are white-box testing",
+  "The first is functional testing; the second is non-functional testing",
+  "Both are confirmation testing",
+]
+answers = [2]
+explanation = "Checking what the system does — correct totals — is functional testing; checking how well it behaves — response time — is non-functional testing (performance efficiency)."
+lo = "FL-2.2.2"
+klevel = "K2"
+tags = ["ch2"]
+
+[[question]]
+id = "istqb-q-0060"
+type = "single"
+stem = "What is the main objective of white-box testing?"
+options = [
+  "To cover the underlying structure of the test object — its code, architecture, workflows and data flows — to an acceptable level",
+  "To check the system's behaviour against its specification, derived from documentation unrelated to the internal structure",
+  "To measure how satisfied users are with the visual design",
+  "To confirm that a test which previously failed now passes",
+]
+answers = [0]
+explanation = "White-box testing is structure-based: tests derive from the implementation or internal structure, aiming to exercise (cover) that structure. Checking behaviour against the outside documentation is black-box testing."
+lo = "FL-2.2.2"
+klevel = "K2"
+tags = ["ch2"]
+
+[[question]]
+id = "istqb-q-0061"
+type = "single"
+stem = "Which statement about applying test types to test levels is correct?"
+options = [
+  "Functional testing is permitted only at the acceptance level",
+  "All four test types can be applied at all test levels, although the focus will be different at each level",
+  "White-box testing is only possible at system level, where the entire code base exists",
+  "Non-functional testing may never start before system testing has finished",
+]
+answers = [1]
+explanation = "The syllabus is explicit: functional, non-functional, black-box and white-box testing can all be applied at every test level — only the emphasis shifts. Non-functional testing can even start early, at component level."
+lo = "FL-2.2.2"
+klevel = "K2"
+tags = ["ch2"]
+
+[[question]]
+id = "istqb-q-0062"
+type = "single"
+stem = "After a defect is fixed, a tester re-runs the test that had failed — it now passes — and then runs a broader suite covering other features that the change might have affected. How should the two activities be labelled?"
+options = [
+  "First: confirmation testing. Second: regression testing",
+  "First: regression testing. Second: confirmation testing",
+  "Both activities are confirmation testing",
+  "Both activities are white-box testing of the fixed component only",
+]
+answers = [0]
+explanation = "Re-running the previously failed test to confirm the original defect is fixed is confirmation testing; checking that the change harmed nothing else is regression testing."
+lo = "FL-2.2.3"
+klevel = "K2"
+tags = ["ch2"]
+
+[[question]]
+id = "istqb-q-0063"
+type = "single"
+stem = "What does regression testing confirm, and where can adverse consequences show up?"
+options = [
+  "That the original defect has been fixed — and nothing beyond that single test",
+  "That the software has been deliberately restored to an older version",
+  "That all documentation has been archived before the system's retirement",
+  "That a change has caused no adverse consequences — in the same component, in other components of the same system, or even in other connected systems",
+]
+answers = [3]
+explanation = "Regression testing looks for damage caused by a change — including a fix that already passed confirmation testing — and the damage can surface in the changed component, elsewhere in the system, or in connected systems."
+lo = "FL-2.2.3"
+klevel = "K2"
+tags = ["ch2"]
+
+[[question]]
+id = "istqb-q-0064"
+type = "single"
+stem = "Before changing the interest-calculation module of a live online-banking system, the team works out which other parts of the system the change could affect. They use the result both to decide whether the change should be made at all and to size the regression testing. Which activity is this, and when is it performed?"
+options = [
+  "Regression testing, after the change has been deployed to production",
+  "Impact analysis, before the change is made",
+  "Confirmation testing, while the change is still being coded",
+  "Retirement testing, at the end of the system's life",
+]
+answers = [1]
+explanation = "Impact analysis may be done before a change is made, to help decide whether the change should be made based on its potential consequences in other areas — and it shows which parts could be affected, so the extent of regression testing can be planned."
+lo = "FL-2.3.1"
+klevel = "K2"
+tags = ["ch2"]
+
+[[question]]
+id = "istqb-q-0065"
+type = "multi"
+stem = "A live banking system is in maintenance. Which TWO of the following are triggers for maintenance testing?"
+options = [
+  "A planned enhancement release adding a new statement-export feature",
+  "Initial development of a brand-new mobile app that has never gone live",
+  "Migration of the operational environment to a new cloud platform",
+  "Designing the architecture of a product that has not been built yet",
+  "Writing the first requirements specification for a future system",
+]
+answers = [0, 2]
+explanation = "Maintenance testing responds to changes in an operational system: modifications (such as planned releases), upgrades or migrations of the operational environment — including data conversion — and retirement. Creating brand-new systems, or their initial designs and requirements, is development rather than maintenance."
+lo = "FL-2.3.1"
+klevel = "K2"
+tags = ["ch2"]

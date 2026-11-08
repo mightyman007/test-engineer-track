@@ -22,3 +22,14 @@ quizPool = "istqb/module-1"
 deck = "istqb/module-1"
 lessonIds = ["istqb-m1-what-is-testing", "istqb-m1-why-testing", "istqb-m1-seven-principles", "istqb-m1-test-process", "istqb-m1-skills-practices"]
 examWeight = 8
+
+[[track.module]]
+id = "istqb-m2-sdlc"
+track = "istqb-ctfl"
+title = "Testing Throughout the SDLC"
+order = 2
+source = "istqb/module-2"
+quizPool = "istqb/module-2"
+deck = "istqb/module-2"
+lessonIds = ["istqb-m2-sdlc-context", "istqb-m2-test-levels", "istqb-m2-test-types", "istqb-m2-maintenance"]
+examWeight = 6

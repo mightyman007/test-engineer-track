@@ -7,3 +7,8 @@
 [[floor]]
 tag = "ch1"
 minimum = 30
+
+# Task 3: module 2 ships 33 questions tagged ch2.
+[[floor]]
+tag = "ch2"
+minimum = 33

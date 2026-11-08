@@ -1,0 +1,113 @@
+# ISTQB CTFL Module 2 — Testing Throughout the Software Development Lifecycle
+# 18 atomic flashcards: SDLC models, lifecycle-independent good practices, test-first
+# approaches, DevOps, shift left, retrospectives, the five test levels (who/when),
+# integration strategies, test types, confirmation vs regression, maintenance
+# triggers, and impact analysis.
+
+[[card]]
+id = "istqb-fc-0021"
+front = "What is an SDLC model, and which models are sequential, iterative/incremental, or agile?"
+back = "An SDLC model is an abstract, high-level representation of how development phases and activities relate. Sequential: waterfall, V-model. Iterative/incremental: spiral, prototyping, Unified Process. Agile practices: Scrum, Kanban, XP — plus methods like TDD, ATDD, BDD, DDD, FDD, Lean IT."
+tags = ["ch2"]
+
+[[card]]
+id = "istqb-fc-0022"
+front = "How does the choice of SDLC impact testing?"
+back = "It affects: scope and timing of test activities (levels and types), level of detail of test documentation, choice of test techniques and approach, extent of test automation, and the role and responsibilities of the tester."
+tags = ["ch2"]
+
+[[card]]
+id = "istqb-fc-0023"
+front = "Name the four good testing practices that apply to ALL SDLCs."
+back = "1) A corresponding test activity for every development activity; 2) each test level has specific, different objectives (comprehensive without redundancy); 3) test analysis/design for a level starts during the corresponding development phase; 4) testers review work products as soon as drafts are available (supports shift left)."
+tags = ["ch2"]
+
+[[card]]
+id = "istqb-fc-0024"
+front = "What is Test-Driven Development (TDD)?"
+back = "A test-first approach that directs the coding through test cases: write the test first, then code to satisfy it, then refactor tests and code together (Beck 2003)."
+tags = ["ch2"]
+
+[[card]]
+id = "istqb-fc-0025"
+front = "What is ATDD? What is BDD?"
+back = "ATDD derives tests from acceptance criteria as part of the system design process. BDD expresses desired behaviour as test cases in simple natural language — usually Given/When/Then — that stakeholders understand and that become automated tests."
+tags = ["ch2"]
+
+[[card]]
+id = "istqb-fc-0026"
+front = "What is DevOps, and what does it mean for testing?"
+back = "An organizational approach joining development (incl. testing) and operations toward common goals, via CI/CD delivery pipelines. Testing benefits: fast feedback, automated regression testing reducing regression risk, better non-functional visibility, less repetitive manual work. Challenges: pipeline/tools must be built and maintained; automation needs resources. Manual user-perspective testing is still needed."
+tags = ["ch2"]
+
+[[card]]
+id = "istqb-fc-0027"
+front = "What is shift left, and which practices illustrate it?"
+back = "Moving testing earlier in the SDLC (early-testing principle) — WITHOUT neglecting later testing. Practices: reviewing specifications from the testers' perspective, writing test cases before code, CI/CD with fast feedback, static analysis before dynamic testing, non-functional testing starting at component level. May cost more early, expected to save later; needs stakeholder buy-in."
+tags = ["ch2"]
+
+[[card]]
+id = "istqb-fc-0028"
+front = "What is a retrospective and why does it matter for testing?"
+back = "A meeting (end of project/iteration, milestone, or when needed) where the whole team — testers, developers, architects, product owner, business analysts — discusses what worked, what didn't, and how to improve. Benefits: better test effectiveness/efficiency, testware quality, team learning, better test basis, better dev-test cooperation. Results go into the test completion report; improvements must be followed up."
+tags = ["ch2"]
+
+[[card]]
+id = "istqb-fc-0029"
+front = "Name the five test levels."
+back = "Component testing → component integration testing → system testing → system integration testing → acceptance testing. Levels are distinguished by test object, objectives, test basis, typical defects/failures, and approach & responsibilities."
+tags = ["ch2"]
+
+[[card]]
+id = "istqb-fc-0030"
+front = "Component (unit) testing — what, who, with what support?"
+back = "Tests components in isolation. Normally performed by developers in their development environments; often needs test harnesses or unit test frameworks."
+tags = ["ch2"]
+
+[[card]]
+id = "istqb-fc-0031"
+front = "What is component integration testing, and which three integration strategies drive it?"
+back = "Testing the interfaces and interactions BETWEEN components. Strategy choice matters: big-bang (combine all at once), top-down (from highest-level components down, stubs stand in), bottom-up (from lowest-level components up, drivers stand in)."
+tags = ["ch2"]
+
+[[card]]
+id = "istqb-fc-0032"
+front = "System testing — what, who, on what basis?"
+back = "Tests the overall behaviour and capabilities of the entire system: end-to-end functional tasks plus non-functional quality characteristics (some need a representative environment, e.g. usability). May be performed by an independent test team; related to the system specifications. Simulations of sub-systems are possible."
+tags = ["ch2"]
+
+[[card]]
+id = "istqb-fc-0033"
+front = "System integration testing — what does it focus on?"
+back = "The interfaces between the system under test and OTHER systems and external services. Requires suitable test environments, preferably similar to the operational environment."
+tags = ["ch2"]
+
+[[card]]
+id = "istqb-fc-0034"
+front = "Acceptance testing — purpose, who, and the main forms?"
+back = "Focuses on validation and demonstrating deployment readiness against users' business needs; ideally performed by the intended users. Forms: user acceptance testing (UAT), operational, contractual, regulatory, alpha, and beta testing."
+tags = ["ch2"]
+
+[[card]]
+id = "istqb-fc-0035"
+front = "Functional vs non-functional testing — the difference, and the ISO/IEC 25010 characteristics?"
+back = "Functional = WHAT the system does (completeness, correctness, appropriateness). Non-functional = HOW WELL it behaves; ISO/IEC 25010 characteristics: performance efficiency, compatibility, usability, reliability, security, maintainability, portability, safety. Non-functional testing can start early; late discovery of its defects is a serious project threat."
+tags = ["ch2"]
+
+[[card]]
+id = "istqb-fc-0036"
+front = "Black-box vs white-box testing — where do the tests come from, and what is each one's objective?"
+back = "Black-box: specification-based, derived from documentation outside the test object; objective = check behaviour against the specification. White-box: structure-based, derived from implementation/internal structure (code, architecture, workflows, data flows); objective = cover the underlying structure to an acceptable level. All four types apply at every test level."
+tags = ["ch2"]
+
+[[card]]
+id = "istqb-fc-0037"
+front = "Confirmation testing vs regression testing — what does each confirm?"
+back = "Confirmation (re-testing): the ORIGINAL defect is now fixed (re-run failed tests, or add new tests for the fix; may be reduced to reproducing the original failure when time is short). Regression: the change caused NO adverse consequences — same component, other components, or connected systems. Do impact analysis first; regression suites grow and are the top automation candidate; both happen on all levels where changes are made."
+tags = ["ch2"]
+
+[[card]]
+id = "istqb-fc-0038"
+front = "What are the three triggers of maintenance testing, and what role does impact analysis play?"
+back = "1) Modifications — planned releases, corrective/adaptive/perfective/preventive changes (ISO/IEC 14764), hot fixes; 2) upgrades/migrations of the operational environment — new platform, data conversion; 3) retirement — data archiving, restore & retrieval testing. Impact analysis is done before the change to decide whether to make it and to size the regression testing. Scope depends on risk of the change, size of the system, size of the change."
+tags = ["ch2"]

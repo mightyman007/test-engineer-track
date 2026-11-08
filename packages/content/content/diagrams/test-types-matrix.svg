@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <rect width="800" height="450" fill="#f7f8fb"/>
+  <text x="400" y="42" text-anchor="middle" font-size="24" font-weight="700" fill="#1a1a2e">Every Test Type Applies at Every Test Level</text>
+  <text x="400" y="68" text-anchor="middle" font-size="14" fill="#1a1a2e">The mix changes &#8212; the option does not</text>
+  <rect x="40" y="88" width="680" height="310" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <line x1="40" y1="118" x2="720" y2="118" stroke="#1a1a2e" stroke-width="1.5"/>
+  <line x1="280" y1="88" x2="280" y2="398" stroke="#1a1a2e" stroke-width="1.5"/>
+  <line x1="390" y1="88" x2="390" y2="398" stroke="#1a1a2e" stroke-width="1.5"/>
+  <line x1="500" y1="88" x2="500" y2="398" stroke="#1a1a2e" stroke-width="1.5"/>
+  <line x1="610" y1="88" x2="610" y2="398" stroke="#1a1a2e" stroke-width="1.5"/>
+  <text x="160" y="110" text-anchor="middle" font-size="14" font-weight="700" fill="#1a1a2e">Test level</text>
+  <text x="335" y="110" text-anchor="middle" font-size="13.5" font-weight="700" fill="#1a1a2e">Functional</text>
+  <text x="445" y="110" text-anchor="middle" font-size="13.5" font-weight="700" fill="#1a1a2e">Non-functional</text>
+  <text x="555" y="110" text-anchor="middle" font-size="13.5" font-weight="700" fill="#1a1a2e">Black-box</text>
+  <text x="665" y="110" text-anchor="middle" font-size="13.5" font-weight="700" fill="#1a1a2e">White-box</text>
+  <text x="55" y="151" font-size="13.5" fill="#1a1a2e">Component testing</text>
+  <text x="55" y="207" font-size="13.5" fill="#1a1a2e">Component integration</text>
+  <text x="55" y="263" font-size="13.5" fill="#1a1a2e">System testing</text>
+  <text x="55" y="319" font-size="13.5" fill="#1a1a2e">System integration</text>
+  <text x="55" y="375" font-size="13.5" fill="#1a1a2e">Acceptance testing</text>
+  <text font-size="16" fill="#1a1a2e"><tspan x="335" y="151">&#10003;</tspan><tspan x="445" y="151">&#10003;</tspan><tspan x="555" y="151">&#10003;</tspan><tspan x="665" y="151">&#10003;</tspan></text>
+  <text font-size="16" fill="#1a1a2e"><tspan x="335" y="207">&#10003;</tspan><tspan x="445" y="207">&#10003;</tspan><tspan x="555" y="207">&#10003;</tspan><tspan x="665" y="207">&#10003;</tspan></text>
+  <text font-size="16" fill="#1a1a2e"><tspan x="335" y="263">&#10003;</tspan><tspan x="445" y="263">&#10003;</tspan><tspan x="555" y="263">&#10003;</tspan><tspan x="665" y="263">&#10003;</tspan></text>
+  <text font-size="16" fill="#1a1a2e"><tspan x="335" y="319">&#10003;</tspan><tspan x="445" y="319">&#10003;</tspan><tspan x="555" y="319">&#10003;</tspan><tspan x="665" y="319">&#10003;</tspan></text>
+  <text font-size="16" fill="#1a1a2e"><tspan x="335" y="375">&#10003;</tspan><tspan x="445" y="375">&#10003;</tspan><tspan x="555" y="375">&#10003;</tspan><tspan x="665" y="375">&#10003;</tspan></text>
+  <text x="400" y="428" text-anchor="middle" font-size="12.5" fill="#1a1a2e">All four types can be applied at all levels &#8212; only the focus differs &#8226; confirmation + regression testing apply wherever changes happen</text>
+</svg>
