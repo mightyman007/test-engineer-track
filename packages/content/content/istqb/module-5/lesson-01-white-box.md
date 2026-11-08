@@ -29,7 +29,7 @@ In [statement testing](https://istqb-glossary.page/statement-testing/), the cove
 
 > **statement coverage = (statements exercised ÷ total number of executable statements) × 100%**
 
-When **100% statement coverage** is achieved, every executable statement in the code has been exercised at least once — so in particular, a statement containing a defect will be executed, which *may* cause a failure demonstrating the defect. The syllabus is careful about both halves of that promise, because exercising a statement **will not detect defects in all cases**:
+When **100% [statement coverage](https://istqb-glossary.page/statement-coverage/)** is achieved, every executable statement in the code has been exercised at least once — so in particular, a statement containing a defect will be executed, which *may* cause a failure demonstrating the defect. The syllabus is careful about both halves of that promise, because exercising a statement **will not detect defects in all cases**:
 
 - Defects can be **data-dependent**: a division by zero that only fails when the denominator happens to be zero is *in* an executed statement, yet a test that feeds a harmless denominator exercises the statement without revealing anything.
 - 100% statement coverage **does not ensure that all the decision logic has been tested**: a test suite can run every statement while never taking, say, the false side of an `if` — so whole branches of the code's behavior stay untested.
@@ -42,7 +42,7 @@ In [branch testing](https://istqb-glossary.page/branch-testing/), the coverage i
 
 > **branch coverage = (branches exercised ÷ total number of branches) × 100%**
 
-100% branch coverage means **all** branches — unconditional *and* conditional — have been exercised. And like statement coverage, it has limits: exercising a branch may not detect defects that require the execution of a specific *path* (a particular sequence of branches) through the code.
+100% [branch coverage](https://istqb-glossary.page/branch-coverage/) means **all** branches — unconditional *and* conditional — have been exercised. And like statement coverage, it has limits: exercising a branch may not detect defects that require the execution of a specific *path* (a particular sequence of branches) through the code.
 
 ## Branch coverage subsumes statement coverage (FL-4.3.2)
 
@@ -63,7 +63,7 @@ A guard clause: the function runs statement S1, then decision D1. When D1 is **t
 - **Statement coverage:** S1, S2, S3 all ran → **100%** (3 of 3).
 - **Branch coverage:** the arrows exercised are S1→D1, D1→S2 (true outcome), S2→S3 — three of the four; the false outcome's arrow D1→S3 was never taken → **75%** (3 of 4). Counting only conditional branches (decision outcomes) gives 1 of 2 = 50%; either way, the lesson is the same: **100% statement coverage, and the false branch was never tested.**
 
-Now widen the flow: after D1 the routes join at S4, and a second decision D2 chooses between S5 (true) and S6 (false). Running the true route of D1 followed by the false route of D1 touches every distinct statement (S1, S2, S3, S4 — S1 and S4 are shared, so no double counting) and takes both outcomes of D1: 100% statement *and* 100% branch coverage. That pairing — statement coverage counts distinct statements, branch coverage counts arrows taken — is the arithmetic behind the exam's computation questions.
+Now widen the flow to the one in the diagram: the false route gets its own statement S3 (instead of skipping straight to the tail), both routes join at S4, and a second decision D2 chooses between S5 (true) and S6 (false). The diagram's two paths are **P1** = S1 → D1-true → S2 → S4 → D2-true → S5, and **P2** = S1 → D1-false → S3 → S4 → D2-false → S6. P1 alone touches S1, S2, S4, S5 — four of the six distinct statements, 67% — and takes two of the four decision outcomes, 50%. Running P2 as well closes both gaps: between them the two paths touch every distinct statement (S1 through S6) and take both outcomes of both decisions — **100% statement coverage and 100% branch coverage** from two test cases. (A suite that varied only D1 while keeping D2 fixed on one outcome would take both of D1's outcomes yet still leave S6 and one decision outcome untested — every decision deserves its split.) That pairing — statement coverage counts distinct statements, branch coverage counts arrows taken — is the arithmetic behind the exam's computation questions.
 
 ## What white-box testing is worth (FL-4.3.3)
 

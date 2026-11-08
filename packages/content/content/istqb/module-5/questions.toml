@@ -65,6 +65,13 @@
 #       is NOT in CTFL v4.0 (only a McCabe bibliography entry) — it appears in
 #       lesson-01 as a clearly-flagged beyond-syllabus aside, and no keyed
 #       question depends on its formula.
+#   (d) review-fix ruling — answer positions redistributed across 0-3 (was 11
+#       of 17 singles keyed at index 0): options reordered within questions,
+#       stems/explanations untouched, answers re-derived per reorder and every
+#       question re-read against its keyed index afterwards; multi moved to
+#       [1,3]. q-0122's fourth distractor re-based to a derivable wrong count
+#       (shared S3 counted once per route -> 75% statement) with the
+#       explanation extended to name that trap.
 #
 # Coverage: FL-4.3.1: 2 (q-0119, q-0120), FL-4.3.2: 2 (q-0121, q-0122), FL-4.3.3:
 # 2 (q-0123, q-0124), FL-4.4.1: 2 (q-0125, q-0126), FL-4.4.2: 2 (q-0127, q-0128),
@@ -80,12 +87,12 @@ id = "istqb-q-0119"
 type = "single"
 stem = "A function's control flow has six statement executions along two paths: path A runs statements S1, S2, S3; path B runs S1, S2, S4 — four of them distinct. Decision D1 chooses between path A and path B; no other decisions exist. A test suite runs path A, then path B. What are the statement and decision-outcome coverage counts?"
 options = [
-  "Statement 100% (4 of 4 distinct statements), decision 100% (2 of 2 outcomes)",
   "Statement 100%, decision 50%",
   "Statement 67% (4 of 6 executions), decision 100%",
   "Statement 100%, decision 0% — decisions need a decision table",
+  "Statement 100% (4 of 4 distinct statements), decision 100% (2 of 2 outcomes)",
 ]
-answers = [0]
+answers = [3]
 explanation = "The distinct statements are S1, S2, S3, S4 and both paths together touch all four — statement coverage counts distinct statements, so 100%. Decision D1 has two outcomes and the suite took both (A and B), so 100%. '67%' wrongly divides the 4 distinct statements by the 6 executions, '50%' counts only path A's outcome, and the decision is right there in the control flow — no decision table is needed."
 lo = "FL-4.3.1"
 klevel = "K3"
@@ -96,12 +103,12 @@ id = "istqb-q-0120"
 type = "single"
 stem = "In statement testing, what are the coverage items and how is coverage measured?"
 options = [
-  "The executable statements; coverage = statements exercised ÷ total executable statements, expressed as a percentage",
   "The branches between nodes; coverage = branches exercised ÷ total branches, expressed as a percentage",
   "The decision outcomes; coverage = outcomes taken ÷ total outcomes, expressed as a percentage",
   "The paths through the control flow graph; coverage = paths exercised ÷ total possible paths",
+  "The executable statements; coverage = statements exercised ÷ total executable statements, expressed as a percentage",
 ]
-answers = [0]
+answers = [3]
 explanation = "In statement testing the coverage items are the executable statements, and coverage is the number of statements exercised by the test cases divided by the total number of executable statements, as a percentage. Branches and decision outcomes are the items of branch-level criteria, and full path coverage is beyond the Foundation syllabus."
 lo = "FL-4.3.1"
 klevel = "K1"
@@ -131,10 +138,10 @@ options = [
   "Statement 100% (S1, S2, S3); branch 75% (3 of 4 arrows) — the false outcome's arrow D1→S3 was never taken",
   "Statement 100%; branch 100% — every statement ran, so every arrow did too",
   "Statement 100%; branch 50% — one of the two decision outcomes was taken",
-  "Statement 67%; branch 75% — S3 was reached by two routes and counts twice",
+  "Statement 75%; branch 75% — S3 was reached by two routes and counted once per route",
 ]
 answers = [0]
-explanation = "All three statements ran (S3 is a single statement reached by both routes — no double counting), so statement coverage is 100%. Branch coverage counts all four transfers of control; three were exercised, and the false outcome's arrow D1→S3 was not — 75%. '50%' is the decision-outcome-only reading, which omits the unconditional arrows the syllabus's branch criterion counts."
+explanation = "All three statements ran (S3 is a single statement reached by both routes — no double counting), so statement coverage is 100%. Branch coverage counts all four transfers of control; three were exercised, and the false outcome's arrow D1→S3 was not — 75%. '50%' is the decision-outcome-only reading, which omits the unconditional arrows the syllabus's branch criterion counts, and '75% statement' double-counts the shared S3, which is one statement however many routes reach it."
 lo = "FL-4.3.2"
 klevel = "K3"
 tags = ["ch4"]
@@ -176,12 +183,12 @@ id = "istqb-q-0125"
 type = "single"
 stem = "What is error guessing?"
 options = [
-  "A test technique used to anticipate the occurrence of errors, defects and failures based on the tester's knowledge — how the application worked in the past, the errors developers tend to make, and the failures of similar applications",
   "A black-box technique that guesses equivalence partitions when no specification exists",
   "A white-box technique that estimates which statements contain defects before the code runs",
+  "A test technique used to anticipate the occurrence of errors, defects and failures based on the tester's knowledge — how the application worked in the past, the errors developers tend to make, and the failures of similar applications",
   "A test management practice that schedules defect fixes by their likelihood",
 ]
-answers = [0]
+answers = [2]
 explanation = "Error guessing anticipates errors, defects and failures from the tester's knowledge: past application behavior, the error types developers tend to make, and failure types seen in similar applications. It is experience-based — not a black-box partitioning shortcut, not a static prediction of defective statements, and not a scheduling practice."
 lo = "FL-4.4.1"
 klevel = "K1"
@@ -208,12 +215,12 @@ id = "istqb-q-0127"
 type = "single"
 stem = "According to the syllabus, what makes exploratory testing exploratory?"
 options = [
-  "Tests are simultaneously designed, executed and evaluated while the tester learns about the test object",
   "Tests are designed by a test lead and executed by junior testers on rotation",
+  "Tests are simultaneously designed, executed and evaluated while the tester learns about the test object",
   "Tests are executed with no documentation, no objective and no record of any kind",
   "Tests are generated automatically from production logs overnight",
 ]
-answers = [0]
+answers = [1]
 explanation = "The defining property is simultaneity: designing, executing and evaluating happen in the same activity, while the tester learns about the test object. It is not undocumented randomness — session-based testing structures it with charters, time boxes, session sheets and debriefings."
 lo = "FL-4.4.2"
 klevel = "K1"
@@ -272,12 +279,12 @@ id = "istqb-q-0131"
 type = "single"
 stem = "Which list names the three critical aspects of a user story — the '3 C's?"
 options = [
-  "Card, Conversation, Confirmation",
   "Card, Commitment, Content",
   "Context, Conversation, Confirmation",
   "Card, Cost, Confirmation",
+  "Card, Conversation, Confirmation",
 ]
-answers = [0]
+answers = [3]
 explanation = "The 3 C's: Card (the medium describing the story — index card or board entry), Conversation (explains how the software will be used, documented or verbal) and Confirmation (the acceptance criteria). The wrong lists substitute adjacent vocabulary for one of the three."
 lo = "FL-4.5.1"
 klevel = "K1"
@@ -304,12 +311,12 @@ id = "istqb-q-0133"
 type = "single"
 stem = "What are acceptance criteria for a user story?"
 options = [
-  "The conditions that an implementation of the user story must meet to be accepted by stakeholders — viewable as the test conditions that should be exercised by the tests",
   "The test cases the developers write and run after implementing the story",
+  "The conditions that an implementation of the user story must meet to be accepted by stakeholders — viewable as the test conditions that should be exercised by the tests",
   "The story points the team agreed on during planning",
   "The release-level definition of done, shared by every story",
 ]
-answers = [0]
+answers = [1]
 explanation = "Acceptance criteria are the conditions an implementation must meet to be accepted by stakeholders — which is why they can be viewed as the test conditions the tests should exercise. They usually result from the Conversation, and they are not test cases, estimates, or a release-wide definition of done."
 lo = "FL-4.5.2"
 klevel = "K1"
@@ -320,13 +327,13 @@ id = "istqb-q-0134"
 type = "multi"
 stem = "Which TWO statements about writing acceptance criteria are correct?"
 options = [
-  "The two most common formats are scenario-oriented (e.g. the Given/When/Then format used in BDD) and rule-oriented (e.g. a bullet-point verification list, or a tabulated form of input-output mapping)",
-  "Acceptance criteria define the scope of the user story, describe both positive and negative scenarios, and serve as the basis for the user story acceptance testing",
   "Only the two common formats are permitted — using a custom format violates the guidance",
+  "The two most common formats are scenario-oriented (e.g. the Given/When/Then format used in BDD) and rule-oriented (e.g. a bullet-point verification list, or a tabulated form of input-output mapping)",
   "Acceptance criteria are written by the developers alone, after implementation, without showing them to stakeholders",
+  "Acceptance criteria define the scope of the user story, describe both positive and negative scenarios, and serve as the basis for the user story acceptance testing",
   "Every acceptance criterion must be automated as an executable test before the story's code is written",
 ]
-answers = [0, 1]
+answers = [1, 3]
 explanation = "The two common formats are scenario-oriented (Given/When/Then) and rule-oriented (verification bullets, input-output tables); and acceptance criteria scope the story, reach consensus, describe positive AND negative scenarios, underpin acceptance testing, and allow planning. A custom format IS allowed when well-defined and unambiguous; the criteria come out of the conversation with stakeholders; and tests may be executed manually or automated — automation is not a pre-implementation must."
 lo = "FL-4.5.2"
 klevel = "K2"
@@ -353,12 +360,12 @@ id = "istqb-q-0136"
 type = "single"
 stem = "User story: 'As a bank customer, I want to transfer money between my own accounts, so that I can manage my savings without fees.' Acceptance criteria: (1) transfers are only allowed between accounts owned by the same customer; (2) an unverified target account is rejected with a clear message; (3) on success the balance updates immediately. Four tests were drafted — T1: transfer between two own verified accounts, expect success and immediate balance update; T2: transfer to an unverified target account, expect rejection; T3: transfer to another customer's account, expect rejection; T4: schedule the transfer for next month and verify the calendar dialog. Which set follows the syllabus's ATDD rules for test cases?"
 options = [
-  "T1, T2 and T3 — they cover all the story's characteristics, stay within the story, and no two describe the same characteristics",
   "T1, T2, T3 and T4 — more test cases are always better in ATDD",
   "T1 only — one positive example is the complete specification of the story",
+  "T1, T2 and T3 — they cover all the story's characteristics, stay within the story, and no two describe the same characteristics",
   "T2, T3 and T4 — negative and scheduling tests matter more than positive ones",
 ]
-answers = [0]
+answers = [2]
 explanation = "ATDD test cases must cover all the characteristics of the user story (T1–T3 map to criteria 3, 2 and 1), should not go beyond it (scheduling appears nowhere in the story — T4 is out of scope), and no two should describe the same characteristics (T1–T3 are disjoint). Captured in an automation-supported format, exactly such tests become executable requirements."
 lo = "FL-4.5.3"
 klevel = "K3"
