@@ -28,3 +28,9 @@ minimum = 38
 [[floor]]
 tag = "ch5"
 minimum = 33
+
+# Task 8: module 7 ships 18 questions tagged ch6 — the smallest exam chapter
+# (2 of 40 questions), banked at 9x headroom.
+[[floor]]
+tag = "ch6"
+minimum = 18

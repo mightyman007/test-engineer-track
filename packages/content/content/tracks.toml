@@ -77,3 +77,14 @@ quizPool = "istqb/module-6"
 deck = "istqb/module-6"
 lessonIds = ["istqb-m6-planning", "istqb-m6-estimation", "istqb-m6-risk", "istqb-m6-monitoring", "istqb-m6-config-defects"]
 examWeight = 9
+
+[[track.module]]
+id = "istqb-m7-tools"
+track = "istqb-ctfl"
+title = "Test Tools"
+order = 7
+source = "istqb/module-7"
+quizPool = "istqb/module-7"
+deck = "istqb/module-7"
+lessonIds = ["istqb-m7-tool-support", "istqb-m7-benefits-risks"]
+examWeight = 2   # informational; the official ch6 draw is 2 of 40 questions

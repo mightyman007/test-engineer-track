@@ -1,0 +1,66 @@
+# ISTQB CTFL Module 7 — Test Tools
+# 10 atomic flashcards: the nine tool families and what each supports, what
+# tools cannot do, the test-automation keyword definition, the six benefits,
+# the eight risks (two cards), the needs→activities→families classification
+# drill, introducing a tool (pilot → rollout with success criteria), and
+# benefit/risk reasoning pairs.
+
+[[card]]
+id = "istqb-fc-0101"
+front = "The test tool landscape — the syllabus's nine example tool families and what each supports?"
+back = "Test tools SUPPORT and FACILITATE test activities. The nine syllabus examples: (1) TEST MANAGEMENT tools — increase test process efficiency by facilitating management of the SDLC, requirements, tests, defects, configuration; (2) STATIC TESTING tools — support reviews and static analysis; (3) TEST DESIGN AND TEST IMPLEMENTATION tools — facilitate generation of test cases, test data and test procedures; (4) TEST EXECUTION AND TEST COVERAGE tools — facilitate automated test execution and coverage measurement; (5) NON-FUNCTIONAL testing tools — allow testing that is difficult or impossible to perform manually; (6) DEVOPS tools — delivery pipeline, workflow tracking, automated builds, CI/CD; (7) COLLABORATION tools — facilitate communication; (8) SCALABILITY AND DEPLOYMENT STANDARDIZATION tools — e.g., VMs, containerization; (9) ANY OTHER tool that assists in testing — even a spreadsheet is a test tool in the context of testing."
+tags = ["ch6"]
+
+[[card]]
+id = "istqb-fc-0102"
+front = "What test tools CANNOT do — the three limits, and the syllabus sentence behind them?"
+back = "The syllabus (1.3): testers use tools, but TESTING IS LARGELY AN INTELLECTUAL ACTIVITY, requiring specialized knowledge, analytical skill, and critical and systems thinking. Tools cannot: (1) REPLACE TEST DESIGN THINKING — a tool can generate thousands of test cases and still test the wrong things; deciding what to test and with what coverage stays human; (2) GUARANTEE QUALITY — simply acquiring a tool does not guarantee success; benefits require effort; a tool faithfully executing a weak suite automates weakness; (3) DO WORK MANUAL TESTING DOES BETTER — one-off checks, exploratory charters, usability judgment (automating them is a named risk)."
+tags = ["ch6"]
+
+[[card]]
+id = "istqb-fc-0103"
+front = "Test automation — the keyword definition, and what acquiring a tool actually guarantees?"
+back = "TEST AUTOMATION = the use of software to perform or support test activities, e.g., TEST MANAGEMENT, TEST DESIGN, TEST EXECUTION and RESULTS CHECKING (broader than clicking scripts). \"SIMPLY ACQUIRING A TOOL DOES NOT GUARANTEE SUCCESS\" — each new tool requires effort to achieve REAL AND LASTING benefits, for: TOOL INTRODUCTION, MAINTENANCE, TRAINING. And there are risks, which need ANALYSIS AND MITIGATION (risk discipline from test management, applied to tools)."
+tags = ["ch6"]
+
+[[card]]
+id = "istqb-fc-0104"
+front = "Test automation benefits 1-3: repetitive work, human errors, objectivity?"
+back = "(1) TIME SAVED by reducing REPETITIVE MANUAL WORK — e.g., executing regression tests, re-entering the same test data, comparing expected vs actual results, checking against coding standards. (2) PREVENTION OF SIMPLE HUMAN ERRORS through greater CONSISTENCY and REPEATABILITY — tests consistently derived from requirements, test data created systematically, tests executed by a tool in the same ORDER with the same FREQUENCY. (3) MORE OBJECTIVE ASSESSMENT (e.g., coverage) and providing measures TOO COMPLICATED FOR HUMANS TO DETERMINE."
+tags = ["ch6"]
+
+[[card]]
+id = "istqb-fc-0105"
+front = "Test automation benefits 4-6: information access, execution time, tester capacity?"
+back = "(4) EASIER ACCESS TO INFORMATION ABOUT TESTING to support test management and test reporting — e.g., statistics, graphs, aggregated data about test progress, FAILURE RATES, test execution duration. (5) REDUCED TEST EXECUTION TIMES → EARLIER DEFECT DETECTION, FASTER FEEDBACK, FASTER TIME TO MARKET. (6) MORE TIME FOR TESTERS to design NEW, DEEPER and MORE EFFECTIVE tests — automation returns hours to the humans, who then do the intellectual work tools cannot."
+tags = ["ch6"]
+
+[[card]]
+id = "istqb-fc-0106"
+front = "Test automation risks 1-4: expectations, estimates, wrong tool, over-reliance?"
+back = "(1) UNREALISTIC EXPECTATIONS about the benefits of a tool — including FUNCTIONALITY and EASE OF USE (e.g., \"it will find all the bugs automatically\"). (2) INACCURATE ESTIMATIONS of time, costs, effort required to: INTRODUCE a tool, MAINTAIN test scripts, CHANGE the existing manual test process. (3) USING A TEST TOOL WHEN MANUAL TESTING IS MORE APPROPRIATE (e.g., one-off exploratory sessions, judgment-driven checks). (4) RELYING ON A TOOL TOO MUCH — e.g., IGNORING THE NEED FOR HUMAN CRITICAL THINKING; false confidence: a green dashboard is only as good as the suite behind it."
+tags = ["ch6"]
+
+[[card]]
+id = "istqb-fc-0107"
+front = "Test automation risks 5-8: vendor, open source, platform, regulation?"
+back = "(5) DEPENDENCY ON THE TOOL VENDOR — may go OUT OF BUSINESS, RETIRE the tool, SELL it to a different vendor, or provide POOR SUPPORT (queries, upgrades, defect fixes). (6) OPEN-SOURCE software — may be ABANDONED (no further updates), or its internal components may require VERY FREQUENT UPDATES as further development. (7) The tool is NOT COMPATIBLE with the DEVELOPMENT PLATFORM. (8) Choosing an UNSUITABLE TOOL that did not comply with REGULATORY REQUIREMENTS and/or SAFETY STANDARDS."
+tags = ["ch6"]
+
+[[card]]
+id = "istqb-fc-0108"
+front = "Classification drill — need → activity → tool family?"
+back = "Read the NEED, name the ACTIVITY, pick the FAMILY: \"re-run 800 regression tests unattended\" → execution → TEST EXECUTION AND COVERAGE tools; \"flag unreachable branches/coding-standard breaches before review\" → static analysis → STATIC TESTING tools; \"one place linking requirements-tests-defects-configuration\" → management/tracking → TEST MANAGEMENT tools; \"simulate 5,000 concurrent users\" → non-functional (impossible manually) → NON-FUNCTIONAL TESTING tools; \"generate thousands of test-data combinations\" → design/implementation → TEST DESIGN AND IMPLEMENTATION tools; \"build + tests on every commit, failures block the merge\" → CI/CD pipeline → DEVOPS tools; \"scalable, reproducible environments\" → VMs/containers → SCALABILITY AND DEPLOYMENT STANDARDIZATION tools; \"share status with stakeholders\" → communication → COLLABORATION tools; \"track defects in a spreadsheet\" → any activity → ANY OTHER TOOL (a spreadsheet counts)."
+tags = ["ch6"]
+
+[[card]]
+id = "istqb-fc-0109"
+front = "Introducing a tool in practice — pilot → rollout, and the success-criteria discipline?"
+back = "Practical mitigation for the syllabus's tool risks (frame: \"risks need analysis and mitigation\"): (1) DEFINE SUCCESS CRITERIA UP FRONT — what the tool must demonstrably deliver (e.g., regression cycle 3 days → 4 hours, no increase in escaped defects); vague expectations are themselves the first risk. (2) RUN A PILOT on limited, representative scope (one suite, one team) — not the whole process at once. (3) EVALUATE against the agreed criteria INCLUDING hidden costs: script maintenance, training, changed manual process. (4) ROLL OUT, ADJUST, or ABANDON on the evidence — a cheap early \"no\" is a successful pilot. Weigh SOURCING before piloting: commercial vendor = dependency risk (out of business, sold, poor support); open-source/in-house = abandonment/staleness + maintenance effort; both must clear PLATFORM COMPATIBILITY and REGULATORY/SAFETY compliance."
+tags = ["ch6"]
+
+[[card]]
+id = "istqb-fc-0110"
+front = "When automation helps vs hurts — the reasoning pairs behind the benefit/risk lists?"
+back = "HELPS: stable, repetitive, high-volume work — regression re-runs, systematic test data, result comparison, standards checks, coverage measurement, load simulation (impossible manually), CI/CD gating every commit; frees testers for NEW, DEEPER tests. HURTS: one-off exploratory sessions (manual is more appropriate), judgment-driven usability checks, churn-heavy prototypes (scripts break with every change — maintenance cost), vendor-locked stacks without an exit plan, open-source picks without a maintenance story. WATCH: unrealistic expectations (\"finds all the bugs\"), inaccurate estimates (introduce/maintain/change process), over-reliance ignoring critical thinking — FALSE CONFIDENCE from a 100%-passing suite that never covered the defect that escapes."
+tags = ["ch6"]
