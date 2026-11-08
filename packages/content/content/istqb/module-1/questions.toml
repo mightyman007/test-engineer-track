@@ -1,9 +1,45 @@
 # ISTQB CTFL Module 1 — Fundamentals of Testing
-# 32 original questions. The first three (istqb-q-0001..0003) are the brief's worked style anchors
+# 36 original questions. The first three (istqb-q-0001..0003) are the brief's worked style anchors
 # (q-0003's 5th option corrected per review — see fix report).
-# Coverage: retagged to OFFICIAL CTFL v4.0.1 LO codes by content; every official ch1 LO covered
-# (FL-1.2.1, FL-1.4.3, FL-1.4.4, FL-1.4.5 carry exactly 1 question each after the official split).
-# K mix: 13 K1 (recall) + 19 K2 (understand); Ch1 has no K3 in the official blueprint.
+#
+# Verified against the official ISTQB CTFL Syllabus v4.0.1 PDF (istqb.org, 2024-09-15, downloaded
+# and text-extracted 2026-11-07; ch1 LO list on p. 14 of 78) and cross-checked against the official
+# "Exam Structures & Rules tables" document (ch1 block of its question-distribution table, decoded
+# from cell coordinates: K1 groups {FL-1.1.1, FL-1.2.2} -> 1 question, {FL-1.5.2} -> 1 question;
+# K2 groups {FL-1.1.2, FL-1.2.1, FL-1.2.3} -> 1, {FL-1.3.1} -> 1, {FL-1.4.1..FL-1.4.5} -> 3,
+# {FL-1.5.1, FL-1.5.3} -> 1; chapter total 8 questions, K1=2 / K2=6 / K3=0 — matching the ASTQB
+# chapter-weight table's ch1=8). Both sources agree on the per-LO K classification:
+#   FL-1.1.1 (K1) Identify typical test objectives
+#   FL-1.1.2 (K2) Differentiate testing from debugging
+#   FL-1.2.1 (K2) Exemplify why testing is necessary
+#   FL-1.2.2 (K1) Recall the relation between testing and quality assurance
+#   FL-1.2.3 (K2) Distinguish between root cause, error, defect, and failure
+#   FL-1.3.1 (K2) Explain the seven testing principles
+#   FL-1.4.1 (K2) Explain the different test activities and related tasks
+#   FL-1.4.2 (K2) Explain the impact of context on the test process
+#   FL-1.4.3 (K2) Differentiate the testware that supports the test activities
+#   FL-1.4.4 (K2) Explain the value of maintaining traceability
+#   FL-1.4.5 (K2) Compare the different roles in testing
+#   FL-1.5.1 (K2) Give examples of the generic skills required for testing
+#   FL-1.5.2 (K1) Recall the advantages of the whole team approach
+#   FL-1.5.3 (K2) Distinguish the benefits and drawbacks of independence of testing
+#
+# M2 K-alignment (per controller ruling; rationale for every change in task-9-report.md):
+#   istqb-q-0001 K2 -> K1 (FL-1.1.1 is officially K1; the question recognizes the main purpose)
+#   istqb-q-0005 K1 -> K2 (FL-1.1.2 is officially K2; the inverted-role distractors genuinely test
+#                          differentiating testing from debugging, not mere recall)
+#   istqb-q-0028 K2 -> K1 (FL-1.5.2 is officially K1; the scenario asks the candidate to recognize
+#                          an advantage from the syllabus's own whole-team-approach list)
+#   K1 tags that REMAIN on K2 LOs (q-0007, q-0010, q-0012, q-0015, q-0019, q-0021, q-0023, q-0025)
+#   are keyword/concept-recall questions the syllabus itself authorizes: §0.5 states "all contents
+#   of chapters 1-6 of this syllabus are examinable at a K1 level" — the same rule module-4's
+#   header cites. Re-tagging them K2 would mislabel genuine recall; re-stemming them into K2
+#   scenarios would duplicate the K2 questions already covering those LOs.
+#
+# Coverage: retagged to OFFICIAL CTFL v4.0.1 LO codes by content; after the M2 top-ups
+# (istqb-q-0188..0191) every official ch1 LO carries >=2 questions.
+# K mix: 14 K1 (recall) + 22 K2 (understand) = 39% K1 (>= 25% floor); Ch1 has no K3 in the
+# official blueprint.
 # 2 multi-select questions (istqb-q-0003, istqb-q-0026): 5 options, exactly 2 correct.
 # All stems/options/explanations are original — no ISTQB official sample questions copied.
 
@@ -20,7 +56,7 @@ options = [
 answers = [1]
 explanation = "Testing finds defects and gives stakeholders objective information for decisions. It cannot prove the absence of defects, and fixing defects is the developer's job."
 lo = "FL-1.1.1"
-klevel = "K2"
+klevel = "K1"
 tags = ["ch1"]
 
 [[question]]
@@ -85,7 +121,7 @@ options = [
 answers = [0]
 explanation = "Testing is the activity that finds failures and reports them; debugging is the development activity that finds and removes their causes. They are different jobs, usually done by different people."
 lo = "FL-1.1.2"
-klevel = "K1"
+klevel = "K2"
 tags = ["ch1"]
 
 [[question]]
@@ -243,7 +279,7 @@ options = [
   "Testing is always cheap; testers never make mistakes; all defects are found by automation",
 ]
 answers = [0]
-explanation = "The seven principles are: presence-not-absence, exhaustive testing is impossible, early testing, defect clustering, pesticide paradox, context dependence, and absence-of-defects fallacy. Every other option mixes in statements that contradict the syllabus."
+explanation = "The seven principles are: presence-not-absence, exhaustive testing is impossible, early testing, defect clustering, tests wear out (the pesticide paradox), context dependence, and absence-of-defects fallacy. Every other option mixes in statements that contradict the syllabus."
 lo = "FL-1.3.1"
 klevel = "K1"
 tags = ["ch1"]
@@ -454,7 +490,7 @@ options = [
 answers = [1]
 explanation = "The syllabus's advantages of the whole-team approach are better communication, diverse skills applied to the product, and a shared quality goal — with the team, not against it."
 lo = "FL-1.5.2"
-klevel = "K2"
+klevel = "K1"
 tags = ["ch1"]
 
 [[question]]
@@ -519,4 +555,68 @@ answers = [0]
 explanation = "Officially, testing is a product-oriented, corrective approach and a major form of quality control — alongside formal methods, simulation and prototyping. QA is process-oriented and preventive: a good process, followed correctly, should produce a good product."
 lo = "FL-1.2.2"
 klevel = "K1"
+tags = ["ch1"]
+
+[[question]]
+id = "istqb-q-0188"
+type = "single"
+stem = "A QA manager points to the team's mature, consistently followed development process and asks why the release still needs testing before sign-off. Which response exemplifies why testing is necessary even when QA processes are strong?"
+options = [
+  "A mature, well-followed process guarantees a defect-free product, so testing would only duplicate the process audits",
+  "Test results are of no interest to QA, because QA works only on the product and never on the process",
+  "A good process reduces the risk of defects but cannot guarantee their absence — testing evaluates the work products themselves, finds the defects that still occur, and provides the information the release decision needs",
+  "Testing is merely the execution step of the QA process and adds no information that QA does not already have",
+]
+answers = [2]
+explanation = "Even a well-followed process cannot guarantee the absence of defects, so the work products themselves must still be evaluated: testing finds the defects that occur and supplies the information on which the release decision relies. Test results also feed back to QA as information on how well the development and test processes are performing."
+lo = "FL-1.2.1"
+klevel = "K2"
+tags = ["ch1"]
+
+[[question]]
+id = "istqb-q-0189"
+type = "single"
+stem = "A mobile-app team must file the work products of its just-finished release test cycle into the configuration-management repository. Which set of items belongs in the testware archive?"
+options = [
+  "The requirements specification, the source code and the build pipeline configuration",
+  "The test plan, the prioritized test conditions, the test cases, the automated test scripts, the test data, the test logs and the test completion report",
+  "The test environment's hardware inventory only, because testware means the physical equipment used for testing",
+  "The product roadmap and the sprint burndown charts, because those are the documents the testing is planned around",
+]
+answers = [1]
+explanation = "Testware is the output work products of the test activities — planning products (the test plan), analysis products (prioritized test conditions), design and implementation products (test cases, scripts, test data), execution products (logs) and completion products (the test completion report). The requirements specification is the test basis and the source code is the test object: inputs to testing, not testware."
+lo = "FL-1.4.3"
+klevel = "K2"
+tags = ["ch1"]
+
+[[question]]
+id = "istqb-q-0190"
+type = "single"
+stem = "The steering committee asks the test manager to justify how much residual risk remains in the build about to be released. Which traceability link, maintained between the test basis and the testware, supplies this evidence?"
+options = [
+  "The traceability of test cases to the project schedule, which shows how fast the team executes tests",
+  "The traceability of the test plan to the organization chart, which shows who approved the budget",
+  "The traceability of defect reports to the individual developers who fixed them, which ranks teams by fix speed",
+  "The traceability of test results to risks, which is used to evaluate the level of residual risk in a test object",
+]
+answers = [3]
+explanation = "The syllabus's two worked traceability examples are: test cases traced to requirements, verifying that the requirements are covered by test cases, and test results traced to risks, used to evaluate the level of residual risk in a test object. The other options link items that serve management bookkeeping, not coverage or risk evaluation."
+lo = "FL-1.4.4"
+klevel = "K2"
+tags = ["ch1"]
+
+[[question]]
+id = "istqb-q-0191"
+type = "single"
+stem = "On a five-person team, Anna leads the test planning and reports test progress to the stakeholders, and in the same sprint she also designs test cases and executes them. What does the syllabus conclude about the roles Anna performs?"
+options = [
+  "She performs both the test management role and the testing role — the syllabus explicitly allows one person to take on both roles at the same time",
+  "She performs only the test management role, because planning and progress reporting outrank design and execution work",
+  "She performs only the testing role, because the syllabus assigns the test management role to the job title 'test manager' only",
+  "Her arrangement contradicts the syllabus, which requires the two roles to be held by two different people",
+]
+answers = [0]
+explanation = "The two principal roles are defined by activities, not job titles: the test management role covers planning, monitoring, control and completion, while the testing role covers analysis, design, implementation and execution. Anna does work from both sets, and the syllabus states that one person can take on the roles of testing and test management at the same time."
+lo = "FL-1.4.5"
+klevel = "K2"
 tags = ["ch1"]

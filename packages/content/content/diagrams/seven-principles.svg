@@ -23,8 +23,9 @@
   <text x="682" y="193" text-anchor="middle" font-size="13" fill="#1a1a2e">of the defects</text>
   <rect x="105" y="260" width="178" height="140" rx="10" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
   <text x="194" y="288" text-anchor="middle" font-size="17" font-weight="700" fill="#1a1a2e">5 &#183; Tests wear out</text>
-  <text x="194" y="314" text-anchor="middle" font-size="13" fill="#1a1a2e">(pesticide paradox) &#8212; keep refreshing</text>
-  <text x="194" y="332" text-anchor="middle" font-size="13" fill="#1a1a2e">tests and test data</text>
+  <text x="194" y="314" text-anchor="middle" font-size="13" fill="#1a1a2e">(pesticide paradox) &#8212;</text>
+  <text x="194" y="332" text-anchor="middle" font-size="13" fill="#1a1a2e">keep refreshing tests</text>
+  <text x="194" y="350" text-anchor="middle" font-size="13" fill="#1a1a2e">and test data</text>
   <rect x="311" y="260" width="178" height="140" rx="10" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
   <text x="400" y="288" text-anchor="middle" font-size="17" font-weight="700" fill="#1a1a2e">6 &#183; Context dependent</text>
   <text x="400" y="314" text-anchor="middle" font-size="13" fill="#1a1a2e">A heart monitor and a puzzle</text>
