@@ -7,9 +7,9 @@ vehicles — and how to test it). Both tracks ship lessons, module quizzes, mock
 exams, spaced-repetition flashcards, read-aloud (TTS), and cohort tracking with
 an admin roster.
 
-**Status:** both tracks are fully authored — 50 lessons (27 ISTQB + 23 AI), 332
-questions (192 + 140), 202 flashcards (110 + 92), 49 diagrams, and 115 verified
-videos (85 + 30), plus seven mock exams.
+**Status:** both tracks are complete — 8 modules each, 50 lessons (27 ISTQB + 23
+AI), 332 questions (192 + 140), 202 flashcards (110 + 92), 49 diagrams, and 115
+verified videos (85 + 30), plus seven mock exams (five ISTQB + two AI).
 
 - The **ISTQB track** has five blueprint-exact mocks (`istqb-mock-1..5` — each
   mirrors the official CTFL v4.0 shape: 40 questions, 60 minutes, pass at 65%,
@@ -87,8 +87,8 @@ pnpm build && pnpm content:build
 Upload `apps/web/dist/` per Ondana's app-deployment flow. All asset references
 are relative (`./assets/…`), so the app works from any subpath. Enter the app
 via its root URL — routes are client-side, and the static build does not include
-server rewrites for deep links (refreshing on a deep route is a known M5 polish
-item).
+server rewrites for deep links: a refresh on a deep route degrades to the app's
+load-error card with a Retry button (never a blank page).
 
 Cohort logins are configured per user at sign-in (the **Server URL** field), so
 point them at wherever the API server runs — same origin, another port on the
