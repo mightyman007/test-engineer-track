@@ -36,7 +36,7 @@ One honest caveat: the real rule weighs each connection's *influence on the erro
 
 Why work backward? Because blame is *relative*: how much a hidden neuron deserves depends on how much the **output** neuron used it. You cannot score the hidden layer until you have scored the layer after it. So the assignment must start where the error is known — the output — and walk backward, layer by layer, each layer's share computed from the layer ahead of it. Forward would mean guessing blame for a layer whose downstream consequences are not yet known.
 
-This ordering is also why training is expensive: every mistake requires a full pass backward through the whole network.
+This ordering is also why training is expensive: every example requires a full pass backward through the whole network.
 
 ## From blame to movement
 

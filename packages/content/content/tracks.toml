@@ -156,3 +156,25 @@ quizPool = "ai/module-a3"
 deck = "ai/module-a3"
 lessonIds = ["ai-m3-neurons-forward-pass", "ai-m3-backprop-intuition", "ai-m3-gradient-descent"]
 examWeight = 4   # informational until the AI mocks exist (M4 Task 7)
+
+[[track.module]]
+id = "ai-m4-computer-vision"
+track = "ai-fundamentals"
+title = "Computer Vision Fundamentals"
+order = 4
+source = "ai/module-a4"
+quizPool = "ai/module-a4"
+deck = "ai/module-a4"
+lessonIds = ["ai-m4-images-as-tensors", "ai-m4-convolutions-cnns", "ai-m4-vision-tasks"]
+examWeight = 4   # informational until the AI mocks exist (M4 Task 7)
+
+[[track.module]]
+id = "ai-m5-object-detection"
+track = "ai-fundamentals"
+title = "Object Detection: One-Stage vs Two-Stage"
+order = 5
+source = "ai/module-a5"
+quizPool = "ai/module-a5"
+deck = "ai/module-a5"
+lessonIds = ["ai-m5-detection-task", "ai-m5-two-stage", "ai-m5-one-stage"]
+examWeight = 4   # informational until the AI mocks exist (M4 Task 7)

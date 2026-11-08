@@ -1,0 +1,78 @@
+# AI for Test Engineers — Module A4 "Computer Vision Fundamentals"
+# 12 atomic flashcards: the image as a grid of numbers, channels and the
+# tensor, filters and convolution, feature maps, the stops arithmetic,
+# pooling, why convolution suits images, the CNN hierarchy, and the four
+# vision tasks' output shapes — ending on what each shape means for a
+# test suite's oracle.
+
+[[card]]
+id = "ai-fc-0035"
+front = "What is an image, as the computer receives it?"
+back = "A grid of numbers. Grayscale: one brightness value per pixel. Color: three aligned grids (red, green, blue channels) — the stack is a tensor of height × width × channels."
+tags = ["ai4"]
+
+[[card]]
+id = "ai-fc-0036"
+front = "A pixel reads (255, 0, 0) in RGB. What does that mean, and how many numbers does every RGB pixel carry?"
+back = "Maximum red, no green, no blue — pure red. Every RGB pixel carries exactly three numbers, one per channel; a 1920×1080 RGB frame is therefore about 6.2 million numbers."
+tags = ["ai4"]
+
+[[card]]
+id = "ai-fc-0037"
+front = "What does a filter (kernel) do in a convolution?"
+back = "A small learned grid (typically 3×3) slides across the image; at each stop it multiplies its numbers against the patch underneath and sums — one response number saying how strongly that pattern appears there."
+tags = ["ai4"]
+
+[[card]]
+id = "ai-fc-0038"
+front = "What is a feature map?"
+back = "The grid of responses one filter leaves across the whole image — a new, thinner image whose bright spots mark where the filter's pattern was found."
+tags = ["ai4"]
+
+[[card]]
+id = "ai-fc-0039"
+front = "A 6×6 image is convolved with a 3×3 filter, stride 1, no padding. How large is the feature map?"
+back = "Per side, stops = image side − filter side + 1 = 6 − 3 + 1 = 4, so a 4×4 feature map — the filter's top-left corner can occupy 4 positions per side."
+tags = ["ai4"]
+
+[[card]]
+id = "ai-fc-0040"
+front = "What does a pooling layer do in a CNN?"
+back = "It shrinks each feature map by keeping the strongest response in each small window (max pooling) — preserving 'the pattern is here' while dropping the exact address, so later layers work on smaller grids."
+tags = ["ai4"]
+
+[[card]]
+id = "ai-fc-0041"
+front = "Why do convolutions suit image data so well?"
+back = "Three properties: locality (a small filter reads exactly the neighboring pixels that belong together), weight sharing (one filter reused at every position — few learned numbers), and translation robustness for free from that sharing."
+tags = ["ai4"]
+
+[[card]]
+id = "ai-fc-0042"
+front = "What hierarchy does a CNN build, and how?"
+back = "Edges → textures → parts → objects. Each layer's filters read the previous layer's feature maps, so simple learned patterns combine into more complex ones. Nobody programs it — it emerges from training."
+tags = ["ai4"]
+
+[[card]]
+id = "ai-fc-0043"
+front = "What does image classification output?"
+back = "One label — usually with a confidence — for the whole image. Nothing is said about where the object is or how many objects are present."
+tags = ["ai4"]
+
+[[card]]
+id = "ai-fc-0044"
+front = "What does object detection output?"
+back = "For each object found: a bounding box (where), a class label (what), and a confidence (how sure). The number of outputs depends on the scene — count and location both come out."
+tags = ["ai4"]
+
+[[card]]
+id = "ai-fc-0045"
+front = "What does segmentation output, and how does it differ from detection?"
+back = "A class for every pixel — masks tracing each object's exact shape. Detection answers with loose rectangles; segmentation answers with precise outlines (semantic labels classes, instance separates individual objects)."
+tags = ["ai4"]
+
+[[card]]
+id = "ai-fc-0046"
+front = "Why does the vision task's output shape matter to a tester?"
+back = "The oracle follows the output shape: classification checks one label; detection checks an unknown-count set of box+label+confidence triples, with two independent failure directions (wrong class, wrong box); segmentation needs costly per-pixel truth."
+tags = ["ai4"]

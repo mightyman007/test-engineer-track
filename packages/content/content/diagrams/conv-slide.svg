@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <rect width="800" height="450" fill="#f7f8fb"/>
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1a1a2e"/></marker></defs>
+  <text x="400" y="42" text-anchor="middle" font-size="24" font-weight="700" fill="#1a1a2e">A filter slides, and a feature map comes out</text>
+  <text x="400" y="68" text-anchor="middle" font-size="14" fill="#1a1a2e">5 &#215; 5 image &#183; 3 &#215; 3 filter &#183; stride 1 &#8212; (5 &#8722; 3 + 1) = 3 stops per side</text>
+
+  <text x="165" y="126" text-anchor="middle" font-size="13" font-weight="700" fill="#1a1a2e">the image (5&#215;5)</text>
+  <rect x="90" y="140" width="150" height="150" fill="#ffffff" stroke="#1a1a2e" stroke-width="1.5"/>
+  <line x1="120" y1="140" x2="120" y2="290"/><line x1="150" y1="140" x2="150" y2="290"/><line x1="180" y1="140" x2="180" y2="290"/><line x1="210" y1="140" x2="210" y2="290"/>
+  <line x1="90" y1="170" x2="240" y2="170"/><line x1="90" y1="200" x2="240" y2="200"/><line x1="90" y1="230" x2="240" y2="230"/><line x1="90" y1="260" x2="240" y2="260"/>
+  <rect x="90" y="140" width="90" height="90" fill="none" stroke="#b26a00" stroke-width="3"/>
+  <rect x="120" y="170" width="90" height="90" fill="none" stroke="#1a1a2e" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <text x="165" y="316" text-anchor="middle" font-size="12" fill="#1a1a2e">solid window = stop 1 &#183; dashed = stop 2</text>
+
+  <line x1="248" y1="205" x2="318" y2="210" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="390" y="126" text-anchor="middle" font-size="13" font-weight="700" fill="#1a1a2e">the filter (3&#215;3)</text>
+  <rect x="330" y="140" width="120" height="120" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <line x1="370" y1="140" x2="370" y2="260" stroke="#1a1a2e" stroke-width="1.5"/><line x1="410" y1="140" x2="410" y2="260" stroke="#1a1a2e" stroke-width="1.5"/>
+  <line x1="330" y1="180" x2="450" y2="180" stroke="#1a1a2e" stroke-width="1.5"/><line x1="330" y1="220" x2="450" y2="220" stroke="#1a1a2e" stroke-width="1.5"/>
+  <g font-size="13" font-weight="700" fill="#1a1a2e" text-anchor="middle">
+    <text x="350" y="165">1</text><text x="390" y="165">0</text><text x="430" y="165">-1</text>
+    <text x="350" y="205">1</text><text x="390" y="205">0</text><text x="430" y="205">-1</text>
+    <text x="350" y="245">1</text><text x="390" y="245">0</text><text x="430" y="245">-1</text>
+  </g>
+  <text x="390" y="278" text-anchor="middle" font-size="12" fill="#1a1a2e">learned weights &#8212; a vertical-edge pattern</text>
+
+  <line x1="458" y1="200" x2="546" y2="192" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/>
+
+  <text x="600" y="126" text-anchor="middle" font-size="13" font-weight="700" fill="#1a1a2e">feature map (3&#215;3)</text>
+  <rect x="560" y="140" width="78" height="78" fill="#ffffff" stroke="#1a1a2e" stroke-width="1.5"/>
+  <line x1="586" y1="140" x2="586" y2="218"/><line x1="612" y1="140" x2="612" y2="218"/>
+  <line x1="560" y1="166" x2="638" y2="166"/><line x1="560" y1="192" x2="638" y2="192"/>
+  <rect x="560" y="140" width="26" height="26" fill="#eef3fb"/>
+  <text x="573" y="158" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1a2e">2.6</text>
+  <text x="600" y="240" text-anchor="middle" font-size="12" fill="#1a1a2e">bright where the edge was found</text>
+  <text x="600" y="316" text-anchor="middle" font-size="12" fill="#1a1a2e">9 stops &#8594; 9 numbers</text>
+
+  <text x="400" y="428" text-anchor="middle" font-size="12.5" fill="#1a1a2e">Slide, multiply, sum: every stop writes one number into the feature map.</text>
+</svg>

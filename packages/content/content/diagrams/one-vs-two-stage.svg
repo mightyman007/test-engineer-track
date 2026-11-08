@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <rect width="800" height="450" fill="#f7f8fb"/>
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1a1a2e"/></marker></defs>
+  <text x="400" y="42" text-anchor="middle" font-size="24" font-weight="700" fill="#1a1a2e">One-stage vs two-stage: speed&#8211;accuracy trade-off</text>
+  <text x="400" y="68" text-anchor="middle" font-size="14" fill="#1a1a2e">Same detection task, two currencies &#8212; the axes are the whole module</text>
+
+  <line x1="150" y1="370" x2="720" y2="370" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="150" y1="370" x2="150" y2="110" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="435" y="398" text-anchor="middle" font-size="13" font-weight="700" fill="#1a1a2e">speed &#8594;</text>
+  <text x="205" y="398" text-anchor="middle" font-size="11" fill="#1a1a2e">slower</text>
+  <text x="680" y="398" text-anchor="middle" font-size="11" fill="#1a1a2e">faster</text>
+  <text x="128" y="240" text-anchor="middle" font-size="13" font-weight="700" fill="#1a1a2e" transform="rotate(-90 128 240)">accuracy</text>
+  <text x="170" y="122" font-size="11" fill="#1a1a2e">higher</text>
+  <text x="170" y="356" font-size="11" fill="#1a1a2e">lower</text>
+
+  <circle cx="270" cy="165" r="10" fill="#b26a00"/>
+  <text x="290" y="160" font-size="13" font-weight="700" fill="#1a1a2e">two-stage (R-CNN family)</text>
+  <text x="290" y="182" font-size="11.5" fill="#1a1a2e">propose &#8594; classify &#8212; careful, focused</text>
+  <text x="290" y="204" font-size="11.5" font-weight="700" fill="#b26a00">accurate &#183; slower</text>
+
+  <circle cx="540" cy="290" r="10" fill="#16a34a"/>
+  <text x="560" y="285" font-size="13" font-weight="700" fill="#1a1a2e">one-stage (YOLO / SSD)</text>
+  <text x="560" y="307" font-size="11.5" fill="#1a1a2e">one pass over a grid of cells</text>
+  <text x="560" y="329" font-size="11" font-weight="700" fill="#16a34a">fast &#183; slightly less accurate</text>
+
+  <path d="M 528 272 Q 430 215 356 186" fill="none" stroke="#1a1a2e" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arr)" opacity="0.7"/>
+  <text x="455" y="240" text-anchor="middle" font-size="11" fill="#1a1a2e">modern one-stage narrows the gap</text>
+
+  <text x="400" y="428" text-anchor="middle" font-size="12.5" fill="#1a1a2e">Two-stage buys accuracy with compute; one-stage buys speed &#8212; requirements pick the point.</text>
+</svg>

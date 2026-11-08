@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <rect width="800" height="450" fill="#f7f8fb"/>
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1a1a2e"/></marker></defs>
+  <text x="400" y="42" text-anchor="middle" font-size="24" font-weight="700" fill="#1a1a2e">Two-stage detection: propose, then classify</text>
+  <text x="400" y="68" text-anchor="middle" font-size="14" fill="#1a1a2e">The R-CNN family &#8212; accuracy bought with extra compute</text>
+
+  <rect x="50" y="170" width="110" height="120" fill="#eef3fb" stroke="#1a1a2e" stroke-width="1.5"/>
+  <text x="105" y="235" text-anchor="middle" font-size="12" fill="#1a1a2e">the image</text>
+  <line x1="168" y1="230" x2="212" y2="230" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/><line x1="398" y1="230" x2="443" y2="230" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/>
+
+  <rect x="220" y="145" width="170" height="170" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="305" y="175" text-anchor="middle" font-size="11" fill="#1a1a2e">STAGE 1</text><text x="305" y="197" text-anchor="middle" font-size="15" font-weight="700" fill="#1a1a2e">propose</text>
+  <text x="305" y="220" text-anchor="middle" font-size="11" fill="#1a1a2e">where might objects be?</text>
+  <rect x="245" y="240" width="120" height="60" fill="#eef3fb" stroke="#1a1a2e" stroke-width="1"/>
+  <g stroke="#1a1a2e" stroke-width="1" fill="none" stroke-dasharray="3 2">
+    <rect x="252" y="248" width="28" height="20"/><rect x="290" y="244" width="34" height="26"/><rect x="332" y="252" width="26" height="18"/>
+    <rect x="258" y="278" width="30" height="18"/><rect x="300" y="276" width="26" height="20"/><rect x="338" y="280" width="22" height="16"/>
+  </g>
+  <text x="305" y="312" text-anchor="middle" font-size="10.5" fill="#1a1a2e">&#8776; 2,000 candidate regions</text>
+
+  <rect x="450" y="145" width="170" height="170" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="535" y="175" text-anchor="middle" font-size="11" fill="#1a1a2e">STAGE 2</text><text x="535" y="197" text-anchor="middle" font-size="15" font-weight="700" fill="#1a1a2e">classify</text>
+  <text x="535" y="220" text-anchor="middle" font-size="11" fill="#1a1a2e">what is in each region?</text>
+  <rect x="475" y="240" width="150" height="60" fill="#eef3fb" stroke="#1a1a2e" stroke-width="1"/>
+  <rect x="487" y="250" width="55" height="40" fill="#ffffff" stroke="#c62828" stroke-width="1.5"/><text x="514" y="274" text-anchor="middle" font-size="8.5" font-weight="700" fill="#c62828">car 0.94</text>
+  <rect x="560" y="250" width="55" height="40" fill="#ffffff" stroke="#16a34a" stroke-width="1.5"/><text x="587" y="274" text-anchor="middle" font-size="8" fill="#16a34a">background</text>
+  <text x="535" y="312" text-anchor="middle" font-size="10.5" fill="#1a1a2e">class + refined box, per region</text>
+  <line x1="628" y1="230" x2="673" y2="230" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/>
+
+  <rect x="680" y="170" width="90" height="120" fill="#ffffff" stroke="#16a34a" stroke-width="2"/>
+  <text x="725" y="198" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1a2e">detections</text>
+  <text x="725" y="224" text-anchor="middle" font-size="11" fill="#1a1a2e">boxes +</text><text x="725" y="242" text-anchor="middle" font-size="11" fill="#1a1a2e">classes +</text><text x="725" y="260" text-anchor="middle" font-size="11" fill="#1a1a2e">confidences</text>
+
+  <rect x="170" y="356" width="290" height="28" rx="14" fill="#16a34a" fill-opacity="0.12" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="315" y="374" text-anchor="middle" font-size="12" font-weight="700" fill="#16a34a">accurate &#8212; focused, cropped decisions</text>
+  <rect x="480" y="356" width="280" height="28" rx="14" fill="#b26a00" fill-opacity="0.12" stroke="#b26a00" stroke-width="1.5"/>
+  <text x="620" y="374" text-anchor="middle" font-size="12" font-weight="700" fill="#b26a00">slower &#8212; thousands of looks per image</text>
+
+  <text x="400" y="428" text-anchor="middle" font-size="12.5" fill="#1a1a2e">Proposals focus the classifier&#8217;s attention &#8212; a missed proposal is never recovered.</text>
+</svg>
