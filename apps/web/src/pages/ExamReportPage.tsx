@@ -48,7 +48,7 @@ export function ExamReportPage() {
           if (!q) return null;
           const ok = selected.length === q.answers.length && [...selected].sort().join() === [...q.answers].sort().join();
           return (
-            <div key={qid} style={{ borderBottom: '1px solid #eceef3', paddingBottom: '0.75rem', marginBottom: '0.75rem' }}>
+            <div key={qid} style={{ borderBottom: '1px solid var(--border-soft)', paddingBottom: '0.75rem', marginBottom: '0.75rem' }}>
               <p><strong className={ok ? 'flag ok' : 'flag warn'}>{ok ? 'correct' : 'missed'}</strong> {q.stem}</p>
               <p className="muted">Your answer: {selected.map((i) => q.options[i]).join(', ') || '—'}</p>
               <p>Correct: {q.answers.map((i) => q.options[i]).join(', ')}</p>

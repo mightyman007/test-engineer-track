@@ -37,7 +37,7 @@ export function MigrationPrompt() {
   const serverUrl = (session?.serverUrl ?? '').replace(/\/$/, '');
 
   return (
-    <div className="card" style={{ borderColor: '#4f46e5' }}>
+    <div className="card" style={{ borderColor: 'var(--accent)' }}>
       <strong>Bring my local progress into the cohort?</strong>
       <p className="muted">One-time upload of lessons read, quiz/exam scores, and flashcard scheduling from this browser.</p>
       <button className="btn" disabled={busy} onClick={async () => {

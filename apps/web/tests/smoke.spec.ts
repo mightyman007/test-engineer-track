@@ -37,7 +37,9 @@ test('solo learner: lesson → quiz → flashcard review', async ({ page }) => {
     await checkboxes.first().check();
     await page.getByRole('button', { name: /check answer/i }).click();
   } else {
-    await page.getByRole('button').first().click();
+    // Scope past the nav's theme-toggle button (nav renders before content):
+    // option buttons carry the option text as their accessible name.
+    await page.getByRole('button').filter({ hasNotText: /switch to/i }).first().click();
   }
   await expect(page.getByText(/correct|not quite/i).first()).toBeVisible();
 

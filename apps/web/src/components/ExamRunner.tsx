@@ -244,8 +244,8 @@ export function ExamRunner() {
               aria-current={i === current}
               style={{
                 width: 36, height: 36, borderRadius: 6, cursor: 'pointer',
-                border: i === current ? '2px solid var(--accent, #4f46e5)' : '1px solid #cbd5e1',
-                background: flagged ? '#fef3c7' : answered ? '#dcfce7' : '#fff',
+                border: i === current ? '2px solid var(--accent)' : '1px solid var(--border)',
+                background: flagged ? 'var(--flag-warn-bg)' : answered ? 'var(--flag-ok-bg)' : 'var(--surface)',
               }}
             >
               {i + 1}
@@ -258,7 +258,7 @@ export function ExamRunner() {
         const selected = responses[question.id] ?? [];
         const flagged = flags.has(question.id);
         return (
-          <section className="card" key={question.id} id={`exam-q-${i}`} style={{ marginBottom: '1rem', outline: i === current ? '2px solid var(--accent, #4f46e5)' : 'none' }}>
+          <section className="card" key={question.id} id={`exam-q-${i}`} style={{ marginBottom: '1rem', outline: i === current ? '2px solid var(--accent)' : 'none' }}>
             <p className="muted">Question {i + 1} of {qs.length}</p>
             <h3>{question.stem}</h3>
             {question.type === 'multi' && <p className="muted">Select {question.answers.length}.</p>}
@@ -276,7 +276,7 @@ export function ExamRunner() {
                     </button>
                   ))
                 : question.options.map((opt, oi) => (
-                    <label key={oi} style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', padding: '0.5rem', border: '1px solid #e5e7eb', borderRadius: 8 }}>
+                    <label key={oi} style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', padding: '0.5rem', border: '1px solid var(--border)', borderRadius: 8 }}>
                       <input
                         type="checkbox"
                         name={`q-${question.id}`}
@@ -300,7 +300,7 @@ export function ExamRunner() {
       })}
 
       {submitError && (
-        <p role="alert" className="flag" style={{ borderColor: '#b91c1c', color: '#b91c1c', margin: '1rem 0' }}>
+        <p role="alert" className="flag" style={{ borderColor: 'var(--bad)', color: 'var(--bad)', background: 'var(--flag-bad-bg)', margin: '1rem 0' }}>
           submit failed — your answers are preserved; try again ({submitError})
         </p>
       )}

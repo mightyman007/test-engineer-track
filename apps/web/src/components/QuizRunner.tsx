@@ -105,7 +105,7 @@ export function QuizRunner({ moduleId, size = 12 }: { moduleId: string; size?: n
               </button>
             ))
           : q.options.map((opt, i) => (
-              <label key={i} style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', padding: '0.5rem', border: '1px solid #e5e7eb', borderRadius: 8 }}>
+              <label key={i} style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', padding: '0.5rem', border: '1px solid var(--border)', borderRadius: 8 }}>
                 <input
                   type="checkbox"
                   name={`q-${q.id}`}

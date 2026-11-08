@@ -1,24 +1,40 @@
 :root {
-  --bg: #f7f7f9; --surface: #ffffff; --ink: #1a1a2e; --muted: #6b7280;
-  --accent: #4f46e5; --ok: #16a34a; --warn: #d97706; --bad: #dc2626;
+  /* Dark is the default theme; [data-theme='light'] overrides below. */
+  --bg: #12121c; --surface: #1c1c2a; --ink: #e8e8f2; --muted: #9a9ab0;
+  --accent: #818cf8; --accent-ink: #1e1b4b; --ok: #4ade80; --warn: #fbbf24; --bad: #f87171;
+  --border: #2c2c40; --border-soft: #26263a;
+  --secondary-bg: #26264a;
+  --flag-ok-bg: #123524; --flag-warn-bg: #3a2a08; --flag-bad-bg: #3a1212;
+  --bar-track: #2c2c40;
   --radius: 10px; --maxw: 760px;
+}
+:root[data-theme='light'] {
+  --bg: #f7f7f9; --surface: #ffffff; --ink: #1a1a2e; --muted: #6b7280;
+  --accent: #4f46e5; --accent-ink: #ffffff; --ok: #16a34a; --warn: #d97706; --bad: #dc2626;
+  --border: #e5e7eb; --border-soft: #eceef3;
+  --secondary-bg: #eef0ff;
+  --flag-ok-bg: #dcfce7; --flag-warn-bg: #fef3c7; --flag-bad-bg: #fee2e2;
+  --bar-track: #e5e7eb;
 }
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--bg); color: var(--ink);
   font: 16px/1.65 system-ui, -apple-system, "Segoe UI", sans-serif; }
 a { color: var(--accent); }
 .container { max-width: var(--maxw); margin: 0 auto; padding: 1.5rem 1rem 4rem; }
-.card { background: var(--surface); border: 1px solid #e5e7eb; border-radius: var(--radius);
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
   padding: 1.25rem; margin: 1rem 0; }
 .muted { color: var(--muted); }
-.btn { display: inline-block; background: var(--accent); color: #fff; border: 0;
+.btn { display: inline-block; background: var(--accent); color: var(--accent-ink); border: 0;
   border-radius: 8px; padding: 0.55rem 1.1rem; font-size: 1rem; cursor: pointer; }
-.btn.secondary { background: #eef0ff; color: var(--accent); }
-.bar { height: 8px; background: #e5e7eb; border-radius: 4px; overflow: hidden; }
+.btn.secondary { background: var(--secondary-bg); color: var(--accent); }
+.bar { height: 8px; background: var(--bar-track); border-radius: 4px; overflow: hidden; }
 .bar > div { height: 100%; background: var(--accent); }
-.lesson-body img { max-width: 100%; border: 1px solid #e5e7eb; border-radius: 8px; }
-.lesson-body h2 { margin-top: 2.2rem; border-bottom: 1px solid #eceef3; padding-bottom: 0.3rem; }
+.lesson-body img { max-width: 100%; border: 1px solid var(--border); border-radius: 8px; }
+/* Lesson diagrams carry their own light backgrounds (authored assets) — they
+   read as "paper" cards in dark mode; rounded so they sit deliberately. */
+.lesson-body svg { max-width: 100%; border-radius: 8px; }
+.lesson-body h2 { margin-top: 2.2rem; border-bottom: 1px solid var(--border-soft); padding-bottom: 0.3rem; }
 .grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
 .flag { font-size: 0.85rem; padding: 0.15rem 0.5rem; border-radius: 999px; }
-.flag.ok { background: #dcfce7; color: var(--ok); }
-.flag.warn { background: #fef3c7; color: var(--warn); }
+.flag.ok { background: var(--flag-ok-bg); color: var(--ok); }
+.flag.warn { background: var(--flag-warn-bg); color: var(--warn); }

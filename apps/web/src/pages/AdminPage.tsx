@@ -166,7 +166,7 @@ export function AdminPage({ ctx: injected, rosterLoader, inviteCreator, userCrea
         </thead>
         <tbody>
           {(roster?.users ?? []).map((u) => (
-            <tr key={u.id} style={{ borderTop: '1px solid #eceef3' }}>
+            <tr key={u.id} style={{ borderTop: '1px solid var(--border-soft)' }}>
               <td>{u.displayName} <span className="muted">(<span>{u.username}</span>{u.role === 'admin' ? ', admin' : ''})</span></td>
               <td className="muted">{u.lastSeenAt ? new Date(u.lastSeenAt).toLocaleString() : 'never'}</td>
               <td>{u.quizAttempts}</td>
