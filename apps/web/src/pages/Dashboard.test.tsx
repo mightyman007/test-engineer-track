@@ -4,6 +4,7 @@ import { MemoryRouter } from 'react-router';
 import { Dashboard } from './Dashboard.js';
 import { ContentProvider } from '../lib/content-context.js';
 import { SessionProvider } from '../state/session.js';
+import { TAKE_TWO_MOCKS } from '../lib/readiness.js';
 import type { ContentBundle, Track } from 'tet-core';
 import type { StorageAdapter } from 'tet-storage';
 
@@ -155,6 +156,30 @@ describe('Dashboard two-track coexistence', () => {
     expect(within(istqbCard).queryByText('How Machines Learn')).toBeNull();
     expect(within(aiCard).queryByText('Fundamentals of Testing')).toBeNull();
   });
+
+  it('moves the last-exam line out of the track cards into a global section (M5 Task 1)', async () => {
+    // examScores[0] is read globally (adapter order, across all tracks) — the
+    // old per-card rendering made a foreign exam's score leak into EVERY
+    // track card. The line now lives in one global "Latest exam" section.
+    renderDashboard({
+      getSession: () => Promise.resolve(null),
+      getProgress: () => Promise.resolve({}),
+      getQuizAttempts: () => Promise.resolve([]),
+      getExamAttempts: () => Promise.resolve([
+        attempt(1, 'ai-mock-1', 80, '02'),
+      ]),
+      getReviewState: () => Promise.resolve({}),
+    }, bothBundle);
+
+    await waitFor(() => expect(screen.getByText('AI for Test Engineers')).toBeTruthy());
+    const istqbCard = screen.getByText('ISTQB Foundation').closest('section') as HTMLElement;
+    const aiCard = screen.getByText('AI for Test Engineers').closest('section') as HTMLElement;
+    expect(within(istqbCard).queryByText(/last exam/)).toBeNull();
+    expect(within(aiCard).queryByText(/last exam/)).toBeNull();
+
+    const section = screen.getByText('Latest exam').closest('section') as HTMLElement;
+    expect(within(section).getByText(/last exam 80%/i)).toBeTruthy();
+  });
 });
 
 // Task 4 (M3): the per-track readiness chip — compact verdict from the
@@ -214,8 +239,8 @@ describe('Dashboard readiness chip', () => {
 
   it('asks for 2 mock exams when the track has no exam attempts yet', async () => {
     renderChip(adapterWith([]));
-    await waitFor(() =>
-      expect(screen.getByText(/take 2 mock exams for a readiness reading/i)).toBeTruthy());
+    // M5 Task 1 unified the copy with ExamReadinessSection (lib/readiness.ts).
+    await waitFor(() => expect(screen.getByText(TAKE_TWO_MOCKS)).toBeTruthy());
   });
 
   it('shows no readiness chip for a track with no wired exams', async () => {

@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync } from 'node:fs';
+import { readdirSync, readFileSync, realpathSync } from 'node:fs';
 import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parseLessonMarkdown } from 'tet-core';
@@ -160,5 +160,15 @@ async function main(): Promise<void> {
 }
 
 // Guard so importing this module (e.g. from check-links.test.ts) never
-// triggers a network run; only the CLI entry point invokes main().
-if (process.argv[1]?.endsWith('check-links.ts')) main();
+// triggers a network run; only the CLI entry point invokes main(). The entry
+// is matched by resolved path (argv[1] realpath vs this file's realpath), not
+// by filename suffix — a suffix match would also fire for any other script
+// that merely ends in check-links.ts, and misses relative/symlinked invocations.
+const entry = process.argv[1];
+if (entry) {
+  try {
+    if (realpathSync(entry) === realpathSync(fileURLToPath(import.meta.url))) main();
+  } catch {
+    // argv[1] points at something unreadable (or vanished): not our CLI entry.
+  }
+}

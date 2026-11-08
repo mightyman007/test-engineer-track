@@ -15,7 +15,7 @@ diagrams = [
 
 ## Same input, different output (A8-5)
 
-Classical testing rests on a quiet promise: the same input exercising the same code produces the same output, so a failing test fails again on rerun and a passing one stays passed. Generative AI breaks that promise **on purpose**. An LLM does not emit the single most likely continuation — it holds a probability distribution over tokens and *samples* from it, token by token (module A6's next-token loop). **[Temperature](https://en.wikipedia.org/wiki/Softmax_function)** is the dial on that distribution: low temperature keeps the likeliest token, high temperature flattens it so less-certain picks survive too. Same prompt, same weights — different answers, by design.
+Classical testing rests on a quiet promise: the same input exercising the same code produces the same output, so a failing test fails again on rerun and a passing one stays passed. Generative AI breaks that promise **on purpose**. An LLM does not emit the single most likely continuation — it holds a probability distribution over tokens and *samples* from it, token by token (module A6's next-token loop). **[Temperature](https://en.wikipedia.org/wiki/Boltzmann_distribution)** is the dial on that distribution: low temperature keeps the likeliest token, high temperature flattens it so less-certain picks survive too. Same prompt, same weights — different answers, by design.
 
 ![Same input, different output: sampling fans one prompt into three answers](diagrams/nondeterminism-spread.svg)
 

@@ -279,6 +279,40 @@ describe('buildContentJson', () => {
     }
   });
 
+  it('assembles every real exam at seeds 1..3 (no seed-1-only luck)', () => {
+    // validate.ts runs seed 1 at build time and the per-track wiring tests
+    // assemble at seed 1 — but a mock that only assembles on its build seed
+    // is a learner-facing landmine: the quiz/exam runners re-seed on retake
+    // and resume. Loop the WHOLE shipped catalog (5 ISTQB + 2 AI mocks)
+    // across seeds 1..3 against the real built bank, pinning per draw: the
+    // definition's total, per-group tag counts, the multi-select cap, and
+    // no double-drawn question.
+    const bundle = buildContentJson(CONTENT_ROOT);
+    expect(bundle.exams).toHaveLength(7);
+    expect(new Set(bundle.exams.map((e) => e.id))).toEqual(new Set([
+      'istqb-mock-1', 'istqb-mock-2', 'istqb-mock-3', 'istqb-mock-4', 'istqb-mock-5',
+      'ai-mock-1', 'ai-mock-2',
+    ]));
+    for (const def of bundle.exams) {
+      for (const seed of [1, 2, 3]) {
+        const drawn = assembleExam(def, bundle.questions, seed);
+        expect(drawn.questions, `${def.id} seed ${seed} total`).toHaveLength(def.total);
+        const byTag = new Map<string, number>();
+        let multi = 0;
+        for (const q of drawn.questions) {
+          for (const t of q.tags) byTag.set(t, (byTag.get(t) ?? 0) + 1);
+          if (q.type === 'multi') multi += 1;
+        }
+        for (const g of def.groups) {
+          expect(byTag.get(g.tag), `${def.id} seed ${seed} group ${g.tag}`).toBe(g.count);
+        }
+        expect(multi, `${def.id} seed ${seed} multi cap`).toBeLessThanOrEqual(def.multiSelectMax);
+        expect(new Set(drawn.questions.map((q) => q.id)).size,
+          `${def.id} seed ${seed} distinct`).toBe(drawn.questions.length);
+      }
+    }
+  });
+
   it('parses comment-only quiz and deck files as empty pools (module 8 pattern)', () => {
     // M3 Task 4: module 8 (exam readiness) ships INTENTIONALLY EMPTY pools as
     // comment-only TOML — its page renders the track's mock-exam list instead

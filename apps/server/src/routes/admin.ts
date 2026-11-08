@@ -8,12 +8,14 @@ const CODE_ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
 /**
  * CSV field encoding per RFC 4180, with a spreadsheet formula-injection guard:
  * quote fields containing comma, quote, or newline (doubling embedded quotes),
- * and prefix leading =/+/−/@ with an apostrophe so learner-controlled text
+ * and prefix leading =/+/−/@/tab with an apostrophe so learner-controlled text
  * (e.g. display_name) can never execute as a formula in the admin's Excel.
+ * Tab joins the list because spreadsheet apps strip leading whitespace before
+ * formula parsing — "\t=…" would still execute undefused.
  */
 function csvField(value: unknown): string {
   let s = value === null || value === undefined ? '' : String(value);
-  if (/^[=+\-@]/.test(s)) s = `'${s}`;
+  if (/^[=+\-@\t]/.test(s)) s = `'${s}`;
   if (/[",\r\n]/.test(s)) s = `"${s.replace(/"/g, '""')}"`;
   return s;
 }
@@ -34,7 +36,8 @@ export function adminRoutes(): Hono<AppEnv> {
         (SELECT MAX(ROUND(100.0 * q.score / q.max_score)) FROM quiz_attempts q WHERE q.user_id = u.id AND q.max_score > 0) AS best_quiz_pct,
         (SELECT COUNT(*) FROM exam_attempts e WHERE e.user_id = u.id) AS exam_attempts,
         (SELECT MAX(e.score_pct) FROM exam_attempts e WHERE e.user_id = u.id) AS best_exam_pct,
-        (SELECT COUNT(*) FROM card_states s WHERE s.user_id = u.id) AS cards_tracked
+        (SELECT COUNT(*) FROM card_states s WHERE s.user_id = u.id) AS cards_tracked,
+        (SELECT COUNT(*) FROM card_reviews r WHERE r.user_id = u.id) AS cards_reviewed
       FROM users u ORDER BY u.username`).all() as Array<Record<string, unknown>>;
     return c.json({
       users: rows.map((row) => ({
@@ -42,6 +45,7 @@ export function adminRoutes(): Hono<AppEnv> {
         lastSeenAt: row.last_seen_at, quizAttempts: row.quiz_attempts,
         bestQuizPct: row.best_quiz_pct, examAttempts: row.exam_attempts,
         bestExamPct: row.best_exam_pct, cardsTracked: row.cards_tracked,
+        cardsReviewed: row.cards_reviewed,
       })),
     });
   });
@@ -93,12 +97,14 @@ export function adminRoutes(): Hono<AppEnv> {
         (SELECT MAX(ROUND(100.0 * q.score / q.max_score)) FROM quiz_attempts q WHERE q.user_id = u.id AND q.max_score > 0) AS best_quiz_pct,
         (SELECT COUNT(*) FROM exam_attempts e WHERE e.user_id = u.id) AS exam_attempts,
         (SELECT MAX(e.score_pct) FROM exam_attempts e WHERE e.user_id = u.id) AS best_exam_pct,
-        (SELECT COUNT(*) FROM card_states s WHERE s.user_id = u.id) AS cards_tracked
+        (SELECT COUNT(*) FROM card_states s WHERE s.user_id = u.id) AS cards_tracked,
+        (SELECT COUNT(*) FROM card_reviews r WHERE r.user_id = u.id) AS cards_reviewed
       FROM users u ORDER BY u.username`).all() as Array<Record<string, unknown>>;
-    const header = 'username,display_name,role,last_seen_at,quiz_attempts,best_quiz_pct,exam_attempts,best_exam_pct,cards_tracked';
+    const header = 'username,display_name,role,last_seen_at,quiz_attempts,best_quiz_pct,exam_attempts,best_exam_pct,cards_tracked,cards_reviewed';
     const lines = rows.map((row) => [
       row.username, row.display_name, row.role, row.last_seen_at ?? '', row.quiz_attempts,
       row.best_quiz_pct ?? '', row.exam_attempts, row.best_exam_pct ?? '', row.cards_tracked,
+      row.cards_reviewed,
     ].map(csvField).join(','));
     return c.text([header, ...lines].join('\n'), 200, { 'content-type': 'text/csv' });
   });

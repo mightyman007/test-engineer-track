@@ -241,11 +241,11 @@ stem = "A parking-garage system must report HOW MANY cars are present and WHERE 
 options = [
   "Object detection — a box, class, and confidence per car, so count and location both come out",
   "Image classification — one label per image",
-  "Grayscale conversion — it simplifies the image first",
-  "Clustering — the unsupervised paradigm from module A2",
+  "Image segmentation — a class for every pixel in the scene",
+  "Classification with localization — one box around a single, known object",
 ]
 answers = [0]
-explanation = "Count and location both require per-object outputs, which is exactly detection: one box + label + confidence per car. Classification collapses the whole image to a single label and cannot count; the other two options are not vision tasks that answer the question."
+explanation = "Count and location both require per-object outputs, which is exactly detection: one box + label + confidence per car. Classification collapses the whole image to a single label and cannot count; localization boxes a single known object, not a garage of them; segmentation labels every pixel but does not separate one car from the next, so there is nothing to count per object."
 lo = "A4-4"
 tags = ["ai4"]
 

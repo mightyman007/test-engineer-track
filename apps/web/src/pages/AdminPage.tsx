@@ -5,7 +5,7 @@ import { useSession, type SessionCtx } from '../state/session.js';
 interface RosterRow {
   id: number; username: string; displayName: string; role: string; lastSeenAt: string | null;
   quizAttempts: number; bestQuizPct: number | null; examAttempts: number;
-  bestExamPct: number | null; cardsTracked: number;
+  bestExamPct: number | null; cardsTracked: number; cardsReviewed: number;
 }
 
 /** Payload for POST /api/admin/users. */
@@ -161,7 +161,7 @@ export function AdminPage({ ctx: injected, rosterLoader, inviteCreator, userCrea
         <thead>
           <tr style={{ textAlign: 'left' }}>
             <th>learner</th><th>last seen</th><th>quizzes</th><th>best quiz</th>
-            <th>exams</th><th>best exam</th><th>cards</th><th>actions</th>
+            <th>exams</th><th>best exam</th><th>cards</th><th>reviews</th><th>actions</th>
           </tr>
         </thead>
         <tbody>
@@ -174,6 +174,7 @@ export function AdminPage({ ctx: injected, rosterLoader, inviteCreator, userCrea
               <td>{u.examAttempts}</td>
               <td>{u.bestExamPct === null ? '—' : `${u.bestExamPct}%`}</td>
               <td>{u.cardsTracked}</td>
+              <td>{u.cardsReviewed}</td>
               <td>
                 {resetFor === u.id ? (
                   <span style={{ display: 'inline-flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>

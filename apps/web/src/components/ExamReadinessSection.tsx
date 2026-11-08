@@ -1,6 +1,6 @@
 import { Link } from 'react-router';
 import { useContent } from '../lib/content-context.js';
-import { readinessVerdict } from '../lib/readiness.js';
+import { TAKE_TWO_MOCKS, readinessVerdict } from '../lib/readiness.js';
 import type { Track } from 'tet-core';
 import type { ExamAttempt } from 'tet-storage';
 
@@ -32,12 +32,22 @@ export function ExamReadinessSection({ track, attempts }: {
         </p>
       )}
       {verdict.state === 'no-attempts' && (
-        <p className="muted">Take 2 mock exams to get a readiness reading</p>
+        <p className="muted">{TAKE_TWO_MOCKS}</p>
       )}
       <ol>
         {track.readiness.examIds.map((id) => {
           const def = bundle.exams.find((e) => e.id === id);
-          if (!def) return null;
+          if (!def) {
+            // A wired exam with no definition must not vanish silently (the
+            // M3-flagged degradation pattern): the gap is stated in the list
+            // so a content/wiring typo is visible to the learner and caught
+            // by review, instead of an <ol> silently shorter than the wiring.
+            return (
+              <li key={id}>
+                <span className="flag warn">exam definition missing: {id}</span>
+              </li>
+            );
+          }
           return (
             <li key={id}>
               <Link to={`/exam/${def.id}`}>{def.title}</Link>

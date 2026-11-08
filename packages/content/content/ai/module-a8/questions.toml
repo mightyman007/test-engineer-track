@@ -64,12 +64,12 @@ type = "single"
 stem = "A different run on the same kind of evaluation: the model flags 50 frames, 20 of them correct. Ground truth holds 25 pedestrian frames in total. What is its recall?"
 options = [
   "0.40 — of the 50 flags, 20 were right",
-  "0.50 — half the flags landed on true pedestrians",
+  "0.20 — the 5 missed pedestrians are 20% of the 25 in ground truth",
   "0.25 — 5 pedestrians were missed out of 20 found",
   "0.80 — 20 of the 25 actual pedestrians were found",
 ]
 answers = [3]
-explanation = "Recall divides true positives by everything that was actually there: 20/(20+5) = 0.80. The 0.40 figure is precision (20 of 50 flags right) — the classic swap; 0.50 and 0.25 divide by the wrong quantities."
+explanation = "Recall divides true positives by everything that was actually there: 20/(20+5) = 0.80. The 0.40 figure is precision (20 of 50 flags right) — the classic swap; 0.25 divides the 5 misses by the 20 finds, and 0.20 is the miss rate (5 of 25 actual) — recall's complement, not recall."
 lo = "A8-1"
 tags = ["ai8"]
 

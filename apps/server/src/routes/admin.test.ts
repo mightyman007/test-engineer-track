@@ -50,16 +50,26 @@ describe('invites', () => {
 
 describe('roster + csv', () => {
   it('roster shows aggregate stats', async () => {
+    // cards_reviewed counts raw review events per user (from card_reviews),
+    // distinct from cards_tracked's distinct-cards count (from card_states).
+    const learner = db.prepare('SELECT id FROM users WHERE username = ?').get('learner1') as { id: number };
+    const review = db.prepare(`INSERT INTO card_reviews
+      (user_id, card_id, grade, ease, interval_days, due_at, created_at)
+      VALUES (?, 'istqb-fc-0001', 'good', 2.5, 1, '2026-11-08', '2026-11-07T00:00:00Z')`);
+    review.run(learner.id);
+    review.run(learner.id); // two reviews of the SAME card: tracked 1, reviewed 2
     const res = await app.request('/api/admin/roster', { headers: { cookie: adminCookie } });
-    const body = await res.json() as { users: Array<{ username: string; quizAttempts: number }> };
+    const body = await res.json() as { users: Array<{ username: string; cardsReviewed: number; cardsTracked: number }> };
     expect(body.users.map((u) => u.username).sort()).toEqual(['admin', 'learner1']);
+    expect(body.users.find((u) => u.username === 'learner1')).toMatchObject({ cardsReviewed: 2, cardsTracked: 0 });
+    expect(body.users.find((u) => u.username === 'admin')).toMatchObject({ cardsReviewed: 0 });
   });
 
   it('csv export has header + rows', async () => {
     const res = await app.request('/api/admin/export.csv', { headers: { cookie: adminCookie } });
     expect(res.headers.get('content-type')).toContain('text/csv');
     const text = await res.text();
-    expect(text.split('\n')[0]).toBe('username,display_name,role,last_seen_at,quiz_attempts,best_quiz_pct,exam_attempts,best_exam_pct,cards_tracked');
+    expect(text.split('\n')[0]).toBe('username,display_name,role,last_seen_at,quiz_attempts,best_quiz_pct,exam_attempts,best_exam_pct,cards_tracked,cards_reviewed');
     expect(text.trim().split('\n')).toHaveLength(3);
   });
 
@@ -76,10 +86,18 @@ describe('roster + csv', () => {
     };
     await reg('EVL', 'eviluser', `=cmd|' /C calc'!A0`);
     await reg('CMMA', 'commauser', 'Doe, Jane');
+    // Admin-created display names are stored verbatim (no trim), so a
+    // tab-prefixed formula payload reaches the CSV — Excel strips leading
+    // whitespace before formula parsing, so it must be defused exactly like
+    // the =/+/-/@ ones.
+    const tabRes = await app.request('/api/admin/users', { method: 'POST',
+      headers: { 'content-type': 'application/json', cookie: adminCookie },
+      body: JSON.stringify({ username: 'tabuser', displayName: `\tSUM(A1:A2)`, password: 'longenough1', role: 'learner' }) });
+    expect(tabRes.status).toBe(201);
 
     const text = await (await app.request('/api/admin/export.csv', { headers: { cookie: adminCookie } })).text();
     const lines = text.trim().split('\n');
-    expect(lines[0]).toBe('username,display_name,role,last_seen_at,quiz_attempts,best_quiz_pct,exam_attempts,best_exam_pct,cards_tracked');
+    expect(lines[0]).toBe('username,display_name,role,last_seen_at,quiz_attempts,best_quiz_pct,exam_attempts,best_exam_pct,cards_tracked,cards_reviewed');
 
     const evilRow = lines.find((l) => l.startsWith('eviluser,'))!;
     // Formula is defused with a leading apostrophe (Excel treats it as text).
@@ -108,12 +126,18 @@ describe('roster + csv', () => {
       fields.push(cur);
       return fields;
     }
-    expect(parseCsvLine(lines[0]!)).toHaveLength(9);
+    expect(parseCsvLine(lines[0]!)).toHaveLength(10);
     const jane = parseCsvLine(commaRow);
-    expect(jane).toHaveLength(9);
+    expect(jane).toHaveLength(10);
     expect(jane[1]).toBe('Doe, Jane');
     const evil = parseCsvLine(evilRow);
     expect(evil[1]).toBe(`'=cmd|' /C calc'!A0`);
+    const tabRow = lines.find((l) => l.startsWith('tabuser,'))!;
+    // Tab-prefixed payload defused with the same leading apostrophe.
+    expect(tabRow).toContain(`,'\tSUM(A1:A2)`);
+    const tab = parseCsvLine(tabRow);
+    expect(tab).toHaveLength(10);
+    expect(tab[1]).toBe(`'\tSUM(A1:A2)`);
   });
 });
 

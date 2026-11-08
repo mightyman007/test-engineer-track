@@ -7,9 +7,9 @@ vehicles — and how to test it). Both tracks ship lessons, module quizzes, mock
 exams, spaced-repetition flashcards, read-aloud (TTS), and cohort tracking with
 an admin roster.
 
-**Status:** both tracks are fully authored — 50 lessons (27 ISTQB + 23 AI), 332
-questions (192 + 140), 202 flashcards (110 + 92), 49 diagrams, and 115 verified
-videos (85 + 30), plus seven mock exams.
+**Status:** both tracks are complete — 8 modules each, 50 lessons (27 ISTQB + 23
+AI), 332 questions (192 + 140), 202 flashcards (110 + 92), 49 diagrams, and 115
+verified videos (85 + 30), plus seven mock exams (five ISTQB + two AI).
 
 - The **ISTQB track** has five blueprint-exact mocks (`istqb-mock-1..5` — each
   mirrors the official CTFL v4.0 shape: 40 questions, 60 minutes, pass at 65%,
@@ -21,8 +21,9 @@ videos (85 + 30), plus seven mock exams.
   learning are, neural networks from scratch, computer vision, object detection,
   transformers & LLMs, the autonomous-vehicle AI stack, and how to *test* AI
   systems — metrics, nondeterministic failures, and scenario coverage/SOTIF.
-  AI lessons also embed an interactive demo (a trainable perceptron rendered in
-  the browser). Its two mocks (`ai-mock-1..2` — 30 questions, 45 minutes, pass
+  The neural-networks lesson embeds an interactive demo (a trainable
+  perceptron rendered in the browser). Its two mocks (`ai-mock-1..2` — 30
+  questions, 45 minutes, pass
   at 70%) draw from the AI question bank per an authored blueprint, and its
   readiness verdict uses the same last-2-attempts logic at a 78% threshold.
 
@@ -44,8 +45,10 @@ each track's hub lists its own mock-exam entry points plus a Ready / Not-yet
 indicator (last-2 average of that track's mock attempts vs its readiness
 threshold) — SM-2 spaced-repetition flashcards, TTS via built-in browser voices
 or client-side Kokoro-82M (optional cloud proxy), admin roster with per-learner
-stats + CSV export + one-time invite codes, and a one-time solo→cohort migration
-that preserves in-browser progress.
+stats (including card-review counts) + CSV export + one-time invite codes, and
+a one-time solo→cohort migration that preserves in-browser progress. Per-card
+retention analytics are future work; the shipped admin stat is the per-user
+count of card reviews.
 
 ## Quickstart (solo)
 
@@ -84,10 +87,14 @@ pnpm build && pnpm content:build
 ```
 
 Upload `apps/web/dist/` per Ondana's app-deployment flow. All asset references
-are relative (`./assets/…`), so the app works from any subpath. Enter the app
-via its root URL — routes are client-side, and the static build does not include
-server rewrites for deep links (refreshing on a deep route is a known M5 polish
-item).
+are relative (`./assets/…`), so the app works from any subpath. Routes are
+client-side and the static build ships no server rewrites, so **enter the app
+via its root URL** — a deep link does not work on a static host: without an
+SPA fallback the request 404s, and where a fallback serves `index.html` anyway
+the relative `./assets/…` script paths resolve under the deep path and the
+browser refuses the module, so the app never boots. The root route's own
+failure mode is covered: missing or corrupt `content.json` renders a readable
+error card with a Retry button (never a blank page).
 
 Cohort logins are configured per user at sign-in (the **Server URL** field), so
 point them at wherever the API server runs — same origin, another port on the

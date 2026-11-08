@@ -29,7 +29,8 @@
 # correct. NO klevel field on AI questions — standing M4 ruling: no official
 # K classification exists, and AI exams use count-only groups.
 # Answer positions across the 14 singles: 3 x 0, 4 x 1, 3 x 2, 4 x 3
-# (~25% each, non-cyclic blocks 2,0,1,3 | 1,3,2,0 | 0,2,3,1 | 3,1); the two
+# (~25% each, non-cyclic blocks with no adjacent repeats —
+# 2,0,1,3 | 1,3,2,0 | 2,0,3,1 | 3,1); the two
 # multi-selects use two different correct-pair positions ([0,2] and [1,2]).
 # All stems/options/explanations are original.
 
@@ -158,12 +159,12 @@ id = "ai-q-0097"
 type = "single"
 stem = "Why can the same prompt give different answers on two consecutive runs?"
 options = [
-  "The model samples from the next-token probability distribution rather than always emitting the single top token",
-  "The training data silently changes while you type",
   "The hardware randomly flips bits inside the weights",
+  "The training data silently changes while you type",
+  "The model samples from the next-token probability distribution rather than always emitting the single top token",
   "The model retrains itself between requests",
 ]
-answers = [0]
+answers = [2]
 explanation = "Sampling (tuned by temperature) injects designed-in variability: same input, possibly different output. That non-determinism is part of the generator's contract and a testable property — not changing data, flaky hardware, or self-retraining."
 lo = "A6-3"
 tags = ["ai6"]
@@ -189,12 +190,12 @@ id = "ai-q-0099"
 type = "single"
 stem = "In 'The animal did not cross the street because it was too tired', what lets the model work out what 'it' refers to?"
 options = [
-  "A built-in English grammar rule table",
-  "A dictionary lookup that lists each pronoun's referent",
   "Attention: it weighs 'animal' and 'street' as candidates, and the tiredness context tips the weight toward 'animal'",
+  "A dictionary lookup that lists each pronoun's referent",
+  "A built-in English grammar rule table",
   "A separate translation model that runs first",
 ]
-answers = [2]
+answers = [0]
 explanation = "The pronoun's reading comes from weighing context — both candidates get weight, and 'too tired' shifts it to the animal (with 'too wide', to the street). No grammar tables, no dictionaries, no side models: the weighing IS the mechanism."
 lo = "A6-4"
 tags = ["ai6"]

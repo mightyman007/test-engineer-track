@@ -1,6 +1,13 @@
 import { isReady } from 'tet-core';
 import type { ExamAttempt } from 'tet-storage';
 
+/**
+ * The single-sourced "go take your two mocks" ask (M5 Task 1): rendered
+ * verbatim by ExamReadinessSection (TrackPage's readiness hub) and the
+ * Dashboard's readiness chip. Rewordings happen here or nowhere.
+ */
+export const TAKE_TWO_MOCKS = 'Take 2 mock exams to get a readiness reading';
+
 /** The attempt fields readiness math needs (real attempts satisfy it structurally). */
 export type ReadinessAttempt = Pick<ExamAttempt, 'examId' | 'scorePct' | 'createdAt'>;
 

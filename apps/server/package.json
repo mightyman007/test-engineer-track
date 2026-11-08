@@ -14,13 +14,13 @@
     "hono": "^4.6.0",
     "@hono/node-server": "^1.13.0",
     "better-sqlite3": "^13.0.3",
-    "bcryptjs": "^3.0.2"
+    "bcryptjs": "^3.0.2",
+    "tsx": "^4.19.0"
   },
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.0",
     "@types/node": "^22.0.0",
     "tet-storage": "workspace:*",
-    "tsx": "^4.19.0",
     "typescript": "^5.7.0",
     "vitest": "^3.0.0"
   }

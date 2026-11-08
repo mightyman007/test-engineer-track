@@ -50,3 +50,16 @@ it('drawQuizQuestions: deterministic per seed, size respected, distinct sets acr
     drawQuizQuestions(pool, 12, s + 2).map((q) => q.id).join(','));
   expect(new Set(different).size).toBeGreaterThan(1);          // seeds yield different sets
 });
+
+it('drawQuizQuestions: size <= 0 draws nothing (the negative-slice quirk)', () => {
+  // The ledgered quirk: Array.prototype.slice(0, n) with a NEGATIVE n slices
+  // from the end, so the pre-guard implementation answered size = -1 with
+  // pool.length - 1 questions — a "quiz" the caller never asked for. Every
+  // non-positive size must draw the empty quiz.
+  expect(drawQuizQuestions(pool, 0, 1)).toEqual([]);
+  expect(drawQuizQuestions(pool, -1, 1)).toEqual([]);
+  expect(drawQuizQuestions(pool, -99, 1)).toEqual([]);
+  // The guard must not disturb the ordinary shapes: oversize still yields the
+  // whole pool (slice semantics, unchanged).
+  expect(drawQuizQuestions(pool, pool.length + 5, 1)).toHaveLength(pool.length);
+});
