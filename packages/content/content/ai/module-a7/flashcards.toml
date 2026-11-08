@@ -1,0 +1,77 @@
+# AI for Test Engineers — Module A7 "AI in the Autonomous-Vehicle Stack"
+# 12 atomic flashcards: the four sensors and their blind spots, sensor
+# fusion, the four pipeline stages with their inputs/outputs, detection's
+# place in perception with the A5 paradigm tie-back, why simulation exists,
+# and the sim-to-real gap.
+
+[[card]]
+id = "ai-fc-0069"
+front = "What does the camera see well — and where does it fail?"
+back = "Well: the scene as an image — lane markings, traffic-light colors, sign text, gestures. Fails: darkness, glare, dirty lenses. It is the only sensor that reads the scene's visual detail."
+tags = ["ai7"]
+
+[[card]]
+id = "ai-fc-0070"
+front = "What does radar contribute?"
+back = "Radio waves return range plus relative speed (Doppler), robust through rain, fog, and darkness. The picture is coarse — blobs and speeds, not readable signs or colors."
+tags = ["ai7"]
+
+[[card]]
+id = "ai-fc-0071"
+front = "What does lidar contribute?"
+back = "Laser pulses swept across the scene return a precise 3D point cloud — millimeter-grade distances giving the world its shape. Weaknesses: fog, heavy rain, and snow scatter the light; it reads geometry, not color; historically costly."
+tags = ["ai7"]
+
+[[card]]
+id = "ai-fc-0072"
+front = "What do ultrasonic sensors do?"
+back = "Short-range sound echoes — the parking-sensor tech. Reliable close-quarters sensing (curbs, walls, parking lines) out to a few meters; useless for the road ahead."
+tags = ["ai7"]
+
+[[card]]
+id = "ai-fc-0073"
+front = "Why fuse multiple sensors instead of picking the best one?"
+back = "Complementarity + redundancy: each family's blind spot is another's strength (rain blinds cameras/lidar but not radar; darkness spares radar/lidar). Fused, the suite has no single point of blindness — and sensor disagreement becomes a testable signal."
+tags = ["ai7"]
+
+[[card]]
+id = "ai-fc-0074"
+front = "Name the four AV pipeline stages in order, one line each."
+back = "Perception — what is where, right now. Prediction — what will each agent do next. Planning — what will we do (the trajectory). Control — do it: steering, brake, throttle."
+tags = ["ai7"]
+
+[[card]]
+id = "ai-fc-0075"
+front = "What does perception output, and what does it contain?"
+back = "The world model — including object-detection triples (box + class + confidence per road user, module A5's output) plus lanes and lights. Everything downstream consumes it."
+tags = ["ai7"]
+
+[[card]]
+id = "ai-fc-0076"
+front = "What does the prediction stage do?"
+back = "Forecasts every agent's next moves — the pedestrian leaning toward the curb, the car drifting into your lane. Planning can only plan around the futures prediction produces."
+tags = ["ai7"]
+
+[[card]]
+id = "ai-fc-0077"
+front = "What do planning and control each do?"
+back = "Planning chooses the trajectory through the predicted world (motion planning: lanes, gaps, yields). Control turns that trajectory into steering, braking, and throttle via drive-by-wire actuators."
+tags = ["ai7"]
+
+[[card]]
+id = "ai-fc-0078"
+front = "Where does detection sit in the AV stack, and which paradigm fits where?"
+back = "Inside perception. On-vehicle latency budgets favor one-stage (single pass); offline analysis with recall priority can afford two-stage. Both paradigms exist in production stacks because the two contexts' budgets genuinely differ — the A5 trade-off, applied."
+tags = ["ai7"]
+
+[[card]]
+id = "ai-fc-0079"
+front = "Why is simulation indispensable for AV testing?"
+back = "Reliability math demands hundreds of millions of road miles — decades, undrivable. Sim buys safety (dangerous scenarios rehearsed freely), scale (thousands of variants overnight), and coverage (deliberately steering into the rare, dangerous tail)."
+tags = ["ai7"]
+
+[[card]]
+id = "ai-fc-0080"
+front = "What is the sim-to-real gap?"
+back = "The risk that a model aces the simulator yet fails on real hardware: simulated sensor data and physics are models of reality, not reality. Sim complements road testing — mature programs close the loop with both."
+tags = ["ai7"]

@@ -1,0 +1,65 @@
+# AI for Test Engineers — Module A6 "Transformers & LLMs"
+# 10 atomic flashcards: tokens and their IDs, why token splits are
+# test-relevant, embeddings and the meaning-geometry, a nearest-neighbor
+# worked check, next-token prediction, sampling non-determinism, attention,
+# the pronoun-resolution example, the LLM feature classes, and hallucination.
+
+[[card]]
+id = "ai-fc-0059"
+front = "What is a token, and what does the model actually read?"
+back = "A token is a small chunk of text — a whole word or a subword fragment like 'un' + 'believ' + 'able' — mapped to an ID number. The model never sees letters: it reads the sequence of token IDs."
+tags = ["ai6"]
+
+[[card]]
+id = "ai-fc-0060"
+front = "Why do token splits matter to a tester?"
+back = "Context windows, API limits, and pricing are denominated in tokens, not words — and the same text tokenizes differently across models and languages. Splits are observable behavior, and a bad split can change the output itself."
+tags = ["ai6"]
+
+[[card]]
+id = "ai-fc-0061"
+front = "What is an embedding?"
+back = "A learned vector of numbers attached to each token. Training arranges the space so similar meanings sit near each other — meaning becomes geometry, and 'the model thinks these are alike' becomes measurable distance."
+tags = ["ai6"]
+
+[[card]]
+id = "ai-fc-0062"
+front = "Worked check: which pair sits closest in a trained embedding space — 'physician'/'doctor', 'car'/'justice', or 'cat'/'banana'?"
+back = "'physician'/'doctor' — near-identical usage in text lands them as neighbors. Unrelated pairs stay far apart. Nobody programs the nearness; it emerges from the co-occurrence patterns in the training text."
+tags = ["ai6"]
+
+[[card]]
+id = "ai-fc-0063"
+front = "What is next-token prediction, in one line?"
+back = "The training objective and the generation loop of LLMs: given the tokens so far, predict a probability for each candidate next token, emit one (sampled), append it, repeat. Fluent paragraphs are thousands of iterations of this loop."
+tags = ["ai6"]
+
+[[card]]
+id = "ai-fc-0064"
+front = "Why can the same prompt give different answers across runs?"
+back = "Generation samples from the next-token distribution rather than always taking the top token (tuning knob: temperature). The non-determinism is designed-in — a testable property of the contract, not a defect."
+tags = ["ai6"]
+
+[[card]]
+id = "ai-fc-0065"
+front = "What does attention do?"
+back = "At each position it scores earlier tokens for relevance and builds the current token's representation as a weighted mixture of them. Interpretation depends on context — and the weights shift when the context does."
+tags = ["ai6"]
+
+[[card]]
+id = "ai-fc-0066"
+front = "In 'The animal didn't cross the street because it was too tired', how does attention resolve 'it'?"
+back = "Both 'animal' and 'street' are candidates; the phrase 'too tired' tips the weights toward 'animal'. End the sentence 'too wide' instead and the weights tip toward 'street' — same word, different reading."
+tags = ["ai6"]
+
+[[card]]
+id = "ai-fc-0067"
+front = "Name three LLM-shaped features a tester meets, and what each generates."
+back = "Chatbots generate answers in free text; coding copilots generate code suggestions; summarizers generate condensed text from documents. All three are the same next-token machinery behind different interfaces — with unbounded output spaces."
+tags = ["ai6"]
+
+[[card]]
+id = "ai-fc-0068"
+front = "What is a hallucination, and why does it happen?"
+back = "Confident, fluent output that is fabricated — a summary citing details not in its source, a copilot calling a function that doesn't exist. Cause: the model predicts plausible continuations, and plausibility is not truth. Test it as a designed-for failure mode, not a rare glitch."
+tags = ["ai6"]

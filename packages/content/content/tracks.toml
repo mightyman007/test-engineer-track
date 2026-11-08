@@ -178,3 +178,25 @@ quizPool = "ai/module-a5"
 deck = "ai/module-a5"
 lessonIds = ["ai-m5-detection-task", "ai-m5-two-stage", "ai-m5-one-stage"]
 examWeight = 4   # informational until the AI mocks exist (M4 Task 7)
+
+[[track.module]]
+id = "ai-m6-transformers-llms"
+track = "ai-fundamentals"
+title = "Transformers & LLMs"
+order = 6
+source = "ai/module-a6"
+quizPool = "ai/module-a6"
+deck = "ai/module-a6"
+lessonIds = ["ai-m6-tokens-embeddings", "ai-m6-attention-llms"]
+examWeight = 4   # informational until the AI mocks exist (M4 Task 7)
+
+[[track.module]]
+id = "ai-m7-av-stack"
+track = "ai-fundamentals"
+title = "AI in the Autonomous-Vehicle Stack"
+order = 7
+source = "ai/module-a7"
+quizPool = "ai/module-a7"
+deck = "ai/module-a7"
+lessonIds = ["ai-m7-sensor-suite", "ai-m7-av-pipeline", "ai-m7-sim-vs-real"]
+examWeight = 4   # informational until the AI mocks exist (M4 Task 7)
