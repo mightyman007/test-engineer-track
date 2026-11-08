@@ -81,6 +81,12 @@ export function TtsPlayer({ text }: { text: string }) {
     setPlaying(true);
     await provider!.speak(text, { rate: rateRef.current });
     if (playToken.current !== myRun) return; // superseded by a newer run
+    // Post-unmount guard (M5 Task 2): a provider's speak resolving after the
+    // component is gone must not schedule React work against a dead tree —
+    // a pending completion firing after test-environment teardown surfaced
+    // as an unhandled "window is not defined" rejection (Task 1's flagged
+    // latent flake). Nothing observable changes; the state reset is skipped.
+    if (!aliveRef.current) return;
     playingRef.current = false;
     setPlaying(false);
   }

@@ -130,4 +130,19 @@ describe('ExamReadinessSection', () => {
     expect(screen.getByText(TAKE_TWO_MOCKS)).toBeTruthy();
     expect(screen.queryByText(/Ready for the real exam/)).toBeNull();
   });
+
+  it('renders a visible row for a wired exam whose definition is missing', () => {
+    // Silent-skip regression pin (M5 Task 2): `if (!def) return null` used to
+    // drop a wired-but-undefined exam from the list without a trace — a
+    // content/wiring typo degraded silently (the M3-flagged failure pattern).
+    // The gap must be stated in the list, and the valid exams must keep
+    // rendering alongside it.
+    renderSection([], { ...track, readiness: { ...track.readiness, examIds: ['mock-1', 'ghost-9'] } });
+    const row = screen.getByText(/exam definition missing/i);
+    expect(row.textContent).toContain('ghost-9');
+    // The missing exam offers no entry (there is nothing to run), and the
+    // valid exams still render.
+    expect(screen.queryByRole('link', { name: /ghost/i })).toBeNull();
+    expect(screen.getByRole('link', { name: 'ISTQB CTFL Mock Exam 1' })).toBeTruthy();
+  });
 });

@@ -23,8 +23,11 @@ export function scoreAttempt(
 
 /** Deterministic per seed: draws `size` distinct questions from the pool
  *  (Fisher–Yates over a seeded shuffle, then slice). Used by the quiz runner
- *  so retakes can re-seed without DOM access. */
+ *  so retakes can re-seed without DOM access. Non-positive sizes draw the
+ *  empty quiz — slice(0, n) with negative n slices from the END, which would
+ *  otherwise return a quiz the caller never asked for. */
 export function drawQuizQuestions(pool: Question[], size: number, seed: number): Question[] {
+  if (size <= 0) return [];
   const rng = mulberry32(seed >>> 0);
   const arr = [...pool];
   for (let i = arr.length - 1; i > 0; i--) {

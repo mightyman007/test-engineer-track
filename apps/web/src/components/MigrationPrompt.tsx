@@ -28,7 +28,12 @@ export function MigrationPrompt() {
     })();
   }, [cohort]);
 
-  if (!cohort) return null;
+  if (!cohort || !show) return null;
+  // `show` gates the card: cohort mode alone is not enough — the offer
+  // appears only when the local browser actually has progress worth
+  // migrating, and stays down once either path has set the flag. (The state
+  // existed but was never read: every cohort visit — even with nothing to
+  // upload — showed the card. Found by this file's three-state tests.)
   const serverUrl = (session?.serverUrl ?? '').replace(/\/$/, '');
 
   return (

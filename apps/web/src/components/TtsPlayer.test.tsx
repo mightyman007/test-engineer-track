@@ -1,6 +1,6 @@
 import { StrictMode } from 'react';
-import { describe, expect, it, vi } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+import { cleanup, render, screen, waitFor } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { TtsPlayer } from './TtsPlayer.js';
 import { pickProvider, type TtsProvider } from 'tet-core';
@@ -10,6 +10,14 @@ vi.mock('tet-core', async (importOriginal) => ({
   pickProvider: vi.fn(),
 }));
 
+// Every stub speak() settles on a macrotask (below). Those timers are
+// TRACKED here and defused in afterEach: a speak left pending when a test
+// ends fires its timer after the file's jsdom environment is torn down, and
+// the play() continuation running against the dead environment was the
+// Task-1-flagged latent flake (an unhandled "window is not defined"
+// rejection that could fail an UNRELATED later file).
+const pendingSpeaks: Array<{ timer: ReturnType<typeof setTimeout>; settle: () => void }> = [];
+
 function providerStub(): TtsProvider {
   return {
     id: 'webspeech',
@@ -17,12 +25,27 @@ function providerStub(): TtsProvider {
     // Resolve on a macrotask so the "playing" state persists past
     // userEvent.click's own act draining (microtasks would complete play()
     // before waitFor can observe the Pause state).
-    speak: vi.fn(async () => { await new Promise((r) => setTimeout(r, 50)); }),
+    speak: vi.fn(() => new Promise<void>((resolve) => {
+      const timer = setTimeout(resolve, 50);
+      pendingSpeaks.push({ timer, settle: resolve });
+    })),
     pause: vi.fn(),
     resume: vi.fn(),
     stop: vi.fn(),
   };
 }
+
+afterEach(() => {
+  // Unmount FIRST, so a settled speak meets the component's post-unmount
+  // guard instead of live state; then defuse the timers (cleared + resolved
+  // synchronously, so nothing of this test outlives the file's environment).
+  cleanup();
+  for (const { timer, settle } of pendingSpeaks) {
+    clearTimeout(timer);
+    settle();
+  }
+  pendingSpeaks.length = 0;
+});
 
 describe('TtsPlayer', () => {
   it('stays idle on mount, warms on first click, then shows controls and speaks', async () => {
@@ -78,6 +101,39 @@ describe('TtsPlayer', () => {
     await userEvent.click(screen.getByRole('button', { name: /text-to-speech ready/i }));
     unmount();
     expect(() => resolvePick(providerStub())).not.toThrow();
+  });
+
+  it('a speak completing after unmount schedules nothing and rejects nothing', async () => {
+    // The Task-1-flagged latent flake, pinned (M5 Task 2): unmount while a
+    // play() is in flight, then let the provider's macrotask completion fire.
+    // PINS the symptom — no unhandled rejection may leak out of this file
+    // (it could fail an unrelated later suite). The leak is closed at two
+    // layers: this file's afterEach defuses every pending speak, and play()
+    // skips its post-await state work once unmounted. The component guard is
+    // defense in depth — React also no-ops a late setState — so this pin
+    // alone cannot red-drive the guard; it holds the no-leak contract either
+    // way.
+    const p = providerStub();
+    vi.mocked(pickProvider).mockResolvedValue(p);
+    const { unmount } = render(<TtsPlayer text="hello lesson" />);
+    await userEvent.click(screen.getByRole('button', { name: /text-to-speech ready/i }));
+    const listen = await screen.findByRole('button', { name: /listen/i });
+    await userEvent.click(listen);
+    await screen.findByRole('button', { name: /pause/i }); // speak in flight
+
+    const rejections: unknown[] = [];
+    const listener = (reason: unknown): void => { rejections.push(reason); };
+    process.on('unhandledRejection', listener);
+    try {
+      unmount();
+      // Outlive the stub's 50ms macrotask so its completion (and every
+      // continuation it schedules) happens while we are watching.
+      await new Promise((resolve) => setTimeout(resolve, 80));
+    } finally {
+      process.off('unhandledRejection', listener);
+    }
+    expect(p.speak).toHaveBeenCalledTimes(1);
+    expect(rejections).toEqual([]);
   });
 
   it('works under React StrictMode (dev double-mount must not wedge the lazy pick)', async () => {
