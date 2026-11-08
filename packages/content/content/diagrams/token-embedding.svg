@@ -35,7 +35,6 @@
   <circle cx="700" cy="268" r="7" fill="#c62828"/><text x="714" y="272" font-size="11" fill="#1a1a2e">banana</text>
   <text x="648" y="290" text-anchor="middle" font-size="10.5" fill="#1a1a2e">similar meanings sit near each other</text>
 
-  <text x="400" y="356" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1a1a2e">Tokenizer &#8594; ID &#8594; vector. The geometry IS the model's idea of meaning.</text>
-  <text x="400" y="380" text-anchor="middle" font-size="12" fill="#1a1a2e">Same sentence, different tokenizer &#8594; different tokens &#8212; which is why token splits are observable behavior.</text>
+  <text x="400" y="356" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1a1a2e">Tokenizer &#8594; ID &#8594; vector. The geometry IS the model's idea of meaning.</text><text x="400" y="380" text-anchor="middle" font-size="12" fill="#1a1a2e">Same sentence, different tokenizer &#8594; different tokens &#8212; which is why token splits are observable behavior.</text>
   <text x="400" y="428" text-anchor="middle" font-size="12.5" fill="#1a1a2e">Context windows are denominated in tokens, not words &#8212; token behavior is tester-visible.</text>
 </svg>

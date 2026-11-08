@@ -36,6 +36,5 @@
   <text x="552" y="298" font-size="10.5" fill="#1a1a2e">precise 3D shape of the scene;</text><text x="552" y="312" font-size="10.5" fill="#1a1a2e">fog &amp; snow weaken it; costly</text>
   <circle cx="538" cy="361" r="6" fill="#16a34a"/><text x="552" y="351" font-size="11.5" font-weight="700" fill="#1a1a2e">ultrasonic</text>
   <text x="552" y="368" font-size="10.5" fill="#1a1a2e">short-range close-quarters echo</text><text x="552" y="382" font-size="10.5" fill="#1a1a2e">(parking, curbs) &#8212; no long range</text>
-
   <text x="400" y="428" text-anchor="middle" font-size="12.5" fill="#1a1a2e">Fusion combines complementary strengths &#8212; and sensor disagreement is itself a testable signal.</text>
 </svg>

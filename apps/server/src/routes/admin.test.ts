@@ -76,6 +76,14 @@ describe('roster + csv', () => {
     };
     await reg('EVL', 'eviluser', `=cmd|' /C calc'!A0`);
     await reg('CMMA', 'commauser', 'Doe, Jane');
+    // Admin-created display names are stored verbatim (no trim), so a
+    // tab-prefixed formula payload reaches the CSV — Excel strips leading
+    // whitespace before formula parsing, so it must be defused exactly like
+    // the =/+/-/@ ones.
+    const tabRes = await app.request('/api/admin/users', { method: 'POST',
+      headers: { 'content-type': 'application/json', cookie: adminCookie },
+      body: JSON.stringify({ username: 'tabuser', displayName: `\tSUM(A1:A2)`, password: 'longenough1', role: 'learner' }) });
+    expect(tabRes.status).toBe(201);
 
     const text = await (await app.request('/api/admin/export.csv', { headers: { cookie: adminCookie } })).text();
     const lines = text.trim().split('\n');
@@ -114,6 +122,12 @@ describe('roster + csv', () => {
     expect(jane[1]).toBe('Doe, Jane');
     const evil = parseCsvLine(evilRow);
     expect(evil[1]).toBe(`'=cmd|' /C calc'!A0`);
+    const tabRow = lines.find((l) => l.startsWith('tabuser,'))!;
+    // Tab-prefixed payload defused with the same leading apostrophe.
+    expect(tabRow).toContain(`,'\tSUM(A1:A2)`);
+    const tab = parseCsvLine(tabRow);
+    expect(tab).toHaveLength(9);
+    expect(tab[1]).toBe(`'\tSUM(A1:A2)`);
   });
 });
 

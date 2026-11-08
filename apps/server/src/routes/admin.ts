@@ -8,12 +8,14 @@ const CODE_ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
 /**
  * CSV field encoding per RFC 4180, with a spreadsheet formula-injection guard:
  * quote fields containing comma, quote, or newline (doubling embedded quotes),
- * and prefix leading =/+/−/@ with an apostrophe so learner-controlled text
+ * and prefix leading =/+/−/@/tab with an apostrophe so learner-controlled text
  * (e.g. display_name) can never execute as a formula in the admin's Excel.
+ * Tab joins the list because spreadsheet apps strip leading whitespace before
+ * formula parsing — "\t=…" would still execute undefused.
  */
 function csvField(value: unknown): string {
   let s = value === null || value === undefined ? '' : String(value);
-  if (/^[=+\-@]/.test(s)) s = `'${s}`;
+  if (/^[=+\-@\t]/.test(s)) s = `'${s}`;
   if (/[",\r\n]/.test(s)) s = `"${s.replace(/"/g, '""')}"`;
   return s;
 }

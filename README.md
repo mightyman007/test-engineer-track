@@ -21,8 +21,9 @@ videos (85 + 30), plus seven mock exams.
   learning are, neural networks from scratch, computer vision, object detection,
   transformers & LLMs, the autonomous-vehicle AI stack, and how to *test* AI
   systems — metrics, nondeterministic failures, and scenario coverage/SOTIF.
-  AI lessons also embed an interactive demo (a trainable perceptron rendered in
-  the browser). Its two mocks (`ai-mock-1..2` — 30 questions, 45 minutes, pass
+  The neural-networks lesson embeds an interactive demo (a trainable
+  perceptron rendered in the browser). Its two mocks (`ai-mock-1..2` — 30
+  questions, 45 minutes, pass
   at 70%) draw from the AI question bank per an authored blueprint, and its
   readiness verdict uses the same last-2-attempts logic at a 78% threshold.
 

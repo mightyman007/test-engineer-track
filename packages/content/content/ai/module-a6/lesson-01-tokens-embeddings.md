@@ -14,7 +14,7 @@ diagrams = [
 
 ## Text enters as tokens (A6-1)
 
-Modules A3–A5 taught you that networks compute on numbers. But a chatbot receives *text* — so before any network runs, something has to turn language into numbers. That something is **[tokenization](https://en.wikipedia.org/wiki/Language_model)**: a tokenizer chops the input into **tokens** — small chunks of text, each mapped to an ID number — and the model consumes the sequence of IDs.
+Modules A3–A5 taught you that networks compute on numbers. But a chatbot receives *text* — so before any network runs, something has to turn language into numbers. That something is **[tokenization](https://en.wikipedia.org/wiki/Large_language_model#Tokenization)**: a tokenizer chops the input into **tokens** — small chunks of text, each mapped to an ID number — and the model consumes the sequence of IDs.
 
 The chunking is worth understanding precisely, because it defies a natural assumption: **a token is not a word**. Common words often map to one token each ("the", "test"), but rarer words get split into subword pieces — *unbelievable* may arrive as *un* + *believ* + *able*. Modern tokenizers, built on schemes like **[byte pair encoding](https://en.wikipedia.org/wiki/Byte_pair_encoding)** (BPE), learn these splits from data. One consequence a tester meets immediately: the same sentence can produce *different token counts* in different models and different languages — "token count" is not "word count".
 
@@ -34,7 +34,7 @@ So what does a [large language model](https://en.wikipedia.org/wiki/Large_langua
 
 Generation is that loop, run one step at a time: predict a distribution over the next token, emit one token, append it to the context, predict again. A fluent paragraph is thousands of iterations of a next-token loop. Two tester-facing consequences fall straight out of this design:
 
-- **Sampling makes outputs non-deterministic by design.** The model doesn't always emit the single top token — it *samples* from the distribution (tuned by a setting called temperature). The same prompt can yield different outputs across runs. That is not a bug; it is the generator's contract — and it changes how oracles work (module A8's business).
+- **Sampling makes outputs non-deterministic by design.** The model doesn't always emit the single top token — it *samples* from the distribution, tuned by a setting called [temperature](https://en.wikipedia.org/wiki/Boltzmann_distribution). The same prompt can yield different outputs across runs. That is not a bug; it is the generator's contract — and it changes how oracles work (module A8's business).
 - **Plausible is not the same as true.** The training objective rewards *likely continuations*, not *verified facts*. Hold that thought — it is the seed of the failure mode the next lesson names.
 
 ## What testers take away

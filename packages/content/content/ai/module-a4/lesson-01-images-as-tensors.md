@@ -28,7 +28,7 @@ Stack those three grids and you get a **[tensor](https://en.wikipedia.org/wiki/T
 
 ## A worked example: counting the numbers (A4-1)
 
-Take a small grayscale thumbnail, 100 × 100 pixels. Each pixel holds one brightness number, so the whole image is 100 × 100 = **10,000 numbers**. Now make it color: three channels per pixel — 100 × 100 × 3 = **30,000 numbers**. Now a full-HD frame, 1920 × 1080 RGB: 1920 × 1080 × 3 = 6,220,800 numbers — roughly **6.2 million numbers** for one still frame, and a camera streams dozens of those per second.
+Take a small grayscale thumbnail, 100 × 100 pixels. Each pixel holds one brightness number, so the whole image is 100 × 100 = **10,000 numbers**. Now make it color: three channels per pixel — 100 × 100 × 3 = **30,000 numbers**. Now a full-HD frame, 1080 × 1920 RGB: 1080 × 1920 × 3 = 6,220,800 numbers — roughly **6.2 million numbers** for one still frame, and a camera streams dozens of those per second.
 
 That count explains the shape of everything in this module. A model cannot sensibly read 6 million unrelated numbers one by one — so the next lesson's trick (filters that slide) exists to compress the grid into patterns. And the count is also where the tester's first CV checks live, because *how* those numbers are prepared is a pipeline decision.
 
@@ -38,7 +38,7 @@ Three testable consequences fall straight out of "image = tensor":
 
 - **Preprocessing is a contract.** Models are trained on numbers in a certain range and order — 0–255 versus 0–1, RGB versus BGR channel order, specific resize dimensions. Feed raw camera data that violates the contract and the model degrades *silently*: no crash, just worse predictions. These mismatches are classic, findable defects.
 - **Camera health is data health.** A mis-exposed or smeared lens shifts the grid's values before any model runs — module A2's garbage-in rule wearing a camera's face.
-- **Size arithmetic is checkable.** Channels, height, width — you can verify the tensor a pipeline produces against the tensor the model expects, without any AI knowledge at all.
+- **Size arithmetic is checkable.** Height, width, channels — you can verify the tensor a pipeline produces against the tensor the model expects, without any AI knowledge at all.
 
 ## In plain terms
 

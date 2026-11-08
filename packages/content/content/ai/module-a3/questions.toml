@@ -293,7 +293,7 @@ tags = ["ai3"]
 [[question]]
 id = "ai-q-0052"
 type = "single"
-stem = "In the module's perceptron demo, each Train press moves the boundary line and the loss readout falls smoothly. You change one setting so each step is 100 times larger — now the line jumps past the points and the loss climbs. What did you change, and which failure mode is this?"
+stem = "In perceptron training, you multiply the step size by 100. Now each update jumps the decision boundary far past the points and the loss climbs instead of falling. What did you change, and which failure mode is this?"
 options = [
   "The learning rate; this is the too-large case — each step overshoots",
   "The dataset size; this is underfitting",
@@ -301,6 +301,6 @@ options = [
   "The loss function; this is overfitting",
 ]
 answers = [0]
-explanation = "Step size is the learning rate, and 'jumps past the target, loss climbs' is its classic too-large failure: overshooting the valley instead of descending into it. Dataset size, activation, and the loss formula are untouched in that scenario."
+explanation = "Step size is the learning rate, and 'jumps far past the points, loss climbs' is its classic too-large failure: overshooting the valley instead of descending into it. Dataset size, activation, and the loss formula are untouched in that scenario."
 lo = "A3-5"
 tags = ["ai3"]
