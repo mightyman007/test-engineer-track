@@ -19,6 +19,9 @@ function readBankFloors(root: string): BankFloor[] {
   if (!existsSync(path)) return [];
   const raw = parseToml(readFileSync(path, 'utf8')) as { floor?: unknown };
   const rows = Array.isArray(raw.floor) ? raw.floor : [];
+  if (rows.length === 0) {
+    throw new Error('bank-floors.toml present but defines no floors');
+  }
   return rows.map((row) => {
     const r = row as { tag?: unknown; minimum?: unknown };
     if (typeof r.tag !== 'string' || typeof r.minimum !== 'number') {

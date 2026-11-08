@@ -122,7 +122,7 @@ describe('validateContent', () => {
 
   it('enforces declared bank floors', () => {
     const d = validateContent(input({ bankFloors: [{ tag: 'ch1', minimum: 5 }] })); // 1 question < 5
-    expect(d.some((x) => x.message.includes('bank floor 5 unmet (have 1)'))).toBe(true);
+    expect(d.some((x) => x.message.includes('group ch1 bank floor 5 unmet (have 1)'))).toBe(true);
   });
 
   it('passes when bank floors are met', () => {

@@ -115,4 +115,16 @@ describe('buildContentJson', () => {
     rmSync(join(root, 'diagrams', 'x.svg'));
     expect(() => buildContentJson(root)).toThrow(/missing diagram file/);
   });
+
+  it('enforces a bank floor declared in bank-floors.toml end-to-end', () => {
+    const root = seedRoot();
+    writeFileSync(join(root, 'bank-floors.toml'), '[[floor]]\ntag = "ch99"\nminimum = 5\n');
+    expect(() => buildContentJson(root)).toThrow(/bank floor 5 unmet \(have 0\)/);
+  });
+
+  it('rejects a bank-floors.toml that defines no floors', () => {
+    const root = seedRoot();
+    writeFileSync(join(root, 'bank-floors.toml'), '# floors pending\n');
+    expect(() => buildContentJson(root)).toThrow(/present but defines no floors/);
+  });
 });
