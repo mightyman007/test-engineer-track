@@ -18,7 +18,7 @@ A [self-driving car](https://en.wikipedia.org/wiki/Self-driving_car) has no eyes
 
 - **[Camera](https://en.wikipedia.org/wiki/Camera)** — the only sensor that captures the scene as an *image*: lane markings, traffic-light colors, sign text, the shape of a hand signaling a turn. Its weakness is the physics of light: darkness, glare, and a dirty lens blind it.
 - **[Radar](https://en.wikipedia.org/wiki/Radar)** — radio waves that bounce off objects and return with range and relative speed (the [Doppler effect](https://en.wikipedia.org/wiki/Doppler_effect) reads speed directly). Radio passes through rain, fog, and darkness that stop visible light — but the picture it returns is coarse: blobs and speeds, not readable signs.
-- **[Lidar](https://en.wikipedia.org/wiki/Lidar)** — laser pulses swept across the scene, returning a precise 3D **point cloud**: millimeter-grade distances that give the world its shape. Weaknesses: fog, heavy rain, and snow scatter the light; it reads geometry, not color or text; and historically it has been the expensive one.
+- **[Lidar](https://en.wikipedia.org/wiki/Lidar)** — laser pulses swept across the scene, returning a precise 3D **point cloud**: centimeter-grade distances that give the world its shape. Weaknesses: fog, heavy rain, and snow scatter the light; it reads geometry, not color or text; and historically it has been the expensive one.
 - **Ultrasonic sensors** — the same tech as a [parking sensor](https://en.wikipedia.org/wiki/Parking_sensor): short-range sound echoes, good only to a few meters. Cheap and reliable for close quarters — curbs, parking lines, a wall while maneuvering — useless for the road ahead.
 
 ![The AV sensor suite: four senses, four blind spots](diagrams/sensor-suite.svg)

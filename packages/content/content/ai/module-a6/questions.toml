@@ -84,9 +84,9 @@ type = "single"
 stem = "What is an embedding?"
 options = [
   "A checksum that verifies the input text has not been altered",
-  "A learned list of numbers representing a token's meaning, arranged so similar meanings sit near each other",
   "The token's alphabetical position in the vocabulary",
   "A compressed copy of the raw text kept for fast retrieval",
+  "A learned list of numbers representing a token's meaning, arranged so similar meanings sit near each other",
 ]
 answers = [3]
 explanation = "An embedding is the learned vector attached to each token: meaning becomes position in a numeric space, and similarity of meaning becomes nearness of points. Checksums, alphabet positions, and compressed text are none of those things."
@@ -98,8 +98,8 @@ id = "ai-q-0093"
 type = "single"
 stem = "Why must text become vectors of numbers at all before a network can work with it?"
 options = [
-  "Because neural networks are arithmetic over numbers — meaning has to be represented numerically to be used",
   "Because GPUs cannot physically store letters",
+  "Because neural networks are arithmetic over numbers — meaning has to be represented numerically to be used",
   "Because vectors compress the text to reduce bandwidth bills",
   "Because databases require floating-point columns",
 ]
@@ -206,8 +206,8 @@ stem = "What did the transformer architecture contribute that made today's LLMs 
 options = [
   "A much larger hard drive for storing text",
   "A rule engine bolted onto the outside of the network",
-  "Attention, which processes the whole context in parallel and lets every token weigh every other",
   "A camera input for reading images alongside text",
+  "Attention, which processes the whole context in parallel and weighs which earlier tokens matter for each one",
 ]
 answers = [3]
 explanation = "The 2017 transformer put self-attention at the center: parallel processing over the whole context is what made training on mountains of text feasible. Hard drives, external rule engines, and camera inputs are not what the architecture contributed."

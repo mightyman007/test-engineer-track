@@ -19,7 +19,7 @@ tags = ["ai7"]
 [[card]]
 id = "ai-fc-0071"
 front = "What does lidar contribute?"
-back = "Laser pulses swept across the scene return a precise 3D point cloud — millimeter-grade distances giving the world its shape. Weaknesses: fog, heavy rain, and snow scatter the light; it reads geometry, not color; historically costly."
+back = "Laser pulses swept across the scene return a precise 3D point cloud — centimeter-grade distances giving the world its shape. Weaknesses: fog, heavy rain, and snow scatter the light; it reads geometry, not color; historically costly."
 tags = ["ai7"]
 
 [[card]]

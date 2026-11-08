@@ -19,7 +19,7 @@ The sentence "The animal did not cross the street because it was too tired" cont
 
 **[Attention](https://en.wikipedia.org/wiki/Attention_(machine_learning))** is the mechanism that lets a model do the same. At each position, attention scores every earlier token for relevance — it *weighs* the context — and builds the current token's representation out of that weighted mixture. For "it", the candidates "animal" and "street" both get weight; "too tired" tips the weights toward "animal", "too wide" toward "street". Same word, different weights, different reading.
 
-The architecture that put attention at the center is the **[transformer](https://en.wikipedia.org/wiki/Transformer_(deep_learning_architecture))** (2017). Its crucial property is scale: attention processes the whole context in parallel — every token can weigh every other token — which is what made training on mountains of text feasible. The LLMs behind today's features are transformers trained on next-token prediction (the previous lesson's loop).
+The architecture that put attention at the center is the **[transformer](https://en.wikipedia.org/wiki/Transformer_(deep_learning_architecture))** (2017). Its crucial property is scale: attention processes the whole context in parallel — every token can weigh every other token (in the causal LLMs this course describes, each token weighs the earlier tokens only) — which is what made training on mountains of text feasible. The LLMs behind today's features are transformers trained on next-token prediction (the previous lesson's loop).
 
 ![Attention: every word weighs the words around it](diagrams/attention-weights.svg)
 

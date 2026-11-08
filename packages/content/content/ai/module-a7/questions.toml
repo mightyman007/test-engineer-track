@@ -77,7 +77,7 @@ options = [
   "A short-range echo for parking maneuvers",
 ]
 answers = [2]
-explanation = "Lidar sweeps laser pulses and returns millimeter-grade 3D distances — the scene's shape as a point cloud. Video streams and sign text belong to cameras; short-range echoes are the ultrasonic sensors' job."
+explanation = "Lidar sweeps laser pulses and returns centimeter-grade 3D distances — the scene's shape as a point cloud. Video streams and sign text belong to cameras; short-range echoes are the ultrasonic sensors' job."
 lo = "A7-1"
 tags = ["ai7"]
 
@@ -118,8 +118,8 @@ type = "single"
 stem = "Why do AV stacks combine several sensor families instead of picking the single best one?"
 options = [
   "Sensor vendors only sell them in fixed bundles",
-  "Different conditions degrade different sensors — combining them covers each other's blind spots and adds redundancy",
   "Regulations require exactly one sensor of each of four types",
+  "Different conditions degrade different sensors — combining them covers each other's blind spots and adds redundancy",
   "Extra sensors make the vehicle slower, which is safer",
 ]
 answers = [2]
@@ -244,7 +244,7 @@ options = [
   "It removes the need for any real-world testing whatsoever",
 ]
 answers = [2]
-explanation = "The three buys are safety (the crash is free), scale (thousands of variants overnight), and coverage (deliberately steering into the rare, dangerous tail). 'Removes the need for any real-world testing' is the overclaim — sim complements road testing, never replaces it."
+explanation = "The three buys are safety (the crash is free), scale (thousands of variants overnight), and coverage (deliberately steering into the rare, dangerous tail). Simulators may well be cheaper to maintain than a fleet — but cheapness isn't what makes simulation indispensable. 'Removes the need for any real-world testing' is the overclaim — sim complements road testing, never replaces it."
 lo = "A7-5"
 tags = ["ai7"]
 
