@@ -14,9 +14,14 @@ COPY packages/storage/package.json packages/storage/
 RUN pnpm install --frozen-lockfile
 
 COPY . .
-# content.json is the only build output the server consumes at runtime: the
-# server runs from TypeScript source via tsx, and the SPA is statically hosted
-# elsewhere — tet-web/tet-server build artifacts never reach the image.
+# Content-validation gate: tet-content's build re-derives content.json and
+# fails the image build on schema violations. Nothing in this image consumes
+# the output at runtime — content.json is the SPA's input and ships with the
+# statically hosted web build, not here. The server runs from TypeScript
+# source via tsx; tet-core/tet-content sources below ride along only because
+# the server declares them as prod dependencies (nothing imports them at
+# runtime — slimming that dep graph is backlog, quantified ≈380MB of
+# kokoro/onnxruntime trees).
 RUN pnpm --filter tet-content build
 
 # Production dependencies for exactly the server's runtime graph: the server
@@ -56,11 +61,13 @@ COPY --from=base /app/tsconfig.base.json tsconfig.base.json
 COPY --from=base /app/apps/server/tsconfig.json apps/server/tsconfig.json
 COPY --from=base /app/packages/core/tsconfig.json packages/core/tsconfig.json
 COPY --from=base /app/packages/content/tsconfig.json packages/content/tsconfig.json
-# Runtime sources only: the server, tet-core, tet-content + built content.json.
-# apps/web and packages/storage (a test-only devDependency) do not ship.
+# Runtime sources only: the server plus its declared workspace deps
+# tet-core/tet-content (unimported at runtime — they ship because the prod
+# install resolves declared deps; slimming stays backlog). apps/web,
+# packages/storage (a test-only devDependency), and the built content.json
+# (the SPA's artifact) do not ship.
 COPY --from=base /app/apps/server/src apps/server/src
 COPY --from=base /app/packages/core/src packages/core/src
 COPY --from=base /app/packages/content/src packages/content/src
-COPY --from=base /app/packages/content/content.json packages/content/content.json
 EXPOSE 8787
 CMD ["pnpm", "--filter", "tet-server", "start"]

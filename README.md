@@ -87,10 +87,14 @@ pnpm build && pnpm content:build
 ```
 
 Upload `apps/web/dist/` per Ondana's app-deployment flow. All asset references
-are relative (`./assets/…`), so the app works from any subpath. Enter the app
-via its root URL — routes are client-side, and the static build does not include
-server rewrites for deep links: a refresh on a deep route degrades to the app's
-load-error card with a Retry button (never a blank page).
+are relative (`./assets/…`), so the app works from any subpath. Routes are
+client-side and the static build ships no server rewrites, so **enter the app
+via its root URL** — a deep link does not work on a static host: without an
+SPA fallback the request 404s, and where a fallback serves `index.html` anyway
+the relative `./assets/…` script paths resolve under the deep path and the
+browser refuses the module, so the app never boots. The root route's own
+failure mode is covered: missing or corrupt `content.json` renders a readable
+error card with a Retry button (never a blank page).
 
 Cohort logins are configured per user at sign-in (the **Server URL** field), so
 point them at wherever the API server runs — same origin, another port on the
