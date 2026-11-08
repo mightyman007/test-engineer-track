@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <rect width="800" height="450" fill="#f7f8fb"/>
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1a1a2e"/></marker></defs>
+  <text x="400" y="44" text-anchor="middle" font-size="24" font-weight="700" fill="#1a1a2e">Three kinds of development lifecycle &#8212; and where testing sits</text>
+  <rect x="30" y="70" width="230" height="200" rx="8" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="145" y="98" text-anchor="middle" font-size="16" font-weight="700" fill="#1a1a2e">Sequential</text>
+  <text x="145" y="122" text-anchor="middle" font-size="12.5" fill="#1a1a2e">waterfall &#8226; V-model</text>
+  <text x="45" y="150" font-size="12.5" fill="#1a1a2e">&#8226; one phase after another</text>
+  <text x="45" y="172" font-size="12.5" fill="#1a1a2e">&#8226; testers review and design</text>
+  <text x="45" y="192" font-size="12.5" fill="#1a1a2e">&#160;&#160;tests early&#8230;</text>
+  <text x="45" y="214" font-size="12.5" fill="#1a1a2e">&#8226; &#8230;but runnable code &#8212; and</text>
+  <text x="45" y="234" font-size="12.5" fill="#1a1a2e">&#160;&#160;dynamic testing &#8212; come late</text>
+  <rect x="285" y="70" width="230" height="200" rx="8" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="400" y="98" text-anchor="middle" font-size="16" font-weight="700" fill="#1a1a2e">Iterative &amp; incremental</text>
+  <text x="400" y="122" text-anchor="middle" font-size="12.5" fill="#1a1a2e">spiral &#8226; prototyping &#8226; Unified Process</text>
+  <text x="300" y="150" font-size="12.5" fill="#1a1a2e">&#8226; each cycle delivers a working</text>
+  <text x="300" y="172" font-size="12.5" fill="#1a1a2e">&#160;&#160;piece of the product</text>
+  <text x="300" y="194" font-size="12.5" fill="#1a1a2e">&#8226; static + dynamic testing at all</text>
+  <text x="300" y="216" font-size="12.5" fill="#1a1a2e">&#160;&#160;levels in every iteration</text>
+  <text x="300" y="238" font-size="12.5" fill="#1a1a2e">&#8226; fast feedback, lots of regression</text>
+  <rect x="540" y="70" width="230" height="200" rx="8" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="655" y="98" text-anchor="middle" font-size="16" font-weight="700" fill="#1a1a2e">Agile (with DevOps)</text>
+  <text x="655" y="122" text-anchor="middle" font-size="12.5" fill="#1a1a2e">Scrum &#8226; Kanban &#8226; XP</text>
+  <text x="555" y="150" font-size="12.5" fill="#1a1a2e">&#8226; change is expected anytime</text>
+  <text x="555" y="172" font-size="12.5" fill="#1a1a2e">&#8226; light documentation, heavy</text>
+  <text x="555" y="194" font-size="12.5" fill="#1a1a2e">&#160;&#160;test automation</text>
+  <text x="555" y="216" font-size="12.5" fill="#1a1a2e">&#8226; testers work inside the team,</text>
+  <text x="555" y="238" font-size="12.5" fill="#1a1a2e">&#160;&#160;CI/CD gives fast feedback</text>
+  <text x="400" y="308" text-anchor="middle" font-size="16" font-weight="700" fill="#1a1a2e">Every model has a timeline &#8212; testing can sit early or late on it</text>
+  <line x1="310" y1="350" x2="720" y2="350" stroke="#1a1a2e" stroke-width="3" marker-end="url(#arr)"/>
+  <rect x="80" y="328" width="230" height="44" rx="22" fill="#e7f0e7" stroke="#1a1a2e" stroke-width="1.5"/>
+  <text x="195" y="355" text-anchor="middle" font-size="13.5" font-weight="700" fill="#1a1a2e">shift left: test earlier</text>
+  <text x="80" y="395" font-size="13" fill="#1a1a2e">project start</text>
+  <text x="672" y="375" font-size="13" fill="#1a1a2e">release</text>
+  <text x="400" y="410" text-anchor="middle" font-size="12.5" fill="#1a1a2e">Earlier testing finds cheaper defects &#8212; but later testing is still needed, never skipped.</text>
+</svg>

@@ -1,0 +1,127 @@
+# ISTQB CTFL Module 6 — Managing the Test Activities
+# 20 atomic flashcards: test plan purpose/content, tester's planning
+# contributions, entry/exit criteria (+ DoD/DoR), the four estimation
+# techniques, prioritization strategies and their constraints, test pyramid,
+# testing quadrants, risk definition/attributes, project vs product risks,
+# risk analysis and control, metrics, reports, communication, configuration
+# management, and the defect workflow/report/severity-vs-priority.
+
+[[card]]
+id = "istqb-fc-0081"
+front = "Test plan — definition, the four purposes, and the seven typical content sections?"
+back = "A test plan describes the test OBJECTIVES, RESOURCES and PROCESSES for a test project. Purposes: (1) documents the means and schedule for achieving the test objectives; (2) helps ensure the performed test activities will meet the established criteria; (3) serves as a means of COMMUNICATION with team members and stakeholders; (4) demonstrates adherence to the existing test policy and test strategy — or explains why testing will deviate from them. Planning also forces testers to CONFRONT future challenges (risks, schedules, people, tools, costs, effort). Content: context (scope, objectives, test basis) · assumptions and constraints · stakeholders · communication · risk register · test approach (levels, types, techniques, deliverables, entry/exit criteria, independence, metrics, test data, environment, deviations) · budget and schedule. ISO/IEC/IEEE 29119-3 has the templates."
+tags = ["ch5"]
+
+[[card]]
+id = "istqb-fc-0082"
+front = "Tester's contribution to RELEASE planning vs ITERATION planning — who does what where?"
+back = "RELEASE planning: looks ahead to the release, defines and RE-defines the product backlog, may refine larger user stories into smaller ones; basis for the test approach and test plan across all iterations. Testers: write testable user stories + acceptance criteria, join project and quality risk analyses, estimate test effort for user stories, determine the test approach, plan release testing. ITERATION planning: looks ahead to the end of ONE iteration, works the iteration backlog. Testers: detailed risk analysis of user stories, determine their testability, break stories into tasks (particularly testing tasks), estimate test effort for all testing tasks, identify and refine functional and non-functional aspects of the test object."
+tags = ["ch5"]
+
+[[card]]
+id = "istqb-fc-0083"
+front = "Entry criteria vs exit criteria — definitions, typical examples, the time/budget case, and the Agile names?"
+back = "ENTRY criteria = preconditions for undertaking an activity (if unmet: more difficult, time-consuming, costly, riskier). Typical: availability of resources (people, tools, environments, test data, budget, time), availability of testware (test basis, testable requirements, user stories, test cases), initial quality of the test object (e.g. all smoke tests passed). EXIT criteria = what must be achieved to declare an activity completed. Typical: measures of thoroughness (coverage achieved, unresolved defects, defect density, failed test cases) + binary yes/no criteria (planned tests executed, static testing performed, defects reported, regression automated). Running out of time/budget can ALSO be a valid exit criterion — if stakeholders review and ACCEPT the risk of going live. Both defined per test level. Agile: exit criteria ≈ Definition of Done (objective metrics for a releasable item); story entry criteria ≈ Definition of Ready."
+tags = ["ch5"]
+
+[[card]]
+id = "istqb-fc-0084"
+front = "Estimation basics + ratio-based and extrapolation techniques?"
+back = "Test effort estimation predicts the test-related work needed to meet the test objectives. Rules: estimates rest on ASSUMPTIONS and are always subject to estimation error (say so to stakeholders); SMALL tasks estimate more accurately → decompose large tasks first. RATIO-BASED (metrics-based): standard ratios from the organization's own previous projects (generally the BEST source) applied to the new project — e.g. dev:test = 3:2, dev = 600 person-days → test = 400 person-days. EXTRAPOLATION (metrics-based): measure as EARLY as possible in the CURRENT project, then approximate the remaining effort (usually a mathematical model); very suitable for ITERATIVE SDLCs — e.g. next iteration ≈ averaged effort of the last three iterations."
+tags = ["ch5"]
+
+[[card]]
+id = "istqb-fc-0085"
+front = "Wideband Delphi — mechanics, and its Agile variant?"
+back = "WIDEBAND DELPHI: iterative, EXPERT-based. Each expert estimates IN ISOLATION → results collected → if an expert's estimate is out of the agreed boundaries, the experts DISCUSS → each expert re-estimates in isolation again → repeat until CONSENSUS. PLANNING POKER = a variant of Wideband Delphi commonly used in Agile; estimates made with cards whose numbers represent effort size."
+tags = ["ch5"]
+
+[[card]]
+id = "istqb-fc-0086"
+front = "Three-point estimation — inputs, formulas, worked example, and why it is special?"
+back = "EXPERT-based: three estimates per expert — most optimistic (a), most likely (m), most pessimistic (b). E = (a + 4·m + b) / 6 (weighted arithmetic mean); measurement error SD = (b − a) / 6. Worked: a=6, m=9, b=18 → E = (6+36+18)/6 = 10, SD = (18−6)/6 = 2 → estimate 10 ± 2 person-hours (8..12). Special because it is the technique that states its own ERROR BAR, and the weight 4 on m leans the estimate toward the most-likely value (a plain average would not)."
+tags = ["ch5"]
+
+[[card]]
+id = "istqb-fc-0087"
+front = "Test case prioritization — the three strategies, the additional-coverage variant, and the two constraints that override priority?"
+back = "After test cases are assembled into test suites, they are arranged into a TEST EXECUTION SCHEDULE (the order they run in). Strategies: RISK-BASED (order follows risk analysis — tests covering the most important risks first) · COVERAGE-BASED (highest coverage first; variant ADDITIONAL COVERAGE prioritization = first the highest-coverage case, then repeatedly the case adding the most ADDITIONAL coverage) · REQUIREMENTS-BASED (stakeholder-set requirement priorities traced to the test cases; most important requirements first). Constraints that override priority order: (1) DEPENDENCIES — if a higher-priority test depends on a lower-priority one, the lower-priority one runs first; (2) RESOURCE availability — tools, environments or people may only be available in a specific time window."
+tags = ["ch5"]
+
+[[card]]
+id = "istqb-fc-0088"
+front = "Test pyramid — what the model shows and the direction of its three properties?"
+back = "The test pyramid shows that different tests have different GRANULARITY; it supports test automation and test effort allocation (different objectives ← different levels of automation). Layers = groups of tests: the HIGHER the layer, the LOWER the test granularity, the LOWER the test isolation (degree of dependency on other elements), the HIGHER the test execution time. BOTTOM: small, isolated, fast, checks a small piece of functionality → MANY needed for reasonable coverage. TOP: complex, high-level, end-to-end, slower, checks a large piece → just a FEW needed. Layer naming varies: original (Cohn 2009) = unit / service / UI tests; another popular model = unit (component) / integration (component integration) / end-to-end; other test levels can be used."
+tags = ["ch5"]
+
+[[card]]
+id = "istqb-fc-0089"
+front = "Testing quadrants — the two axes, all four quadrants with contents, and what the model is for?"
+back = "Marick/Crispin; groups test levels with test types, activities, techniques and work products in AGILE development; helps test management ensure all appropriate types/levels are in the SDLC, shows some test types fit certain levels better, gives stakeholders a shared vocabulary. Axes: BUSINESS facing vs TECHNOLOGY facing × SUPPORT the team (guide development) vs CRITIQUE the product (measure behavior against expectations). Q1 tech+support: component and component-integration tests — automate, include in CI. Q2 business+support: functional tests, examples, user story tests, UX prototypes, API testing, simulations — check the acceptance criteria; manual or automated. Q3 business+critique: exploratory, usability, user acceptance testing — user-oriented, often manual. Q4 tech+critique: smoke tests and non-functional tests EXCEPT usability tests — often automated."
+tags = ["ch5"]
+
+[[card]]
+id = "istqb-fc-0090"
+front = "Risk — definition, the two attributes, risk level, and the likelihood bounds?"
+back = "RISK = a potential event, hazard, threat, or situation whose occurrence causes an ADVERSE effect. Attributes: RISK LIKELIHOOD = the probability of the risk occurrence (strictly GREATER than zero and LESS than one); RISK IMPACT (harm) = the consequences of the occurrence. Together they express the RISK LEVEL, a measure for the risk — the higher the level, the more important its treatment. Quantitative approach: level = likelihood × impact. Qualitative approach: level read from a risk matrix."
+tags = ["ch5"]
+
+[[card]]
+id = "istqb-fc-0091"
+front = "Project risks vs product risks — definitions, examples, and consequences?"
+back = "PROJECT RISKS relate to management and control of the project: organizational issues (delivery delays, inaccurate estimates, cost cutting), people issues (insufficient skills, conflicts, communication problems, staff shortage), technical issues (scope creep, poor tool support), supplier issues (third-party delivery failure, supplier bankruptcy). Impact: schedule, budget or scope — the project's ability to achieve its objectives. PRODUCT RISKS relate to the product's QUALITY CHARACTERISTICS (ISO 25010): missing/wrong functionality, incorrect calculations, runtime errors, poor architecture, inefficient algorithms, inadequate response time, poor UX, security vulnerabilities. Consequences: user dissatisfaction, loss of revenue/trust/reputation, damage to third parties, high maintenance costs/help-desk overload, criminal penalties — in extreme cases physical damage, injuries, death."
+tags = ["ch5"]
+
+[[card]]
+id = "istqb-fc-0092"
+front = "Risk management activities + product risk analysis: the two stages, the techniques, and quantitative vs qualitative?"
+back = "Risk management activities: RISK ANALYSIS (= risk identification + risk assessment) and RISK CONTROL (= risk mitigation + risk monitoring). Risk-based testing = the test approach in which test activities are selected, prioritized and managed based on risk analysis and risk control. PRODUCT RISK ANALYSIS: goal = awareness of product risk to FOCUS the test effort and MINIMIZE the residual level of product risk; begin EARLY in the SDLC. IDENTIFICATION: comprehensive list of risks via brainstorming, workshops, interviews, cause-effect diagrams. ASSESSMENT: categorize risks, determine likelihood/impact/level, prioritize, propose handling (categorization helps assign mitigation actions — same category ≈ similar mitigation). Quantitative: level = likelihood × impact; Qualitative: risk matrix; mixes allowed."
+tags = ["ch5"]
+
+[[card]]
+id = "istqb-fc-0093"
+front = "What do product risk analysis results influence in the test approach?"
+back = "Six uses: (1) determine the TEST SCOPE to be carried out; (2) determine the test LEVELS and propose TEST TYPES; (3) determine the TEST TECHNIQUES and the COVERAGE to be achieved; (4) ESTIMATE the test effort required for each task; (5) PRIORITIZE testing to find the critical defects as early as possible; (6) determine whether activities IN ADDITION to testing could reduce risk. The whole point: thoroughness and scope follow the risk levels — deep, early testing where the risk is high."
+tags = ["ch5"]
+
+[[card]]
+id = "istqb-fc-0094"
+front = "Product risk control — the two halves, the four response options, and the six mitigation-by-testing actions?"
+back = "RISK CONTROL = mitigation + monitoring. MITIGATION: implement the actions proposed in risk assessment to REDUCE the risk level. MONITORING: ensure mitigation actions are EFFECTIVE, obtain further information to improve assessment, identify EMERGING risks. Response options once a risk is analyzed: mitigation by testing · risk ACCEPTANCE (deliberate, recorded decision to live with it) · risk TRANSFER · a CONTINGENCY plan. Mitigation by testing: (1) testers with the right experience/skills for the risk type; (2) appropriate INDEPENDENCE of testing; (3) REVIEWS and static analysis; (4) appropriate test TECHNIQUES and coverage levels; (5) appropriate TEST TYPES for the affected quality characteristics; (6) DYNAMIC testing including REGRESSION testing. Analyzed risks and responses are recorded in the RISK REGISTER."
+tags = ["ch5"]
+
+[[card]]
+id = "istqb-fc-0095"
+front = "Test monitoring vs test control — definitions, and the four example control directives?"
+back = "TEST MONITORING: GATHERING information about testing — assess test progress, measure whether the exit criteria (or their test tasks) are satisfied, e.g. targets for coverage of product risks, requirements, acceptance criteria. TEST CONTROL: USES that information to provide guidance and corrective actions — in the form of CONTROL DIRECTIVES — for the most effective and efficient testing. Example directives: (1) REPRIORITIZE tests when an identified risk becomes an issue; (2) RE-EVALUATE whether a test item meets entry/exit criteria due to rework; (3) ADJUST the test schedule for a delayed test environment; (4) ADD new resources when and where needed. Monitoring measures, control acts."
+tags = ["ch5"]
+
+[[card]]
+id = "istqb-fc-0096"
+front = "The seven families of test metrics — with the syllabus's named examples?"
+back = "Metrics show progress vs the planned schedule/budget, current quality of the test object, and effectiveness vs test objectives. (1) PROJECT PROGRESS: task completion, resource usage, test effort. (2) TEST PROGRESS: test case implementation progress, environment preparation progress, cases run/not run, passed/failed, execution time. (3) PRODUCT QUALITY: availability, response time, mean time to failure. (4) DEFECT: number and priorities of defects found/fixed, defect DENSITY, defect DETECTION PERCENTAGE. (5) RISK: residual risk level. (6) COVERAGE: requirements coverage, code coverage. (7) COST: cost of testing, organizational cost of quality."
+tags = ["ch5"]
+
+[[card]]
+id = "istqb-fc-0097"
+front = "Test progress report vs test completion report — purpose, cadence, contents, and audiences?"
+back = "TEST PROGRESS REPORT: supports ONGOING test control; must carry enough information to modify schedule/resources/plan when deviations occur; generated REGULARLY (daily, weekly...). Contents: testing period · progress (ahead/behind) + notable deviations · impediments + workarounds · test metrics · new and changed risks · testing planned for the next period. TEST COMPLETION REPORT: summarizes a SPECIFIC test activity (level, cycle, iteration); prepared during test completion when the project/level/type is complete and ideally exit criteria are met; occurs ONCE from a set template. Contents: test summary · evaluation of testing and product quality against the ORIGINAL test plan (objectives, exit criteria) · deviations from the plan · impediments and workarounds · metrics from progress reports · UNMITIGATED risks and defects NOT fixed · lessons learned. Audiences shape formality and frequency: same-team progress = frequent and informal; completion = formal, once. ISO/IEC/IEEE 29119-3 templates."
+tags = ["ch5"]
+
+[[card]]
+id = "istqb-fc-0098"
+front = "Communicating the status of testing — the five options, when formality rises, and the tailoring rule?"
+back = "Options: (1) VERBAL communication with team members and stakeholders; (2) DASHBOARDS — CI/CD dashboards, task boards, burn-down charts; (3) ELECTRONIC channels — email, chat; (4) ONLINE documentation; (5) FORMAL test reports. One or more can be combined. More FORMAL communication suits DISTRIBUTED teams (geographical distance, time differences — face-to-face not always possible). Typically different stakeholders want different types of information → communication should be TAILORED accordingly."
+tags = ["ch5"]
+
+[[card]]
+id = "istqb-fc-0099"
+front = "Configuration management in testing — what it does, baselines, and the three guarantees for testing?"
+back = "CM provides a discipline for IDENTIFYING, CONTROLLING and TRACKING work products — test plans, strategies, conditions, cases, scripts, results, logs, reports — as CONFIGURATION ITEMS. Complex items (e.g. a test environment): CM records their components, relationships and VERSIONS. An item APPROVED for testing becomes a BASELINE — changeable ONLY through a formal change control process. New baselines record what changed → REVERT to a previous baseline to REPRODUCE previous test results. For testing CM ensures: (1) all configuration items (incl. TEST ITEMS — parts of the test object) are uniquely identified, version controlled, tracked for changes, and related to other items so TRACEABILITY is maintained throughout the test process; (2) all documentation and software items are referenced UNAMBIGUOUSLY in testware. CI/CD/continuous deployment pipelines (DevOps) normally include automated CM."
+tags = ["ch5"]
+
+[[card]]
+id = "istqb-fc-0100"
+front = "Defect management — why, the workflow, the report fields, and severity vs priority?"
+back = "Major test objective = finding defects → an established defect management process is essential. Reported ANOMALIES may turn out to be defects or something else (false positive, change request) — the process resolves which. Minimum: a WORKFLOW from discovery to CLOSURE + rules for CLASSIFICATION: log → analyze and classify → decide a response (fix or keep as is) → close; followed by ALL stakeholders; static-testing findings handled similarly. REPORT (dynamic testing): unique identifier · title · date, issuing organization, author (+ role) · test object and test environment · context (test case, activity, SDLC phase, technique/checklist/test data) · failure description enabling REPRODUCTION and resolution (steps, logs, dumps, screenshots, recordings) · EXPECTED and ACTUAL results · SEVERITY (degree of impact on stakeholders' interests or requirements) · PRIORITY to fix · STATUS (open, deferred, duplicate, waiting to be fixed, awaiting confirmation testing, re-opened, closed, rejected). Report objectives: enough info to RESOLVE the issue · track work-product QUALITY · ideas for PROCESS improvement. SEVERITY ≠ PRIORITY: severity = how bad the impact is; priority = how urgently to fix — neither implies the other (a trivial-but-visible defect can be high priority; a severe-but-unreachable one low)."
+tags = ["ch5"]

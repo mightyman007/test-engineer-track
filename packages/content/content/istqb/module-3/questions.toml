@@ -1,0 +1,563 @@
+# ISTQB CTFL Module 3 — Static Testing
+# 33 original questions. istqb-q-0066 is the brief's worked style anchor; per the
+# controller ruling its lo was corrected from the placeholder FL-3.1.1 to the
+# verified FL-3.1.3 (the "defect types found by static testing" list lives in
+# section 3.1.3). Question text unchanged.
+#
+# Verified against the official ISTQB CTFL Syllabus v4.0.1 PDF (istqb.org,
+# 2024-09-15, downloaded and text-extracted 2026-11-07; LO list on p. 32 of the
+# same PDF; ch3 exam draw of 4 questions cross-checked against the official
+# ASTQB chapter-weight table — astqb.org "Number of ISTQB Exam Questions and
+# Points Based On Each ISTQB Syllabus Chapter"):
+#   FL-3.1.1 (K1) Recognize types of work products that can be examined by static testing
+#   FL-3.1.2 (K2) Explain the value of static testing
+#   FL-3.1.3 (K2) Compare and contrast static testing and dynamic testing
+#   FL-3.2.1 (K1) Identify the benefits of early and frequent stakeholder feedback
+#   FL-3.2.2 (K2) Summarize the activities of the review process
+#   FL-3.2.3 (K1) Recall which responsibilities are assigned to the principal roles when performing reviews
+#   FL-3.2.4 (K2) Compare and contrast the different review types
+#   FL-3.2.5 (K1) Recall the factors that contribute to a successful review
+#
+# NOTE: syllabus section 3.2 is "Feedback and Review Process" and its review
+# process (ISO/IEC 20246) has FIVE activities (planning, review initiation,
+# individual review, communication and analysis, fixing and reporting) — the
+# brief's "planning → kick-off → individual preparation → ..." list and "six
+# activities" wording are v3.1-era; content follows the verified v4.0.1 text.
+#
+# Coverage: every LO ≥ 2 questions (3.1.1: 4, 3.1.2: 4, 3.1.3: 6, 3.2.1: 3,
+# 3.2.2: 5, 3.2.3: 4, 3.2.4: 5, 3.2.5: 2). K mix: 13 K1 + 20 K2 — K-levels
+# follow the official LO classification, so K1 questions appear only on
+# FL-3.1.1/FL-3.2.1/FL-3.2.3/FL-3.2.5. 2 multi-select questions
+# (istqb-q-0077, istqb-q-0097): 5 options, exactly 2 correct.
+# All stems/options/explanations are original — no ISTQB official sample
+# questions copied.
+
+[[question]]
+id = "istqb-q-0066"
+type = "single"
+stem = "Which defect type is MOST likely to be found by static testing rather than by executing the code?"
+options = [
+  "A button that renders misaligned at a specific screen width",
+  "An ambiguous requirement that two developers would implement differently",
+  "A payment service that returns a 500 error under a duplicated request",
+  "A memory leak that appears only after 48 hours of sustained load",
+]
+answers = [1]
+explanation = "Ambiguity in a requirement is invisible to execution — no code can 'fail' against a vague specification. Static techniques (reviews) catch it by reading. The other three require running the software."
+lo = "FL-3.1.3"
+klevel = "K2"
+tags = ["ch3"]
+
+[[question]]
+id = "istqb-q-0067"
+type = "single"
+stem = "Which list contains ONLY work products that can be examined by static testing?"
+options = [
+  "Test plans, source code, contracts and models",
+  "Only executable programs that can be run in a test environment",
+  "Only requirement specifications, because code can only be examined by executing it",
+  "Only documents written by the test team; developers' work products are out of scope",
+]
+answers = [0]
+explanation = "Almost any work product can be examined by static testing — the syllabus's examples include requirement specification documents, source code, test plans, test cases, product backlog items, test charters, project documentation, contracts and models. Static testing is not limited to executable artifacts or to the test team's own documents."
+lo = "FL-3.1.1"
+klevel = "K1"
+tags = ["ch3"]
+
+[[question]]
+id = "istqb-q-0068"
+type = "single"
+stem = "A team wants to check a work product with a static analysis TOOL rather than by human review. What does the work product need for that to work?"
+options = [
+  "It must be executable, so the tool can run it and watch it fail",
+  "It must have a structure the tool can check against — such as a model, code, or text with a formal syntax",
+  "It must be written in natural language, so the tool can imitate a human reader",
+  "It must already contain at least one defect, or the tool has nothing to find",
+]
+answers = [1]
+explanation = "Any work product that can be read and understood can be reviewed by people, but static analysis needs a structure against which the work product can be checked — for example models, code, or text with a formal syntax. Executability and pre-existing defects are not prerequisites."
+lo = "FL-3.1.1"
+klevel = "K1"
+tags = ["ch3"]
+
+[[question]]
+id = "istqb-q-0069"
+type = "single"
+stem = "Which work product is LEAST appropriate for static testing?"
+options = [
+  "A requirements specification written last year for a module now being reworked",
+  "A component's design model showing its interfaces and state machines",
+  "Third-party executable code that humans cannot reasonably interpret and that must not be analyzed by tools for legal reasons",
+  "A test charter drafted for an upcoming exploratory testing session",
+]
+answers = [2]
+explanation = "Work products that are difficult for human beings to interpret and that should not be analyzed by tools — such as third-party executable code, often excluded for legal reasons — are not appropriate for static testing. The other three options are typical review candidates."
+lo = "FL-3.1.1"
+klevel = "K1"
+tags = ["ch3"]
+
+[[question]]
+id = "istqb-q-0070"
+type = "single"
+stem = "A tester suggests reviewing the purchasing-team's contract with a supplier as part of the project's quality activities. A colleague objects: 'Contracts are legal documents, not software — static testing does not apply.' Who is right?"
+options = [
+  "The colleague: static testing can only examine source code and specifications of the system itself",
+  "The tester: any work product that can be read and understood can be the subject of a review, and contracts are among the syllabus's examples",
+  "Both: the contract may be read, but only with a static analysis tool, never by a review",
+  "Neither: contracts may only be examined by lawyers after the system has been accepted",
+]
+answers = [1]
+explanation = "Any work product that can be read and understood can be the subject of a review, and the syllabus explicitly lists contracts among the examinable work products. Nothing limits reviews to the system's own code or to the test team's documents."
+lo = "FL-3.1.1"
+klevel = "K1"
+tags = ["ch3"]
+
+[[question]]
+id = "istqb-q-0071"
+type = "single"
+stem = "A team spends six hours reviewing a draft requirements specification and finds eleven ambiguities. A manager asks why this is cheaper than letting the developers 'just build it and we will see'. What is the syllabus's answer?"
+options = [
+  "Reviews guarantee that no further defects will be found in this specification",
+  "Even though reviews can be costly to implement, overall project costs are usually much lower than when no reviews are performed, because less time and effort is spent fixing defects later",
+  "Review effort is free because reviewers do the work outside project hours",
+  "The ambiguities would not have caused any problems if the developers were experienced",
+]
+answers = [1]
+explanation = "The syllabus acknowledges that reviews can be costly to implement, but the overall project costs are usually much lower than when no reviews are performed — less time and effort needs to be spent on fixing defects later in the project. Reviews also promise no defect-free guarantee, and ambiguous requirements cause problems regardless of developer experience."
+lo = "FL-3.1.2"
+klevel = "K2"
+tags = ["ch3"]
+
+[[question]]
+id = "istqb-q-0072"
+type = "single"
+stem = "Which defect can static testing identify that dynamic testing CANNOT detect?"
+options = [
+  "A transaction that double-charges the customer when a request is retried",
+  "A report that crashes when its input file exceeds 2 GB",
+  "Unreachable code left behind after a refactoring",
+  "A login page that loads noticeably slower than its performance budget",
+]
+answers = [2]
+explanation = "Static testing can identify defects which cannot be detected by dynamic testing — the syllabus's examples are unreachable code, design patterns not implemented as desired, and defects in non-executable work products. Code that can never execute will never fail at runtime, so running the software cannot reveal it."
+lo = "FL-3.1.2"
+klevel = "K2"
+tags = ["ch3"]
+
+[[question]]
+id = "istqb-q-0073"
+type = "single"
+stem = "Besides finding defects early, what additional benefit does the syllabus highlight from performing static testing early in the SDLC?"
+options = [
+  "It creates a shared understanding among the involved stakeholders and improves communication between them",
+  "It allows the test plan to be written once and never updated",
+  "It replaces the need for acceptance testing entirely",
+  "It lets each stakeholder keep their understanding of the requirements private until release",
+]
+answers = [0]
+explanation = "Because static testing can be performed early in the SDLC, it creates a shared understanding among the involved stakeholders and improves communication between them — which is why the syllabus recommends involving a wide variety of stakeholders in static testing."
+lo = "FL-3.1.2"
+klevel = "K2"
+tags = ["ch3"]
+
+[[question]]
+id = "istqb-q-0074"
+type = "single"
+stem = "A development team starts running a static analysis tool as part of its continuous integration builds. According to the syllabus, what is the usual combined effect of detecting certain code defects this way?"
+options = [
+  "More code defects survive into dynamic testing, but each one is cheaper to fix",
+  "Both fewer code defects and a lower overall development effort",
+  "Fewer code defects but a higher overall development effort, because analysis tools are expensive",
+  "No measurable change in defects, but faster build times",
+]
+answers = [1]
+explanation = "Certain code defects can be detected using static analysis more efficiently than in dynamic testing, usually resulting in both fewer code defects and a lower overall development effort."
+lo = "FL-3.1.2"
+klevel = "K2"
+tags = ["ch3"]
+
+[[question]]
+id = "istqb-q-0075"
+type = "single"
+stem = "How do static testing and dynamic testing differ in the way they reveal defects?"
+options = [
+  "Static testing causes failures from which defects are analyzed; dynamic testing finds defects directly",
+  "Both find defects directly, but static testing is always faster",
+  "Static testing finds defects directly, while dynamic testing causes failures from which the associated defects are determined through subsequent analysis",
+  "Neither finds defects; both only document the absence of defects",
+]
+answers = [2]
+explanation = "Static testing finds defects directly — the reviewer or tool points at the work product itself. Dynamic testing causes failures; the associated defects are then determined through subsequent failure analysis. The two practices are complementary and share the objective of detecting defects."
+lo = "FL-3.1.3"
+klevel = "K2"
+tags = ["ch3"]
+
+[[question]]
+id = "istqb-q-0076"
+type = "single"
+stem = "An error handler in a rarely-used branch of a payment module corrupts the audit log. The branch is almost never executed in any test environment. Which technique is likely to find this defect more easily, and why?"
+options = [
+  "Dynamic testing, because running the module exercises every branch automatically",
+  "Static testing, because it more easily detects defects on paths through the code that are rarely executed or hard to reach",
+  "Neither: defects in rarely-executed code are undetectable",
+  "Dynamic testing, because static testing is forbidden for financial code",
+]
+answers = [1]
+explanation = "Static testing may more easily detect defects that lie on paths through the code that are rarely executed or hard to reach using dynamic testing — a reviewer reads the branch even if no test ever runs it. Executing code does not automatically exercise every branch."
+lo = "FL-3.1.3"
+klevel = "K2"
+tags = ["ch3"]
+
+[[question]]
+id = "istqb-q-0077"
+type = "multi"
+stem = "Which TWO of the following statements about static testing and dynamic testing are TRUE?"
+options = [
+  "Static testing can be applied to non-executable work products, while dynamic testing can only be applied to executable work products",
+  "Dynamic testing finds defects directly, while static testing causes failures that are analyzed afterwards",
+  "Static testing can be used to measure quality characteristics that do not depend on executing code, such as maintainability",
+  "Every defect that static testing can find can equally well be found by dynamic testing",
+  "Static testing may only be performed before the first build of the software",
+]
+answers = [0, 2]
+explanation = "The syllabus's differences: static testing covers non-executable work products while dynamic testing needs executable ones, and static testing measures quality characteristics not dependent on executing code (e.g. maintainability) while dynamic testing measures those that are (e.g. performance efficiency). The other options reverse the failure/defect logic, deny defect-type exclusivity, or invent a timing restriction."
+lo = "FL-3.1.3"
+klevel = "K2"
+tags = ["ch3"]
+
+[[question]]
+id = "istqb-q-0078"
+type = "single"
+stem = "Static testing is the natural choice for measuring maintainability, while dynamic testing is the natural choice for measuring performance efficiency. What distinguishes the two characteristics?"
+options = [
+  "Maintainability depends on executing the code; performance efficiency does not",
+  "Maintainability does not depend on executing the code; performance efficiency does",
+  "Both depend on executing the code, but in different environments",
+  "Neither can be measured objectively; both are pure opinions",
+]
+answers = [1]
+explanation = "Static testing can measure quality characteristics that are not dependent on executing code — maintainability is the syllabus's example — while dynamic testing measures characteristics that depend on executing code, such as performance efficiency."
+lo = "FL-3.1.3"
+klevel = "K2"
+tags = ["ch3"]
+
+[[question]]
+id = "istqb-q-0079"
+type = "single"
+stem = "Which list contains ONLY defect types that are typically easier and/or cheaper to find through static testing than through dynamic testing?"
+options = [
+  "Ambiguous requirements, unreachable code, deviations from coding standards",
+  "Slow response under peak load, misaligned UI at a specific screen width, a crash on invalid input",
+  "Ambiguous requirements, a crash on invalid input, slow response under peak load",
+  "Unreachable code, misaligned UI at a specific screen width, deviations from coding standards",
+]
+answers = [0]
+explanation = "The syllabus's static-friendly defect list includes defects in requirements (e.g. ambiguities, inconsistencies), unreachable or duplicated code, deviations from standards, design defects, incorrect interface specifications, certain security vulnerabilities, and gaps in test basis coverage. Runtime-only misbehaviours — crashes and slowdowns observed while executing — belong to dynamic testing."
+lo = "FL-3.1.3"
+klevel = "K2"
+tags = ["ch3"]
+
+[[question]]
+id = "istqb-q-0080"
+type = "single"
+stem = "Which statement describes a benefit of early and frequent stakeholder feedback?"
+options = [
+  "It prevents misunderstandings about requirements and helps the team focus on features that deliver the most value",
+  "It removes the need for any requirements documentation",
+  "It guarantees that the delivered product matches every stakeholder's wishes",
+  "It shifts all quality responsibility onto the stakeholders",
+]
+answers = [0]
+explanation = "Frequent stakeholder feedback prevents misunderstandings about requirements, ensures requirement changes are understood and implemented earlier, improves the development team's understanding of what they are building, and lets them focus on the features that deliver the most value and reduce identified risks."
+lo = "FL-3.2.1"
+klevel = "K1"
+tags = ["ch3"]
+
+[[question]]
+id = "istqb-q-0081"
+type = "single"
+stem = "A team builds a booking portal for six months with almost no stakeholder involvement. At delivery, the product does not match what the stakeholders actually need. According to the syllabus, what is a likely consequence of this little stakeholder involvement?"
+options = [
+  "None, as long as the code is well unit-tested",
+  "Costly rework, missed deadlines, blame games, and possibly complete project failure",
+  "Only cosmetic changes will be needed, because requirements were written down at the start",
+  "The stakeholders will simply adapt their needs to the delivered product",
+]
+answers = [1]
+explanation = "If there is little stakeholder involvement during the SDLC, the product might not meet the stakeholder's original or current vision; failing to deliver what the stakeholder wants can result in costly rework, missed deadlines, blame games, and might even lead to complete project failure."
+lo = "FL-3.2.1"
+klevel = "K1"
+tags = ["ch3"]
+
+[[question]]
+id = "istqb-q-0082"
+type = "single"
+stem = "Midway through a project, the product owner changes the priority of two features. What does frequent stakeholder feedback ensure in this situation?"
+options = [
+  "That the change is silently ignored until the next major release",
+  "That changes to requirements are understood and implemented earlier",
+  "That the developers renegotiate their salaries before implementing the change",
+  "That the original requirements remain in force regardless of the change",
+]
+answers = [1]
+explanation = "Frequent stakeholder feedback throughout the SDLC prevents misunderstandings about requirements and ensures that changes to requirements are understood and implemented earlier — improving the development team's understanding of what they are building."
+lo = "FL-3.2.1"
+klevel = "K1"
+tags = ["ch3"]
+
+[[question]]
+id = "istqb-q-0083"
+type = "single"
+stem = "Which list names the activities of the generic review process, in the order given by ISO/IEC 20246 and the syllabus?"
+options = [
+  "Planning, review initiation, individual review, communication and analysis, fixing and reporting",
+  "Kick-off, individual preparation, issue reporting and discussion, rework, follow-up",
+  "Planning, execution, evaluation, closure",
+  "Individual review, planning, fixing, communication, initiation",
+]
+answers = [0]
+explanation = "The generic review process consists of five activities in this order: planning; review initiation; individual review; communication and analysis; fixing and reporting. The second list is from an older syllabus generation, and the others scramble or invent activities."
+lo = "FL-3.2.2"
+klevel = "K2"
+tags = ["ch3"]
+
+[[question]]
+id = "istqb-q-0084"
+type = "single"
+stem = "During the PLANNING activity of a review, which of the following is defined?"
+options = [
+  "The list of anomalies each reviewer found in the work product",
+  "The scope of the review: purpose, work product, quality characteristics to evaluate, focus areas, exit criteria, supporting information, effort and timeframes",
+  "The defect reports for every defect found",
+  "The decision on whether the work product is accepted",
+]
+answers = [1]
+explanation = "Planning defines the review's scope: the purpose, the work product to be reviewed, the quality characteristics to be evaluated, the areas to focus on, exit criteria, supporting information such as standards, and the effort and timeframes. The anomaly list belongs to individual review; defect reports — and the acceptance of the work product once the exit criteria are reached — belong to fixing and reporting, as does reporting the review results. (Communication and analysis decides the quality level, not acceptance.)"
+lo = "FL-3.2.2"
+klevel = "K2"
+tags = ["ch3"]
+
+[[question]]
+id = "istqb-q-0085"
+type = "single"
+stem = "What happens during the INDIVIDUAL REVIEW activity of the review process?"
+options = [
+  "The whole group meets and votes on each anomaly found",
+  "The review leader decides who may participate and books a room",
+  "Every reviewer assesses the quality of the work product and logs all identified anomalies, recommendations and questions, applying one or more review techniques",
+  "The author fixes the defects found in the previous review meeting",
+]
+answers = [2]
+explanation = "During individual review, every reviewer performs an individual assessment of the work product's quality and identifies anomalies, recommendations and questions by applying one or more review techniques (e.g., checklist-based reviewing, scenario-based reviewing) — and logs all of them. Group discussion belongs to communication and analysis; fixing belongs to the author later."
+lo = "FL-3.2.2"
+klevel = "K2"
+tags = ["ch3"]
+
+[[question]]
+id = "istqb-q-0086"
+type = "single"
+stem = "During the review meeting, a reviewer insists that every anomaly raised must be a genuine defect before it is worth discussing. Why is this insistence misplaced?"
+options = [
+  "Because anomalies identified during a review are not necessarily defects — all anomalies need to be analyzed and discussed before decisions on status, ownership and required actions are made",
+  "Because only the author may decide which anomalies are defects",
+  "Because defects may never be discussed in review meetings",
+  "Because anomalies are always defects, so the discussion step can be skipped",
+]
+answers = [0]
+explanation = "Since the anomalies identified during a review are not necessarily defects, they all need to be analyzed and discussed; for every anomaly a decision is made on its status, ownership and required actions — typically in the review meeting, where the quality level of the work product and follow-up actions are also decided."
+lo = "FL-3.2.2"
+klevel = "K2"
+tags = ["ch3"]
+
+[[question]]
+id = "istqb-q-0087"
+type = "single"
+stem = "Which statement about the FIXING AND REPORTING activity is correct?"
+options = [
+  "For every defect a defect report is created so corrective actions can be followed up; once the exit criteria are reached the work product can be accepted, and the review results are reported",
+  "The author silently fixes the defects; no records are kept and nobody is informed",
+  "Defect reports are created only for defects the review leader personally agrees with",
+  "The work product is accepted as soon as the first review meeting ends, whatever the exit criteria say",
+]
+answers = [0]
+explanation = "In fixing and reporting, every defect gets a defect report so that corrective actions can be followed up; once the exit criteria are reached, the work product can be accepted and the review results are reported. Silent fixes, selective reporting and ignoring exit criteria contradict the process."
+lo = "FL-3.2.2"
+klevel = "K2"
+tags = ["ch3"]
+
+[[question]]
+id = "istqb-q-0088"
+type = "single"
+stem = "Which review role decides WHAT is to be reviewed and provides the resources — such as staff and time — for the review?"
+options = [
+  "The moderator",
+  "The manager",
+  "The scribe",
+  "The author",
+]
+answers = [1]
+explanation = "The manager decides what is to be reviewed and provides resources, such as staff and time, for the review. The moderator ensures the meeting runs effectively; the scribe records; the author creates and fixes the work product."
+lo = "FL-3.2.3"
+klevel = "K1"
+tags = ["ch3"]
+
+[[question]]
+id = "istqb-q-0089"
+type = "single"
+stem = "A reviewer's comments have been agreed in the review meeting. Who is responsible for creating and fixing the work product under review?"
+options = [
+  "The author",
+  "The review leader",
+  "The scribe",
+  "The manager",
+]
+answers = [0]
+explanation = "The author creates the work product under review and fixes it. The review leader takes overall responsibility for the review, the scribe collates and records, and the manager decides what is reviewed and provides resources."
+lo = "FL-3.2.3"
+klevel = "K1"
+tags = ["ch3"]
+
+[[question]]
+id = "istqb-q-0090"
+type = "single"
+stem = "During a review meeting, one participant ensures mediation, keeps the meeting on time, and protects an environment in which everyone can speak freely — while another collates the anomalies from the reviewers and records decisions and new anomalies. Which pair of roles is this?"
+options = [
+  "Review leader and manager",
+  "Author and reviewer",
+  "Moderator and scribe",
+  "Scribe and author",
+]
+answers = [2]
+explanation = "The moderator (also known as the facilitator) ensures the effective running of review meetings — mediation, time management, a safe review environment. The scribe (also known as the recorder) collates anomalies from reviewers and records review information such as decisions and new anomalies found during the meeting."
+lo = "FL-3.2.3"
+klevel = "K1"
+tags = ["ch3"]
+
+[[question]]
+id = "istqb-q-0091"
+type = "single"
+stem = "Who takes OVERALL responsibility for a review — deciding who will be involved and organizing when and where it takes place — and who actually performs the examination of the work product?"
+options = [
+  "The manager examines; the scribe takes overall responsibility",
+  "The review leader takes overall responsibility; reviewers perform the review",
+  "The author takes overall responsibility; the moderator examines",
+  "The moderator takes overall responsibility; the manager examines",
+]
+answers = [1]
+explanation = "The review leader takes overall responsibility for the review, such as deciding who will be involved and organizing when and where it takes place. Reviewers perform the review — they may be project members, subject matter experts, or any other stakeholder."
+lo = "FL-3.2.3"
+klevel = "K1"
+tags = ["ch3"]
+
+[[question]]
+id = "istqb-q-0092"
+type = "single"
+stem = "A developer presents a new design to a group of colleagues to explain it, gather their ideas, and build confidence in the approach. The developer leads the session, and colleagues have not necessarily prepared beforehand. Which review type is this?"
+options = [
+  "Inspection",
+  "Technical review",
+  "Walkthrough",
+  "Informal review, because the colleagues did not prepare in advance",
+]
+answers = [2]
+explanation = "A walkthrough is led by the author and serves objectives such as evaluating quality, building confidence, educating reviewers, gaining consensus, generating new ideas and detecting anomalies. Individual review by participants before the walkthrough is possible but not required — lack of preparation does not make it an informal review."
+lo = "FL-3.2.4"
+klevel = "K2"
+tags = ["ch3"]
+
+[[question]]
+id = "istqb-q-0093"
+type = "single"
+stem = "A colleague glances at your new test cases over your shoulder and points out two problems. No process is followed and nothing is documented. Which review type is this, and what is its main objective?"
+options = [
+  "A walkthrough; its main objective is gaining consensus",
+  "An inspection; its main objective is collecting metrics",
+  "A technical review; its main objective is making technical decisions",
+  "An informal review; its main objective is detecting anomalies",
+]
+answers = [3]
+explanation = "Informal reviews do not follow a defined process and do not require a formal documented output; their main objective is detecting anomalies. The other three types all imply more structure: walkthroughs are author-led sessions, technical reviews chase consensus, and inspections follow the complete generic process with metrics."
+lo = "FL-3.2.4"
+klevel = "K2"
+tags = ["ch3"]
+
+[[question]]
+id = "istqb-q-0094"
+type = "single"
+stem = "A team of technically qualified reviewers, led by a moderator, meets to agree on how a tricky concurrency problem should be solved in the shared library. Which review type matches this description?"
+options = [
+  "Walkthrough, because a technical topic is being discussed",
+  "Technical review, which is performed by technically qualified reviewers and led by a moderator to gain consensus and make decisions regarding a technical problem",
+  "Informal review, because no code is being reviewed",
+  "Inspection, because the topic is technical",
+]
+answers = [1]
+explanation = "A technical review is performed by technically qualified reviewers and led by a moderator; its objectives are to gain consensus and make decisions regarding a technical problem, plus detecting anomalies, evaluating quality, generating ideas and motivating authors. 'Technical topic' alone does not make a walkthrough or an inspection."
+lo = "FL-3.2.4"
+klevel = "K2"
+tags = ["ch3"]
+
+[[question]]
+id = "istqb-q-0095"
+type = "single"
+stem = "A safety-critical component must be reviewed with maximum rigour: the complete generic review process is followed, metrics are collected to improve the process, and the objective is finding the maximum number of anomalies. Which roles must the author of the reviewed work product NOT take in this review?"
+options = [
+  "Reviewer or manager",
+  "Review leader or scribe",
+  "Moderator or reviewer",
+  "Scribe or reviewer",
+]
+answers = [1]
+explanation = "This describes an inspection, the most formal review type: it follows the complete generic process, collects metrics to improve the SDLC and the inspection process itself, and aims to find the maximum number of anomalies. In an inspection the author cannot act as the review leader or the scribe — acting as a reviewer or the manager is not prohibited."
+lo = "FL-3.2.4"
+klevel = "K2"
+tags = ["ch3"]
+
+[[question]]
+id = "istqb-q-0096"
+type = "single"
+stem = "A team reviews a critical payment specification with an inspection this month, and last month it reviewed an early draft of the same specification informally. What does the syllabus say about this?"
+options = [
+  "This is wrong: each work product may only ever be reviewed with one review type",
+  "This is wrong: informal reviews and inspections can never be applied to the same artifact type",
+  "This is fine: the same work product can be reviewed with different review types, and the required formality depends on factors such as the SDLC, process maturity, criticality and complexity, legal or regulatory requirements, and the need for an audit trail",
+  "This is fine only if the informal review found no anomalies",
+]
+answers = [2]
+explanation = "The syllabus explicitly allows the same work product to be reviewed with different review types — e.g., first an informal one and later a more formal one. The required level of formality depends on the SDLC, development process maturity, criticality and complexity of the work product, legal or regulatory requirements, and the need for an audit trail."
+lo = "FL-3.2.4"
+klevel = "K2"
+tags = ["ch3"]
+
+[[question]]
+id = "istqb-q-0097"
+type = "multi"
+stem = "Which TWO of the following are success factors for reviews?"
+options = [
+  "Defining clear objectives and measurable exit criteria for the review",
+  "Providing adequate time to participants to prepare for the review",
+  "Using the review meeting to rate each participant's performance for the annual appraisal",
+  "Reviewing the entire 300-page specification in one marathon session to minimize meeting overhead",
+  "Restricting review participation to the most senior managers only",
+]
+answers = [0, 1]
+explanation = "The syllabus's success factors include clear objectives and measurable exit criteria and adequate preparation time — along with choosing the right review type, small chunks, feedback to stakeholders and authors, management support, review culture, training, and facilitation. Evaluating participants should NEVER be an objective, marathon chunks defeat concentration, and reviews need the right participants, not only managers."
+lo = "FL-3.2.5"
+klevel = "K1"
+tags = ["ch3"]
+
+[[question]]
+id = "istqb-q-0098"
+type = "single"
+stem = "A department head proposes using review meetings to rank developers, so the lowest-ranked reviewer's findings count against them in appraisals. What does the syllabus's guidance on review success say?"
+options = [
+  "This is a recommended success factor, because competition improves quality",
+  "Evaluation of participants should never be an objective of a review",
+  "This is acceptable as long as the scribe records the rankings",
+  "This is acceptable only for inspections, where metrics are collected",
+]
+answers = [1]
+explanation = "Among the success factors the syllabus states that clear objectives and measurable exit criteria should be defined, and that evaluation of participants should never be an objective. Inspection metrics are used to improve the process — not to rate people."
+lo = "FL-3.2.5"
+klevel = "K1"
+tags = ["ch3"]

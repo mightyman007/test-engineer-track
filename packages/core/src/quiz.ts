@@ -1,3 +1,4 @@
+import { mulberry32 } from './exam.js';
 import type { Question } from './types.js';
 
 export function gradeAnswer(q: Question, selected: number[]): boolean {
@@ -18,4 +19,17 @@ export function scoreAttempt(
     if (ok) score += 1;
   }
   return { score, max: questions.length, perQuestion };
+}
+
+/** Deterministic per seed: draws `size` distinct questions from the pool
+ *  (Fisher–Yates over a seeded shuffle, then slice). Used by the quiz runner
+ *  so retakes can re-seed without DOM access. */
+export function drawQuizQuestions(pool: Question[], size: number, seed: number): Question[] {
+  const rng = mulberry32(seed >>> 0);
+  const arr = [...pool];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(rng() * (i + 1));
+    [arr[i], arr[j]] = [arr[j]!, arr[i]!];
+  }
+  return arr.slice(0, size);
 }

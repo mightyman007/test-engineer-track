@@ -1,0 +1,636 @@
+# ISTQB CTFL Module 6 — Managing the Test Activities (Ch5)
+# 33 original questions. istqb-q-0153 is the brief's worked example (K3 risk
+# allocation), renumbered into this module's id range with its keyed option
+# relocated to position 3 for answer-position balance — scenario, option
+# semantics, keyed answer and explanation are the brief's own.
+#
+# Verified against the official ISTQB CTFL Syllabus v4.0.1 PDF (istqb.org,
+# 2024-09-15; md5 b2577c7a8437970d172797d7061a7aba — the cache re-verified
+# byte-identical live 2026-11-07; text-extracted with pdftotext -layout; Ch5 LO
+# list p. 47 of 78, sections 5.1-5.5 on pp. 47-56) AND the official ISTQB Exam
+# Structures & Rules Tables v1.20 (re-downloaded live 2026-11-07 from the
+# istqb.org CTFL page download; md5 c18e5eb5b144c5268874dbaba2488b13 — identical
+# to the copy Task 6 verified; "CTFL - Certified Tester Foundation Level v4.0"
+# chapter-5 table):
+#   FL-5.1.1 (K2) Exemplify the purpose and content of a test plan
+#   FL-5.1.2 (K1) Recognize how a tester adds value to iteration and release planning
+#   FL-5.1.3 (K2) Compare and contrast entry criteria and exit criteria
+#   FL-5.1.4 (K3) Use estimation techniques to calculate the required test effort
+#   FL-5.1.5 (K3) Apply test case prioritization
+#   FL-5.1.6 (K1) Recall the concepts of the test pyramid
+#   FL-5.1.7 (K2) Summarize the testing quadrants and their relationships with test levels and test types
+#   FL-5.2.1 (K1) Identify risk level by using risk likelihood and risk impact
+#   FL-5.2.2 (K2) Distinguish between project risks and product risks
+#   FL-5.2.3 (K2) Explain how product risk analysis may influence thoroughness and test scope
+#   FL-5.2.4 (K2) Explain what measures can be taken in response to analyzed product risks
+#   FL-5.3.1 (K1) Recall metrics used for testing
+#   FL-5.3.2 (K2) Summarize the purposes, content, and audiences for test reports
+#   FL-5.3.3 (K2) Exemplify how to communicate the status of testing
+#   FL-5.4.1 (K2) Summarize how configuration management supports testing
+#   FL-5.5.1 (K3) Prepare a defect report
+#
+# OFFICIAL ch5 K-DRAW (pinned per the standing Task-5/6 ruling): Exam Structures
+# & Rules Tables v1.20, Chapter 5: "There is a total of 9 questions required for
+# Chapter 5. K1 = 1, K2 = 5, K3 = 3; Number of points = 9." Group split:
+# {5.1.2, 5.1.6, 5.2.1, 5.3.1} x 1 K1; {5.1.1, 5.1.3} x 1 K2; {5.1.7} x 1 K2;
+# {5.2.2, 5.2.3, 5.2.4} x 1 K2; {5.3.2} x 1 K2; {5.3.3, 5.4.1} x 1 K2;
+# {5.1.4, 5.1.5, 5.5.1} x 3 K3.
+#
+# NOTE on K-levels: ch5 is the first chapter whose syllabus LOs themselves
+# supply K1s (four: 5.1.2, 5.1.6, 5.2.1, 5.5.1's keyword "defect report" — see
+# below) and three K3 LOs (5.1.4, 5.1.5, 5.5.1), so the bank's K mix is keyed to
+# the official LO classification throughout: 9 K1 = 2 per official K1 LO (8) + 1
+# extra on FL-5.5.1 grounded via syllabus 0.5 ("all contents of chapters 1-6 are
+# examinable at a K1 level"; "all terms listed as keywords ... shall be
+# remembered (K1), even if not explicitly mentioned in the learning objectives"
+# — ch5's keyword list includes defect report, whose status values the question
+# recalls). 7 K3 = the three official K3 LOs (2 each) + the brief's own worked
+# example keyed K3 on FL-5.2.2 (the same K3-on-K2-LO precedent as Task 6's
+# q-0119/0121/0122: an apply-exercise whose every datum sits in the stem).
+# Notably the official draw classifies risk-level computation LO FL-5.2.1 as K1,
+# so q-0152's numeric risk-level computation is keyed K1 per the official
+# classification — the deep exhaustive-vs-smoke ALLOCATION (testing depth as a
+# function of level) is the K3 exercise, and it lives in the brief's worked
+# example. The official exam itself draws ch5 K3s only from {5.1.4, 5.1.5,
+# 5.5.1}.
+#
+# Rulings applied to the brief:
+#   (a) floor value — the brief's Files line says "+ ch5: 30" while the step
+#       list and the controller dispatch say 33 (the contract's own question
+#       count); shipped 33, which the validator confirms met exactly (stricter
+#       than 30 either way — same resolution as Task 6's ruling (a)).
+#   (b) worked example — istqb-q-0153 carries the brief's q-0129 scenario,
+#       options, keyed semantics and explanation verbatim; only the id
+#       (renumbered into 0137..0169) and the option order (position-balance
+#       ruling (d)) differ.
+#   (c) brief section-numbering delta — the brief's coverage map labels
+#       lesson-02 "5.1.5-5.1.6" for estimation + prioritization; the verified
+#       syllabus numbers them 5.1.4 (estimation techniques) and 5.1.5 (test case
+#       prioritization), with 5.1.6 = test pyramid and 5.1.7 = testing
+#       quadrants. Content follows the verified numbering; the pyramid and
+#       quadrants (whose LOs FL-5.1.6/5.1.7 need >=2 questions each under the
+#       LO-coverage contract) are taught inside lesson-02 alongside
+#       prioritization, where the brief's own label put 5.1.6.
+#   (d) review-fix standing rule (from Task 6) — answer positions distributed
+#       across 0-3 (singles 8/8/8/7; multi keyed [1,3]) instead of clustering
+#       at index 0; every question re-read against its keyed index after the
+#       distribution was fixed.
+#
+# Review-fix notes (same-day fix round, 2026-11-07):
+#   (e) q-0152's two distractor rationales made numerically coherent with their
+#       own labels (average of 4 and 3 = 3.5; impact divided by likelihood =
+#       3/4 = 0.75) — keyed answer (12) and option order unchanged.
+#   (f) LO-keying audit note (reviewer-requested): q-0162 (control directives)
+#       keys FL-5.3.2 as the closest LO — test control has no dedicated LO in
+#       ch5 (the monitoring/control definitions live in the 5.3 chapter intro,
+#       and the nearest classified LO, FL-5.3.1, is K1 metrics-only); the
+#       anchor is the syllabus's own tie: test progress reports exist to
+#       "support the ongoing test control".
+#   (g) ledger-only (no action this round): q-0153's K3-on-K2 placement
+#       (FL-5.2.2) is the brief's own keying; if a later consistency pass
+#       re-homes it, the most faithful LO would be FL-5.2.3 (product risk
+#       analysis influencing thoroughness and test scope — the
+#       exhaustive-vs-smoke allocation rule is exactly that influence).
+#
+# Coverage: FL-5.1.1: 2 (q-0137, q-0138), FL-5.1.2: 2 (q-0139, q-0140),
+# FL-5.1.3: 2 (q-0141, q-0142), FL-5.1.4: 2 (q-0143, q-0144), FL-5.1.5: 2
+# (q-0145, q-0146), FL-5.1.6: 2 (q-0147, q-0148), FL-5.1.7: 2 (q-0149, q-0150),
+# FL-5.2.1: 2 (q-0151, q-0152), FL-5.2.2: 2 (q-0153, q-0154), FL-5.2.3: 2
+# (q-0155, q-0156), FL-5.2.4: 2 (q-0157, q-0158), FL-5.3.1: 2 (q-0159, q-0160),
+# FL-5.3.2: 2 (q-0161, q-0162), FL-5.3.3: 2 (q-0163, q-0164), FL-5.4.1: 2
+# (q-0165, q-0166), FL-5.5.1: 3 (q-0167, q-0168, q-0169) — every LO >= 2 (16
+# LOs). K mix: 9 K1 + 17 K2 + 7 K3 (contract floors: >=9 K1, >=5 K3; official
+# ch5 draw for comparison: 1 K1 + 5 K2 + 3 K3). 2 multi-select questions
+# (istqb-q-0137, istqb-q-0168): 5 options, exactly 2 correct. All
+# stems/options/explanations are original — no ISTQB official sample questions
+# copied.
+
+[[question]]
+id = "istqb-q-0137"
+type = "multi"
+stem = "A test manager is assembling a new test plan for a regulated payments project. Which TWO of the following items belong in the typical content of a test plan?"
+options = [
+  "The defect reports logged during test execution, with their severities",
+  "The context of testing — test scope, test objectives, test basis",
+  "The full text of the corporate test policy the project must follow",
+  "The risk register — product risks and project risks",
+  "The production database credentials for the test environment",
+]
+answers = [1, 3]
+explanation = "Typical test-plan content includes the context of testing and the risk register, alongside assumptions/constraints, stakeholders, communication, the test approach, and budget/schedule. Defect reports are gathered during execution rather than planned; the policy is something the plan adheres to (or explains deviations from), not reproduces; and credentials are environment configuration, not a plan section."
+lo = "FL-5.1.1"
+klevel = "K2"
+tags = ["ch5"]
+
+[[question]]
+id = "istqb-q-0138"
+type = "single"
+stem = "A team's test plan contains a section explaining that one subsystem will be tested with exploratory charters instead of the corporation's standard scripted technique. Which purpose of test planning does that section serve?"
+options = [
+  "Demonstrating that testing will adhere to the existing test policy and test strategy — or explaining why the testing will deviate from them",
+  "Documenting the means and schedule for achieving the test objectives",
+  "Serving as a means of communication with team members and other stakeholders",
+  "Helping to ensure the performed test activities will meet the established criteria",
+]
+answers = [0]
+explanation = "Explaining a deviation from the standard approach is exactly the adhere-or-explain purpose. Documenting means/schedule, communicating with stakeholders, and meeting the established criteria are the plan's other jobs, not this one."
+lo = "FL-5.1.1"
+klevel = "K2"
+tags = ["ch5"]
+
+[[question]]
+id = "istqb-q-0139"
+type = "single"
+stem = "Which contribution is a tester's typical role in ITERATION planning, as opposed to release planning?"
+options = [
+  "Defining and re-defining the product backlog for the release",
+  "Breaking down user stories into tasks, particularly testing tasks",
+  "Determining the test approach to be used across all iterations",
+  "Refining larger user stories into sets of smaller user stories",
+]
+answers = [1]
+explanation = "Iteration planning works on the single iteration backlog: detailed risk analysis of the stories, their testability, breaking them into tasks (particularly testing tasks), estimating the testing tasks, and refining functional and non-functional aspects. Defining the backlog, refining large stories, and setting the cross-iteration test approach belong to release planning."
+lo = "FL-5.1.2"
+klevel = "K1"
+tags = ["ch5"]
+
+[[question]]
+id = "istqb-q-0140"
+type = "single"
+stem = "Which contribution belongs to RELEASE planning rather than iteration planning?"
+options = [
+  "Participating in the detailed risk analysis of user stories",
+  "Determining the testability of the iteration's user stories",
+  "Participating in writing testable user stories and acceptance criteria",
+  "Estimating test effort for all of the iteration's testing tasks",
+]
+answers = [2]
+explanation = "Release planning looks ahead to the whole release: testers help write testable user stories and acceptance criteria, join project and quality risk analyses, estimate the test effort associated with user stories, determine the test approach, and plan release testing. The other three options are iteration-planning contributions."
+lo = "FL-5.1.2"
+klevel = "K1"
+tags = ["ch5"]
+
+[[question]]
+id = "istqb-q-0141"
+type = "single"
+stem = "A team is deciding what must be true before system testing may start. Which of the following is a typical ENTRY criterion for a test level?"
+options = [
+  "The number of unresolved defects is below the agreed threshold",
+  "All planned tests for the level have been executed",
+  "The achieved level of coverage meets the target",
+  "All smoke tests have passed on the build to be tested",
+]
+answers = [3]
+explanation = "Entry criteria are preconditions: available resources and testware, and an initial quality level of the test object — e.g., all smoke tests have passed. Unresolved-defect counts, executed tests and achieved coverage are typical exit criteria (measures of thoroughness and binary yes/no criteria)."
+lo = "FL-5.1.3"
+klevel = "K2"
+tags = ["ch5"]
+
+[[question]]
+id = "istqb-q-0142"
+type = "single"
+stem = "In an Agile team, the user story 'password reset' cannot move into development until its acceptance criteria are agreed and the design sketches exist. What does the syllabus call such story-level preconditions?"
+options = [
+  "Definition of Ready — the entry criteria a user story must fulfill to start development and/or testing activities",
+  "Definition of Done — the team's objective metrics for a releasable item",
+  "Exit criteria — what must be achieved to declare the iteration completed",
+  "Test charter — the objective of an exploratory testing session",
+]
+answers = [0]
+explanation = "Entry criteria that a user story must fulfill before development and/or testing start are called Definition of Ready. Definition of Done is the Agile name for exit criteria of a releasable item — the opposite direction — and a test charter belongs to exploratory testing."
+lo = "FL-5.1.3"
+klevel = "K2"
+tags = ["ch5"]
+
+[[question]]
+id = "istqb-q-0143"
+type = "single"
+stem = "A test-design task is estimated with the three-point technique: most optimistic a = 4, most likely m = 7, most pessimistic b = 16 person-hours. Using E = (a + 4·m + b) / 6 and SD = (b − a) / 6, what is the resulting estimate?"
+options = [
+  "9 person-hours — the simple average of a, m and b, with no error term",
+  "8 ± 2 person-hours — between 6 and 10",
+  "12.5 person-hours — weighting the pessimistic estimate instead: (a + 4·b + m) / 6",
+  "8 ± 12 person-hours — the error taken as the full range (b − a) rather than (b − a)/6",
+]
+answers = [1]
+explanation = "E = (4 + 4·7 + 16) / 6 = 48 / 6 = 8 and SD = (16 − 4) / 6 = 2, so the estimate is 8 ± 2 person-hours (between 6 and 10). The simple average (9) ignores both the weighting toward m and the error bar; weighting b instead of m inverts the lean (12.5); and the /6 belongs to the SD formula too."
+lo = "FL-5.1.4"
+klevel = "K3"
+tags = ["ch5"]
+
+[[question]]
+id = "istqb-q-0144"
+type = "single"
+stem = "A previous, similar project's development-to-test effort ratio was 4:1. The current project expects 680 person-days of development effort. Using ratio-based estimation, what test effort should the team estimate?"
+options = [
+  "2,720 person-days — the ratio applied in reverse (test : development = 4 : 1)",
+  "136 person-days — the development effort divided by five",
+  "170 person-days — the 4:1 development-to-test ratio applied: 680 ÷ 4",
+  "544 person-days — the ratio read as 4:5 and scaled: 680 × 4/5",
+]
+answers = [2]
+explanation = "Ratio-based estimation applies the historical development-to-test ratio to the new project: 4:1 means test effort = 680 ÷ 4 = 170 person-days. Reversing the ratio (2,720), dividing by five (136) or rescaling 4/5 (544) each misread which side of the ratio the known figure sits on."
+lo = "FL-5.1.4"
+klevel = "K3"
+tags = ["ch5"]
+
+[[question]]
+id = "istqb-q-0145"
+type = "single"
+stem = "Test case T1 has the highest priority but can only run after test case T2 — the lowest-priority test in the suite — has created the test data T1 needs. The test environment is available all week. How should the test execution schedule order these two test cases?"
+options = [
+  "T1 first — priority alone defines the test execution schedule",
+  "T1 first, with T2 inserted only if execution time remains",
+  "Either order — with a free environment, dependencies do not constrain scheduling",
+  "T2 first — a lower-priority test case that a higher-priority test case depends on must be executed first",
+]
+answers = [3]
+explanation = "Priority ordering yields to dependencies: if a higher-priority test case depends on a lower-priority one, the lower-priority one must be executed first. The freely available environment removes the resource-availability constraint, not the dependency."
+lo = "FL-5.1.5"
+klevel = "K3"
+tags = ["ch5"]
+
+[[question]]
+id = "istqb-q-0146"
+type = "single"
+stem = "A team applies additional coverage prioritization, scheduling one test case at a time and each time picking the case that adds the most NEW coverage. The three test cases cover disjoint sets of coverage items: T1 adds 30% coverage, T2 adds 20%, T3 adds 25%. In what order are they scheduled?"
+options = [
+  "T1, then T3, then T2",
+  "T3, then T1, then T2 — the case with the single highest coverage starts",
+  "T1, then T2, then T3 — the order in which the estimates were produced",
+  "T2, then T3, then T1 — smallest additions first to bank quick wins",
+]
+answers = [0]
+explanation = "Additional coverage prioritization is greedy: the first pick is the highest-coverage case (T1, 30%), and each subsequent pick is the case adding the most additional coverage to what is already scheduled — T3 (25%) then T2 (20%). Starting with T3 misreads the strategy, and estimate order or quick wins play no role in it."
+lo = "FL-5.1.5"
+klevel = "K3"
+tags = ["ch5"]
+
+[[question]]
+id = "istqb-q-0147"
+type = "single"
+stem = "In the test pyramid model, what happens to the three properties as you move to a HIGHER layer?"
+options = [
+  "Test granularity increases, test isolation increases, test execution time decreases",
+  "Test granularity decreases, test isolation decreases, test execution time increases",
+  "All three increase — granularity, isolation and execution time",
+  "All three decrease — higher layers are small, isolated and fast",
+]
+answers = [1]
+explanation = "The higher the layer, the lower the test granularity, the lower the test isolation (dependency on other elements of the system), and the higher the test execution time. It is the bottom layer that holds the small, isolated, fast tests."
+lo = "FL-5.1.6"
+klevel = "K1"
+tags = ["ch5"]
+
+[[question]]
+id = "istqb-q-0148"
+type = "single"
+stem = "Why does a reasonable test pyramid usually need MANY tests in its bottom layer and only a FEW in its top layer?"
+options = [
+  "Bottom-layer tests are slower, so more of them are needed to fill the execution window",
+  "Top-layer tests are cheaper to automate, so teams keep only a few for convenience",
+  "Bottom-layer tests are small, isolated and fast but each checks only a small piece of functionality, while top-layer tests are complex, slower end-to-end checks that each cover a large piece",
+  "Bottom-layer tests must compensate for the top layer's higher test isolation",
+]
+answers = [2]
+explanation = "Bottom-layer tests are small, isolated, fast, and check a small piece of functionality — so many are needed for reasonable coverage. Top-layer tests are complex, high-level end-to-end checks that are slower but each cover a large piece of functionality — so only a few are needed. The inverted-property distractors swap the layers' characteristics."
+lo = "FL-5.1.6"
+klevel = "K1"
+tags = ["ch5"]
+
+[[question]]
+id = "istqb-q-0149"
+type = "single"
+stem = "An Agile team automates its component tests and component-integration tests and runs them in the continuous integration process. Which testing quadrant do these tests occupy?"
+options = [
+  "Q2 — business facing, supporting the team",
+  "Q3 — business facing, critiquing the product",
+  "Q4 — technology facing, critiquing the product",
+  "Q1 — technology facing, supporting the team",
+]
+answers = [3]
+explanation = "Q1 (technology facing, support the team) contains component tests and component integration tests, which should be automated and included in the CI process. Q2 holds the acceptance-criteria-facing functional tests, Q3 the user-oriented critique, Q4 smoke and non-functional tests."
+lo = "FL-5.1.7"
+klevel = "K2"
+tags = ["ch5"]
+
+[[question]]
+id = "istqb-q-0150"
+type = "single"
+stem = "A usability lab session watches real users struggle with a checkout flow. Which quadrant does this testing occupy — and what makes the classification?"
+options = [
+  "Q3 — business facing and critiquing the product: usability testing is user-oriented and often manual",
+  "Q4 — technology facing and critiquing the product: all non-functional testing lives in Q4",
+  "Q2 — business facing and supporting the team: it checks the acceptance criteria",
+  "Q1 — technology facing and supporting the team: it guides the developers",
+]
+answers = [0]
+explanation = "Q3 (business facing, critique the product) contains exploratory testing, usability testing and user acceptance testing. The Q4 trap: Q4 holds smoke tests and non-functional tests EXCEPT usability tests — usability is business-facing, not technology-facing."
+lo = "FL-5.1.7"
+klevel = "K2"
+tags = ["ch5"]
+
+[[question]]
+id = "istqb-q-0151"
+type = "single"
+stem = "Which two factors characterize a risk and together express its risk level?"
+options = [
+  "Severity and priority",
+  "Risk likelihood and risk impact",
+  "Cost and schedule delay",
+  "Probability of detection and mean time to failure",
+]
+answers = [1]
+explanation = "A risk is characterized by risk likelihood (the probability of its occurrence) and risk impact (the consequences of that occurrence); together they express the risk level. Severity and priority are defect-report fields, not risk attributes."
+lo = "FL-5.2.1"
+klevel = "K1"
+tags = ["ch5"]
+
+[[question]]
+id = "istqb-q-0152"
+type = "single"
+stem = "A risk is assessed at likelihood 4 on a 5-point scale and impact 3 on the same scale. In the quantitative approach, what is its risk level?"
+options = [
+  "7 — likelihood and impact added",
+  "3.5 — the two values averaged",
+  "12 — the multiplication of likelihood and impact",
+  "0.75 — impact divided by likelihood",
+]
+answers = [2]
+explanation = "In the quantitative approach the risk level is calculated as the multiplication of risk likelihood and risk impact: 4 × 3 = 12. Adding, averaging or dividing the two factors are not the syllabus's operation — and the higher the resulting level, the more important the risk's treatment."
+lo = "FL-5.2.1"
+klevel = "K1"
+tags = ["ch5"]
+
+[[question]]
+id = "istqb-q-0153"
+type = "single"
+stem = "A payment-module defect is almost certain to recur (likelihood 5/5) and would incorrectly charge customers (impact 5/5). A logging typo in an admin screen is unlikely (2/5) with trivial impact (1/5). Using risk level = likelihood × impact and the project's rule that levels ≥ 12 get exhaustive testing while levels ≤ 4 get a single smoke check, what is the right allocation?"
+options = [
+  "Smoke checks for both — likelihood × impact totals are 25 and 2, both small",
+  "Exhaustive for both — any defect touching money is automatically maximal",
+  "Smoke for the payment defect; exhaustive for the typo (impact ratios invert)",
+  "Exhaustive tests for the payment defect; smoke check for the typo",
+]
+answers = [3]
+explanation = "Payment: 5 × 5 = 25 ≥ 12 → exhaustive. Typo: 2 × 1 = 2 ≤ 4 → smoke. The rule is mechanical once likelihood and impact are separated — 'touching money' is an impact driver, not a bypass of the computation."
+lo = "FL-5.2.2"
+klevel = "K3"
+tags = ["ch5"]
+
+[[question]]
+id = "istqb-q-0154"
+type = "single"
+stem = "During a risk-analysis workshop, four risks are named. Which one is a PROJECT risk?"
+options = [
+  "The only engineer who understands the billing module has resigned, so the analysis may slip",
+  "The billing module may calculate value-added tax on the gross amount instead of the net",
+  "The checkout page may time out under peak load, driving customers away",
+  "The exported invoices may show customer addresses in the wrong locale",
+]
+answers = [0]
+explanation = "Project risks relate to management and control of the project — here a people issue (lost skills) threatening the schedule. Incorrect calculations, inadequate response time and wrong functionality are product risks: they hit quality characteristics and, through them, the users."
+lo = "FL-5.2.2"
+klevel = "K2"
+tags = ["ch5"]
+
+[[question]]
+id = "istqb-q-0155"
+type = "single"
+stem = "In a product risk workshop the team first brainstorms a list of 40 risks, then scores each one for likelihood and impact and groups them by feature area. Which risk-analysis stage does the SCORING belong to?"
+options = [
+  "Risk identification — generating a comprehensive list of risks",
+  "Risk assessment — categorization, determining likelihood, impact and level, prioritizing, and proposing ways to handle them",
+  "Risk mitigation — implementing the proposed actions to reduce the risk level",
+  "Risk monitoring — checking that the mitigation actions are effective",
+]
+answers = [1]
+explanation = "Risk identification is the brainstorming half (the 40-item list); scoring likelihood and impact, categorizing, prioritizing and proposing handling belong to risk assessment. Mitigation and monitoring are the two halves of risk control, not of analysis."
+lo = "FL-5.2.3"
+klevel = "K2"
+tags = ["ch5"]
+
+[[question]]
+id = "istqb-q-0156"
+type = "single"
+stem = "A product risk analysis has just produced likelihood, impact and level for every identified risk. Which test-management decision do these results DIRECTLY drive?"
+options = [
+  "Which SDLC model the project should follow",
+  "Which programming language the test automation framework uses",
+  "Which test techniques to employ and the level of coverage to achieve",
+  "Which stakeholders receive the test completion report",
+]
+answers = [2]
+explanation = "Product risk analysis results are used to determine the test scope, the test levels and types, the test techniques and coverage to be achieved, the per-task test effort, the prioritization of testing, and any additional risk-reducing activities. The SDLC model, the automation language and the report audiences are not among those uses."
+lo = "FL-5.2.3"
+klevel = "K2"
+tags = ["ch5"]
+
+[[question]]
+id = "istqb-q-0157"
+type = "single"
+stem = "The team implements the actions proposed in the risk assessment for its top product risk, and schedules a monthly check that those actions are actually working. Which two risk-control activities are these, in order?"
+options = [
+  "Risk monitoring, then risk mitigation",
+  "Risk identification, then risk assessment",
+  "Risk acceptance, then risk transfer",
+  "Risk mitigation, then risk monitoring",
+]
+answers = [3]
+explanation = "Risk mitigation means implementing the actions proposed in risk assessment to reduce the risk level; risk monitoring aims to ensure the mitigation actions are effective, to obtain further information, and to identify emerging risks. Identification/assessment are analysis stages; acceptance and transfer are response options."
+lo = "FL-5.2.4"
+klevel = "K2"
+tags = ["ch5"]
+
+[[question]]
+id = "istqb-q-0158"
+type = "single"
+stem = "A team decides NOT to test a rarely used export feature at all, documents that decision, and prepares a rollback plan in case the feature misbehaves in production. Which response option to product risk does this illustrate?"
+options = [
+  "Risk acceptance — the documented decision to live with the risk, backed by a contingency plan",
+  "Risk transfer — the responsibility moved to the operations team",
+  "Risk mitigation by testing — the feature will still get exploratory sessions",
+  "Risk avoidance — the feature is removed from the product",
+]
+answers = [0]
+explanation = "The analyzed response options include risk mitigation by testing, risk acceptance, risk transfer and a contingency plan. Deliberately not testing, recording the decision and preparing a rollback plan is acceptance with a contingency plan — not transfer (a third party taking it over), not testing-based mitigation, and 'avoidance' is not one of the syllabus's options."
+lo = "FL-5.2.4"
+klevel = "K2"
+tags = ["ch5"]
+
+[[question]]
+id = "istqb-q-0159"
+type = "single"
+stem = "Defect density and defect detection percentage belong to which family of test metrics?"
+options = [
+  "Test progress metrics",
+  "Defect metrics",
+  "Product quality metrics",
+  "Coverage metrics",
+]
+answers = [1]
+explanation = "Defect metrics include the number and priorities of defects found/fixed, defect density and defect detection percentage. Test progress metrics track execution state, product quality metrics track the test object (availability, response time), and coverage metrics track what has been covered."
+lo = "FL-5.3.1"
+klevel = "K1"
+tags = ["ch5"]
+
+[[question]]
+id = "istqb-q-0160"
+type = "single"
+stem = "Which metric is a RISK metric — and what do the other three measure?"
+options = [
+  "Requirements coverage; the others are residual risk level, response time and test effort",
+  "Test effort; the others are defect density, residual risk level and mean time to failure",
+  "Residual risk level; the others are availability, requirements coverage and task completion",
+  "Mean time to failure; the others are residual risk level, code coverage and cost of quality",
+]
+answers = [2]
+explanation = "Risk metrics include the residual risk level. Availability and mean time to failure are product quality metrics; requirements and code coverage are coverage metrics; task completion and test effort are project progress metrics; cost of quality is a cost metric."
+lo = "FL-5.3.1"
+klevel = "K1"
+tags = ["ch5"]
+
+[[question]]
+id = "istqb-q-0161"
+type = "single"
+stem = "A weekly document lists the testing period, passed/failed counts, current impediments with their workarounds, and the testing planned for the next period. Which report is it?"
+options = [
+  "A test completion report — summarizing a completed test activity",
+  "A test policy — the organization's high-level rules for testing",
+  "A test summary report — the standard's name for the completion report",
+  "A test progress report — issued regularly to support ongoing test control",
+]
+answers = [3]
+explanation = "Regular cadence plus impediments, metrics, and next-period plans are the test progress report's contents; it exists to support ongoing test control. A completion report is a one-off summary of a finished test activity evaluated against the original plan — and 'test summary report' is a section of that completion report, not its name."
+lo = "FL-5.3.2"
+klevel = "K2"
+tags = ["ch5"]
+
+[[question]]
+id = "istqb-q-0162"
+type = "single"
+stem = "The weekly report shows the test environment arriving two weeks late. The test manager responds by moving the integration tests later in the schedule. In test-management terms, what did the manager just issue?"
+options = [
+  "A control directive — a corrective action based on monitoring information",
+  "A test completion report — the deviation is now closed",
+  "A new exit criterion — the schedule change resets the targets",
+  "A new test approach — the strategy for the whole release is rewritten",
+]
+answers = [0]
+explanation = "Test control uses monitoring information to provide control directives — corrective actions such as reprioritizing tests, re-evaluating entry/exit criteria after rework, adjusting the test schedule, or adding resources. Adjusting the schedule for a late environment is the named example."
+lo = "FL-5.3.2"
+klevel = "K2"
+tags = ["ch5"]
+
+[[question]]
+id = "istqb-q-0163"
+type = "single"
+stem = "A team's status wall shows a task board and a burn-down chart that stakeholders consult themselves. Which communication option does the syllabus call this?"
+options = [
+  "Formal test reports — the template-driven option",
+  "Dashboards — e.g., CI/CD dashboards, task boards, and burn-down charts",
+  "Electronic communication channels — e.g., email and chat",
+  "Online documentation — the long-form written option",
+]
+answers = [1]
+explanation = "Dashboards are the named option, with CI/CD dashboards, task boards and burn-down charts as the syllabus's examples. Formal reports, email/chat and online documentation are the other communication options."
+lo = "FL-5.3.3"
+klevel = "K2"
+tags = ["ch5"]
+
+[[question]]
+id = "istqb-q-0164"
+type = "single"
+stem = "The testers sit in one country; the stakeholders sit on three continents. What does the syllabus expect for communicating test status here?"
+options = [
+  "Exclusively verbal communication — distance is irrelevant to test status",
+  "The same informal stand-up updates as for a co-located team",
+  "More formal communication may be appropriate — distributed teams cannot always communicate face to face",
+  "No scheduled communication — stakeholders in other time zones read the logs themselves",
+]
+answers = [2]
+explanation = "More formal communication may be more appropriate for distributed teams, where direct face-to-face communication is not always possible due to geographical distance or time differences. Verbal-only or stand-up-only options ignore that constraint, and stakeholders still need tailored information."
+lo = "FL-5.3.3"
+klevel = "K2"
+tags = ["ch5"]
+
+[[question]]
+id = "istqb-q-0165"
+type = "single"
+stem = "A test suite was approved for testing and became a baseline. A developer now wants to edit two of its test cases directly. What does configuration management require?"
+options = [
+  "Nothing — test cases are never configuration items",
+  "A direct edit is fine as long as the test results still pass",
+  "The whole baseline must be deleted and re-created from scratch",
+  "The change must go through the formal change control process — a baseline can only be changed that way",
+]
+answers = [3]
+explanation = "If a configuration item is approved for testing it becomes a baseline and can only be changed through a formal change control process. Test cases and test scripts are explicitly configuration items, and CM's remedy is change control, not deletion."
+lo = "FL-5.4.1"
+klevel = "K2"
+tags = ["ch5"]
+
+[[question]]
+id = "istqb-q-0166"
+type = "single"
+stem = "Why does configuration management matter for TESTING specifically — what does it buy the test process?"
+options = [
+  "It lets the team revert to a previous baseline to reproduce previous test results, and keeps configuration items uniquely identified and traceable throughout the test process",
+  "It automatically fixes the defects found in earlier baselines",
+  "It replaces the test completion report with version histories",
+  "It guarantees that every test execution passes on the newest baseline",
+]
+answers = [0]
+explanation = "CM ensures all configuration items (including test items) are uniquely identified, version controlled, tracked and related so traceability is maintained — and, because new baselines record what changed, a previous baseline can be restored to reproduce previous test results. It fixes nothing, replaces no report, and guarantees no outcome."
+lo = "FL-5.4.1"
+klevel = "K2"
+tags = ["ch5"]
+
+[[question]]
+id = "istqb-q-0167"
+type = "single"
+stem = "Which of the following is a defect-report status named by the syllabus?"
+options = [
+  "Escalated to the steering committee",
+  "Awaiting confirmation testing",
+  "Promoted to an epic",
+  "Archived with the test data",
+]
+answers = [1]
+explanation = "The syllabus's defect status examples are open, deferred, duplicate, waiting to be fixed, awaiting confirmation testing, re-opened, closed and rejected. The other three are invented project-speak."
+lo = "FL-5.5.1"
+klevel = "K1"
+tags = ["ch5"]
+
+[[question]]
+id = "istqb-q-0168"
+type = "multi"
+stem = "A tester has just logged an anomaly found during dynamic testing. Which TWO items does the defect report typically include?"
+options = [
+  "The source-code lines changed to fix the defect",
+  "Expected results and actual results",
+  "The names of every stakeholder who reviewed the test plan",
+  "The context of the defect — the test case being run and the SDLC phase",
+  "The marketing budget for the release in which the fix ships",
+]
+answers = [1, 3]
+explanation = "A defect report logged during dynamic testing typically includes a unique identifier, title, date/organization/author, test object and environment, the context (test case, activity, SDLC phase, technique or test data), a reproduction-ready failure description, expected and actual results, severity, priority, and status. Fix diffs and plan-reviewer lists are not report fields."
+lo = "FL-5.5.1"
+klevel = "K3"
+tags = ["ch5"]
+
+[[question]]
+id = "istqb-q-0169"
+type = "single"
+stem = "A one-pixel logo misalignment appears on the bank's public homepage. It breaks nothing, but the marketing campaign launches tomorrow and the homepage must look perfect for it. How should the defect be classified?"
+options = [
+  "High severity (it sits on the public homepage), low priority (nothing breaks)",
+  "High severity and high priority — public visibility raises both together",
+  "Low severity (trivial impact), high priority (the fix is urgent for tomorrow's launch)",
+  "Low severity and low priority — nothing breaks, so nothing is urgent",
+]
+answers = [2]
+explanation = "Severity is the degree of impact of the defect on stakeholders' interests or requirements — a one-pixel misalignment is trivial. Priority to fix is the urgency — the launch makes it high. Public visibility feeds the scheduling judgment (priority), not the impact judgment (severity)."
+lo = "FL-5.5.1"
+klevel = "K3"
+tags = ["ch5"]

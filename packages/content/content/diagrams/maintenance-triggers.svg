@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <rect width="800" height="450" fill="#f7f8fb"/>
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1a1a2e"/></marker></defs>
+  <text x="400" y="42" text-anchor="middle" font-size="24" font-weight="700" fill="#1a1a2e">Maintenance Testing: Three Triggers, One First Step</text>
+  <text x="400" y="68" text-anchor="middle" font-size="14" fill="#1a1a2e">Maintenance testing re-tests a live, operational system after something changes</text>
+  <rect x="40" y="100" width="330" height="84" rx="8" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="55" y="126" font-size="15" font-weight="700" fill="#1a1a2e">1. Modification</text>
+  <text x="55" y="148" font-size="12.5" fill="#1a1a2e">planned enhancements (releases), corrective</text>
+  <text x="55" y="166" font-size="12.5" fill="#1a1a2e">changes, perfective/preventive work, hot fixes</text>
+  <rect x="40" y="200" width="330" height="84" rx="8" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="55" y="226" font-size="15" font-weight="700" fill="#1a1a2e">2. Environment migration</text>
+  <text x="55" y="248" font-size="12.5" fill="#1a1a2e">moving to a new platform, OS or data centre;</text>
+  <text x="55" y="266" font-size="12.5" fill="#1a1a2e">data conversion when data is migrated in</text>
+  <rect x="40" y="300" width="330" height="84" rx="8" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="55" y="326" font-size="15" font-weight="700" fill="#1a1a2e">3. Retirement</text>
+  <text x="55" y="348" font-size="12.5" fill="#1a1a2e">the system reaches end of life: test data</text>
+  <text x="55" y="366" font-size="12.5" fill="#1a1a2e">archiving, plus restore and retrieval</text>
+  <line x1="370" y1="142" x2="450" y2="200" stroke="#1a1a2e" stroke-width="2.5" marker-end="url(#arr)"/>
+  <line x1="370" y1="242" x2="450" y2="242" stroke="#1a1a2e" stroke-width="2.5" marker-end="url(#arr)"/>
+  <line x1="370" y1="342" x2="450" y2="284" stroke="#1a1a2e" stroke-width="2.5" marker-end="url(#arr)"/>
+  <rect x="455" y="170" width="300" height="144" rx="8" fill="#eef1f8" stroke="#1a1a2e" stroke-width="2.5"/>
+  <text x="605" y="202" text-anchor="middle" font-size="16" font-weight="700" fill="#1a1a2e">Impact analysis, first</text>
+  <text x="470" y="232" font-size="12.5" fill="#1a1a2e">&#8226; which parts could the change affect?</text>
+  <text x="470" y="254" font-size="12.5" fill="#1a1a2e">&#8226; how big is the existing system?</text>
+  <text x="470" y="276" font-size="12.5" fill="#1a1a2e">&#8226; how risky is the change?</text>
+  <text x="470" y="298" font-size="12.5" fill="#1a1a2e">&#8594; sets the scope of regression testing</text>
+  <line x1="605" y1="314" x2="605" y2="366" stroke="#1a1a2e" stroke-width="2.5" marker-end="url(#arr)"/>
+  <rect x="425" y="370" width="360" height="52" rx="8" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="605" y="392" text-anchor="middle" font-size="13.5" font-weight="700" fill="#1a1a2e">Test the change + re-check what stayed the same</text>
+  <text x="605" y="412" text-anchor="middle" font-size="12" fill="#1a1a2e">usually most of the system stays unchanged</text>
+</svg>

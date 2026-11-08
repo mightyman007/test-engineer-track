@@ -5,10 +5,10 @@ ISTQB Foundation (CTFL v4.0) prep plus an AI-testing track, with lessons, module
 quizzes, mock exams, spaced-repetition flashcards, read-aloud (TTS), and cohort
 tracking with an admin roster.
 
-**Status:** early development (M1 walking skeleton). Module 1 of the ISTQB track
-is fully authored (5 lessons, 32 questions, 20 flashcards, 5 diagrams, 9 verified
-videos); tracks 2–8, mock exams, and the AI track arrive in M2–M5. See `docs/`
-for the spec and plan.
+**Status:** the ISTQB Foundation (CTFL v4.0) track is fully authored through
+module 7: 26 lessons, 191 questions, 110 flashcards, 26 diagrams, and 83
+verified videos. Module 8 — exam readiness — and the mock exams that power it
+arrive in M3; the AI track follows in M4. See `docs/` for the spec and plan.
 
 ## What it is
 
@@ -72,8 +72,8 @@ Cohort logins are configured per user at sign-in (the **Server URL** field), so
 point them at wherever the API server runs — same origin, another port on the
 same host, or a same-domain subdomain (all "same-site": the session cookie is
 `SameSite=Lax`; the server sends permissive CORS with credentials). Fully
-cross-domain deployments need `SameSite=None; Secure` cookie work (planned M2
-hardening, requires HTTPS).
+cross-domain deployments need `SameSite=None; Secure` cookie work (not yet
+implemented — future hardening, requires HTTPS).
 
 ## Running the API server anywhere
 
@@ -125,7 +125,7 @@ content/
 ├── tracks.toml             # track + module manifest (ids, titles, order,
 │                           #   readiness thresholds, lessonIds, exam weights)
 ├── exams/                  # mock exam blueprints, one [exam] table per file
-│                           #   (empty in M1 — mock exams arrive in M3)
+│                           #   (empty for now — mock exams arrive in M3)
 ├── istqb/module-1/         # one directory per module
 │   ├── lesson-01-….md      # flat lesson files: TOML frontmatter (id, module,
 │   │                       #   title, minutes, objectives, videos, diagrams)

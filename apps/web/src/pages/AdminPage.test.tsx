@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, within } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router';
 import { AdminPage } from './AdminPage.js';
@@ -73,5 +73,58 @@ describe('AdminPage', () => {
       </MemoryRouter>,
     );
     await waitFor(() => expect(screen.getByText('learner1')).toBeTruthy(), { timeout: 3000 });
+  });
+
+  it('creates a user via the Accounts form and shows the result', async () => {
+    const userCreator = vi.fn(async (payload: unknown) => {
+      // mirror the real route: 409 on duplicate
+      if ((payload as { username: string }).username === 'admin') {
+        throw new Error('409: username already taken');
+      }
+      return { user: { id: 9, username: (payload as { username: string }).username, role: 'learner' } };
+    });
+    render(
+      <MemoryRouter>
+        <AdminPage ctx={ctx()} rosterLoader={async () => roster} inviteCreator={async () => ({ code: 'ABCD2345' })} userCreator={userCreator} />
+      </MemoryRouter>,
+    );
+    await userEvent.click(await screen.findByRole('button', { name: /new account/i }));
+    await userEvent.type(screen.getByLabelText(/username/i), 'newbie2');
+    await userEvent.type(screen.getByLabelText(/display name/i), 'New Person');
+    await userEvent.type(screen.getByLabelText(/^password/i), 'longenough1');
+    await userEvent.click(screen.getByRole('button', { name: /create account/i }));
+    await waitFor(() => expect(userCreator).toHaveBeenCalledWith(expect.objectContaining({ username: 'newbie2', role: 'learner' })));
+    expect(await screen.findByText(/account created: newbie2/i)).toBeTruthy();
+  });
+
+  it('surfaces server validation errors and preserves form state', async () => {
+    const userCreator = vi.fn(async () => { throw new Error('400: password must be at least 8 characters'); });
+    render(
+      <MemoryRouter>
+        <AdminPage ctx={ctx()} rosterLoader={async () => roster} inviteCreator={async () => ({ code: 'ABCD2345' })} userCreator={userCreator} />
+      </MemoryRouter>,
+    );
+    await userEvent.click(await screen.findByRole('button', { name: /new account/i }));
+    await userEvent.type(screen.getByLabelText(/username/i), 'weakpw');
+    await userEvent.type(screen.getByLabelText(/^password/i), 'short');
+    await userEvent.click(screen.getByRole('button', { name: /create account/i }));
+    expect(await screen.findByText(/password must be at least 8 characters/i)).toBeTruthy();
+    // form state preserved
+    expect((screen.getByLabelText(/username/i) as HTMLInputElement).value).toBe('weakpw');
+  });
+
+  it('resets a password from the roster row and reports success', async () => {
+    const passwordResetter = vi.fn(async () => undefined);
+    render(
+      <MemoryRouter>
+        <AdminPage ctx={ctx()} rosterLoader={async () => roster} inviteCreator={async () => ({ code: 'ABCD2345' })} passwordResetter={passwordResetter} />
+      </MemoryRouter>,
+    );
+    const row = (await screen.findByText('learner1')).closest('tr')!;
+    await userEvent.click(within(row).getByRole('button', { name: /reset password/i }));
+    await userEvent.type(within(row).getByLabelText(/new password/i), 'anotherlong1');
+    await userEvent.click(within(row).getByRole('button', { name: /^save password/i }));
+    await waitFor(() => expect(passwordResetter).toHaveBeenCalledWith(2, 'anotherlong1'));
+    expect(await screen.findByText(/password updated/i)).toBeTruthy();
   });
 });

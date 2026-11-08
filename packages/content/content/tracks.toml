@@ -22,3 +22,69 @@ quizPool = "istqb/module-1"
 deck = "istqb/module-1"
 lessonIds = ["istqb-m1-what-is-testing", "istqb-m1-why-testing", "istqb-m1-seven-principles", "istqb-m1-test-process", "istqb-m1-skills-practices"]
 examWeight = 8
+
+[[track.module]]
+id = "istqb-m2-sdlc"
+track = "istqb-ctfl"
+title = "Testing Throughout the SDLC"
+order = 2
+source = "istqb/module-2"
+quizPool = "istqb/module-2"
+deck = "istqb/module-2"
+lessonIds = ["istqb-m2-sdlc-context", "istqb-m2-test-levels", "istqb-m2-test-types", "istqb-m2-maintenance"]
+examWeight = 6
+
+[[track.module]]
+id = "istqb-m3-static"
+track = "istqb-ctfl"
+title = "Static Testing"
+order = 3
+source = "istqb/module-3"
+quizPool = "istqb/module-3"
+deck = "istqb/module-3"
+lessonIds = ["istqb-m3-static-basics", "istqb-m3-review-process", "istqb-m3-review-types"]
+examWeight = 4
+
+[[track.module]]
+id = "istqb-m4-blackbox"
+track = "istqb-ctfl"
+title = "Test Analysis & Design I — Black-Box Techniques"
+order = 4
+source = "istqb/module-4"
+quizPool = "istqb/module-4"
+deck = "istqb/module-4"
+lessonIds = ["istqb-m4-overview", "istqb-m4-equivalence-partitioning", "istqb-m4-boundary-values", "istqb-m4-decisions-states"]
+examWeight = 6   # informational; Ch4's 11 exam questions draw from modules 4+5
+
+[[track.module]]
+id = "istqb-m5-whitebox"
+track = "istqb-ctfl"
+title = "Test Analysis & Design II — White-Box, Experience-Based, Collaboration-Based"
+order = 5
+source = "istqb/module-5"
+quizPool = "istqb/module-5"
+deck = "istqb/module-5"
+lessonIds = ["istqb-m5-white-box", "istqb-m5-experience-based", "istqb-m5-collaboration"]
+examWeight = 5   # informational; Ch4 total 11 = modules 4 (6) + 5 (5)
+
+[[track.module]]
+id = "istqb-m6-managing"
+track = "istqb-ctfl"
+title = "Managing the Test Activities"
+order = 6
+source = "istqb/module-6"
+quizPool = "istqb/module-6"
+deck = "istqb/module-6"
+lessonIds = ["istqb-m6-planning", "istqb-m6-estimation", "istqb-m6-risk", "istqb-m6-monitoring", "istqb-m6-config-defects"]
+examWeight = 9
+
+[[track.module]]
+id = "istqb-m7-tools"
+track = "istqb-ctfl"
+title = "Test Tools"
+order = 7
+source = "istqb/module-7"
+quizPool = "istqb/module-7"
+deck = "istqb/module-7"
+lessonIds = ["istqb-m7-tool-support", "istqb-m7-benefits-risks"]
+examWeight = 2   # informational; the official ch6 draw is 2 of 40 questions

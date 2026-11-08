@@ -119,4 +119,21 @@ describe('validateContent', () => {
     const d = validateContent(input({ flashcards: [baseCard(), baseCard()] }));
     expect(d.some((x) => x.message.includes('c1'))).toBe(true);
   });
+
+  it('enforces declared bank floors', () => {
+    const d = validateContent(input({ bankFloors: [{ tag: 'ch1', minimum: 5 }] })); // 1 question < 5
+    expect(d.some((x) => x.message.includes('group ch1 bank floor 5 unmet (have 1)'))).toBe(true);
+  });
+
+  it('passes when bank floors are met', () => {
+    const qs = Array.from({ length: 5 }, (_, i) => ({ ...baseQuestion(), id: `q${i}` }));
+    const d = validateContent(input({ questions: qs, bankFloors: [{ tag: 'ch1', minimum: 5 }] }));
+    expect(d).toEqual([]);
+  });
+
+  it('aggregated diagnostics include question capacity violations', () => {
+    const e = baseExam(); e.groups = [{ tag: 'ch1', count: 8 }]; // bank has 1
+    const d = validateContent(input({ exams: [e] }));
+    expect(d.some((x) => x.message.includes('needs 8 questions'))).toBe(true);
+  });
 });

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <rect width="800" height="450" fill="#f7f8fb"/>
+  <text x="400" y="42" text-anchor="middle" font-size="24" font-weight="700" fill="#1a1a2e">Test Automation: Benefits vs Risks</text>
+  <text x="400" y="66" text-anchor="middle" font-size="13" fill="#1a1a2e">a tool does not guarantee success &#8212; benefits take effort; risks need analysis and mitigation</text>
+  <rect x="100" y="96" width="600" height="8" rx="4" fill="#1a1a2e"/>
+  <polygon points="400,104 375,148 425,148" fill="#1a1a2e"/>
+  <text x="400" y="170" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a2e">the pivot: analyze and mitigate the risks before the benefits pay off</text>
+  <line x1="110" y1="104" x2="110" y2="196" stroke="#1a1a2e" stroke-width="2"/><line x1="690" y1="104" x2="690" y2="196" stroke="#1a1a2e" stroke-width="2"/>
+  <rect x="40" y="196" width="340" height="206" rx="8" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/><text x="55" y="218" font-size="12.5" font-weight="700" fill="#1f7a33">Potential benefits</text>
+  <text x="55" y="238" font-size="10" fill="#1a1a2e">time saved on repetitive manual work &#8212; regression</text><text x="55" y="251" font-size="10" fill="#1a1a2e">runs, re-entering test data, result comparison,</text><text x="55" y="264" font-size="10" fill="#1a1a2e">checking against coding standards</text>
+  <text x="55" y="277" font-size="10" fill="#1a1a2e">fewer simple human errors &#8212; greater consistency</text><text x="55" y="290" font-size="10" fill="#1a1a2e">and repeatability in deriving and running tests</text>
+  <text x="55" y="303" font-size="10" fill="#1a1a2e">more objective assessment (e.g. coverage) plus</text><text x="55" y="316" font-size="10" fill="#1a1a2e">measures too complicated for humans to determine</text>
+  <text x="55" y="329" font-size="10" fill="#1a1a2e">easier access to test information for management</text><text x="55" y="342" font-size="10" fill="#1a1a2e">and reporting &#8212; statistics, graphs, aggregated data</text>
+  <text x="55" y="355" font-size="10" fill="#1a1a2e">shorter execution times &#8212; earlier defect detection,</text><text x="55" y="368" font-size="10" fill="#1a1a2e">faster feedback, faster time to market</text>
+  <text x="55" y="381" font-size="10" fill="#1a1a2e">more time to design new, deeper, more effective tests</text>
+  <rect x="420" y="196" width="340" height="206" rx="8" fill="#eef3fb" stroke="#1a1a2e" stroke-width="2"/><text x="435" y="218" font-size="12.5" font-weight="700" fill="#a13a2e">Potential risks</text>
+  <text x="435" y="238" font-size="10" fill="#1a1a2e">unrealistic expectations about functionality,</text><text x="435" y="251" font-size="10" fill="#1a1a2e">ease of use &#8212; the tool's actual benefits</text>
+  <text x="435" y="264" font-size="10" fill="#1a1a2e">inaccurate estimates of time, cost, effort to</text><text x="435" y="277" font-size="10" fill="#1a1a2e">introduce, maintain scripts, change the process</text>
+  <text x="435" y="290" font-size="10" fill="#1a1a2e">using a tool when manual testing is more appropriate</text>
+  <text x="435" y="303" font-size="10" fill="#1a1a2e">over-reliance, ignoring human critical thinking</text>
+  <text x="435" y="316" font-size="10" fill="#1a1a2e">vendor dependency &#8212; vendor may go out of business,</text><text x="435" y="329" font-size="10" fill="#1a1a2e">retire or sell the tool, or provide poor support</text>
+  <text x="435" y="342" font-size="10" fill="#1a1a2e">open-source: may be abandoned, or its internal</text><text x="435" y="355" font-size="10" fill="#1a1a2e">components may need very frequent updates</text>
+  <text x="435" y="368" font-size="10" fill="#1a1a2e">tool not compatible with the development platform</text>
+  <text x="435" y="381" font-size="10" fill="#1a1a2e">tool not compliant with regulatory requirements</text><text x="435" y="394" font-size="10" fill="#1a1a2e">and/or safety standards</text>
+  <text x="400" y="424" text-anchor="middle" font-size="10.5" fill="#1a1a2e">introducing a tool: run a pilot against agreed success criteria &#8212; roll out only if they are met</text>
+  <text x="400" y="440" text-anchor="middle" font-size="10.5" fill="#1a1a2e">each new tool requires effort to achieve real and lasting benefits: introduction, maintenance, training</text>
+</svg>

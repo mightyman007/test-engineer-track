@@ -1,0 +1,374 @@
+# ISTQB CTFL Module 7 — Test Tools (Ch6)
+# 18 original questions. istqb-q-0170 is the brief's worked example (the
+# execution-tool-expects-to-design scenario), renumbered into this module's id
+# range with its keyed option relocated to position 2 for answer-position
+# balance — scenario, option semantics, keyed answer and explanation are the
+# brief's own.
+#
+# Verified against the official ISTQB CTFL Syllabus v4.0.1 PDF (istqb.org,
+# 2024-09-15; md5 b2577c7a8437970d172797d7061a7aba — re-downloaded live
+# 2026-11-07 and byte-identical to the cache Tasks 5-7 verified; text-extracted
+# with pdftotext -layout; Ch6 LO list p. 58 of 78, sections 6.1-6.2 on
+# pp. 58-60) AND the official ISTQB Exam Structures & Rules Tables v1.20
+# (re-downloaded live 2026-11-07 from the istqb.org CTFL page download;
+# md5 c18e5eb5b144c5268874dbaba2488b13 — byte-identical to the copy Tasks 6-7
+# verified; "CTFL v4.0" table, page 6 of 38, Chapter 6):
+#   FL-6.1.1 (K2) Explain how different types of test tools support testing
+#   FL-6.2.1 (K1) Recall the benefits and risks of test automation
+#   (Chapter keyword: test automation. Syllabus §0.5: all contents of chapters
+#   1-6 are examinable at a K1 level; all keywords shall be remembered at K1.)
+#
+# OFFICIAL ch6 K-DRAW (pinned per the standing ruling): ESR Tables v1.20,
+# Chapter 6: "There is a total of 2 questions required for Chapter 6.
+# FL-6.1.1 K2 1 1; FL-6.2.1 K1 1 1; K1 = 1, K2 = 1, K3 = 0; Number of points
+# for this chapter = 2." One question per LO; NO K3 anywhere in the official
+# ch6 draw — matching the controller's ruling that ch6 questions are K1/K2.
+#
+# NOTE on K-levels: the bank's K mix is keyed to the official LO classification
+# throughout. Every question on FL-6.1.1 is K2 (the LO's own level — its
+# classification/pairing/need-mapping judgments are understand-level); every
+# question on FL-6.2.1 is K1 EXCEPT the brief's own worked example (istqb-q-0170,
+# keyed K2 by the brief verbatim — the same brief-keyed-K2-on-K1-LO precedent as
+# module 6's q-0153, kept verbatim under ruling (b)). 8 K1s sit on FL-6.2.1's
+# recall surface: four recall benefits-list items, three recall risks-list
+# items, one recalls the chapter keyword's definition (grounded via syllabus 0.5
+# — "all terms listed as keywords just below chapter headings shall be
+# remembered (K1)"; ch6's only keyword is test automation). The bank therefore
+# carries 0 K3, mirroring the official draw, and over-represents K1 (8/18 =
+# 44% vs the official 50%) for learning value.
+#
+# Rulings applied to the brief:
+#   (a) floor value — the brief's Files line says "+ ch6: 15" while the step
+#       list and the controller dispatch say 18 (the contract's own question
+#       count); shipped 18, which the validator confirms met exactly (stricter
+#       than 15 either way — same resolution as Task 7's ruling (a)).
+#   (b) worked example — istqb-q-0170 carries the brief's q-0159 scenario,
+#       options, keyed semantics and explanation verbatim; only the id
+#       (renumbered into 0170..0187) and the option order (keyed option moved
+#       to position 2 per the standing position-balance rule) differ.
+#   (c) pilot/rollout delta — the brief's coverage map asks lesson-02 to cover
+#       "introducing a tool: pilot → rollout, success criteria"; v4.0.1 chapter
+#       6 has no such section (the release notes record the v3.1 tool-selection/
+#       pilot material as removed: "foundation level – section on tools
+#       selection, performing pilot projects and introducing..." no longer in
+#       the syllabus). Lesson-02 teaches pilot → rollout with success criteria
+#       as the industry-standard mitigation anchored to the syllabus's own 6.2
+#       sentences ("acquiring a tool does not guarantee success"; "risks, which
+#       need analysis and mitigation"), explicitly framed as practical
+#       extension, and NO keyed question depends on it as syllabus fact.
+#   (d) must-cover activity list vs verified categories — the brief's lesson-01
+#       must-cover list ("modeling, test design/data generation, execution,
+#       comparison, logging, CI integration, static analysis,
+#       management/tracking") uses activity verbs; the verified v4.0.1 syllabus
+#       organizes 6.1 into nine tool families. The lesson and the tool-landscape
+#       diagram teach the nine verified families and map each brief activity
+#       onto its family (modeling → design/implementation tools deriving tests
+#       from models; comparison/logging → execution & coverage tools; CI →
+#       DevOps tools; static analysis → static testing tools;
+#       management/tracking → test management tools). Content follows the
+#       verified numbering/categories, per the module-6 ruling-(c) pattern.
+#   (e) answer-position balance (standing rule) — single-key positions 5/4/4/4
+#       across 0-3, deliberately NOT a cycle: the id-order sequence
+#       2,0,3,1,3,0,1,2,0,3,1,2,0,2,3,1,0 has no fixed period (module 6 shipped
+#       the sequential 0,1,2,3 cycle the Task-7 review flagged; module 4/5
+#       shipped scattered sequences — this pattern follows those). Multi keyed
+#       [0,2] (modules 5/6 used [1,3]). Every question re-read against its
+#       keyed index after the distribution was fixed.
+#
+# Coverage: FL-6.1.1: 9 (q-0172, q-0174, q-0176, q-0177, q-0179, q-0181,
+# q-0183, q-0185, q-0187), FL-6.2.1: 9 (q-0170, q-0171, q-0173, q-0175,
+# q-0178, q-0180, q-0182, q-0184, q-0186) — both LOs >= 2 (contract: the
+# official draw is only 2 questions, one per LO). K mix: 8 K1 + 10 K2 + 0 K3
+# (contract floors: >=5 K1, 0 K3 per the verified official draw; official ch6
+# draw for comparison: 1 K1 + 1 K2 + 0 K3). 1 multi-select question
+# (istqb-q-0187): 5 options, exactly 2 correct. All stems/options/explanations
+# are original — no ISTQB official sample questions copied.
+
+[[question]]
+id = "istqb-q-0170"
+type = "single"
+stem = "A team buys a test-execution tool and expects it to design thorough test cases for their untested legacy module. Six months later regression coverage is unchanged and the tool's scripts just replay the same few flows. What went wrong?"
+options = [
+  "They chose an execution tool when a static-analysis tool was needed",
+  "Automation always reduces coverage; manual-only teams do better",
+  "They expected the tool to replace test design — tools execute and check, they don't decide WHAT to test",
+  "The legacy module was too large — no tool can test legacy code",
+]
+answers = [2]
+explanation = "Tools amplify a test approach; they don't create one. Test DESIGN (what to test, with what coverage) stays a human responsibility — a classic automation risk per the syllabus. Static analysis is unrelated to execution tooling here."
+lo = "FL-6.2.1"
+klevel = "K2"
+tags = ["ch6"]
+
+[[question]]
+id = "istqb-q-0171"
+type = "single"
+stem = "Which statement describes a potential benefit of test automation, as stated in the syllabus?"
+options = [
+  "Reduced test execution times provide earlier defect detection, faster feedback and faster time to market",
+  "Automated suites guarantee that every defect in the product will be found before release",
+  "Automation eliminates the need for testers to design new test cases",
+  "Automated tools replace the tester's judgment in evaluating test results",
+]
+answers = [0]
+explanation = "Reduced execution times leading to earlier defect detection, faster feedback and faster time to market is one of the syllabus's six potential benefits. No tooling guarantees all defects are found; automation leaves testers MORE time to design new tests; and evaluating results still needs human judgment."
+lo = "FL-6.2.1"
+klevel = "K1"
+tags = ["ch6"]
+
+[[question]]
+id = "istqb-q-0172"
+type = "single"
+stem = "A lead wants code violations — unreachable branches, duplicated blocks, coding-standard breaches — flagged automatically before the code reaches review. Which tool family fits this need?"
+options = [
+  "Test execution and test coverage tools — they run the unit suite and report which lines executed",
+  "Test management tools — they track the violations as defects until they are fixed",
+  "Test design and test implementation tools — they generate test cases from the coding standard",
+  "Static testing tools — they support reviews and static analysis of code without executing it",
+]
+answers = [3]
+explanation = "Static analysis examines code without executing it — the static testing tools' job, and flagging violations automatically pre-review is their classic use. Execution and coverage tools run tests (dynamic); management tools track defects but don't find violations; design tools generate tests, not rule checks."
+lo = "FL-6.1.1"
+klevel = "K2"
+tags = ["ch6"]
+
+[[question]]
+id = "istqb-q-0173"
+type = "single"
+stem = "A team automates its regression suite and the three-day manual regression cycle drops to two hours of unattended execution. Which potential benefit of test automation does the freed-up tester capacity directly represent?"
+options = [
+  "More objective assessment of the product's coverage figures",
+  "More time for testers to design new, deeper and more effective tests",
+  "Prevention of simple human errors through greater repeatability",
+  "Easier access to information about test progress for reporting",
+]
+answers = [1]
+explanation = "The hours automation returns are meant to be reinvested in designing new, deeper and more effective tests — the syllabus's final benefit. Objective assessment, error prevention through repeatability and reporting access are benefits of the automation itself, not of the freed-up tester capacity."
+lo = "FL-6.2.1"
+klevel = "K1"
+tags = ["ch6"]
+
+[[question]]
+id = "istqb-q-0174"
+type = "single"
+stem = "A tester matches the syllabus's tool families to their stated purposes while revising. Which pairing is correct?"
+options = [
+  "Test design and test implementation tools — facilitate automated test execution and coverage measurement",
+  "Test management tools — facilitate generation of test cases, test data and test procedures",
+  "Static testing tools — increase test process efficiency by managing the SDLC, requirements, tests, defects and configuration",
+  "Test execution and test coverage tools — facilitate automated test execution and coverage measurement",
+]
+answers = [3]
+explanation = "The syllabus assigns automated test execution and coverage measurement to test execution and test coverage tools. The other pairings swap purposes: design/implementation tools generate cases, data and procedures; management tools manage the SDLC, requirements, tests, defects and configuration; static testing tools support reviews and static analysis."
+lo = "FL-6.1.1"
+klevel = "K2"
+tags = ["ch6"]
+
+[[question]]
+id = "istqb-q-0175"
+type = "single"
+stem = "Which potential benefit of test automation is a tester invoking when they argue that a tool should compute code coverage across the whole system, because no human could tally that by hand?"
+options = [
+  "More objective assessment, and providing measures that are too complicated for humans to determine",
+  "Reduced test execution times through unattended execution",
+  "Prevention of simple human errors through greater consistency",
+  "More time for testers to design new and deeper tests",
+]
+answers = [0]
+explanation = "Coverage across a whole system is the syllabus's own territory here: more objective assessment (e.g., coverage) and measures too complicated for humans to determine. Execution speed, error prevention and freed-up design time are other benefits that do not describe why the measurement itself needs a tool."
+lo = "FL-6.2.1"
+klevel = "K1"
+tags = ["ch6"]
+
+[[question]]
+id = "istqb-q-0176"
+type = "single"
+stem = "A performance team must simulate 5,000 concurrent users placing orders to measure response times under peak load. Why is a dedicated test tool the realistic way to conduct this test?"
+options = [
+  "Because the test must be repeatable, and only tools repeat tests",
+  "Because it is non-functional testing that is difficult or impossible to perform manually — the tool generates and coordinates the load",
+  "Because manual performance testing would produce subjective coverage numbers",
+  "Because non-functional requirements are always verified by static analysis tools",
+]
+answers = [1]
+explanation = "The syllabus's non-functional testing tools exist to allow testing that is difficult or impossible to perform manually — coordinating thousands of simulated users is the textbook case. Repeatability alone does not require this class of tool, coverage numbers are not the issue, and static analysis never executes the system."
+lo = "FL-6.1.1"
+klevel = "K2"
+tags = ["ch6"]
+
+[[question]]
+id = "istqb-q-0177"
+type = "single"
+stem = "A team wants every commit to trigger an automated build and a full automated regression run, with failures blocking the merge, all orchestrated in one pipeline. Which tool family supports this way of working?"
+options = [
+  "Test design and test implementation tools",
+  "Scalability and deployment standardization tools",
+  "DevOps tools — delivery pipeline, workflow tracking, automated builds, CI/CD",
+  "Collaboration tools",
+]
+answers = [2]
+explanation = "Commit-triggered builds and test runs gating the merge are continuous integration/delivery — the syllabus's DevOps tools territory: delivery pipeline, workflow tracking, automated build processes, CI/CD. Design tools create tests, deployment-standardization tools provide environments, collaboration tools communicate — none operates the pipeline."
+lo = "FL-6.1.1"
+klevel = "K2"
+tags = ["ch6"]
+
+[[question]]
+id = "istqb-q-0178"
+type = "single"
+stem = "A stakeholder reads a tool vendor's brochure and instructs the team to buy the tool because 'it will find all the bugs automatically.' Which potential risk of test automation does this illustrate?"
+options = [
+  "Unrealistic expectations about the benefits of a tool, including functionality and ease of use",
+  "Using a test tool when manual testing is more appropriate",
+  "Choosing a tool that does not comply with regulatory requirements",
+  "Dependency on the tool vendor which may go out of business",
+]
+answers = [0]
+explanation = "'Finds all the bugs automatically' is the syllabus's first named risk: unrealistic expectations about a tool's benefits, including functionality and ease of use. The other risks concern when tools are used, what they comply with and whom they depend on — none describes a mistaken belief about what the tool will deliver."
+lo = "FL-6.2.1"
+klevel = "K1"
+tags = ["ch6"]
+
+[[question]]
+id = "istqb-q-0179"
+type = "single"
+stem = "Which statement about what counts as a test tool is consistent with the syllabus?"
+options = [
+  "Only dedicated, commercially licensed tools purchased for the test team count as test tools",
+  "Only tools that execute tests count; tools supporting planning or analysis are not test tools",
+  "Open-source utilities never count as test tools because they have no vendor",
+  "Any tool that assists in testing counts — the syllabus notes even a spreadsheet is a test tool in the context of testing",
+]
+answers = [3]
+explanation = "The syllabus's list closes with 'any other tool that assists in testing', giving the spreadsheet example to make the boundary functional, not commercial or technical. Limiting test tools to purchased, execution-only or vendor-backed software would exclude categories the syllabus explicitly includes (test management, static analysis, DevOps, collaboration)."
+lo = "FL-6.1.1"
+klevel = "K2"
+tags = ["ch6"]
+
+[[question]]
+id = "istqb-q-0180"
+type = "single"
+stem = "A company builds its entire test automation on a single commercial tool from one small vendor. Which potential risk does the syllabus attach to depending on that vendor?"
+options = [
+  "That the team's regression tests will keep running in the same order with the same frequency",
+  "The vendor may go out of business, retire the tool, sell it to a different vendor, or provide poor support",
+  "That test reporting will automatically become more objective over time",
+  "That the tool will keep generating deeper test cases without tester involvement",
+]
+answers = [1]
+explanation = "Vendor dependency is a named risk: the vendor may go out of business, retire the tool, sell the tool to a different vendor, or provide poor support (responses to queries, upgrades, defect fixes). The other options restate benefits or hopes, not the risk the syllabus attaches to depending on a vendor."
+lo = "FL-6.2.1"
+klevel = "K1"
+tags = ["ch6"]
+
+[[question]]
+id = "istqb-q-0181"
+type = "single"
+stem = "Which statement about test tools is consistent with the syllabus?"
+options = [
+  "A well-chosen tool suite guarantees the quality of the released product",
+  "Once a test-execution tool is in place, test analysis and design become tool activities",
+  "Tools support and facilitate test activities, while testing remains largely an intellectual activity requiring critical thinking",
+  "Tools are most valuable when they replace manual testing in every situation",
+]
+answers = [2]
+explanation = "The syllabus's framing is supportive, not substitutive: tools support and facilitate test activities, and testing is largely an intellectual activity requiring specialized knowledge, analytical skill and critical and systems thinking. Tools guarantee nothing, test design stays human, and replacing manual testing in every situation is itself a named automation risk."
+lo = "FL-6.1.1"
+klevel = "K2"
+tags = ["ch6"]
+
+[[question]]
+id = "istqb-q-0182"
+type = "single"
+stem = "A tester wants to automate a one-off exploratory session scheduled on a brand-new feature prototype that will be redesigned next week. Which potential risk of test automation does the syllabus warn this team about?"
+options = [
+  "Using a test tool when manual testing is more appropriate",
+  "Choosing an unsuitable tool that does not comply with safety standards",
+  "Inaccurate estimation of the effort to introduce the tool",
+  "Dependency on the vendor that built the prototype",
+]
+answers = [0]
+explanation = "Automating a one-off, judgment-driven session on throwaway code is the syllabus's 'using a test tool when manual testing is more appropriate' risk. Compliance, introduction effort and vendor dependency are real tool-adoption risks generally, but none describes why this particular automation is misplaced."
+lo = "FL-6.2.1"
+klevel = "K1"
+tags = ["ch6"]
+
+[[question]]
+id = "istqb-q-0183"
+type = "single"
+stem = "A team wants one place that links each requirement to the tests covering it, each test to its current result, and each failed test to its defect and the affected configuration item. Which tool family's stated purpose covers all of this?"
+options = [
+  "Collaboration tools — they facilitate communication about these links",
+  "Test execution tools — they log each result, and nothing else is needed",
+  "Test management tools — they facilitate management of the SDLC, requirements, tests, defects and configuration",
+  "Test design tools — they generate the traceability matrix from the test basis",
+]
+answers = [2]
+explanation = "Requirements-to-tests-to-defects-to-configuration in one place is exactly the test management tools' syllabus purpose: increasing test process efficiency by facilitating management of the SDLC, requirements, tests, defects and configuration. Collaboration tools only communicate; execution tools log results but don't manage the relationships; design tools generate tests, not the management view."
+lo = "FL-6.1.1"
+klevel = "K2"
+tags = ["ch6"]
+
+[[question]]
+id = "istqb-q-0184"
+type = "single"
+stem = "Six months into an automation project, the team admits its budget was spent entirely on tool licenses and initial script recording, and the scripts now break with every interface change. Which potential risk of test automation did the team fall into?"
+options = [
+  "Relying on the tool too much, ignoring human critical thinking",
+  "Using open-source software which may be abandoned",
+  "The tool not being compatible with the development platform",
+  "Inaccurate estimation of the time, costs and effort to introduce the tool and maintain test scripts",
+]
+answers = [3]
+explanation = "The missing budget lines — maintaining scripts against changing interfaces, plus changing the existing manual test process — are the syllabus's 'inaccurate estimations of time, costs, effort required to introduce a tool, maintain test scripts and change the existing manual test process'. Over-reliance, abandonment and incompatibility are different risks the scenario gives no evidence of."
+lo = "FL-6.2.1"
+klevel = "K1"
+tags = ["ch6"]
+
+[[question]]
+id = "istqb-q-0185"
+type = "single"
+stem = "A pricing engine applies 40 discount rules; the test team must exercise every rule combination the specification allows — far more combinations than any analyst could write by hand. Which tool family directly addresses this need?"
+options = [
+  "Non-functional testing tools, because the volume of combinations is a load problem",
+  "Test design and test implementation tools — they facilitate generation of test cases and test data",
+  "Test management tools, which can assign the combinations to testers in bulk",
+  "Collaboration tools, so the team can split the combinations among members",
+]
+answers = [1]
+explanation = "The need is generated test cases and especially test data at a volume humans cannot produce — the syllabus's test design and test implementation tools. A combination explosion is a functional test-data problem, not load testing; managing or distributing the work does not create the tests."
+lo = "FL-6.1.1"
+klevel = "K2"
+tags = ["ch6"]
+
+[[question]]
+id = "istqb-q-0186"
+type = "single"
+stem = "Which definition matches the syllabus keyword 'test automation'?"
+options = [
+  "The use of software to perform or support test activities, e.g., test management, test design, test execution and results checking",
+  "The replacement of all manual test activities by scripts, so that no human performs testing",
+  "The execution of the software under test by a tool instead of by a person",
+  "The automated generation of the product's code from its automated tests",
+]
+answers = [0]
+explanation = "Test automation is defined as the use of software to perform or support test activities — with test management, test design, test execution and results checking given as examples, i.e., much broader than clicking scripts. Replacing all human testing, executing only the product, or generating product code are not the definition."
+lo = "FL-6.2.1"
+klevel = "K1"
+tags = ["ch6"]
+
+[[question]]
+id = "istqb-q-0187"
+type = "multi"
+stem = "A fintech team reports two gaps: (1) coding-standard violations and suspicious code patterns keep reaching code review unnoticed, and (2) after every release nobody can say how much of the code the automated regression suite actually exercised. Which TWO tool families, from the syllabus's list, directly close these gaps?"
+options = [
+  "Static testing tools",
+  "Collaboration tools",
+  "Test execution and test coverage tools",
+  "Non-functional testing tools",
+  "Test management tools",
+]
+answers = [0, 2]
+explanation = "Gap 1 is analysis without execution — static testing tools support reviews and static analysis; gap 2 is coverage measurement of executed tests — test execution and test coverage tools facilitate automated test execution and coverage measurement. Collaboration, non-functional and test management tools support communication, hard-to-do-manually testing and management of the SDLC/tests/defects/configuration — none finds code violations or measures coverage by itself."
+lo = "FL-6.1.1"
+klevel = "K2"
+tags = ["ch6"]

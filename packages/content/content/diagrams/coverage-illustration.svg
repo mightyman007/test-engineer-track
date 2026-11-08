@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <rect width="800" height="450" fill="#f7f8fb"/>
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1a1a2e"/></marker><marker id="arramber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#b26a00"/></marker><marker id="arrgreen" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#2e7d32"/></marker></defs>
+  <text x="400" y="42" text-anchor="middle" font-size="24" font-weight="700" fill="#1a1a2e">Statement vs Branch Coverage on One Control Flow</text>
+  <text x="400" y="66" text-anchor="middle" font-size="13" fill="#1a1a2e">6 statements (S1..S6), 2 decisions (D1, D2) &#8212; amber = outcomes taken by P1 (T/T), green = by P2 (F/F)</text>
+  <rect x="36" y="122" width="70" height="36" rx="6" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/><text x="71" y="145" text-anchor="middle" font-size="13.5" font-weight="700" fill="#1a1a2e">S1</text>
+  <line x1="106" y1="140" x2="126" y2="140" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/>
+  <polygon points="185,112 247,140 185,168 123,140" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/><text x="185" y="145" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1a1a2e">D1</text>
+  <line x1="247" y1="133" x2="303" y2="105" stroke="#b26a00" stroke-width="2" marker-end="url(#arramber)"/><text x="258" y="110" font-size="12" font-weight="700" fill="#b26a00">T</text>
+  <line x1="247" y1="147" x2="303" y2="175" stroke="#2e7d32" stroke-width="2" marker-end="url(#arrgreen)"/><text x="258" y="188" font-size="12" font-weight="700" fill="#2e7d32">F</text>
+  <rect x="305" y="70" width="88" height="36" rx="6" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/><text x="349" y="93" text-anchor="middle" font-size="13.5" font-weight="700" fill="#1a1a2e">S2</text>
+  <rect x="305" y="174" width="88" height="36" rx="6" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/><text x="349" y="197" text-anchor="middle" font-size="13.5" font-weight="700" fill="#1a1a2e">S3</text>
+  <line x1="393" y1="88" x2="429" y2="124" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="393" y1="192" x2="429" y2="156" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="431" y="122" width="88" height="36" rx="6" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/><text x="475" y="145" text-anchor="middle" font-size="13.5" font-weight="700" fill="#1a1a2e">S4</text>
+  <line x1="519" y1="140" x2="541" y2="140" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/>
+  <polygon points="595,112 657,140 595,168 533,140" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/><text x="595" y="145" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1a1a2e">D2</text>
+  <line x1="657" y1="133" x2="713" y2="105" stroke="#b26a00" stroke-width="2" marker-end="url(#arramber)"/><text x="668" y="110" font-size="12" font-weight="700" fill="#b26a00">T</text>
+  <line x1="657" y1="147" x2="713" y2="175" stroke="#2e7d32" stroke-width="2" marker-end="url(#arrgreen)"/><text x="668" y="188" font-size="12" font-weight="700" fill="#2e7d32">F</text>
+  <rect x="715" y="70" width="48" height="36" rx="6" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/><text x="739" y="93" text-anchor="middle" font-size="13.5" font-weight="700" fill="#1a1a2e">S5</text>
+  <rect x="715" y="174" width="48" height="36" rx="6" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/><text x="739" y="197" text-anchor="middle" font-size="13.5" font-weight="700" fill="#1a1a2e">S6</text>
+  <rect x="40" y="238" width="344" height="120" rx="6" fill="#fbf3ee" stroke="#1a1a2e" stroke-width="1.5"/>
+  <text x="60" y="264" font-size="13" font-weight="700" fill="#1a1a2e">P1: D1-T then D2-T (amber route)</text>
+  <text x="60" y="288" font-size="12" fill="#1a1a2e">statements: S1, S2, S4, S5 &#8212; 4 of 6 = 67%</text>
+  <text x="60" y="310" font-size="12" fill="#1a1a2e">decision outcomes: D1-T, D2-T &#8212; 2 of 4 = 50%</text>
+  <text x="60" y="338" font-size="11.5" font-weight="700" fill="#1a1a2e">100% statement coverage &#8800; 100% branch coverage</text>
+  <rect x="416" y="238" width="344" height="120" rx="6" fill="#eef3fb" stroke="#1a1a2e" stroke-width="1.5"/>
+  <text x="436" y="264" font-size="13" font-weight="700" fill="#1a1a2e">P1 + P2: both outcomes of both decisions</text>
+  <text x="436" y="288" font-size="12" fill="#1a1a2e">statements: S1..S6 all touched &#8212; 6 of 6 = 100%</text>
+  <text x="436" y="310" font-size="12" fill="#1a1a2e">outcomes: T and F of both decisions &#8212; 4 of 4 = 100%</text>
+  <text x="436" y="338" font-size="11.5" font-weight="700" fill="#1a1a2e">branch coverage subsumes statement coverage</text>
+  <text x="400" y="392" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1a2e">A branch is every transfer of control between two nodes &#8212; this flow has 8 arrows</text>
+  <text x="400" y="416" text-anchor="middle" font-size="11.5" fill="#1a1a2e">4 unconditional (dark) + 4 decision outcomes (amber = P1's T/T route, green = P2's F/F route)</text>
+  <text x="400" y="436" text-anchor="middle" font-size="11.5" fill="#1a1a2e">v4.0 says branch, not decision: the old '100% decision &#8658; 100% statement' claim breaks for programs with no decisions</text>
+</svg>

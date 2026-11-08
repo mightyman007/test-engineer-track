@@ -13,6 +13,8 @@ export interface ValidationInput {
   exams: ExamDefinition[];
   /** diagram relpath → SVG text */
   diagramFiles: Map<string, string>;
+  /** Per-tag minimum question counts (from bank-floors.toml); optional. */
+  bankFloors?: Array<{ tag: string; minimum: number }>;
 }
 
 function dupes(ids: string[]): string[] {
@@ -112,10 +114,33 @@ export function validateContent(input: ValidationInput): Diagnostic[] {
     }
   }
 
+  // Declared bank floors: per-tag minimum question counts, independent of any
+  // exam. Floors are the authoring commitment that keeps banks ahead of the
+  // exam blueprints arriving in M3.
+  for (const floor of input.bankFloors ?? []) {
+    const have = tagCount.get(floor.tag) ?? 0;
+    if (have < floor.minimum) {
+      d.push({
+        file: 'bank-floors.toml',
+        message: `group ${floor.tag} bank floor ${floor.minimum} unmet (have ${have})`,
+      });
+    }
+  }
+
   for (const track of input.tracks) {
     const file = `track:${track.id}`;
     for (const eid of track.readiness.examIds) {
       if (!examIds.has(eid)) d.push({ file, message: `readiness references missing exam ${eid}` });
+    }
+    // Module order values within a track must be unique: the bundle sorts
+    // modules by `order`, and a tie would fall back to declaration (file)
+    // order — deterministic, but not the authored order.
+    const seenOrders = new Set<number>();
+    for (const mod of track.modules) {
+      if (seenOrders.has(mod.order)) {
+        d.push({ file, message: `duplicate module order ${mod.order} in track ${track.id}` });
+      }
+      seenOrders.add(mod.order);
     }
   }
 

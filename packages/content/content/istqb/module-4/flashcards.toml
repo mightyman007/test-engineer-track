@@ -1,0 +1,88 @@
+# ISTQB CTFL Module 4 — Black-Box Techniques
+# 14 atomic flashcards: technique families, coverage & coverage items, EP rules,
+# BVA 2-vs-3 values, decision-table completeness/notation/collapse, and the
+# state transition coverage ladder.
+
+[[card]]
+id = "istqb-fc-0055"
+front = "Name the three families of test techniques and what each is based on."
+back = "1) Black-box (specification-based): analysis of the SPECIFIED BEHAVIOR of the test object without reference to its internal structure; test cases are implementation-independent — they stay useful when the implementation changes but behavior doesn't. 2) White-box (structure-based): analysis of the test object's INTERNAL STRUCTURE and processing; test cases can only be created AFTER the design or implementation exists. 3) Experience-based: uses the tester's knowledge and experience; effectiveness depends heavily on tester skill; COMPLEMENTARY to the other two — can detect defects they miss. Techniques support test analysis (what to test) and test design (how to test), helping build a small but sufficient set of test cases systematically."
+tags = ["ch4"]
+
+[[card]]
+id = "istqb-fc-0056"
+front = "What are coverage and coverage items, and how is coverage computed?"
+back = "Coverage: the degree, expressed as a percentage, to which specified coverage items have been exercised by a test suite. Coverage item: the unit a technique counts — EP: partitions; BVA: boundary values and their neighbors; decision tables: feasible columns; state transition: states/transitions; white-box: statements/branches. Formula: coverage = items exercised ÷ total items identified × 100%. A specified coverage level can be defined in advance and serve as a measurable exit criterion for test design."
+tags = ["ch4"]
+
+[[card]]
+id = "istqb-fc-0057"
+front = "Define equivalence partitioning and its economy rule."
+back = "EP divides data into partitions (equivalence partitions) based on the expectation that ALL elements of a given partition are processed in the same way by the test object. If a test of one value from a partition detects a defect, a test of any other value from the same partition should detect it too → ONE test per partition is sufficient. Partitions may be continuous or discrete, ordered or unordered, finite or infinite; they must NOT overlap and must be NON-EMPTY. Partitioning should be done with care — understanding how the object treats different values is often complicated."
+tags = ["ch4"]
+
+[[card]]
+id = "istqb-fc-0058"
+front = "Valid vs invalid partitions — and which data elements can be partitioned?"
+back = "Valid partition: contains valid values; invalid partition: contains invalid values. Definitions may vary among teams/organizations (valid = should be processed, or spec defines processing; invalid = should be ignored/rejected, or no processing defined). Partitionable data elements: inputs, OUTPUTS, configuration items, internal values, time-related values, interface parameters. Watch for implicit invalid families (empty input, wrong format, absurd magnitude) — testing only the happy path is the classic EP mistake."
+tags = ["ch4"]
+
+[[card]]
+id = "istqb-fc-0059"
+front = "EP coverage — formula, the 100% rule, and Each Choice coverage?"
+back = "Coverage items = the equivalence partitions. 100% EP coverage: test cases exercise ALL identified partitions — INVALID ones included — each at least once. Coverage = partitions exercised ÷ total identified × 100% (exercising every valid partition alone is NOT 100%). With multiple sets of partitions (e.g. several input parameters): Each Choice coverage = exercise each partition from EACH set at least once; it does NOT take combinations into account — minimum tests ≈ the size of the largest set, combining one partition per set per test case."
+tags = ["ch4"]
+
+[[card]]
+id = "istqb-fc-0060"
+front = "Define BVA: what it is, what it requires, and why it works."
+back = "BVA exercises the BOUNDARIES of equivalence partitions — a refinement of EP usable ONLY for ORDERED partitions (numbers, dates, sizes). The minimum and maximum values of a partition are its boundary values; if two elements belong to the same partition, all elements between them belong to it too. Developers are more likely to err at boundaries: typical defects are boundaries MISPLACED to positions above/below their intended positions, or OMITTED altogether."
+tags = ["ch4"]
+
+[[card]]
+id = "istqb-fc-0061"
+front = "2-value vs 3-value BVA — coverage items per boundary, and the classic defect example?"
+back = "2-value BVA: per boundary value, TWO coverage items — the boundary value + its closest neighbor in the ADJACENT partition. 3-value BVA: per boundary value, THREE coverage items — the boundary value + BOTH neighbors (some items may not be boundary values themselves). 3-value is MORE RIGOROUS: if 'if (x ≤ 10)' is implemented as 'if (x = 10)', no 2-value data (x = 10, x = 11) detects the defect — but x = 9 from 3-value BVA likely does. Coverage (both) = items exercised ÷ items identified × 100%."
+tags = ["ch4"]
+
+[[card]]
+id = "istqb-fc-0062"
+front = "Decision table testing — what it's for and how a table is structured?"
+back = "For testing requirements that specify how different COMBINATIONS of conditions result in different outcomes — an effective way of recording complex logic such as business rules. Rows = the conditions and the resulting actions; each COLUMN = a decision rule: a unique combination of conditions plus the associated actions. Limited-entry: all condition/action values Boolean (T/F). Extended-entry: some/all conditions and actions take multiple values (ranges, equivalence partitions, discrete values). Strength: a systematic approach that identifies ALL combinations — some would otherwise be overlooked — and helps find gaps or contradictions in the requirements."
+tags = ["ch4"]
+
+[[card]]
+id = "istqb-fc-0063"
+front = "Decision table notation, full-table size, and the two ways to shrink a table?"
+back = "Conditions: T = satisfied, F = not satisfied, '–' = value IRRELEVANT for the action outcome, N/A = condition INFEASIBLE for the rule. Actions: X = should occur, blank = should not. FULL table: covers EVERY combination — 2ⁿ columns for n Boolean conditions (rules grow exponentially, so exercising all rules can be time-consuming). Shrink by: DELETING columns with infeasible combinations (simplifying) and MERGING columns where some condition doesn't affect the outcome into a single column showing '–' (minimizing). Minimization algorithms are out of syllabus scope; the merging idea is not."
+tags = ["ch4"]
+
+[[card]]
+id = "istqb-fc-0064"
+front = "Decision table testing — coverage items and the 100% rule?"
+back = "Coverage items = the columns containing FEASIBLE combinations of conditions. 100% coverage: test cases exercise ALL these columns; coverage = exercised columns ÷ total feasible columns × 100%. When many conditions make exercising every rule expensive, reduce the number of rules exercised with a minimized decision table or a risk-based approach."
+tags = ["ch4"]
+
+[[card]]
+id = "istqb-fc-0065"
+front = "State diagram vs state table — elements, syntax, and the key difference?"
+back = "State diagram: models possible STATES and valid state transitions; a transition is initiated by an EVENT, optionally qualified by a GUARD condition, and may cause an ACTION; label syntax: event [guard] / action; transitions are assumed INSTANTANEOUS. State table: an equivalent model — rows = states, columns = events (with guards), cells = transitions (target state + resulting actions). KEY difference: the state table EXPLICITLY shows invalid transitions as EMPTY cells. A test case is usually a sequence of events producing a sequence of state changes; ONE test case may cover SEVERAL transitions."
+tags = ["ch4"]
+
+[[card]]
+id = "istqb-fc-0066"
+front = "Name the three state transition coverage criteria and their hierarchy."
+back = "1) All states: items = the states; visit every state — the WEAKEST criterion (typically achievable without exercising all transitions). 2) Valid transitions coverage (aka 0-switch coverage): items = single valid transitions; exercise ALL of them — the MOST WIDELY USED criterion; full valid-transitions coverage GUARANTEES full all-states coverage. 3) All transitions: items = ALL transitions shown in the state table — every valid transition exercised AND every invalid transition attempted; guarantees both weaker criteria; should be a MINIMUM requirement for mission- and safety-critical software. (N-switch criteria generalize 0-switch over sequences of N chained transitions — name-recognition only in CTFL.)"
+tags = ["ch4"]
+
+[[card]]
+id = "istqb-fc-0067"
+front = "When attempting invalid transitions, why test only ONE per test case?"
+back = "Testing only one invalid transition in a single test case helps avoid DEFECT MASKING — a situation in which one defect prevents the detection of another (e.g. a crash on the first invalid event hides the wrong-handling defect a second invalid event would have exposed)."
+tags = ["ch4"]
+
+[[card]]
+id = "istqb-fc-0068"
+front = "How do you choose which test technique(s) to use — and how does coverage link to exit criteria?"
+back = "Choice depends on the context: the risks attached to the test object, the test basis available (black-box needs a specification; white-box needs design/code), time and budget, and the team's skills. More rigorous criteria (e.g. 3-value BVA, all-transitions coverage) suit higher-risk items; real test suites mix families. Because every technique makes coverage measurable, a SPECIFIED COVERAGE LEVEL can be defined in advance and used as an exit criterion for test design (test monitoring and control revisit this in module 6)."
+tags = ["ch4"]

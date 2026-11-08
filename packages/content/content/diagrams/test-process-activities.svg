@@ -31,7 +31,7 @@
   <text x="650" y="274" text-anchor="middle" font-size="12.5" fill="#1a1a2e">log, report</text><text x="650" y="292" text-anchor="middle" font-size="12.5" fill="#1a1a2e">defects</text>
   <rect x="728" y="200" width="67" height="120" rx="10" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/>
   <text x="761" y="228" text-anchor="middle" font-size="13.5" font-weight="700" fill="#1a1a2e">Complete</text>
-  <text x="762" y="256" text-anchor="middle" font-size="12.5" fill="#1a1a2e">Summary</text>
+  <text x="762" y="256" text-anchor="middle" font-size="12.5" fill="#1a1a2e">Completion</text>
   <text x="762" y="274" text-anchor="middle" font-size="12.5" fill="#1a1a2e">report;</text>
   <text x="762" y="292" text-anchor="middle" font-size="12.5" fill="#1a1a2e">archive</text>
   <rect x="45" y="356" width="750" height="70" rx="10" fill="#eef1f8" stroke="#1a1a2e" stroke-width="1.5"/>

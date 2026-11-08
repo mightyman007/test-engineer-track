@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <rect width="800" height="450" fill="#f7f8fb"/>
+  <text x="400" y="42" text-anchor="middle" font-size="24" font-weight="700" fill="#1a1a2e">Inside a test plan: what the typical sections fix</text>
+  <text x="400" y="66" text-anchor="middle" font-size="13" fill="#1a1a2e">a test plan describes the test objectives, resources and processes &#8212; its seven typical content sections</text>
+  <circle cx="170" cy="246" r="80" fill="#1a1a2e"/>
+  <text x="170" y="242" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">TEST PLAN</text>
+  <text x="170" y="262" text-anchor="middle" font-size="10.5" fill="#ffffff">7 typical sections</text>
+  <line x1="229" y1="192" x2="320" y2="108" stroke="#1a1a2e" stroke-width="1.5"/>
+  <line x1="238" y1="204" x2="320" y2="154" stroke="#1a1a2e" stroke-width="1.5"/>
+  <line x1="247" y1="223" x2="320" y2="200" stroke="#1a1a2e" stroke-width="1.5"/>
+  <line x1="250" y1="246" x2="320" y2="246" stroke="#1a1a2e" stroke-width="1.5"/>
+  <line x1="247" y1="269" x2="320" y2="292" stroke="#1a1a2e" stroke-width="1.5"/>
+  <line x1="238" y1="288" x2="320" y2="338" stroke="#1a1a2e" stroke-width="1.5"/>
+  <line x1="229" y1="300" x2="320" y2="384" stroke="#1a1a2e" stroke-width="1.5"/>
+  <rect x="320" y="88" width="440" height="40" rx="6" fill="#ffffff" stroke="#1a1a2e" stroke-width="1.5"/><text x="332" y="103" font-size="12.5" font-weight="700" fill="#1a1a2e">Context</text><text x="332" y="119" font-size="10.5" fill="#1a1a2e">test scope &#183; test objectives &#183; test basis</text>
+  <rect x="320" y="134" width="440" height="40" rx="6" fill="#eef3fb" stroke="#1a1a2e" stroke-width="1.5"/><text x="332" y="149" font-size="12.5" font-weight="700" fill="#1a1a2e">Assumptions and constraints</text><text x="332" y="165" font-size="10.5" fill="#1a1a2e">of the test project</text>
+  <rect x="320" y="180" width="440" height="40" rx="6" fill="#ffffff" stroke="#1a1a2e" stroke-width="1.5"/><text x="332" y="195" font-size="12.5" font-weight="700" fill="#1a1a2e">Stakeholders</text><text x="332" y="211" font-size="10.5" fill="#1a1a2e">roles, responsibilities, relevance to testing, hiring and training needs</text>
+  <rect x="320" y="226" width="440" height="40" rx="6" fill="#eef3fb" stroke="#1a1a2e" stroke-width="1.5"/><text x="332" y="241" font-size="12.5" font-weight="700" fill="#1a1a2e">Communication</text><text x="332" y="257" font-size="10.5" fill="#1a1a2e">forms and frequency of communication &#183; documentation templates</text>
+  <rect x="320" y="272" width="440" height="40" rx="6" fill="#fbf3ee" stroke="#1a1a2e" stroke-width="1.5"/><text x="332" y="287" font-size="12.5" font-weight="700" fill="#1a1a2e">Risk register</text><text x="332" y="303" font-size="10.5" fill="#1a1a2e">product risks &#183; project risks (lesson 3 builds this artifact)</text>
+  <rect x="320" y="318" width="440" height="40" rx="6" fill="#ffffff" stroke="#1a1a2e" stroke-width="1.5"/><text x="332" y="333" font-size="12.5" font-weight="700" fill="#1a1a2e">Test approach</text><text x="332" y="349" font-size="10.5" fill="#1a1a2e">levels, types, techniques, entry/exit, metrics, data, environment</text>
+  <rect x="320" y="364" width="440" height="40" rx="6" fill="#eef3fb" stroke="#1a1a2e" stroke-width="1.5"/><text x="332" y="379" font-size="12.5" font-weight="700" fill="#1a1a2e">Budget and schedule</text><text x="332" y="395" font-size="10.5" fill="#1a1a2e">the documented means and schedule for achieving the test objectives</text>
+  <text x="400" y="424" text-anchor="middle" font-size="11" fill="#1a1a2e">Purposes: document the means and schedule, help activities meet the established criteria, communicate with stakeholders</text>
+  <text x="400" y="440" text-anchor="middle" font-size="11" fill="#1a1a2e">demonstrate adherence to test policy and strategy &#8212; or explain deviations &#183; ISO/IEC/IEEE 29119-3 has further detail</text>
+</svg>

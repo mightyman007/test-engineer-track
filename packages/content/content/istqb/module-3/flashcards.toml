@@ -1,0 +1,101 @@
+# ISTQB CTFL Module 3 — Static Testing
+# 16 atomic flashcards: static vs dynamic testing, examinable work products,
+# the value of static testing, defect types by technique, stakeholder feedback,
+# all five review process activities, the six principal roles, the four review
+# types with their differentiators, formality selection, and success factors.
+
+[[card]]
+id = "istqb-fc-0039"
+front = "What is static testing, and which two ways of doing it does the syllabus name?"
+back = "Evaluating a work product WITHOUT executing the software: manual examination (reviews) or tool support (static analysis). Objectives: improving quality, detecting defects, assessing readability, completeness, correctness, testability, consistency. Applies to both verification and validation."
+tags = ["ch3"]
+
+[[card]]
+id = "istqb-fc-0040"
+front = "Which work products can be examined by static testing — and which are NOT appropriate?"
+back = "Almost any work product: requirement specifications, source code, test plans, test cases, product backlog items, test charters, project documentation, contracts, models. Any readable, understandable work product can be reviewed; static analysis needs structure (models, code, formal syntax). NOT appropriate: hard-to-interpret work products that shouldn't be tool-analyzed (e.g. 3rd-party executable code, often for legal reasons)."
+tags = ["ch3"]
+
+[[card]]
+id = "istqb-fc-0041"
+front = "Why is static testing valuable?"
+back = "Detects defects in the EARLIEST SDLC phases (early testing principle); finds defects dynamic testing cannot (unreachable code, design patterns not implemented as desired, defects in non-executable work products); evaluates quality and builds confidence; verifies requirements against stakeholders' actual needs; creates shared understanding and better communication (involve a wide variety of stakeholders); despite review costs, overall project costs are usually much lower; static analysis finds certain code defects more efficiently — fewer defects, lower development effort."
+tags = ["ch3"]
+
+[[card]]
+id = "istqb-fc-0042"
+front = "Static testing vs dynamic testing — the five differences?"
+back = "1) Some defect types can only be found by one of the two; 2) static finds defects DIRECTLY, dynamic causes FAILURES whose defects are found by later analysis; 3) static more easily catches defects on rarely-executed/hard-to-reach paths; 4) static works on non-executable work products, dynamic only on executable ones; 5) static measures characteristics independent of execution (maintainability), dynamic measures execution-dependent ones (performance efficiency). They complement each other."
+tags = ["ch3"]
+
+[[card]]
+id = "istqb-fc-0043"
+front = "Which defect types are easier and/or cheaper to find through static testing?"
+back = "Requirements defects (inconsistencies, ambiguities, contradictions, omissions, inaccuracies, duplications); design defects (inefficient DB structures, poor modularization); coding defects (undefined/undeclared variables, unreachable or duplicated code, excessive complexity); deviations from standards (naming conventions); incorrect interface specifications (mismatched number/type/order of parameters); security vulnerabilities (buffer overflows); gaps in test basis coverage (missing tests for an acceptance criterion)."
+tags = ["ch3"]
+
+[[card]]
+id = "istqb-fc-0044"
+front = "What does static analysis do, and where does it fit?"
+back = "Tool-based examination of structured work products. Identifies problems BEFORE dynamic testing, often with less effort (no test cases needed); typically built into CI frameworks. Mostly detects specific code defects, but also evaluates maintainability and security; spelling checkers and readability tools count too."
+tags = ["ch3"]
+
+[[card]]
+id = "istqb-fc-0045"
+front = "Why is early and frequent stakeholder feedback valuable?"
+back = "Communicates potential quality problems early. Little stakeholder involvement → product may not meet the stakeholder's original or current vision → costly rework, missed deadlines, blame games, even complete project failure. Frequent feedback prevents requirement misunderstandings, gets changes understood/implemented earlier, improves the team's understanding, and focuses effort on the most valuable, risk-reducing features."
+tags = ["ch3"]
+
+[[card]]
+id = "istqb-fc-0046"
+front = "Name the five activities of the generic review process (ISO/IEC 20246), in order."
+back = "1) Planning — define scope: purpose, work product, quality characteristics, focus areas, exit criteria, supporting info, effort, timeframes; 2) Review initiation — everyone/everything prepared (access, roles, inputs); 3) Individual review — each reviewer assesses quality and logs anomalies, recommendations, questions (techniques); 4) Communication and analysis — anomalies discussed, status/owner/actions decided, quality level set; 5) Fixing and reporting — defect report per defect, exit criteria reached → accept, results reported. More formality = more tasks; large work products = process run multiple times; follow-up review may be needed."
+tags = ["ch3"]
+
+[[card]]
+id = "istqb-fc-0047"
+front = "In review PLANNING, what exactly is defined?"
+back = "The scope of the review: the purpose, the work product to be reviewed, the quality characteristics to be evaluated, the areas to focus on, the exit criteria, supporting information such as standards, and the effort and timeframes for the review."
+tags = ["ch3"]
+
+[[card]]
+id = "istqb-fc-0048"
+front = "What happens in Communication & analysis, and in Fixing & reporting?"
+back = "Communication and analysis: anomalies are NOT necessarily defects — analyze and discuss all; decide status, ownership, required actions (typically in the review meeting); decide the quality level and follow-up actions; a follow-up review may be required. Fixing and reporting: create a defect report for every defect so corrective actions are followed up; once exit criteria are reached the work product can be accepted; review results are reported."
+tags = ["ch3"]
+
+[[card]]
+id = "istqb-fc-0049"
+front = "Name the six principal review roles and their responsibilities."
+back = "Manager: decides WHAT to review, provides resources (staff, time). Author: creates and fixes the work product. Moderator (facilitator): effective review meetings — mediation, time management, safe environment. Scribe (recorder): collates anomalies, records decisions and new anomalies. Reviewer: performs the review (project member, SME, or any stakeholder). Review leader: overall responsibility — who is involved, when and where. People may take several roles."
+tags = ["ch3"]
+
+[[card]]
+id = "istqb-fc-0050"
+front = "Informal review vs walkthrough — definitions, lead, objectives?"
+back = "Informal review: NO defined process, NO formal documented output; main objective = detecting anomalies. Walkthrough: LED BY THE AUTHOR; objectives include evaluating quality, building confidence, educating reviewers, gaining consensus, generating ideas, motivating/enabling the author to improve, detecting anomalies; individual review beforehand is optional (not required)."
+tags = ["ch3"]
+
+[[card]]
+id = "istqb-fc-0051"
+front = "Technical review vs inspection — definitions, lead, objectives?"
+back = "Technical review: technically QUALIFIED reviewers, led by a MODERATOR; objectives = gain consensus and make decisions on a technical problem, plus detect anomalies, evaluate quality/confidence, generate ideas, motivate the author. Inspection: MOST formal — follows the COMPLETE generic process; main objective = find the MAXIMUM number of anomalies; also quality, confidence, author improvement; METRICS are collected and used to improve the SDLC (incl. the inspection process); the author CANNOT act as review leader or scribe."
+tags = ["ch3"]
+
+[[card]]
+id = "istqb-fc-0052"
+front = "What determines the required formality level of a review, and can one work product use several review types?"
+back = "Formality depends on: the SDLC being followed, development process maturity, criticality and complexity of the work product, legal or regulatory requirements, and the need for an audit trail. Yes — the same work product can be reviewed with different types (e.g. informal first, formal later). Selection weighs objectives plus project needs, resources, work product type and risks, business domain, company culture."
+tags = ["ch3"]
+
+[[card]]
+id = "istqb-fc-0053"
+front = "List the success factors for reviews."
+back = "Clear objectives + measurable exit criteria (evaluation of participants should NEVER be an objective); choose the appropriate review type; review in SMALL chunks (concentration); give feedback to stakeholders and authors; adequate preparation TIME; management support; reviews part of the organization's culture (learning + process improvement); training for all participants (know your role); facilitating meetings."
+tags = ["ch3"]
+
+[[card]]
+id = "istqb-fc-0054"
+front = "Rank the four review types by formality — what changes as formality rises?"
+back = "Informal review → walkthrough → technical review → inspection. Rising formality brings: a defined process, documented output, defined roles, entry/exit criteria, metrics, and more of each activity's tasks. Leads: informal (none defined), walkthrough (author), technical review (moderator), inspection (full process; author must not be review leader or scribe). Main objectives: anomalies (informal), many incl. education/consensus (walkthrough), consensus on technical problems (technical review), maximum anomalies (inspection)."
+tags = ["ch3"]

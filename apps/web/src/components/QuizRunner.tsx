@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { mulberry32, scoreAttempt } from 'tet-core';
+import { drawQuizQuestions, scoreAttempt } from 'tet-core';
 import type { Question } from 'tet-core';
 import { useContent } from '../lib/content-context.js';
 import { useSession } from '../state/session.js';
@@ -8,18 +8,16 @@ export function QuizRunner({ moduleId, size = 12 }: { moduleId: string; size?: n
   const bundle = useContent();
   const { adapter } = useSession();
 
+  // The draw seed lives in state so a retake can re-seed (a fresh Date.now
+  // read) without DOM access — the memo recomputes only when the seed moves.
+  const [seed, setSeed] = useState(() => Date.now() % 2 ** 31);
   const pool = useMemo(() => {
     const ids = bundle.questionsByModule[moduleId] ?? [];
     const qs = ids
       .map((id) => bundle.questions.find((q) => q.id === id))
       .filter((x): x is Question => Boolean(x));
-    const rng = mulberry32(Date.now() % 2 ** 31);
-    for (let i = qs.length - 1; i > 0; i--) {
-      const j = Math.floor(rng() * (i + 1));
-      [qs[i], qs[j]] = [qs[j]!, qs[i]!];
-    }
-    return qs.slice(0, size);
-  }, [bundle, moduleId, size]);
+    return drawQuizQuestions(qs, size, seed);
+  }, [bundle, moduleId, size, seed]);
 
   const [idx, setIdx] = useState(0);
   const [selected, setSelected] = useState<number[]>([]);
@@ -75,7 +73,12 @@ export function QuizRunner({ moduleId, size = 12 }: { moduleId: string; size?: n
       <div className="card">
         <h2>Score: {result.score} / {result.max}</h2>
         <p className="muted">Best attempts are kept; retakes are always available.</p>
-        <button className="btn secondary" onClick={() => { setIdx(0); setSelected([]); setAnswered(false); setResponses({}); setResult(null); setRecorded(false); }}>
+        <button className="btn secondary" onClick={() => {
+          // Re-seed so the retake draws a fresh set from the pool, then
+          // reset the walkthrough state.
+          setSeed(Date.now() % 2 ** 31);
+          setIdx(0); setSelected([]); setAnswered(false); setResponses({}); setResult(null); setRecorded(false);
+        }}>
           Retake quiz
         </button>
       </div>

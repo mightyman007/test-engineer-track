@@ -1,0 +1,77 @@
+# ISTQB CTFL Module 5 — White-Box, Experience-Based, Collaboration-Based
+# 12 atomic flashcards: statement & branch coverage (+ the v4.0 "branch vs
+# decision" rename), white-box value, error guessing & fault attacks,
+# exploratory & session-based testing, checklists, user stories & INVEST,
+# acceptance criteria, ATDD, BDD, and the collaboration family's positioning.
+
+[[card]]
+id = "istqb-fc-0069"
+front = "Statement testing and statement coverage — items, formula, what 100% gives and what it can still miss?"
+back = "Coverage items = the EXECUTABLE statements. Coverage = statements exercised ÷ total executable statements × 100%. 100% statement coverage: every executable statement exercised at least once → a statement containing a defect WILL be executed, which may cause a failure revealing it. Still misses: (1) data-dependent defects (e.g. division by zero that only fails when the denominator is zero — the statement ran, the defect slept); (2) decision logic — 100% statement coverage does not ensure all branches were exercised (e.g. an if whose false side was never taken)."
+tags = ["ch4"]
+
+[[card]]
+id = "istqb-fc-0070"
+front = "Branch testing and branch coverage — what exactly is a branch, the formula, and the limits?"
+back = "A branch = a transfer of control between two nodes in the control flow graph (which shows the possible sequences in which source code statements execute). Unconditional (straight-line code) OR conditional (a decision outcome — true/false of an if, an outcome of switch/case, exit/continue of a loop). Coverage = branches exercised ÷ total branches × 100%. 100% branch coverage = ALL branches (unconditional + conditional) exercised. Limit: exercising a branch may not detect defects requiring a specific PATH (sequence of branches) through the code."
+tags = ["ch4"]
+
+[[card]]
+id = "istqb-fc-0071"
+front = "Branch coverage subsumes statement coverage — exact meaning, the counting trap, and why v4.0 says 'branch' not 'decision'?"
+back = "Subsumption: ANY set of test cases achieving 100% branch coverage also achieves 100% statement coverage — but NOT vice versa (you can visit every node while skipping an arrow, e.g. a guard clause whose false route was never taken). Counting trap: branches = ALL transfers of control, unconditional included — counting only decision outcomes undercounts (a known sample-exam trap). v4.0 replaced decision testing/coverage with branch testing/coverage because: branch coverage is more common in practice; standards define 'decision' differently; and the old FL2018 claim '100% decision coverage implies 100% statement coverage' is false for programs with NO decisions (0 outcomes → trivially 100% while nothing ran)."
+tags = ["ch4"]
+
+[[card]]
+id = "istqb-fc-0072"
+front = "The value of white-box testing — strength, weakness, and the three syllabus bonuses?"
+back = "Strength: the ENTIRE software implementation is taken into account → detects defects even when the specification is vague, outdated or incomplete. Weakness: if the software does not implement one or more requirements, white-box testing may not detect the resulting DEFECTS OF OMISSION. Bonuses: (1) usable in static testing — dry runs, reviewing code not yet ready for execution, pseudocode/high-level logic modeled as a control flow graph; (2) black-box-only testing provides NO measure of actual code coverage; (3) white-box coverage measures give an OBJECTIVE measurement + the information needed to generate additional tests that increase coverage and confidence."
+tags = ["ch4"]
+
+[[card]]
+id = "istqb-fc-0073"
+front = "Error guessing — what it is, the three knowledge sources, where failures cluster, and fault attacks?"
+back = "Error guessing anticipates the occurrence of errors, defects and failures from the tester's knowledge: (1) how the application worked in the past; (2) the types of errors developers tend to make (+ resulting defects); (3) the types of failures in other, similar applications. Failures cluster around: input, output, logic, computation, interfaces, data. FAULT ATTACKS = the disciplined implementation: create/acquire a LIST of possible errors, defects and failures (from experience, defect/failure data, common knowledge about why software fails), then design tests that identify the defects, expose them, or cause the failures."
+tags = ["ch4"]
+
+[[card]]
+id = "istqb-fc-0074"
+front = "Exploratory testing — the defining property, session-based mechanics, and when it shines?"
+back = "Defining property: tests are SIMULTANEOUSLY designed, executed and evaluated while the tester LEARNS about the test object (learn, explore deeper with focused tests, create tests for untested areas). Session-based mechanics: defined TIME BOX; TEST CHARTER containing the test objectives (treatable as high-level test conditions); test session SHEETS (steps + discoveries); coverage items identified AND exercised during the session; DEBRIEF with interested stakeholders afterwards. Shines when: specifications are few or inadequate; significant time pressure; as a COMPLEMENT to formal techniques; can incorporate other techniques (e.g. EP). More effective with experienced testers: domain knowledge, analytical skills, curiosity, creativeness."
+tags = ["ch4"]
+
+[[card]]
+id = "istqb-fc-0075"
+front = "Checklist-based testing — what it is, the item rules, what must NOT be on a checklist, and the decay/update cycle?"
+back = "Tester designs, implements and executes tests to cover TEST CONDITIONS from a checklist (built from experience, what matters to users, why/how software fails; supports functional AND non-functional — e.g. Nielsen's usability heuristics). Items often phrased as a QUESTION; each separately and directly checkable; may refer to requirements, GUI properties, quality characteristics, other test conditions. Must NOT contain: automatable items; items better suited as entry/exit criteria; too-general items. Lifecycle: some entries decay as developers learn to avoid old errors → add entries for new high-severity defects → regularly UPDATE from defect analysis — but never let it grow too long."
+tags = ["ch4"]
+
+[[card]]
+id = "istqb-fc-0076"
+front = "High-level vs detailed checklists — and the experience-based family's standing limits?"
+back = "In the absence of detailed test cases, checklists give GUIDELINES and some degree of CONSISTENCY. HIGH-LEVEL checklists → variability in the actual testing → potentially GREATER coverage but LESS repeatability; detailed checklists trade that freedom for predictability. Family limits: effectiveness depends HEAVILY on the tester's skill; no systematic procedure → coverage is harder to argue after the fact; experience-based techniques COMPLEMENT black-box/white-box families (they detect defects those miss) — never a replacement. Reach for them when the test basis is thin, time is short, or you need attacks the systematic families cannot generate."
+tags = ["ch4"]
+
+[[card]]
+id = "istqb-fc-0077"
+front = "User stories — the 3 C's, the standard format, collaborative authorship, INVEST, and the can't-test warning light?"
+back = "A user story represents a feature valuable to a user or purchaser. 3 C's: CARD (the medium — index card, board entry), CONVERSATION (how the software will be used, documented or verbal), CONFIRMATION (the acceptance criteria). Format: 'As a [role], I want [goal to be accomplished], so that I can [resulting business value for the role]' + the acceptance criteria. Authorship is COLLABORATIVE (brainstorming, mind mapping) → shared vision across THREE perspectives: business, development, testing. INVEST: Independent, Negotiable, Valuable, Estimable, Small, Testable. Warning light: a stakeholder who does NOT know how to test a story → the story may be unclear, not valuable to them, or they need testing help."
+tags = ["ch4"]
+
+[[card]]
+id = "istqb-fc-0078"
+front = "Acceptance criteria — definition, the five jobs, and the two common formats (plus the custom-format license)?"
+back = "Definition: the conditions an implementation of the user story must meet to be accepted by stakeholders → viewable as the TEST CONDITIONS the tests should exercise; usually the result of the Conversation. Jobs: define the story's SCOPE; reach CONSENSUS among stakeholders; describe POSITIVE and NEGATIVE scenarios; serve as the basis for user story ACCEPTANCE TESTING; allow accurate PLANNING and estimation. Formats: scenario-oriented (Given/When/Then, as in BDD) and rule-oriented (bullet-point verification list, tabulated input→output mapping). A custom format is allowed as long as the criteria are WELL-DEFINED and UNAMBIGUOUS."
+tags = ["ch4"]
+
+[[card]]
+id = "istqb-fc-0079"
+front = "ATDD — the test-first loop, the specification workshop, the test-case order, and the discipline rules?"
+back = "ATDD is a test-first approach: test cases created PRIOR to implementing the user story — by team members with different perspectives (customers, developers, testers); manual or automated. Step 1: SPECIFICATION WORKSHOP — story + (if undefined) acceptance criteria analyzed, discussed, written together; incompleteness, ambiguities and defects in the story are resolved HERE. Step 2: create test cases from the acceptance criteria — tests ARE examples (terms interchangeable); techniques from 4.2/4.3/4.4 may be applied. Order: POSITIVE first → then NEGATIVE → then NON-FUNCTIONAL (e.g. performance efficiency, usability). Natural language, understandable to stakeholders: preconditions, inputs, postconditions. Rules: cover ALL the story's characteristics, go NOT beyond it, no two test cases describe the same characteristics. In an automation framework's format → EXECUTABLE REQUIREMENTS."
+tags = ["ch4"]
+
+[[card]]
+id = "istqb-fc-0080"
+front = "BDD and the collaboration family — BDD's definition, G/W/T, and how this family differs from 4.2–4.4?"
+back = "BDD: expresses the desired behavior with test cases in a SIMPLE form of natural language, easy for stakeholders to understand — usually the Given/When/Then format — and those test cases should then automatically be translated into executable tests (v4.0.1 wording). Given = scene/preconditions, When = action, Then = expected outcome. Family difference: techniques in 4.2–4.4 aim at defect DETECTION; collaboration-based approaches ALSO pursue defect AVOIDANCE by collaborating and communicating among stakeholders — which is how defects of omission die before code exists. (Ubiquitous language / living documentation are broader-BDD terms, beyond the CTFL syllabus.)"
+tags = ["ch4"]

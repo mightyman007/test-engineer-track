@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <rect width="800" height="450" fill="#f7f8fb"/>
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1a1a2e"/></marker></defs>
+  <text x="400" y="42" text-anchor="middle" font-size="24" font-weight="700" fill="#1a1a2e">Equivalence Partitioning: One Test per Partition</text>
+  <text x="400" y="66" text-anchor="middle" font-size="13" fill="#1a1a2e">age field, whole years &#8212; specification: 18&#8211;65 valid, anything else rejected</text>
+  <rect x="70" y="190" width="104" height="44" rx="6" fill="#fbf3ee" stroke="#1a1a2e" stroke-width="1.5"/>
+  <text x="122" y="208" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a2e">invalid</text>
+  <text x="122" y="224" text-anchor="middle" font-size="11" fill="#1a1a2e">under 18</text>
+  <rect x="184" y="190" width="308" height="44" rx="6" fill="#eef3fb" stroke="#1a1a2e" stroke-width="1.5"/>
+  <text x="338" y="208" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a2e">valid</text>
+  <text x="338" y="224" text-anchor="middle" font-size="11" fill="#1a1a2e">18 through 65</text>
+  <rect x="502" y="190" width="228" height="44" rx="6" fill="#fbf3ee" stroke="#1a1a2e" stroke-width="1.5"/>
+  <text x="616" y="208" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a2e">invalid</text>
+  <text x="616" y="224" text-anchor="middle" font-size="11" fill="#1a1a2e">over 65</text>
+  <line x1="60" y1="270" x2="740" y2="270" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="60" y1="262" x2="60" y2="278" stroke="#1a1a2e" stroke-width="1.5"/>
+  <line x1="182" y1="262" x2="182" y2="278" stroke="#1a1a2e" stroke-width="1.5"/>
+  <line x1="502" y1="262" x2="502" y2="278" stroke="#1a1a2e" stroke-width="1.5"/>
+  <line x1="740" y1="262" x2="740" y2="278" stroke="#1a1a2e" stroke-width="1.5"/>
+  <text x="60" y="296" text-anchor="middle" font-size="11" fill="#1a1a2e">0</text>
+  <text x="182" y="296" text-anchor="middle" font-size="11" fill="#1a1a2e">18</text>
+  <text x="502" y="296" text-anchor="middle" font-size="11" fill="#1a1a2e">65</text>
+  <text x="740" y="296" text-anchor="middle" font-size="11" fill="#1a1a2e">100</text>
+  <circle cx="128" cy="270" r="7" fill="#1a1a2e"/>
+  <circle cx="300" cy="270" r="7" fill="#1a1a2e"/>
+  <circle cx="600" cy="270" r="7" fill="#1a1a2e"/>
+  <line x1="128" y1="277" x2="128" y2="316" stroke="#1a1a2e" stroke-width="1" stroke-dasharray="3 3"/>
+  <line x1="300" y1="277" x2="300" y2="316" stroke="#1a1a2e" stroke-width="1" stroke-dasharray="3 3"/>
+  <line x1="600" y1="277" x2="600" y2="316" stroke="#1a1a2e" stroke-width="1" stroke-dasharray="3 3"/>
+  <text x="128" y="332" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1a1a2e">test: 10</text>
+  <text x="300" y="332" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1a1a2e">test: 35</text>
+  <text x="600" y="332" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1a1a2e">test: 79</text>
+  <text x="400" y="374" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1a1a2e">Coverage = partitions exercised &#247; partitions identified &#215; 100%</text>
+  <text x="400" y="398" text-anchor="middle" font-size="12" fill="#1a1a2e">3 partitions (2 invalid + 1 valid) &#8212; 3 test values (10, 35, 79) &#8212; coverage = 3 &#247; 3 = 100%</text>
+  <text x="400" y="422" text-anchor="middle" font-size="12" fill="#1a1a2e">Partitions must not overlap and must be non-empty &#8212; invalid partitions count too</text>
+</svg>

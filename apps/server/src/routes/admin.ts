@@ -65,6 +65,7 @@ export function adminRoutes(): Hono<AppEnv> {
     if (!body) return c.json({ error: 'invalid JSON body' }, 400);
     if (!/^[a-z0-9_-]{3,32}$/.test(body.username)) return c.json({ error: 'invalid username' }, 400);
     if (body.password.length < 8) return c.json({ error: 'password must be at least 8 characters' }, 400);
+    if (body.role !== 'admin' && body.role !== 'learner') return c.json({ error: 'invalid role' }, 400);
     const exists = c.get('db').prepare('SELECT id FROM users WHERE username = ?').get(body.username);
     if (exists) return c.json({ error: 'username already taken' }, 409);
     const info = c.get('db').prepare(

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { gradeAnswer, scoreAttempt } from './quiz.js';
+import { drawQuizQuestions } from './quiz.js';
 import type { Question } from './types.js';
 
 const single: Question = {
@@ -33,4 +34,19 @@ describe('scoreAttempt', () => {
     expect(r.score).toBe(0);
     expect(r.perQuestion).toEqual({ s1: false, m1: false });
   });
+});
+
+const pool = Array.from({ length: 30 }, (_, i) => ({
+  id: `q${String(i).padStart(2, '0')}`, type: 'single' as const, stem: `stem-${i}`,
+  options: ['a', 'b', 'c', 'd'], answers: [0], explanation: 'e', tags: ['ch1'],
+}));
+
+it('drawQuizQuestions: deterministic per seed, size respected, distinct sets across seeds', () => {
+  const a = drawQuizQuestions(pool, 12, 1);
+  expect(a).toHaveLength(12);
+  expect(a).toEqual(drawQuizQuestions(pool, 12, 1));          // deterministic
+  expect(new Set(a.map((q) => q.id)).size).toBe(12);           // no duplicates
+  const different = Array.from({ length: 25 }, (_, s) =>
+    drawQuizQuestions(pool, 12, s + 2).map((q) => q.id).join(','));
+  expect(new Set(different).size).toBeGreaterThan(1);          // seeds yield different sets
 });

@@ -133,4 +133,11 @@ describe('users', () => {
       body: JSON.stringify({ username: 'newbie', password: 'anotherlong1' }) });
     expect(login.status).toBe(200);
   });
+
+  it('rejects an invalid role with 400 instead of 500', async () => {
+    const res = await app.request('/api/admin/users', { method: 'POST',
+      headers: { 'content-type': 'application/json', cookie: adminCookie },
+      body: JSON.stringify({ username: 'rolebad', displayName: 'R', password: 'longenough1', role: 'superadmin' }) });
+    expect(res.status).toBe(400);
+  });
 });

@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <rect width="800" height="450" fill="#f7f8fb"/>
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1a1a2e"/></marker><marker id="arramber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#b26a00"/></marker></defs>
+  <text x="400" y="42" text-anchor="middle" font-size="24" font-weight="700" fill="#1a1a2e">A Defect Workflow, from Discovery to Closure</text>
+  <text x="400" y="66" text-anchor="middle" font-size="13" fill="#1a1a2e">log reported anomalies &#8594; analyze and classify &#8594; decide a response (fix or keep as is) &#8594; close</text>
+  <rect x="40" y="150" width="96" height="48" rx="6" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/><text x="88" y="178" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1a1a2e">new</text>
+  <rect x="162" y="150" width="96" height="48" rx="6" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/><text x="210" y="178" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1a1a2e">triaged</text>
+  <rect x="284" y="150" width="96" height="48" rx="6" fill="#eef3fb" stroke="#1a1a2e" stroke-width="2"/><text x="332" y="178" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1a1a2e">in progress</text>
+  <rect x="406" y="150" width="96" height="48" rx="6" fill="#eef3fb" stroke="#1a1a2e" stroke-width="2"/><text x="454" y="178" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1a1a2e">fixed</text>
+  <rect x="528" y="150" width="96" height="48" rx="6" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/><text x="576" y="178" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1a1a2e">verified</text>
+  <rect x="650" y="150" width="96" height="48" rx="6" fill="#e6f2e4" stroke="#1a1a2e" stroke-width="2"/><text x="698" y="178" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1a1a2e">closed</text>
+  <line x1="136" y1="174" x2="162" y2="174" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="258" y1="174" x2="284" y2="174" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="380" y1="174" x2="406" y2="174" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="502" y1="174" x2="528" y2="174" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="624" y1="174" x2="650" y2="174" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="149" y="140" text-anchor="middle" font-size="10" fill="#1a1a2e">logged</text>
+  <text x="271" y="140" text-anchor="middle" font-size="10" fill="#1a1a2e">decided: fix</text>
+  <text x="393" y="140" text-anchor="middle" font-size="10" fill="#1a1a2e">being fixed</text>
+  <text x="515" y="140" text-anchor="middle" font-size="10" fill="#1a1a2e">confirmation testing passes</text>
+  <text x="637" y="140" text-anchor="middle" font-size="10" fill="#1a1a2e">confirmed</text>
+  <rect x="40" y="300" width="96" height="48" rx="6" fill="#fbf3ee" stroke="#b26a00" stroke-width="2"/><text x="88" y="328" text-anchor="middle" font-size="12.5" font-weight="700" fill="#b26a00">rejected</text>
+  <rect x="162" y="300" width="96" height="48" rx="6" fill="#fbf3ee" stroke="#b26a00" stroke-width="2"/><text x="210" y="328" text-anchor="middle" font-size="12.5" font-weight="700" fill="#b26a00">deferred</text>
+  <rect x="495" y="300" width="96" height="48" rx="6" fill="#ffffff" stroke="#1a1a2e" stroke-width="2"/><text x="543" y="328" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1a1a2e">re-opened</text>
+  <line x1="200" y1="198" x2="110" y2="300" stroke="#b26a00" stroke-width="2" marker-end="url(#arramber)"/>
+  <line x1="218" y1="198" x2="220" y2="300" stroke="#b26a00" stroke-width="2" marker-end="url(#arramber)"/>
+  <line x1="586" y1="198" x2="552" y2="300" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="543" y1="300" x2="366" y2="200" stroke="#1a1a2e" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="30" y="225" font-size="10" font-weight="700" fill="#b26a00">duplicate / not a defect</text>
+  <text x="240" y="262" font-size="10" font-weight="700" fill="#b26a00">won't fix now</text>
+  <text x="590" y="252" font-size="10" fill="#1a1a2e">fails confirmation testing</text>
+  <text x="330" y="270" font-size="10" fill="#1a1a2e">work again</text>
+  <text x="400" y="404" text-anchor="middle" font-size="10" fill="#1a1a2e">syllabus statuses: open &#183; deferred &#183; duplicate &#183; waiting to be fixed &#183; awaiting confirmation testing &#183; re-opened &#183; closed &#183; rejected</text>
+  <text x="400" y="428" text-anchor="middle" font-size="11" fill="#1a1a2e">severity = degree of impact on stakeholders' interests or requirements &#183; priority = urgency to fix &#8212; neither implies the other</text>
+  <text x="400" y="444" text-anchor="middle" font-size="10.5" fill="#1a1a2e">reported anomalies may turn out to be false positives or change requests &#8212; the workflow is what resolves which</text>
+</svg>
