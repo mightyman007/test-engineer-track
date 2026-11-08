@@ -21,7 +21,7 @@ The [test objectives](https://istqb-glossary.page/test-objective/) of static tes
 
 Static testing is also a team sport. Testers, business representatives (a [Product Owner](https://glossary.istqb.org/en_US/term/product-owner) or business analyst) and developers work together during **example mapping, collaborative [user story](https://glossary.istqb.org/en_US/term/user-story) writing and [backlog refinement](https://glossary.istqb.org/en_US/term/backlog-refinement)** sessions, to make sure user stories meet defined criteria such as the *Definition of Ready* (see section 5.1.3). Review techniques ensure stories are complete, understandable and include testable [acceptance criteria](https://istqb-glossary.page/acceptance-criteria/) — by asking the right questions, testers explore, challenge and help improve the proposed stories.
 
-Static analysis, done by tools, can identify problems **prior to** [dynamic testing](https://istqb-glossary.page/dynamic-testing/) while often requiring **less effort** — no [test cases](https://istqb-glossary.page/test-case/) are required. It is often incorporated into [CI](https://en.wikipedia.org/wiki/CI/CD) frameworks. While it is largely used to detect specific code defects, static analysis also evaluates [maintainability](https://istqb-glossary.page/quality-characteristic/) and security; even spelling checkers and readability tools count as static analysis tools.
+Static analysis, done by tools, can identify problems **prior to** [dynamic testing](https://istqb-glossary.page/dynamic-testing/) while often requiring **less effort** — no [test cases](https://istqb-glossary.page/test-case/) are required. It is often incorporated into [CI](https://en.wikipedia.org/wiki/CI/CD) frameworks. While it is largely used to detect specific code defects, static analysis also evaluates [maintainability](https://istqb-glossary.page/maintainability/) and security; even spelling checkers and readability tools count as static analysis tools.
 
 ## Almost any work product can be examined (FL-3.1.1)
 
@@ -42,7 +42,7 @@ What is **not** appropriate for static testing? Work products that are difficult
 - **Static testing finds defects directly**, while dynamic testing **causes failures** from which the associated defects are determined through subsequent analysis.
 - Static testing **more easily detects defects on paths through the code that are rarely executed or hard to reach** with dynamic testing.
 - Static testing can be applied to **non-executable work products**; dynamic testing can only be applied to **executable** ones.
-- Static testing can measure **quality characteristics that do not depend on executing code** (e.g., maintainability); dynamic testing measures those that do (e.g., [performance efficiency](https://istqb-glossary.page/quality-characteristic/)).
+- Static testing can measure **quality characteristics that do not depend on executing code** (e.g., maintainability); dynamic testing measures those that do (e.g., [performance efficiency](https://istqb-glossary.page/performance-efficiency/)).
 
 ![Static vs dynamic testing: two routes to defects](diagrams/static-vs-dynamic.svg)
 

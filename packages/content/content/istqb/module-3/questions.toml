@@ -332,7 +332,7 @@ options = [
   "The decision on whether the work product is accepted",
 ]
 answers = [1]
-explanation = "Planning defines the review's scope: the purpose, the work product to be reviewed, the quality characteristics to be evaluated, the areas to focus on, exit criteria, supporting information such as standards, and the effort and timeframes. The other options belong to later activities — individual review, fixing and reporting, and communication and analysis respectively."
+explanation = "Planning defines the review's scope: the purpose, the work product to be reviewed, the quality characteristics to be evaluated, the areas to focus on, exit criteria, supporting information such as standards, and the effort and timeframes. The anomaly list belongs to individual review; defect reports — and the acceptance of the work product once the exit criteria are reached — belong to fixing and reporting, as does reporting the review results. (Communication and analysis decides the quality level, not acceptance.)"
 lo = "FL-3.2.2"
 klevel = "K2"
 tags = ["ch3"]

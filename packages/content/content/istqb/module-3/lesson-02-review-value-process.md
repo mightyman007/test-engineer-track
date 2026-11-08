@@ -43,7 +43,7 @@ The activities of the review process are:
 
 Reviews involve various stakeholders, who may take on **several roles**. The syllabus names six principal roles and their responsibilities — memorize the pairing, it is prime K1 recall material:
 
-- **Manager** — decides **what is to be reviewed** and provides resources, such as staff and time, for the review.
+- **[Manager](https://glossary.istqb.org/en_US/term/manager)** — decides **what is to be reviewed** and provides resources, such as staff and time, for the review.
 - **[Author](https://glossary.istqb.org/en_US/term/author)** — **creates** the work product under review and **fixes** it afterwards.
 - **[Moderator](https://istqb-glossary.page/moderator/)** (also known as the **facilitator**) — ensures the **effective running of review meetings**, including mediation, time management, and a **safe review environment** in which everyone can speak freely.
 - **[Scribe](https://istqb-glossary.page/scribe/)** (also known as the **recorder**) — **collates anomalies** from reviewers and records review information, such as decisions and new anomalies found during the review meeting.

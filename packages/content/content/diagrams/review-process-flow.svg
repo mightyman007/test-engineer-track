@@ -31,7 +31,7 @@
   <text x="714" y="142" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1a1a2e">reporting</text>
   <text x="714" y="164" text-anchor="middle" font-size="11" fill="#1a1a2e">a defect report per</text>
   <text x="714" y="180" text-anchor="middle" font-size="11" fill="#1a1a2e">defect; exit criteria</text>
-  <text x="714" y="180" text-anchor="middle" font-size="11" fill="#1a1a2e">met: accept + report</text>
+  <text x="714" y="196" text-anchor="middle" font-size="11" fill="#1a1a2e">met: accept + report</text>
   <path d="M 560 200 L 560 240 L 406 240 L 406 206" fill="none" stroke="#1a1a2e" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arr)"/>
   <text x="483" y="258" text-anchor="middle" font-size="12.5" fill="#1a1a2e">a follow-up review may be required to complete actions</text>
   <text x="400" y="300" text-anchor="middle" font-size="12.5" fill="#1a1a2e">Roles: Manager decides what to review and provides resources &#8226; Author creates and fixes</text>
