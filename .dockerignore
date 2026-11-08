@@ -8,6 +8,7 @@ node_modules
 data
 dist
 **/dist
+!deploy/dana/dist
 docs
 .superpowers
 test-results
