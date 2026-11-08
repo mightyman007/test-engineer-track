@@ -1,1 +1,9 @@
 name = "test-engineer-track"
+
+# M7: opt into Dana's managed Postgres. On deploy the platform injects
+# PGHOST/PGPORT/PGDATABASE/PGUSER and the API authenticates with an
+# IAM access token from the GCP metadata server (no password). Without the
+# engine enabled (or without PGHOST, e.g. local dev / self-host) the server
+# keeps its file-backed SQLite store — see apps/server/src/store/index.ts.
+[databases]
+enable_postgres = true
