@@ -13,7 +13,9 @@ test('solo learner: lesson → quiz → flashcard review', async ({ page }) => {
   // Two cards means two "Continue:" buttons — scope to the ISTQB track's card.
   const istqbCard = page.locator('section.card').filter({ has: page.getByRole('heading', { name: 'ISTQB Foundation (CTFL v4.0)' }) });
   await istqbCard.getByRole('link', { name: /continue/i }).click();
-  // module page → first lesson
+  // module page → expand the Lessons card (sections are collapsed by default
+  // since M5), then the first lesson
+  await page.getByRole('button', { name: /^lessons/i }).click();
   await page.getByRole('link', { name: /what is testing/i }).first().click();
   const complete = page.getByRole('button', { name: /mark lesson complete/i });
   await expect(complete).toBeVisible();
@@ -24,6 +26,7 @@ test('solo learner: lesson → quiz → flashcard review', async ({ page }) => {
   // shuffled per visit: single-choice grades the moment an option button is
   // picked, multi-select renders checkboxes + "Check answer".
   await page.getByRole('link', { name: /fundamentals of testing/i }).first().click();
+  await page.getByRole('button', { name: /^practice/i }).click();
   await page.getByRole('link', { name: /module quiz/i }).click();
   // Gate the checkbox probe on the question render: probing earlier can see 0
   // checkboxes, and if Q1 is multi-select the else branch then clicks the only
@@ -116,6 +119,8 @@ test('cohort: module 8 readiness → mock exam 1 → report', async ({ browser, 
   await page.locator('section.card').filter({ has: page.getByRole('heading', { name: 'ISTQB Foundation (CTFL v4.0)' }) }).getByRole('link', { name: /continue/i }).click();
   await page.getByRole('link', { name: 'ISTQB Foundation (CTFL v4.0)' }).click();
   await page.getByRole('link', { name: /exam readiness/i }).click();
+  // The readiness hub sits inside a collapsible card (M5) — expand it.
+  await page.getByRole('button', { name: /mock exams/i }).click();
   await expect(page.getByRole('heading', { name: /take a mock exam/i })).toBeVisible();
   // exact match: the "Recent attempts" list (present on a retry after a
   // recorded attempt) renders the same title inside longer link names.

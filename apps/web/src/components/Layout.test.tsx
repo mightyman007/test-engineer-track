@@ -60,15 +60,20 @@ describe('Layout navigation rail', () => {
     delete document.documentElement.dataset.theme;
   });
 
-  it('renders the rail: brand, both tracks with module deep links, Flashcards', () => {
-    mount();
+  it('renders the rail: brand, tracks, Flashcards — modules behind a collapsed chevron', async () => {
+    const view = mount();
     expect(screen.getByRole('link', { name: 'Test Engineer Track' })).toBeTruthy();
     expect(screen.getByRole('link', { name: 'ISTQB Foundation (CTFL v4.0)' })).toBeTruthy();
-    const mods = screen.getAllByRole('link', { name: 'Fundamentals of Testing' });
-    expect(mods.length).toBeGreaterThanOrEqual(1);
-    expect(screen.getByRole('link', { name: 'Testing Throughout the SDLC' })).toBeTruthy();
     expect(screen.getByRole('link', { name: 'Flashcards' })).toBeTruthy();
     expect(screen.getByText('solo mode')).toBeTruthy();
+    // Modules are collapsed by default (M5); the chevron expands them.
+    await userEvent.click(screen.getByRole('button', { name: /expand ISTQB Foundation/i }));
+    expect(screen.getByRole('link', { name: 'Fundamentals of Testing' })).toBeTruthy();
+    expect(screen.getByRole('link', { name: 'Testing Throughout the SDLC' })).toBeTruthy();
+    // Persisted: a fresh mount keeps the track expanded.
+    view.unmount();
+    mount();
+    expect(screen.getByRole('link', { name: 'Fundamentals of Testing' })).toBeTruthy();
   });
 
   it('the theme toggle flips the document attribute and persists', async () => {
@@ -109,6 +114,8 @@ describe('Layout navigation rail', () => {
         </MemoryRouter>
       </StrictMode>,
     );
+    // Modules collapsed by default: expand the track, then the dots show.
+    await userEvent.click(screen.getByRole('button', { name: /expand ISTQB Foundation/i }));
     // m1: both lessons done → "module complete" dot; m2: none started
     await screen.findByLabelText('module complete');
     expect(document.querySelectorAll('.dot.done')).toHaveLength(1);

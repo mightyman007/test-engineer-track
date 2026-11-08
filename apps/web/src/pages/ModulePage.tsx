@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router';
 import { useContent } from '../lib/content-context.js';
 import { useSession } from '../state/session.js';
 import { ProgressBar } from '../components/ProgressBar.js';
+import { CollapsibleCard } from '../components/CollapsibleCard.js';
 import { ExamReadinessSection } from '../components/ExamReadinessSection.js';
 import type { ExamAttempt } from 'tet-storage';
 
@@ -43,8 +44,7 @@ export function ModulePage() {
       <p className="muted"><Link to={`/track/${track.id}`}>{track.title}</Link></p>
       <h1>{mod.title}</h1>
       <ProgressBar fraction={mod.lessonIds.length ? doneCount / mod.lessonIds.length : 0} label={`${doneCount}/${mod.lessonIds.length} lessons`} />
-      <section className="card">
-        <h2>Lessons</h2>
+      <CollapsibleCard title="Lessons" storageKey={`module:${mod.id}:lessons`} summary={`${doneCount}/${mod.lessonIds.length} lessons`}>
         <ol>
           {mod.lessonIds.map((lid) => {
             const l = bundle.lessons[lid]!;
@@ -57,15 +57,14 @@ export function ModulePage() {
             );
           })}
         </ol>
-      </section>
+      </CollapsibleCard>
       {showReadiness
-        ? <ExamReadinessSection track={track} attempts={examAttempts} />
+        ? <CollapsibleCard title="Mock exams" storageKey={`module:${mod.id}:mocks`}><ExamReadinessSection track={track} attempts={examAttempts} /></CollapsibleCard>
         : (
-            <section className="card">
-              <h2>Practice</h2>
+            <CollapsibleCard title="Practice" storageKey={`module:${mod.id}:practice`} summary={bestQuiz !== null ? `best ${Math.round(bestQuiz * 100)}%` : undefined}>
               <p><Link className="btn" to={`/quiz/${mod.id}`}>Module quiz</Link>{bestQuiz !== null && <span className="muted"> best {Math.round(bestQuiz * 100)}%</span>}</p>
               <p><Link className="btn secondary" to={`/flashcards/${mod.id}`}>Flashcards ({(bundle.cardsByModule[mod.id] ?? []).length} cards)</Link></p>
-            </section>
+            </CollapsibleCard>
           )}
     </div>
   );
