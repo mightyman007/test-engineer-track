@@ -1,4 +1,5 @@
 import type { TtsProvider } from './provider.js';
+import { chunkText } from './chunk.js';
 
 /**
  * Kokoro-82M in the browser via kokoro-js (transformers.js WASM/WebGPU).
@@ -110,6 +111,10 @@ export function createKokoroProvider(): TtsProvider {
     // on top of the newer run's.
     if (myRun !== runId || stopped) return;
     audioCtx ??= new AudioContextCtor();
+    // The FIRST context is constructed after warm()+generate() — potentially
+    // seconds past the user gesture. Start it running immediately: sources on
+    // a suspended context are silent (autoplay policy on stricter engines).
+    void audioCtx.resume().catch(() => {});
     // kokoro returns raw PCM; wrap it in a real AudioBuffer for playback.
     const buffer = audioCtx.createBuffer(1, raw.audio.length, raw.sampling_rate);
     buffer.getChannelData(0).set(raw.audio);
@@ -124,27 +129,8 @@ export function createKokoroProvider(): TtsProvider {
     });
   }
 
-  function chunkText(text: string, max = CHUNK_MAX): string[] {
-    const chunks: string[] = [];
-    let buf = '';
-    const flush = (): void => { if (buf.trim()) chunks.push(buf.trim()); buf = ''; };
-
-    for (const sentence of text.split(/(?<=[.!?])\s+/)) {
-      if (sentence.length > max) {
-        flush();
-        for (const word of sentence.split(/\s+/)) {
-          if (!word) continue;
-          if (buf && (buf + ' ' + word).length > max) flush();
-          buf = buf ? `${buf} ${word}` : word;
-        }
-        flush();
-      } else {
-        if (buf && (buf + ' ' + sentence).length > max) flush();
-        buf = buf ? `${buf} ${sentence}` : sentence;
-      }
-    }
-    flush();
-    return chunks;
+  function chunkTextForSpeech(text: string): string[] {
+    return chunkText(text, CHUNK_MAX);
   }
 
   return {
@@ -153,13 +139,19 @@ export function createKokoroProvider(): TtsProvider {
     async speak(text, opts) {
       const myRun = ++runId;
       stopped = false; // reset belongs to THIS run
+      // A previous run's chunk may still be SOUNDING: pause→play re-enters
+      // speak() without stop(), and runId only stops the stale loop from
+      // queueing MORE chunks — webspeech cancels via synth.cancel(); the
+      // wasm equivalent is stopping the live source or it doubles over us.
+      current?.stop();
+      current = null;
       // A prior pause() suspended the shared AudioContext; sources started on a
       // suspended context are silent, so every run resumes it first (no-op when
       // running). fire-and-forget: a rejected resume must not kill playback.
       void audioCtx?.resume().catch(() => {});
       if (!(await warm())) return;
       const rate = opts?.rate ?? 1;
-      for (const chunk of chunkText(text)) {
+      for (const chunk of chunkTextForSpeech(text)) {
         if (myRun !== runId || stopped) return; // superseded or stopped
         await speakChunk(chunk, rate, myRun);
       }

@@ -1,4 +1,5 @@
 import type { TtsProvider } from './provider.js';
+import { chunkText } from './chunk.js';
 
 const CHUNK = 200;
 
@@ -26,6 +27,7 @@ interface SpeechSynthesisLike {
   cancel(): void;
   pause(): void;
   resume(): void;
+  onvoiceschanged: (() => void) | null;
 }
 
 type UtteranceCtor = new (text: string) => SynthUtterance;
@@ -48,31 +50,10 @@ function bestVoice(voices: SynthVoice[]): SynthVoice | null {
 }
 
 /**
- * Split text into ≤ CHUNK-char utterances. Sentences are kept intact and
- * accumulate up to the cap; a single sentence longer than the cap is
- * hard-split at word boundaries so oversize unpunctuated text still streams.
+ * Split text into ≤ CHUNK-char utterances via the shared chunker.
  */
-function chunkText(text: string): string[] {
-  const chunks: string[] = [];
-  let buf = '';
-  const flush = (): void => { if (buf.trim()) chunks.push(buf.trim()); buf = ''; };
-
-  for (const sentence of text.split(/(?<=[.!?])\s+/)) {
-    if (sentence.length > CHUNK) {
-      flush();
-      for (const word of sentence.split(/\s+/)) {
-        if (!word) continue;
-        if (buf && (buf + ' ' + word).length > CHUNK) flush();
-        buf = buf ? `${buf} ${word}` : word;
-      }
-      flush();
-    } else {
-      if (buf && (buf + ' ' + sentence).length > CHUNK) flush();
-      buf = buf ? `${buf} ${sentence}` : sentence;
-    }
-  }
-  flush();
-  return chunks;
+function chunkTextForSpeech(text: string): string[] {
+  return chunkText(text, CHUNK);
 }
 
 export function createWebSpeechProvider(): TtsProvider {
@@ -82,7 +63,26 @@ export function createWebSpeechProvider(): TtsProvider {
 
   return {
     id: 'webspeech',
-    async isReady() { return synth !== undefined; },
+    /**
+     * `synth` EXISTING is not proof speech works: on Linux Chromium-family
+     * without a voice backend, getVoices() is empty and speak() silently
+     * no-ops — the original "TTS plays nothing" bug. Require an actual voice;
+     * voices may populate asynchronously (Chrome fires voiceschanged after
+     * load), so allow one short grace window before declaring unusable.
+     */
+    async isReady() {
+      if (!synth) return false;
+      if (synth.getVoices().length > 0) return true;
+      return await new Promise<boolean>((resolve) => {
+        const finish = (ok: boolean) => {
+          synth.onvoiceschanged = null;
+          clearTimeout(timer);
+          resolve(ok);
+        };
+        const timer = setTimeout(() => finish(false), 1000);
+        synth.onvoiceschanged = () => finish(synth.getVoices().length > 0);
+      });
+    },
     async speak(text, opts) {
       if (!synth) return;
       const myRun = ++runId;
@@ -90,7 +90,7 @@ export function createWebSpeechProvider(): TtsProvider {
       synth.cancel();
       const voice = bestVoice(synth.getVoices());
       const rate = opts?.rate ?? 1;
-      for (const chunk of chunkText(text)) {
+      for (const chunk of chunkTextForSpeech(text)) {
         // Superseded by a newer speak() (which reset `stopped`) or stopped
         // outright — never queue further utterances from a stale run.
         if (myRun !== runId || stopped) return;

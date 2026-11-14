@@ -79,7 +79,7 @@ export function LessonPage() {
     <article>
       <p className="muted"><Link to={`/module/${mod.id}`}>{mod.title}</Link> · lesson {idx + 1} of {mod.lessonIds.length} · ~{lesson.minutes} min</p>
       <h1>{lesson.title}</h1>
-      <TtsPlayer text={stripMarkdownForTts(lesson.body)} />
+      <TtsPlayer key={lesson.id} text={stripMarkdownForTts(lesson.body)} />
       {lesson.objectives.length > 0 && (
         <p className="muted">Objectives: {lesson.objectives.join(', ')}</p>
       )}

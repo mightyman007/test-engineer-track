@@ -36,6 +36,56 @@ describe('createWebSpeechProvider', () => {
     expect(calls[0]![0]!.voice!.name).toContain('Natural');
   });
 
+  it('should report not ready when speechSynthesis has zero voices — speak() would silently no-op', async () => {
+    vi.useFakeTimers();
+    try {
+      // Voiceless Linux Chromium: the API exists, the voices never arrive.
+      vi.stubGlobal('speechSynthesis', {
+        getVoices: () => [],
+        speak: vi.fn(),
+        cancel: vi.fn(),
+        pause: vi.fn(),
+        resume: vi.fn(),
+        speaking: false,
+        paused: false,
+      });
+      const p = createWebSpeechProvider();
+      const ready = p.isReady();
+      expect(await Promise.race([ready.then(() => 'ready'), Promise.resolve('pending')])).toBe('pending');
+      await vi.advanceTimersByTimeAsync(1000);
+      expect(await ready).toBe(false);
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it('should report ready when voices arrive during the grace window', async () => {
+    vi.useFakeTimers();
+    try {
+      let voices: Array<{ name: string; lang: string }> = [];
+      const listeners: Array<() => void> = [];
+      vi.stubGlobal('speechSynthesis', {
+        getVoices: () => voices,
+        onvoiceschanged: null as (() => void) | null,
+        speak: vi.fn(),
+        cancel: vi.fn(),
+        pause: vi.fn(),
+        resume: vi.fn(),
+        speaking: false,
+        paused: false,
+      });
+      const synth = globalThis.speechSynthesis as unknown as { onvoiceschanged: (() => void) | null };
+      const p = createWebSpeechProvider();
+      const ready = p.isReady();
+      // Voices arrive 100ms in, as on real Chrome (async voiceschanged).
+      setTimeout(() => { voices = [{ name: 'V', lang: 'en-US' }]; synth.onvoiceschanged?.(); }, 100);
+      await vi.advanceTimersByTimeAsync(200);
+      expect(await ready).toBe(true);
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
   it('chunks long text into multiple utterances', async () => {
     const p = createWebSpeechProvider();
     const long = 'word '.repeat(80); // 400 chars > 200-char chunk
