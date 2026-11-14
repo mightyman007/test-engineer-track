@@ -20,11 +20,26 @@ export function stripMarkdownForTts(body: string): string {
 
 /** Best available natural voice: Kokoro (neural) → Web Speech → none. */
 export async function pickProvider(): Promise<TtsProvider | null> {
-  try {
-    const kokoro = createKokoroProvider();
-    if (await kokoro.isReady()) return kokoro;
-  } catch { /* fall through */ }
+  // One kokoro pipeline per browser session. LessonPage mounts a fresh
+  // TtsPlayer on every navigation, and each kokoro provider builds its own
+  // wasm arena (~1 GB resident with q8) — without sharing, playing across
+  // lessons stacks renderer memory until the tab dies (Aw Snap). A FAILED
+  // warm must not be cached: the next pick re-attempts (network back, WebGPU
+  // enabled, …) — only a live provider is shared.
+  kokoroSingleton ??= (async () => {
+    try {
+      const kokoro = createKokoroProvider();
+      return (await kokoro.isReady()) ? kokoro : null;
+    } catch {
+      return null;
+    }
+  })();
+  const kokoro = await kokoroSingleton;
+  if (kokoro) return kokoro;
+  kokoroSingleton = null;
   const ws = createWebSpeechProvider();
   if (await ws.isReady()) return ws;
   return null;
 }
+
+let kokoroSingleton: Promise<TtsProvider | null> | null = null;

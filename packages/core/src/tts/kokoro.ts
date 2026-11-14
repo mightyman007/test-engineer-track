@@ -41,6 +41,15 @@ interface RawAudioLike {
 
 const MODEL_ID = 'onnx-community/Kokoro-82M-v1.0-ONNX';
 const VOICE = 'af_heart' as const;
+// q4 halves the resident weight memory vs q8. The renderer process is the
+// scarce resource: a q8 playback measured ~1.0 GB resident, which is Aw-Snap
+// territory on real profiles (extensions + tabs share the renderer budget).
+const DTYPE = 'q4' as const;
+// ~300-char chunks ≈ ~20s of audio per generate() call. Kokoro decodes ~75
+// audio tokens per SECOND of output, so attention/KV memory scales with chunk
+// length — a 900-char chunk spiked the renderer +400 MB in one generation.
+// 300-char chunks cut that ~3x and start audio ~3x sooner.
+const CHUNK_MAX = 300;
 
 const AudioContextCtor =
   (globalThis as { AudioContext?: new () => AudioContextLike }).AudioContext;
@@ -83,7 +92,7 @@ export function createKokoroProvider(): TtsProvider {
         const mod = await import('kokoro-js');
         const nav = (globalThis as { navigator?: { gpu?: { requestAdapter(): Promise<unknown> } } }).navigator;
         const device = await pickKokoroDevice(nav?.gpu);
-        const model = await mod.KokoroTTS.from_pretrained(MODEL_ID, { dtype: 'q8', device });
+        const model = await mod.KokoroTTS.from_pretrained(MODEL_ID, { dtype: DTYPE, device });
         synthFn = (text: string) => model.generate(text, { voice: VOICE });
         return true;
       } catch {
@@ -115,7 +124,7 @@ export function createKokoroProvider(): TtsProvider {
     });
   }
 
-  function chunkText(text: string, max = 900): string[] {
+  function chunkText(text: string, max = CHUNK_MAX): string[] {
     const chunks: string[] = [];
     let buf = '';
     const flush = (): void => { if (buf.trim()) chunks.push(buf.trim()); buf = ''; };
