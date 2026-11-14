@@ -10,12 +10,40 @@
 # `readiness_examIds = []` remains valid: the track page shows a placeholder
 # until exams are wired (the M4 AI track started there — its mocks landed in
 # M4 Task 7).
+#
+# Track 0 — Start Here (onboarding). One module, one lesson: "Learning How to
+# Learn Effectively", the mandatory-watching onboarding lesson that sits above
+# both real tracks on the Dashboard (bundle sorts tracks by `order`). Its two
+# videos render first (videosFirst) and completion is gated on acknowledging
+# both (mandatoryVideos). The module ships its own small quiz + deck so its
+# module page looks like every other module's. No readiness exams: the chip
+# hides itself when readiness_examIds is empty.
+
+[[track]]
+id = "start-here"
+title = "Start Here — Learn How to Learn"
+description = "Watch both videos, then learn the evidence-based study techniques this whole program is built on. The most important lesson here: learn how to learn before you learn anything else."
+order = 1
+readiness_passPct = 65
+readiness_readyPct = 80
+readiness_examIds = []   # onboarding track — no mock exams, readiness chip hidden
+
+[[track.module]]
+id = "start-here-m1-learning"
+track = "start-here"
+title = "Learning How to Learn Effectively"
+order = 1
+source = "start-here/module-1"
+quizPool = "start-here/module-1"
+deck = "start-here/module-1"
+lessonIds = ["start-here-m1-learning-how-to-learn"]
+examWeight = 0   # informational: not an exam chapter — no mock draws from this track
 
 [[track]]
 id = "istqb-ctfl"
 title = "ISTQB Foundation (CTFL v4.0)"
 description = "Prepare for the official ISTQB Certified Tester Foundation Level v4.0 exam: 40 questions, 60 minutes, pass at 65%."
-order = 1
+order = 2
 readiness_passPct = 65
 readiness_readyPct = 80
 readiness_examIds = ["istqb-mock-1", "istqb-mock-2", "istqb-mock-3", "istqb-mock-4", "istqb-mock-5"]
@@ -122,7 +150,7 @@ examWeight = 0   # informational: not a syllabus chapter — the mock exams draw
 id = "ai-fundamentals"
 title = "AI for Test Engineers"
 description = "From zero AI knowledge to how AI powers autonomous vehicles — and how to test it."
-order = 2
+order = 3
 readiness_passPct = 70
 readiness_readyPct = 78
 readiness_examIds = ["ai-mock-1", "ai-mock-2"]   # M4 Task 7: the Task 2 empty placeholder, filled

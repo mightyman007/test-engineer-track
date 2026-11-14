@@ -29,6 +29,17 @@ const bundle: ContentBundle = {
       demo: 'perceptron',
       body: '## Try it\n\nThe demo appears below this body.',
     },
+    l4: {
+      id: 'l4', module: 'm1', title: 'Mandatory First', minutes: 12, objectives: [],
+      videos: [
+        { title: 'Video One', url: 'https://www.youtube.com/watch?v=O96fE1E-rf8' },
+        { title: 'Video Two', url: 'https://www.youtube.com/watch?v=ukLnPbIffxE' },
+      ],
+      diagrams: [{ title: 'd', file: 'diagrams/x.svg' }],
+      videosFirst: true,
+      mandatoryVideos: true,
+      body: '## Body heading\n\nThis body renders below the videos.',
+    },
   },
   questions: [], flashcards: [], exams: [], diagrams: { 'diagrams/x.svg': '<svg xmlns="http://www.w3.org/2000/svg"/>' },
   questionsByModule: {}, cardsByModule: {},
@@ -82,5 +93,38 @@ describe('LessonPage', () => {
     expect(screen.getByRole('heading', { name: /try it/i })).toBeTruthy();
     expect(screen.getByRole('button', { name: /train/i })).toBeTruthy();
     expect(screen.getByText(/step 0 · loss/)).toBeTruthy();
+  });
+
+  it('renders videos above the body when the lesson declares videosFirst', async () => {
+    mount('l4');
+    await waitFor(() => expect(screen.getByRole('heading', { name: /mandatory first/i })).toBeTruthy());
+    const firstVideo = document.querySelector('iframe[title="Video One"]')!;
+    const bodyHeading = screen.getByRole('heading', { name: /body heading/i });
+    // DOCUMENT_POSITION_FOLLOWING: bodyHeading comes after firstVideo in tree order.
+    expect(firstVideo.compareDocumentPosition(bodyHeading) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+  });
+
+  it('gates completion on acknowledging every mandatory video', async () => {
+    const writesBefore = writes.length;
+    mount('l4');
+    const complete = await waitFor(() => {
+      const b = screen.getByRole('button', { name: /mark lesson complete/i }) as HTMLButtonElement;
+      expect(b.disabled).toBe(true);
+      return b;
+    });
+    await userEvent.click(screen.getByRole('checkbox', { name: /i've watched video one/i }));
+    expect(complete.disabled).toBe(true);
+    await userEvent.click(screen.getByRole('checkbox', { name: /i've watched video two/i }));
+    expect(complete.disabled).toBe(false);
+    await userEvent.click(complete);
+    await waitFor(() => expect(writes.length).toBe(writesBefore + 1));
+    expect((writes[writes.length - 1] as Array<{ itemId: string; status: string }>)[0]).toMatchObject({ itemId: 'l4', status: 'done' });
+  });
+
+  it('keeps completion ungated for lessons without mandatoryVideos', async () => {
+    mount('l2');
+    const complete = await waitFor(() => screen.getByRole('button', { name: /mark lesson complete/i }) as HTMLButtonElement);
+    expect((complete as HTMLButtonElement).disabled).toBe(false);
+    expect(screen.queryByRole('checkbox')).toBeNull();
   });
 });

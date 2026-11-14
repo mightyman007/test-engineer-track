@@ -53,6 +53,11 @@ export const LessonMetaSchema = z.object({
   // a component (content validation cannot see that registry, so only the
   // presence/shape is checked here).
   demo: z.string().min(1).optional(),
+  // Onboarding flags: videosFirst renders the Watch section above the body;
+  // mandatoryVideos adds per-video "I've watched this" checkboxes and gates
+  // the lesson's own completion button until all are checked.
+  videosFirst: z.boolean().optional(),
+  mandatoryVideos: z.boolean().optional(),
   body: z.string(),
 });
 

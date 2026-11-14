@@ -1,0 +1,81 @@
+# Start Here — Module 1 "Learning How to Learn Effectively"
+# 5 original questions (start-here-q-0001..0005), all tagged "learning".
+#
+# Onboarding module: no official syllabus, no exam blueprint draws from this
+# track (examWeight 0), so no klevel and no lo coverage contract — the
+# questions exist to force active recall of the lesson's core techniques,
+# practicing what the lesson preaches.
+#
+# Coverage: active recall (0001, 0002), spaced repetition (0003),
+# focused/diffuse modes + Pomodoro (0004, 0005).
+
+[[question]]
+id = "start-here-q-0001"
+type = "single"
+stem = "You have one hour to study a topic. Which approach does the evidence say will produce the most durable learning?"
+options = [
+  "Re-read the chapter three times, highlighting as you go",
+  "Read the chapter once, then close it and try to write down everything you remember, checking afterwards",
+  "Watch a video explaining the topic while scrolling on your phone",
+  "Copy the chapter's key sentences out by hand into a summary document",
+]
+answers = [1]
+explanation = "Active recall — retrieving from memory rather than re-exposing yourself to the material — beats re-reading, highlighting, and passive copying in study after study. Re-reading creates familiarity (recognition), which feels productive but is not the same as knowledge (recall). Ali Abdaal's video calls this the single highest-utility study technique; Barbara Oakley's talk explains why the struggle to retrieve is where learning happens."
+tags = ["learning"]
+
+[[question]]
+id = "start-here-q-0002"
+type = "multi"
+stem = "Which of the following are signs of an 'illusion of competence' — feeling you know material when you don't?"
+options = [
+  "The examples in the book look familiar when you re-read them",
+  "You can explain a concept out loud, in your own words, with the book closed",
+  "You followed every step of a worked solution and it made sense",
+  "You can answer a question on the topic before looking at the options",
+  "You nodded along while watching a tutorial, without ever pausing to try it yourself",
+]
+answers = [0, 2, 4]
+explanation = "Recognition is not recall. Familiar-looking examples (option 1) and worked solutions that 'made sense' (option 3) only prove the material is not new to your eyes — not that you can produce it. Nodding along to a tutorial (option 5) is passive exposure. Actually explaining with the book closed (option 2) and answering questions unaided (option 4) are genuine recall, the opposite of the illusion."
+tags = ["learning"]
+
+[[question]]
+id = "start-here-q-0003"
+type = "single"
+stem = "Spaced repetition schedules your reviews so each one happens…"
+options = [
+  "At evenly spaced fixed intervals, forever, regardless of how well you knew the card",
+  "Immediately after learning, repeated daily until the course ends",
+  "Just before you would have forgotten the item, with intervals that stretch as recall succeeds",
+  "Only in the final week before an exam, when memory is freshest",
+]
+answers = [2]
+explanation = "Each successful recall right at the edge of forgetting flattens the forgetting curve and makes the memory more durable, so the next safe interval grows longer. The SM-2 algorithm used by this platform's flashcard decks adjusts each card's next due date from how well you recalled it — easy cards come back weeks later, shaky ones come back tomorrow."
+tags = ["learning"]
+
+[[question]]
+id = "start-here-q-0004"
+type = "single"
+stem = "After 25 minutes of focused work on a tricky topic, you hit a wall and feel stuck. What does Barbara Oakley's advice suggest you do?"
+options = [
+  "Push through the wall for at least another hour — focus is a muscle",
+  "Take a real break — a walk, a shower, something unrelated — and let diffuse mode connect the pieces",
+  "Switch to a completely different subject and never come back to this one",
+  "Re-read the section you just studied to refresh the details",
+]
+answers = [1]
+explanation = "Focused and diffuse modes alternate: the focused session lays the raw material down, and the relaxed 'diffuse' period afterwards is when your brain quietly links it to what you already know. A genuine break (not a phone-scroll — that re-captures focus) lets that consolidation happen. Pushing through fatigue fights the biology instead of using it."
+tags = ["learning"]
+
+[[question]]
+id = "start-here-q-0005"
+type = "single"
+stem = "Why does the Pomodoro Technique (25 minutes focused, then a break) help with procrastination?"
+options = [
+  "It divides big work into chunks small enough for a manager to assign",
+  "It removes the decision about how long to work, and starting is the only painful part",
+  "It guarantees you finish any task in exactly 25 minutes",
+  "It keeps your inbox empty so notifications can't distract you",
+]
+answers = [1]
+explanation = "Oakley frames procrastination as a pain response: anticipating an unpleasant task activates pain-associated brain regions, and switching to something else relieves it — which is how the habit forms. The Pomodoro's small, fixed commitment sidesteps the dread: you only have to start, and the discomfort of starting fades within minutes. The timer also makes the break a promise, protecting rest instead of guilt-working through it."
+tags = ["learning"]

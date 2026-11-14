@@ -1,0 +1,39 @@
+# Start Here — Module 1 "Learning How to Learn Effectively"
+# 6 atomic flashcards. One card per core technique from the two mandatory
+# videos, so the SM-2 scheduler starts drilling the study habits themselves.
+
+[[card]]
+id = "start-here-fc-0001"
+front = "What is active recall, and why does it beat re-reading?"
+back = "Retrieving an answer from memory (closing the book and asking 'what did that say?') instead of re-exposing yourself to it. Re-reading builds recognition — 'I've seen this' — which feels productive but isn't recall. The effort of retrieval is what strengthens the memory."
+tags = ["learning"]
+
+[[card]]
+id = "start-here-fc-0002"
+front = "What is spaced repetition?"
+back = "Reviewing material at increasing intervals, each review timed just before you would forget it. Every successful recall at the edge of forgetting makes the memory substantially more durable and stretches the next interval."
+tags = ["learning"]
+
+[[card]]
+id = "start-here-fc-0003"
+front = "Focused mode vs diffuse mode?"
+back = "Focused mode: tight concentration on a problem. Diffuse mode: the relaxed, wandering state (walks, showers, falling asleep) where the brain connects new material to what you already know. Learning needs both, and especially the switching between them."
+tags = ["learning"]
+
+[[card]]
+id = "start-here-fc-0004"
+front = "What is the Pomodoro Technique, and what is it for?"
+back = "25 minutes of focused work followed by a real break. It defuses procrastination — Oakley frames procrastination as a pain response avoided by switching tasks — by making the commitment small: you only have to start, and the starting discomfort fades within minutes."
+tags = ["learning"]
+
+[[card]]
+id = "start-here-fc-0005"
+front = "What is the 'illusion of competence'?"
+back = "Mistaking familiarity for knowledge: re-read examples look familiar, worked solutions 'make sense', tutorials get nodded along — none of it proves you can reproduce the material unaided. The cure is testing yourself with the book closed."
+tags = ["learning"]
+
+[[card]]
+id = "start-here-fc-0006"
+front = "How does this program apply spaced repetition for you?"
+back = "Every module's flashcard deck uses the SM-2 algorithm: cards you recall easily come back weeks later; shaky ones come back tomorrow. Clear the daily 'due' queue on the Review page — ten minutes a day beats an hour of re-reading before the exam."
+tags = ["learning"]

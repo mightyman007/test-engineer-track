@@ -32,6 +32,18 @@ export interface LessonMeta {
    * key to a component via its demos registry and renders it below the body.
    */
   demo?: string;
+  /**
+   * Onboarding-style lessons embed their videos ABOVE the body ("watch these
+   * first"). Absent/false keeps the default order: body, then Watch section.
+   */
+  videosFirst?: boolean;
+  /**
+   * When true, each video renders a "I've watched this" checkbox and the
+   * lesson's own "Mark lesson complete" button stays disabled until every
+   * video is acknowledged. Navigation itself is never blocked — the platform
+   * stays guided-but-unlocked; only crediting completion is gated.
+   */
+  mandatoryVideos?: boolean;
   /** Full markdown body (frontmatter stripped). */
   body: string;
 }
