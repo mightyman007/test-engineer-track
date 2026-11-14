@@ -45,6 +45,28 @@ const VOICE = 'af_heart' as const;
 const AudioContextCtor =
   (globalThis as { AudioContext?: new () => AudioContextLike }).AudioContext;
 
+/**
+ * Choose the transformers.js execution device. `navigator.gpu` EXISTING is not
+ * proof WebGPU works: Brave exposes the API surface but its requestAdapter()
+ * resolves null (or throws) unless the user enables WebGPU, and transformers.js
+ * then dies with "no available backend found" — which warm() would swallow and
+ * downgrade the whole provider to Web Speech. Ask for a real adapter instead;
+ * only commit to webgpu when one actually comes back, and otherwise stay on
+ * wasm (verified working: model loads and generates on adapter-less Brave).
+ */
+export type KokoroDevice = 'webgpu' | 'wasm';
+
+export async function pickKokoroDevice(
+  gpu?: { requestAdapter(): Promise<unknown> },
+): Promise<KokoroDevice> {
+  if (!gpu) return 'wasm';
+  try {
+    return (await gpu.requestAdapter()) ? 'webgpu' : 'wasm';
+  } catch {
+    return 'wasm';
+  }
+}
+
 export function createKokoroProvider(): TtsProvider {
   let warming: Promise<boolean> | null = null;
   let synthFn: ((text: string) => Promise<RawAudioLike>) | null = null;
@@ -59,8 +81,8 @@ export function createKokoroProvider(): TtsProvider {
     warming ??= (async () => {
       try {
         const mod = await import('kokoro-js');
-        const nav = (globalThis as { navigator?: { gpu?: unknown } }).navigator;
-        const device = nav?.gpu ? 'webgpu' : 'wasm';
+        const nav = (globalThis as { navigator?: { gpu?: { requestAdapter(): Promise<unknown> } } }).navigator;
+        const device = await pickKokoroDevice(nav?.gpu);
         const model = await mod.KokoroTTS.from_pretrained(MODEL_ID, { dtype: 'q8', device });
         synthFn = (text: string) => model.generate(text, { voice: VOICE });
         return true;
